@@ -1,0 +1,10 @@
+/.bundle
+/log/*
+!/log/.keep
+/tmp
+
+/config/database.yml
+/config/secrets.yml
+/config/application.yml
+
+DESIGN.md

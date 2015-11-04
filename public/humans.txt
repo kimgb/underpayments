@@ -1,0 +1,13 @@
+/* TEAM */
+  "IT Officer":Kim Buckley
+  Contact:kbuckley@nuw.org.au
+  Location:Melbourne, Victoria, Australia
+
+/* THANKS */
+  Name: rubyonrails.org
+
+/* SITE */
+  Last update: 2015/10/06
+  Standards: HTML5, CSS3, JavaScript
+  Components: CoffeeScript, Less, Sass
+  Software: Sublime Text 3

@@ -1,0 +1,19 @@
+# Taiwan locale
+
+zh-TW:
+  user:
+    form:
+      title: '"New User" in Chinese'
+      family_name: Family Name
+      given_name: Given Name(s)
+      date_of_birth: Date of birth
+      email: Email
+      phone: Phone
+      street_address: "室, 樓, 號, 弄, 巷"
+      secondary_street_address: "段, 路/街"
+      town: 區
+      province: 市 / 縣
+      postal_code: 郵遞區號
+      country: Country
+      preferred_language: Preferred language
+      create: Create User
