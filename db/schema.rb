@@ -11,10 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20151029043319) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+=======
+ActiveRecord::Schema.define(version: 20151104050801) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "hstore"
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "street_address"
+    t.string   "secondary_street_address"
+    t.string   "town"
+    t.string   "province"
+    t.string   "postal_code"
+    t.string   "country"
+    t.integer  "addressable_id"
+    t.string   "addressable_type"
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "addresses", ["addressable_id"], name: "index_addresses_on_addressable_id", using: :btree
+  add_index "addresses", ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id", using: :btree
+>>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -45,6 +69,7 @@ ActiveRecord::Schema.define(version: 20151029043319) do
   add_index "admins", ["invited_by_id"], name: "index_admins_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
+<<<<<<< HEAD
   create_table "users", force: :cascade do |t|
     t.string   "family_name"
     t.string   "given_name"
@@ -61,8 +86,55 @@ ActiveRecord::Schema.define(version: 20151029043319) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.date     "date_of_birth"
+=======
+  create_table "claims", force: :cascade do |t|
+    t.string   "status"
+    t.string   "comment"
+    t.string   "award"
+    t.string   "lost_wages"
+    t.integer  "employer_id"
+    t.integer  "user_id"
+    t.date     "employment_began_on"
+    t.date     "employment_ended_on"
+    t.string   "employment_type"
+    t.boolean  "regular_hours"
+    t.hstore   "exemplary_week"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "total_hours"
+    t.integer  "hourly_pay"
+  end
+
+  add_index "claims", ["employer_id"], name: "index_claims_on_employer_id", using: :btree
+  add_index "claims", ["user_id"], name: "index_claims_on_user_id", using: :btree
+
+  create_table "employers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "abn"
+    t.string   "phone"
+    t.string   "email"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "family_name"
+    t.string   "given_name"
+    t.date     "date_of_birth"
+    t.string   "email"
+    t.string   "phone"
+    t.string   "preferred_language"
+    t.string   "follow_up_detail"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+>>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
+<<<<<<< HEAD
+=======
+  add_foreign_key "claims", "employers"
+  add_foreign_key "claims", "users"
+>>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
 end

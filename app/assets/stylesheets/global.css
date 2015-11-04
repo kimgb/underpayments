@@ -6,6 +6,11 @@ html {
 body {
   max-width: 768px;
   margin: 0 auto;
+<<<<<<< HEAD
   background-color: #EEE;
+=======
+  background-color: #CCC;
+  color: #333;
+>>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
 }
 
