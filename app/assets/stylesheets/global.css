@@ -1,0 +1,12 @@
+html {
+  font-size: 62.5%;
+  x-overflow: hidden;
+}
+
+body {
+  max-width: 768px;
+  margin: 0 auto;
+  background-color: #CCC;
+  color: #333;
+}
+

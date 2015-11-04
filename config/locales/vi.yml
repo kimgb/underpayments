@@ -1,0 +1,17 @@
+vi:
+  user:
+    form:
+      title: '"New User" *in Vietnamese*'
+      family_name: testing
+      given_name: i18n
+      date_of_birth: and
+      email: l10n
+      phone: good
+      street_address: times
+      secondary_street_address: and
+      town: great
+      province: classic
+      postal_code: country
+      country: hits
+      preferred_language: "So, what language do you speak?"
+      create: Create User

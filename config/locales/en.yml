@@ -1,0 +1,57 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  user:
+    form:
+      title: New User
+      family_name: Family Name
+      given_name: Given Name(s)
+      date_of_birth: Date of birth
+      email: Email
+      phone: Phone
+      preferred_language: Preferred language
+      create: Submit
+
+  address:
+    form:
+      street_address: Address Line 1
+      secondary_street_address: Address Line 2
+      town: Town
+      province: Province
+      postal_code: Postal code
+      country: Country
+
+  claim:
+    form:
+      award: Award
+      total_hours: Total hours worked
+      hourly_pay: Hourly rate of pay
+      employment_began_on: Employment start date
+      employment_ended_on: Employment end date
+      employment_type: Employment type
+
+  employer:
+    form:
+      name: "Name of business, trading name"
+      email: Contact email
+      phone: Contact phone
+      abn: "ABN, if known"

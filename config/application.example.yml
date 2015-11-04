@@ -1,0 +1,19 @@
+# Database credentials
+db_user: user
+db_pass: password
+
+# Mailgun credentials
+mailgun_api_key: key
+mailgun_domain: sandbox<uuid>.mailgun.org
+
+# Environment variables that vary by environment
+production:
+  db_name: underpayments
+
+development:
+  secret_key_base: dev_key
+  db_name: underpayments_dev
+
+test:
+  secret_key_base: test_key
+  db_name: underpayments_test
