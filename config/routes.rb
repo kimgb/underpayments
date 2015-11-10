@@ -3,5 +3,7 @@ Rails.application.routes.draw do
     root "users#new"
 
     resources :users
+
+    get "/:id", to: "pages#show"
   end
 end

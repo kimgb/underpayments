@@ -11,13 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(version: 20151029043319) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-=======
-ActiveRecord::Schema.define(version: 20151104050801) do
+ActiveRecord::Schema.define(version: 20151110040015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,9 +30,7 @@ ActiveRecord::Schema.define(version: 20151104050801) do
     t.datetime "updated_at",               null: false
   end
 
-  add_index "addresses", ["addressable_id"], name: "index_addresses_on_addressable_id", using: :btree
   add_index "addresses", ["addressable_type", "addressable_id"], name: "index_addresses_on_addressable_type_and_addressable_id", using: :btree
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -69,29 +61,13 @@ ActiveRecord::Schema.define(version: 20151104050801) do
   add_index "admins", ["invited_by_id"], name: "index_admins_on_invited_by_id", using: :btree
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
-<<<<<<< HEAD
-  create_table "users", force: :cascade do |t|
-    t.string   "family_name"
-    t.string   "given_name"
-    t.string   "email"
-    t.string   "phone"
-    t.string   "country"
-    t.string   "postal_code"
-    t.string   "province"
-    t.string   "town"
-    t.string   "street_address"
-    t.string   "secondary_street_address"
-    t.string   "preferred_language"
-    t.string   "follow_up_detail"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.date     "date_of_birth"
-=======
   create_table "claims", force: :cascade do |t|
     t.string   "status"
     t.string   "comment"
     t.string   "award"
     t.string   "lost_wages"
+    t.integer  "total_hours"
+    t.integer  "hourly_pay"
     t.integer  "employer_id"
     t.integer  "user_id"
     t.date     "employment_began_on"
@@ -101,8 +77,6 @@ ActiveRecord::Schema.define(version: 20151104050801) do
     t.hstore   "exemplary_week"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
-    t.integer  "total_hours"
-    t.integer  "hourly_pay"
   end
 
   add_index "claims", ["employer_id"], name: "index_claims_on_employer_id", using: :btree
@@ -117,6 +91,29 @@ ActiveRecord::Schema.define(version: 20151104050801) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string   "slug",                      null: false
+    t.integer  "sluggable_id",              null: false
+    t.string   "sluggable_type", limit: 50
+    t.string   "scope"
+    t.datetime "created_at"
+  end
+
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+
+  create_table "pages", force: :cascade do |t|
+    t.string   "title"
+    t.text     "content"
+    t.string   "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "pages", ["slug"], name: "index_pages_on_slug", unique: true, using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "family_name"
     t.string   "given_name"
@@ -127,14 +124,10 @@ ActiveRecord::Schema.define(version: 20151104050801) do
     t.string   "follow_up_detail"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
-<<<<<<< HEAD
-=======
   add_foreign_key "claims", "employers"
   add_foreign_key "claims", "users"
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
 end

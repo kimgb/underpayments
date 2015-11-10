@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<%= form_for(@user, html: { class: "form-horizontal" }) do |f| %>
-=======
 <%= form_for(@user, html: { class: "form-horizontal", multipart: true }) do |f| %>
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
   <% if @user.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -15,98 +11,6 @@
     </div>
   <% end %>
 
-<<<<<<< HEAD
-  <div class="form-group">
-    <%= f.label :family_name, t('user.form.family_name'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :family_name, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :given_name, t('user.form.given_name'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :given_name, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :date_of_birth, t('user.form.date_of_birth'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.date_field :date_of_birth, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :email, t('user.form.email'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.email_field :email, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :phone, t('user.form.phone'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.telephone_field :phone, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :street_address, t('user.form.street_address'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :street_address, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :secondary_street_address, t('user.form.secondary_street_address'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :secondary_street_address, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :town, t('user.form.town'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :town, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :province, t('user.form.province'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :province, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :postal_code, t('user.form.postal_code'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :postal_code, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :country, t('user.form.country'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.text_field :country, class: "form-control" %>
-    </div>
-  </div>
-  <div class="form-group">
-    <%= f.label :preferred_language, t('user.form.preferred_language'),
-                class: "col-sm-3 control-label" %>
-    <div class="col-sm-9">
-      <%= f.select  :preferred_language,
-                    options_for_select([
-                      ["English (Australia)", "en-AU"],
-                      ["Chinese (Taiwan)", "zh-TW"],
-                      ["Vietnamese", "vi"]
-                    ], "en-AU"),
-                    {}, { class: "form-control" } %>
-    </div>
-  </div>
-=======
   <fieldset>
     <legend>Your details</legend>
 
@@ -169,7 +73,6 @@
 
   <%= render partial: 'claims/form', locals: { f: f } %>
 
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
   <div class="actions text-right">
     <%= f.submit t('user.form.create'), class: "btn btn-default" %>
   </div>

@@ -5,6 +5,8 @@ class CreateClaims < ActiveRecord::Migration
       t.string :comment
       t.string :award
       t.string :lost_wages
+      t.integer :total_hours
+      t.integer :hourly_pay
       t.references :employer, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
       t.date :employment_began_on

@@ -1,9 +1,4 @@
 class User < ActiveRecord::Base
-<<<<<<< HEAD
-  validates_presence_of :family_name, :given_name, :email, :phone, :date_of_birth,
-    :street_address, :town, :province, :postal_code, :country
-end
-=======
   validates_presence_of :family_name, :given_name, :email, :phone, :date_of_birth
 
   has_one :address, as: :addressable
@@ -27,4 +22,3 @@ end
 #      => Claim address fields
 #      => Claim employer fields
 #         => Employer address fields
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f

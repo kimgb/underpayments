@@ -28,24 +28,17 @@ en:
       date_of_birth: Date of birth
       email: Email
       phone: Phone
-<<<<<<< HEAD
-=======
       preferred_language: Preferred language
       create: Submit
 
   address:
     form:
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
       street_address: Address Line 1
       secondary_street_address: Address Line 2
       town: Town
       province: Province
       postal_code: Postal code
       country: Country
-<<<<<<< HEAD
-      preferred_language: Preferred language
-      create: Create User
-=======
 
   claim:
     form:
@@ -62,4 +55,3 @@ en:
       email: Contact email
       phone: Contact phone
       abn: "ABN, if known"
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f

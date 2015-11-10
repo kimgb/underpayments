@@ -1,11 +1,6 @@
 # Australian locale
----
 en-AU:
-<<<<<<< HEAD
-  user:
-=======
   address:
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
     form:
       town: Suburb
       province: State
