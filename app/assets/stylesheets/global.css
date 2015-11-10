@@ -5,12 +5,38 @@ html {
 
 body {
   max-width: 768px;
-  margin: 0 auto;
-<<<<<<< HEAD
-  background-color: #EEE;
-=======
+  margin: 4rem auto;
+  padding: 0 1rem;
+
+  line-height: 1.8;
+  font-size: 18px;
+  font-size: 1.8rem;
+  font-family: Open Sans, sans-serif;
+
   background-color: #CCC;
   color: #333;
->>>>>>> 165f7838e4b001f6b224e95ba3d40b382436c82f
 }
 
+label { font-weight: normal; }
+
+h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 700; }
+.byline { font-weight: normal; }
+
+a {
+  text-decoration: none;
+  color: #fa4b2a;
+}
+a:visited { color: #fa4b2a; }
+a:hover {
+  color: #fa4b2a;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+main { display: block; }
+header, footer, .align-right { text-align: right; }
+footer, aside {
+  font-size: 14px; /* fallback for <MSIE9 */
+  font-size: 1.4rem;
+}
+footer { margin-top: 4rem; }

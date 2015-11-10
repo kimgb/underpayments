@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
   scope "(:locale)", locale: /en|en-AU|zh|zh-TW|vi/ do
-    root "users#new"
+    root "pages#show", page: "start"
 
     resources :users
 
-    get "/:id", to: "pages#show"
+    get "/:page", to: "pages#show"
   end
 end

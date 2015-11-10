@@ -1,17 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= I18n.locale %>">
 <head>
-  <title>Underpaid</title>
+  <title><%= page_title %></title>
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
 </head>
 <body>
   <div class="container-fluid">
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
 
+    <header>
+      <hgroup>
+        <h1 class="title">UNDERPAID?</h1>
+        <h5 class="byline">(&hellip;or just overworked?)</h5>
+      </hgroup>
+
+      <hr/>
+    </header>
+
     <%= yield %>
+
+    <footer>
+      <hr/>
+
+      <p>Tool developed by the <a href="https://www.nuw.org.au/">National Union of Workers</a>, last updated <time datetime="2015-09-18">18 September, 2015</time>.</p>
+
+      <p>For in-depth numbers, please consult the Fair Work Ombudsman's <a href="http://calculate.fairwork.gov.au/"><strong>much</strong> more detailed calculator</a>!</p>
+    </footer>
   </div>
 </body>
 </html>
