@@ -11,13 +11,20 @@ body {
   line-height: 1.8;
   font-size: 18px;
   font-size: 1.8rem;
-  font-family: Open Sans, sans-serif;
+  font-family: serif;
 
   background-color: #CCC;
   color: #333;
 }
 
 label { font-weight: normal; }
+output {
+  font-size: 18px;
+  font-size: 1.8rem;
+  color: #4b2aaf;
+
+  padding: 0.5rem;
+}
 
 h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 700; }
 .byline { font-weight: normal; }

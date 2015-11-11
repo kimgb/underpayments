@@ -26,20 +26,20 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    # The user's address
-    @user.build_address(user_address_params)
+    # # The user's address
+    # @user.build_address(user_address_params)
 
-    # The user's claim
-    @user.build_claim(user_claim_params)
+    # # The user's claim
+    # @user.build_claim(user_claim_params)
 
-    # The user's claim's address
-    @user.claim.build_address(user_claim_address_params)
+    # # The user's claim's address
+    # @user.claim.build_address(user_claim_address_params)
 
-    # The user's claim's employer
-    @user.claim.build_employer(user_claim_employer_params)
+    # # The user's claim's employer
+    # @user.claim.build_employer(user_claim_employer_params)
 
-    # The user's claim's employer's address
-    @user.claim.employer.build_address(user_claim_employer_address_params)
+    # # The user's claim's employer's address
+    # @user.claim.employer.build_address(user_claim_employer_address_params)
 
     respond_to do |format|
       if @user.save

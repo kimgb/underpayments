@@ -1,5 +1,3 @@
-<p id="notice"><%= notice %></p>
-
 <p>
   <strong>Family name:</strong>
   <%= @user.family_name %>
@@ -21,39 +19,11 @@
 </p>
 
 <p>
-  <strong>Country:</strong>
-  <%= @user.country %>
-</p>
-
-<p>
-  <strong>Postal code:</strong>
-  <%= @user.postal_code %>
-</p>
-
-<p>
-  <strong>Province:</strong>
-  <%= @user.province %>
-</p>
-
-<p>
-  <strong>Town:</strong>
-  <%= @user.town %>
-</p>
-
-<p>
-  <strong>Street address:</strong>
-  <%= @user.street_address %>
-</p>
-
-<p>
-  <strong>Secondary street address:</strong>
-  <%= @user.secondary_street_address %>
-</p>
-
-<p>
   <strong>Preferred language:</strong>
   <%= @user.preferred_language %>
 </p>
+
+
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

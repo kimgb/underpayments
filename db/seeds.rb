@@ -9,9 +9,9 @@
 admin = Admin.new(email: "kbuckley@nuw.org.au", password: "ch3ng4M1chANGEmePrEtTYplz")
 admin.save!
 
-start_page = Page.new(
-  title: "Am I Underpaid?",
-  slug: "start",
-  content: File.read(Pathname("pages/start.html"))
-)
-start_page.save!
+# start_page = Page.new(
+#   title: "Am I Underpaid?",
+#   slug: "start",
+#   content: File.read(Rails.root + "db" + "pages" + "start.html")
+# )
+# start_page.save!

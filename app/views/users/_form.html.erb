@@ -34,7 +34,7 @@
       <%= f.label :date_of_birth, t('user.form.date_of_birth'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= f.date_field :date_of_birth, class: "form-control" %>
+        <%= f.date_field :date_of_birth, class: "form-control", disabled: true %>
       </div>
     </div>
 
@@ -69,9 +69,8 @@
     </div>
   </fieldset>
 
-  <%= render partial: 'addresses/form', locals: { f: f, legend: "Your address" } %>
-
-  <%= render partial: 'claims/form', locals: { f: f } %>
+  <% render partial: 'addresses/form', locals: { f: f, legend: "Your address" } %>
+  <% render partial: 'claims/form', locals: { f: f } %>
 
   <div class="actions text-right">
     <%= f.submit t('user.form.create'), class: "btn btn-default" %>

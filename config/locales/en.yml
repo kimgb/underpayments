@@ -55,3 +55,6 @@ en:
       email: Contact email
       phone: Contact phone
       abn: "ABN, if known"
+
+  start:
+    intro: Perhaps I can help you.
