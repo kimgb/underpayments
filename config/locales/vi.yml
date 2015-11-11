@@ -7,11 +7,30 @@ vi:
       date_of_birth: and
       email: l10n
       phone: good
-      street_address: times
-      secondary_street_address: and
-      town: great
-      province: classic
-      postal_code: country
-      country: hits
       preferred_language: "So, what language do you speak?"
       create: Create User
+
+  address:
+    street_address: times
+    secondary_street_address: and
+    town: great
+    province: classic
+    postal_code: country
+    country: hits
+
+  claim:
+    award: Award
+    total_hours: Total hours worked
+    hourly_pay: Hourly rate of pay
+    employment_began_on: Employment start date
+    employment_ended_on: Employment end date
+    employment_type: Employment type
+
+  employer:
+    name: "Name of business, trading name"
+    email: Contact email
+    phone: Contact phone
+    abn: "ABN, if known"
+
+  start:
+    intro: Perhaps I can help you.

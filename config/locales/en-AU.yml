@@ -1,7 +1,6 @@
 # Australian locale
 en-AU:
   address:
-    form:
-      town: Suburb
-      province: State
-      postal_code: Postcode
+    town: Suburb
+    province: State
+    postal_code: Postcode
