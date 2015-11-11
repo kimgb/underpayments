@@ -11,6 +11,14 @@ class User < ActiveRecord::Base
     # FIXME should be locale dependent in production
     "#{given_name} #{family_name}"
   end
+
+  def has_address?
+    self.address.present?
+  end
+
+  def has_claim?
+    self.claim.present?
+  end
 end
 
 # User form:

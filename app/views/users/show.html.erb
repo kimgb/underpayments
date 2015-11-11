@@ -23,7 +23,25 @@
   <%= @user.preferred_language %>
 </p>
 
+<h3>Your address</h3>
+<% if @user.has_address? %>
+  <% render partial: "addresses/address" %>
+<% else %>
+  <p>
+    You haven't provided your address yet:
+    <%= link_to "Add your address", new_user_address_path(@user), class: "btn btn-sm btn-info" %>
+  </p>
+<% end %>
 
+<h3>Your claim</h3>
+<% if @user.has_claim? %>
+  <% render partial: "claims/claim" %>
+<% else %>
+  <p>
+    You haven't completed your claim yet:
+    <%= link_to "Fill in your claim", new_user_claim_path(@user), class: "btn btn-sm btn-info" %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>

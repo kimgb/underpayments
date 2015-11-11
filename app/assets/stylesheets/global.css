@@ -39,6 +39,9 @@ a:hover {
   text-decoration: underline;
   cursor: pointer;
 }
+a.btn {
+  color: white;
+}
 
 main { display: block; }
 header, footer, .align-right { text-align: right; }

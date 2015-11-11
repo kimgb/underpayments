@@ -8,6 +8,4 @@ class Address < ActiveRecord::Base
     "#{town} #{province}   #{postal_code}\n" +
     "#{country}"
   end
-
-
 end
