@@ -2,22 +2,22 @@ class EmployersController < ApplicationController
   before_action :set_employer, only: [:show, :edit, :update, :destroy]
   before_action :set_claim, only: [:new, :create]
 
-  # GET /claims/1
+  # GET /employers/1
   def show
     redirect_to @employer.claim.user
   end
 
-  # GET /users/1/claims/new
+  # GET /claims/1/employers/new
   def new
     @employer = Employer.new
   end
 
-  # GET /claims/1/edit
+  # GET /employers/1/edit
   def edit
   end
 
-  # POST /claims
-  # POST /claims.json
+  # POST /claims/1/employers
+  # POST /claims/1/employers.json
   def create
      @employer = @claim.build_employer(employer_params)
 
@@ -32,8 +32,8 @@ class EmployersController < ApplicationController
     end
   end
 
-  # PATCH/PUT /claims/1
-  # PATCH/PUT /claims/1.json
+  # PATCH/PUT /employers/1
+  # PATCH/PUT /employers/1.json
   def update
     respond_to do |format|
       if @employer.update(employer_params)
@@ -46,8 +46,8 @@ class EmployersController < ApplicationController
     end
   end
 
-  # DELETE /claims/1
-  # DELETE /claims/1.json
+  # DELETE /employers/1
+  # DELETE /employers/1.json
   def destroy
     @employer.destroy
     respond_to do |format|
