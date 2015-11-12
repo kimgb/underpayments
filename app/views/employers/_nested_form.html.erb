@@ -1,0 +1,39 @@
+<%= f.fields_for :employer, Employer.new do |ef| %>
+  <fieldset>
+    <legend>Tell us about your employer</legend>
+
+    <div class="form-group">
+      <%= ef.label :name, t('employer.name'),
+        class: "col-sm-3 control-label" %>
+      <div class="col-sm-9">
+        <%= ef.text_field :name, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= ef.label :email, t('employer.email'),
+        class: "col-sm-3 control-label" %>
+      <div class="col-sm-9">
+        <%= ef.email_field :email, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= ef.label :phone, t('employer.phone'),
+        class: "col-sm-3 control-label" %>
+      <div class="col-sm-9">
+        <%= ef.telephone_field :phone, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= ef.label :abn, t('employer.abn'),
+        class: "col-sm-3 control-label" %>
+      <div class="col-sm-9">
+        <%= ef.text_field :abn, class: "form-control" %>
+      </div>
+    </div>
+  </fieldset>
+
+  <%= render partial: 'addresses/form', locals: { f: ef, legend: "What was your employer's address?" } %>
+<% end %>

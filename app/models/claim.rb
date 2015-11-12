@@ -7,6 +7,5 @@ class Claim < ActiveRecord::Base
   has_one :address, as: :addressable
   accepts_nested_attributes_for :address
 
-  validates_presence_of :award, :address, :employer,
-    :employment_began_on, :employment_ended_on, :employment_type
+  validates_presence_of :award, :hourly_pay, :total_hours, :employment_type
 end

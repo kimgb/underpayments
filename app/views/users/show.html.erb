@@ -1,47 +1,43 @@
+<h3>Personal details</h3>
 <p>
   <strong>Family name:</strong>
-  <%= @user.family_name %>
-</p>
+  <%= @user.family_name %><br/>
 
-<p>
   <strong>Given name:</strong>
-  <%= @user.given_name %>
-</p>
+  <%= @user.given_name %><br/>
 
-<p>
   <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+  <%= @user.email %><br/>
 
-<p>
   <strong>Phone:</strong>
-  <%= @user.phone %>
-</p>
+  <%= @user.phone %><br/>
 
-<p>
   <strong>Preferred language:</strong>
   <%= @user.preferred_language %>
 </p>
 
+<p>
+  <%= link_to 'Edit personal details', edit_user_path(@user) %>
+</p>
+
 <h3>Your address</h3>
-<% if @user.has_address? %>
-  <% render partial: "addresses/address" %>
-<% else %>
-  <p>
+<p>
+  <% if @user.address %>
+    <%= render partial: "addresses/address", locals: { address: @user.address } %>
+    <%= link_to "Edit your address", edit_address_path(@user.address) %>
+  <% else %>
     You haven't provided your address yet:
     <%= link_to "Add your address", new_user_address_path(@user), class: "btn btn-sm btn-info" %>
-  </p>
-<% end %>
+  <% end %>
+</p>
 
 <h3>Your claim</h3>
-<% if @user.has_claim? %>
-  <% render partial: "claims/claim" %>
-<% else %>
-  <p>
-    You haven't completed your claim yet:
+<p>
+  <% if @user.claim %>
+    <%= render partial: "claims/claim", locals: { claim: @user.claim } %>
+    <%= link_to "Edit claim details", edit_claim_path(@user.claim) %>
+  <% else %>
+    You haven't provided details of your claim yet:
     <%= link_to "Fill in your claim", new_user_claim_path(@user), class: "btn btn-sm btn-info" %>
-  </p>
-<% end %>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+  <% end %>
+</p>

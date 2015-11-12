@@ -1,39 +1,41 @@
-<%= f.fields_for :employer, Employer.new do |ef| %>
+<%= form_for([@claim, @employer], html: { class: "form-horizontal", multipart: true }) do |f| %>
   <fieldset>
-    <legend>Tell us about your employer</legend>
+    <legend><%= t('employer.new_form_title') %></legend>
 
     <div class="form-group">
-      <%= ef.label :name, t('employer.name'),
+      <%= f.label :name, t('employer.name'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= ef.text_field :name, class: "form-control" %>
+        <%= f.text_field :name, class: "form-control" %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= ef.label :email, t('employer.email'),
+      <%= f.label :abn, t('employer.abn'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= ef.email_field :email, class: "form-control" %>
+        <%= f.text_field :abn, class: "form-control" %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= ef.label :phone, t('employer.phone'),
+      <%= f.label :phone, t('employer.phone'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= ef.telephone_field :phone, class: "form-control" %>
+        <%= f.telephone_field :phone, class: "form-control" %>
       </div>
     </div>
 
     <div class="form-group">
-      <%= ef.label :abn, t('employer.abn'),
+      <%= f.label :email, t('employer.email'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= ef.text_field :abn, class: "form-control" %>
+        <%= f.email_field :email, class: "form-control" %>
       </div>
     </div>
   </fieldset>
 
-  <%= render partial: 'addresses/form', locals: { f: ef, legend: "What was your employer's address?" } %>
+  <div class="actions text-right">
+    <%= f.submit t('employer.create'), class: "btn btn-default" %>
+  </div>
 <% end %>
