@@ -45,6 +45,7 @@ en:
     award: Award
     total_hours: Total hours worked
     hourly_pay: Hourly rate of pay
+    lost_wages: Lost wages
     employment_began_on: Employment start date
     employment_ended_on: Employment end date
     employment_type: Employment type

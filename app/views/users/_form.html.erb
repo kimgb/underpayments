@@ -30,11 +30,11 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group form-inline">
       <%= f.label :date_of_birth, t('user.date_of_birth'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= f.date_field :date_of_birth, class: "form-control", disabled: true %>
+        <%= f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: Date.today.year - 14, end_year: Date.today.year - 100 }, { class: "form-control" } %>
       </div>
     </div>
 

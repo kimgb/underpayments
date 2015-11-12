@@ -84,30 +84,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:family_name, :given_name, :email, :phone, :country, :postal_code, :province, :town, :street_address, :secondary_street_address, :preferred_language, :follow_up_detail)
-  end
-
-  def user_address_params
-    address_params(params.require(:user))
-  end
-
-  def user_claim_params
-    params.require(:user).require(:claim_attributes).permit(:award, :total_hours, :hourly_pay, :employment_began_on, :employment_ended_on, :employment_type)
-  end
-
-  def user_claim_address_params
-    address_params(params.require(:user).require(:claim_attributes))
-  end
-
-  def user_claim_employer_params
-    params.require(:user).require(:claim_attributes).require(:employer_attributes).permit(:name, :email, :phone, :abn)
-  end
-
-  def user_claim_employer_address_params
-    address_params(params.require(:user).require(:claim_attributes).require(:employer_attributes))
-  end
-
-  def address_params(params_subset)
-    params_subset.require(:address_attributes).permit(:street_address, :secondary_street_address, :town, :province, :postal_code, :country)
+    params.require(:user).permit(:family_name, :given_name, :email, :phone, :date_of_birth, :preferred_language, :follow_up_detail)
   end
 end

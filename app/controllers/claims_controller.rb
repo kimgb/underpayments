@@ -38,7 +38,7 @@ class ClaimsController < ApplicationController
   def update
     respond_to do |format|
       if @claim.update(claim_params)
-        format.html { redirect_to @user, notice: 'Claim was successfully updated.' }
+        format.html { redirect_to @claim.user, notice: 'Claim was successfully updated.' }
         format.json { render :show, status: :ok, location: @claim.user }
       else
         format.html { render :edit }

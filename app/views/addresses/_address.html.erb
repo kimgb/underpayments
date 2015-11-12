@@ -6,3 +6,4 @@
   <strong><%= t('address.postal_code') %>:</strong> <%= address.postal_code %><br/>
   <strong><%= t('address.country') %>:</strong> <%= address.country %>
 </p>
+<%= link_to edit, edit_address_path(address) %>

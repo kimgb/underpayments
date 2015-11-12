@@ -12,6 +12,9 @@
   <strong>Phone:</strong>
   <%= @user.phone %><br/>
 
+  <strong>Date of birth:</strong>
+  <%= @user.date_of_birth %><br/>
+
   <strong>Preferred language:</strong>
   <%= @user.preferred_language %>
 </p>
@@ -23,8 +26,7 @@
 <h3>Your address</h3>
 <p>
   <% if @user.address %>
-    <%= render partial: "addresses/address", locals: { address: @user.address } %>
-    <%= link_to "Edit your address", edit_address_path(@user.address) %>
+    <%= render partial: "addresses/address", locals: { address: @user.address, edit: "Edit your address" } %>
   <% else %>
     You haven't provided your address yet:
     <%= link_to "Add your address", new_user_address_path(@user), class: "btn btn-sm btn-info" %>
@@ -35,7 +37,6 @@
 <p>
   <% if @user.claim %>
     <%= render partial: "claims/claim", locals: { claim: @user.claim } %>
-    <%= link_to "Edit claim details", edit_claim_path(@user.claim) %>
   <% else %>
     You haven't provided details of your claim yet:
     <%= link_to "Fill in your claim", new_user_claim_path(@user), class: "btn btn-sm btn-info" %>

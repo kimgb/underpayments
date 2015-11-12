@@ -32,19 +32,19 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group form-inline">
       <%= f.label :employment_began_on, t('claim.employment_began_on'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= f.date_field :employment_began_on, class: "form-control", disabled: true %>
+        <%= f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" } %>
       </div>
     </div>
 
-    <div class="form-group">
+    <div class="form-group form-inline">
       <%= f.label :employment_ended_on, t('claim.employment_ended_on'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
-        <%= f.date_field :employment_ended_on, class: "form-control", disabled: true %>
+        <%= f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" } %>
       </div>
     </div>
 
