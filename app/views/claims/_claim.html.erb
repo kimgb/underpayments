@@ -7,7 +7,11 @@
   <strong><%= t('claim.employment_began_on') %>:</strong> <%= claim.employment_began_on %><br/>
   <strong><%= t('claim.employment_ended_on') %>:</strong> <%= claim.employment_ended_on %>
 </p>
-<%= link_to "Edit claim details", edit_claim_path(claim) %>
+<%= link_to "Edit claim details", edit_claim_path(claim) %><br/>
+
+<h3>Supporting documents</h3>
+<%= render partial: "documents/documents", locals: { documents: claim.documents } %>
+<%= link_to "Add a supporting document", new_claim_document_path(claim) %>
 
 <h3>Employer</h3>
 <p>
