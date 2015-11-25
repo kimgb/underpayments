@@ -1,3 +1,8 @@
-<% documents.each do |doc| %>
-  <p><%= doc.file %></p>
+<h3>Supporting documents</h3>
+<% if documents.empty? %>
+  <p>You haven't added any documents yet.</p>
+<% else %>
+  <% documents.each do |doc| %>
+    <p><%= doc.file %></p>
+  <% end %>
 <% end %>

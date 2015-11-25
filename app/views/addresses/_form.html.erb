@@ -11,8 +11,10 @@
     </div>
   <% end %>
 
-    <fieldset>
-    <legend><%= t('address.new_form_title') %></legend>
+  <fieldset>
+    <legend>
+      <%= t("address.#{form_title}") %>
+    </legend>
 
     <div class="form-group">
       <%= f.label :street_address, t('address.street_address'),

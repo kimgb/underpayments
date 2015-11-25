@@ -12,7 +12,24 @@
   <% end %>
 
   <fieldset>
-    <legend>Your details</legend>
+    <legend><%= t('user.new.title') %></legend>
+    <p><%= t('user.new.description') %></p>
+
+    <div class="form-group">
+      <%= f.label :email, t('user.email'),
+        class: "col-sm-3 control-label" %>
+      <div class="col-sm-9">
+        <%= f.email_field :email, class: "form-control" %>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :password, t('user.password'),
+        class: "col-sm-3 control-label" %>
+      <div class="col-sm-9">
+        <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
+      </div>
+    </div>
 
     <div class="form-group">
       <%= f.label :family_name, t('user.family_name'),
@@ -39,14 +56,6 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :email, t('user.email'),
-        class: "col-sm-3 control-label" %>
-      <div class="col-sm-9">
-        <%= f.email_field :email, class: "form-control" %>
-      </div>
-    </div>
-
-    <div class="form-group">
       <%= f.label :phone, t('user.phone'),
         class: "col-sm-3 control-label" %>
       <div class="col-sm-9">
@@ -68,9 +77,6 @@
       </div>
     </div>
   </fieldset>
-
-  <% #render partial: 'addresses/form', locals: { f: f, legend: "Your address" } %>
-  <% #render partial: 'claims/form', locals: { f: f } %>
 
   <div class="actions text-right">
     <%= f.submit t('user.create'), class: "btn btn-default" %>

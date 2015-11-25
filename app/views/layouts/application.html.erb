@@ -10,17 +10,26 @@
 </head>
 <body>
   <div class="container-fluid">
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-
     <header>
+      <div class="align-right">
+        <small>
+          <% if current_user %>
+            <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-sm btn-info" %>
+          <% elsif current_admin %>
+            <%= link_to "Sign out", destroy_admin_session_path, method: :delete, class: "btn btn-sm btn-info" %>
+          <% else %>
+            Returning user? <%= link_to "Sign in", new_user_session_path, class: "btn btn-sm btn-info" %>
+          <% end %>
+        </small>
+      </div>
       <hgroup>
         <h1 class="title">UNDERPAID?</h1>
         <h5 class="byline">(&hellip;or just overworked?)</h5>
       </hgroup>
-
-      <hr/>
     </header>
+
+    <% if notice %><p class="notice"><%= notice %></p><% end %>
+    <% if alert %><p class="alert"><%= alert %></p><% end %>
 
     <%= yield %>
 

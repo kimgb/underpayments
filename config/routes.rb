@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   scope "(:locale)", locale: /en|en-AU|zh|zh-TW|vi/ do
     root "pages#show", page: "start"
 
+    devise_for :users
+    devise_for :admins
+
     resources :users, shallow: true do
       resources :addresses, only: [:new, :create]
       resources :claims, only: [:new, :create]
@@ -17,8 +20,8 @@ Rails.application.routes.draw do
       resources :addresses, only: [:new, :create]
     end
 
-    resource :address, except: [:index, :new, :create]
-    resource :document, except: [:index, :new, :create]
+    resources :addresses, except: [:index, :new, :create]
+    resources :documents, except: [:index, :new, :create]
 
     get "/:page", to: "pages#show"
   end

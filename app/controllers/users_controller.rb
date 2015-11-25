@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!, only: [:index, :destroy]
+  before_action :authenticate_owner!, only: [:show, :edit, :update]
+
 
   # GET /users
   # GET /users.json
@@ -26,23 +29,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    # # The user's address
-    # @user.build_address(user_address_params)
-
-    # # The user's claim
-    # @user.build_claim(user_claim_params)
-
-    # # The user's claim's address
-    # @user.claim.build_address(user_claim_address_params)
-
-    # # The user's claim's employer
-    # @user.claim.build_employer(user_claim_employer_params)
-
-    # # The user's claim's employer's address
-    # @user.claim.employer.build_address(user_claim_employer_address_params)
-
     respond_to do |format|
       if @user.save
+        sign_in(@user)
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render :show, status: :created, location: @user }
       else
@@ -77,6 +66,11 @@ class UsersController < ApplicationController
   end
 
   private
+  # Lock down an action to logged in admin, or user who is also the owner
+  def authenticate_owner!
+    (authenticate_user! && current_user == @user) || authenticate_admin!
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
@@ -84,6 +78,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:family_name, :given_name, :email, :phone, :date_of_birth, :preferred_language, :follow_up_detail)
+    params.require(:user).permit(:family_name, :given_name, :email, :password, :phone, :date_of_birth, :preferred_language, :follow_up_detail)
   end
 end

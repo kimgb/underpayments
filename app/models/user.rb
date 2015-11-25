@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
-  validates_presence_of :family_name, :given_name, :email, :phone#, :date_of_birth
+  devise :database_authenticatable, :recoverable,
+         :rememberable, :trackable, :validatable
+
+  validates_presence_of :family_name, :given_name, :phone, :date_of_birth
 
   has_one :address, as: :addressable
   accepts_nested_attributes_for :address
@@ -12,21 +15,11 @@ class User < ActiveRecord::Base
     "#{given_name} #{family_name}"
   end
 
-  def has_address?
-    self.address.present?
-  end
+  # def has_address?
+  #   self.address.present?
+  # end
 
-  def has_claim?
-    self.claim.present?
-  end
+  # def has_claim?
+  #   self.claim.present?
+  # end
 end
-
-# User form:
-#   1. Fucking horrendous.
-#
-#   User fields
-#   => User address fields
-#   => User claim fields
-#      => Claim address fields
-#      => Claim employer fields
-#         => Employer address fields

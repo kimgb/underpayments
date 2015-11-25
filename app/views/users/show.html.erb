@@ -1,4 +1,10 @@
-<h3>Personal details</h3>
+<% unless @user.claim && @user.claim.ready_to_submit? %>
+  <p>
+    You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and the details of your claim, including documents like bank statements that act as proof of what you were paid. Please add this information as prompted, below.
+  </p>
+<% end %>
+
+<h3>Personal details&nbsp;<small>(<%= link_to 'Edit personal details', edit_user_path(@user) %>)</small></h3>
 <p>
   <strong>Family name:</strong>
   <%= @user.family_name %><br/>
@@ -19,26 +25,22 @@
   <%= @user.preferred_language %>
 </p>
 
-<p>
-  <%= link_to 'Edit personal details', edit_user_path(@user) %>
-</p>
-
-<h3>Your address</h3>
-<p>
-  <% if @user.address %>
-    <%= render partial: "addresses/address", locals: { address: @user.address, edit: "Edit your address" } %>
-  <% else %>
+<% if @user.address %>
+  <%= render partial: "addresses/address", locals: { address: @user.address, title: "Your address", edit: "Edit your address" } %>
+<% else %>
+  <h3>Your address</h3>
+  <p>
     You haven't provided your address yet:
     <%= link_to "Add your address", new_user_address_path(@user), class: "btn btn-sm btn-info" %>
-  <% end %>
-</p>
+  </p>
+<% end %>
 
-<h3>Your claim</h3>
-<p>
-  <% if @user.claim %>
-    <%= render partial: "claims/claim", locals: { claim: @user.claim } %>
-  <% else %>
+<% if @user.claim %>
+  <%= render partial: "claims/claim", locals: { claim: @user.claim } %>
+<% else %>
+  <h3>Your claim</h3>
+  <p>
     You haven't provided details of your claim yet:
     <%= link_to "Fill in your claim", new_user_claim_path(@user), class: "btn btn-sm btn-info" %>
-  <% end %>
-</p>
+  </p>
+<% end %>

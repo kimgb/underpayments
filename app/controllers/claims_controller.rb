@@ -1,7 +1,13 @@
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :create]
+  before_action :authenticate_admin!, only: [:index]
   # set_employer?
+
+  # GET /claims
+  def index
+    @claims = Claim.select(&:ready_to_submit?)
+  end
 
   # GET /claims/1
   def show

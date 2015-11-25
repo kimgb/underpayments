@@ -17,6 +17,10 @@ body {
   color: #333;
 }
 
+fieldset > legend {
+  font-weight: bold;
+}
+
 label { font-weight: normal; }
 output {
   font-size: 18px;

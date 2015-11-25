@@ -1,9 +1,11 @@
+<h3><%= title %>&nbsp;<small>(<%= link_to edit, edit_address_path(address) %>)</small></h3>
 <p>
   <strong><%= t('address.street_address') %>:</strong> <%= address.street_address %><br/>
-  <strong><%= t('address.secondary_street_address') %>:</strong> <%= address.secondary_street_address %><br/>
+  <% if address.secondary_street_address.present? %>
+    <strong><%= t('address.secondary_street_address') %>:</strong> <%= address.secondary_street_address %><br/>
+  <% end %>
   <strong><%= t('address.town') %>:</strong> <%= address.town %><br/>
   <strong><%= t('address.province') %>:</strong> <%= address.province %><br/>
   <strong><%= t('address.postal_code') %>:</strong> <%= address.postal_code %><br/>
   <strong><%= t('address.country') %>:</strong> <%= address.country %>
 </p>
-<%= link_to edit, edit_address_path(address) %>

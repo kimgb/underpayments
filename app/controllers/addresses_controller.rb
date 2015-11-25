@@ -32,7 +32,7 @@ class AddressesController < ApplicationController
   def update
     respond_to do |format|
       if @address.update(address_params)
-        format.html { redirect_to @user, notice: 'Address was successfully updated.' }
+        format.html { redirect_to @address.addressable, notice: 'Address was successfully updated.' }
         format.json { render :show, status: :ok, location: @address.addressable }
       else
         format.html { render :edit }

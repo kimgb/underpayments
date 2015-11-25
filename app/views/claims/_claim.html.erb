@@ -1,3 +1,4 @@
+<h3>Your claim&nbsp;<small>(<%= link_to "Edit claim details", edit_claim_path(claim) %>)</small></h3>
 <p>
   <strong><%= t('claim.award') %>:</strong> <%= claim.award %><br/>
   <strong><%= t('claim.employment_type') %>:</strong> <%= claim.employment_type %><br/>
@@ -7,28 +8,22 @@
   <strong><%= t('claim.employment_began_on') %>:</strong> <%= claim.employment_began_on %><br/>
   <strong><%= t('claim.employment_ended_on') %>:</strong> <%= claim.employment_ended_on %>
 </p>
-<%= link_to "Edit claim details", edit_claim_path(claim) %><br/>
 
-<h3>Supporting documents</h3>
 <%= render partial: "documents/documents", locals: { documents: claim.documents } %>
 <%= link_to "Add a supporting document", new_claim_document_path(claim) %>
 
-<h3>Employer</h3>
-<p>
-  <% if claim.employer %>
-    <%= render partial: "employers/employer", locals: { employer: claim.employer } %>
-  <% else %>
-    You haven't told us about your employer yet:
-    <%= link_to "Employer details", new_claim_employer_path(claim), class: "btn btn-sm btn-info" %>
-  <% end %>
-</p>
+<% if claim.employer %>
+  <%= render partial: "employers/employer", locals: { employer: claim.employer } %>
+<% else %>
+  <h3>Employer</h3>
+  <p>You haven't told us about your employer yet:
+  <%= link_to "Employer details", new_claim_employer_path(claim), class: "btn btn-sm btn-info" %></p>
+<% end %>
 
-<h3>Workplace</h3>
-<p>
-  <% if claim.address %>
-    <%= render partial: "addresses/address", locals: { address: claim.address, edit: "Edit workplace address" } %>
-  <% else %>
-    You haven't provided a workplace address yet:
-    <%= link_to "Add a workplace", new_claim_address_path(claim), class: "btn btn-sm btn-info" %>
-  <% end %>
-</p>
+<% if claim.address %>
+  <%= render partial: "addresses/address", locals: { address: claim.address, title: "Workplace", edit: "Edit workplace address" } %>
+<% else %>
+  <h3>Workplace</h3>
+  <p>You haven't provided a workplace address yet:
+  <%= link_to "Add a workplace", new_claim_address_path(claim), class: "btn btn-sm btn-info" %></p>
+<% end %>

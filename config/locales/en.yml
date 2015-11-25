@@ -21,7 +21,9 @@
 
 en:
   user:
-    new_form_title: New User
+    new:
+      title: Let's fix this
+      description: "To get started, we need to know who you are, and how to reach you. This information is required for us to proceed with your claim - please fill it out completely and accurately!"
     family_name: Family Name
     given_name: Given Name(s)
     date_of_birth: Date of birth
@@ -31,7 +33,9 @@ en:
     create: Submit
 
   address:
-    new_form_title: Add Address
+    user_title: Your address
+    claim_title: Where did you work?
+    employer_title: Employer's address
     street_address: Address Line 1
     secondary_street_address: Address Line 2
     town: Town
@@ -52,6 +56,9 @@ en:
     create: Submit
 
   employer:
+    new:
+      title: Employer details
+      description:
     name: "Name of business, trading name"
     email: Contact email
     phone: Contact phone
