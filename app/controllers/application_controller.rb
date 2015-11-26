@@ -27,6 +27,8 @@ class ApplicationController < ActionController::Base
   end
 
   def authorise_admin!
-    current_user && current_user.admin?
+    unless current_user && current_user.admin?
+      render file: "public/403.html", status: :forbidden, layout: false
+    end
   end
 end

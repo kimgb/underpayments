@@ -39,8 +39,6 @@ ActiveRecord::Schema.define(version: 20151113061316) do
     t.string   "lost_wages"
     t.integer  "total_hours"
     t.decimal  "hourly_pay",          precision: 10, scale: 2
-    t.integer  "employer_id"
-    t.integer  "user_id"
     t.date     "employment_began_on"
     t.date     "employment_ended_on"
     t.string   "employment_type"
@@ -49,9 +47,6 @@ ActiveRecord::Schema.define(version: 20151113061316) do
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
   end
-
-  add_index "claims", ["employer_id"], name: "index_claims_on_employer_id", using: :btree
-  add_index "claims", ["user_id"], name: "index_claims_on_user_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "file"
@@ -67,9 +62,12 @@ ActiveRecord::Schema.define(version: 20151113061316) do
     t.string   "abn"
     t.string   "phone"
     t.string   "email"
+    t.integer  "claim_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "employers", ["claim_id"], name: "index_employers_on_claim_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -89,14 +87,16 @@ ActiveRecord::Schema.define(version: 20151113061316) do
     t.string   "preferred_language"
     t.string   "follow_up_detail"
     t.boolean  "admin",                  default: false
+    t.integer  "claim_id"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
   end
 
+  add_index "users", ["claim_id"], name: "index_users_on_claim_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "claims", "employers"
-  add_foreign_key "claims", "users"
   add_foreign_key "documents", "claims"
+  add_foreign_key "employers", "claims"
+  add_foreign_key "users", "claims"
 end

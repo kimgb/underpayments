@@ -27,6 +27,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :preferred_language
       t.string :follow_up_detail
       t.boolean :admin, default: false
+      t.references :claim, index: true, foreign_key: true
 
       t.timestamps null: false
     end

@@ -67,7 +67,9 @@ class UsersController < ApplicationController
   private
   # Lock down an action to logged in admin, or user who is also the owner
   def authorise_owner!
-    current_user == @user
+    unless current_user == @user
+      render file: "public/403.html", status: :forbidden, layout: false
+    end
   end
 
   # Use callbacks to share common setup or constraints between actions.

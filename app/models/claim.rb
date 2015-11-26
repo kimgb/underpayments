@@ -1,13 +1,18 @@
 class Claim < ActiveRecord::Base
-  belongs_to :user
-
-  belongs_to :employer
-  accepts_nested_attributes_for :employer
-
+  has_one :user
+  has_one :employer
   has_one :address, as: :addressable
-  accepts_nested_attributes_for :address
-
   has_many :documents
+
+  # belongs_to :user
+
+  # belongs_to :employer
+  # accepts_nested_attributes_for :employer
+
+  # has_one :address, as: :addressable
+  # accepts_nested_attributes_for :address
+
+  # has_many :documents
 
   validates_presence_of :award, :hourly_pay, :total_hours, :employment_type
 

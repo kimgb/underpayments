@@ -7,8 +7,6 @@ class CreateClaims < ActiveRecord::Migration
       t.string :lost_wages
       t.integer :total_hours
       t.decimal :hourly_pay, precision: 10, scale: 2
-      t.references :employer, index: true, foreign_key: true
-      t.references :user, index: true, foreign_key: true
       t.date :employment_began_on
       t.date :employment_ended_on
       t.string :employment_type
