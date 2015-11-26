@@ -13,10 +13,6 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) || root_url
   end
 
-  def authenticate_user_or_admin!
-    authenticate_admin! || authenticate_user!
-  end
-
   private
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -28,5 +24,9 @@ class ApplicationController < ActionController::Base
 
   def root_path_without_locale
     root_path.gsub(/en$|en-AU$|vi$|zh$|zh-TW$/, "")
+  end
+
+  def authorise_admin!
+    current_user && current_user.admin?
   end
 end

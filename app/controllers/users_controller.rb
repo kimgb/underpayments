@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_admin!, only: [:index, :destroy]
-  before_action :authenticate_owner!, only: [:show, :edit, :update]
-
+  before_action :authorise_admin!, only: [:index, :destroy]
+  before_action :authorise_owner!, only: [:show, :edit, :update]
 
   # GET /users
   # GET /users.json
@@ -67,8 +66,8 @@ class UsersController < ApplicationController
 
   private
   # Lock down an action to logged in admin, or user who is also the owner
-  def authenticate_owner!
-    (authenticate_user! && current_user == @user) || authenticate_admin!
+  def authorise_owner!
+    current_user == @user
   end
 
   # Use callbacks to share common setup or constraints between actions.

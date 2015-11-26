@@ -2,8 +2,6 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable,
          :rememberable, :trackable, :validatable
 
-  validates_presence_of :family_name, :given_name, :phone, :date_of_birth
-
   has_one :address, as: :addressable
   accepts_nested_attributes_for :address
 
@@ -22,4 +20,12 @@ class User < ActiveRecord::Base
   # def has_claim?
   #   self.claim.present?
   # end
+
+  def admin?
+    admin
+  end
+
+  def owner
+    self
+  end
 end

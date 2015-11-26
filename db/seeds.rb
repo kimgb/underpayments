@@ -5,11 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-
-admin = Admin.new(email: "kbuckley@nuw.org.au", password: "ch3ng4M1chANGEmePrEtTYplz")
-admin.save!
-
-user = User.new(family_name: "Buckley", given_name: "Kim", email: "kbuckley@nuw.org.au", phone: "0424897579", date_of_birth: "1985-07-23", preferred_language: "en-AU")
+user = User.new(family_name: "Buckley", given_name: "Kim", email: "kbuckley@nuw.org.au", phone: "0424897579", date_of_birth: "1985-07-23", preferred_language: "en-AU", admin: true)
 user.password = "ch3ng4M1chANGEmePrEtTYplz"
 user.save!
 

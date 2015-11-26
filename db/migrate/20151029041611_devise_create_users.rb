@@ -26,6 +26,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :phone
       t.string :preferred_language
       t.string :follow_up_detail
+      t.boolean :admin, default: false
 
       t.timestamps null: false
     end

@@ -3,7 +3,6 @@ Rails.application.routes.draw do
     root "pages#show", page: "start"
 
     devise_for :users
-    devise_for :admins
 
     resources :users, shallow: true do
       resources :addresses, only: [:new, :create]
