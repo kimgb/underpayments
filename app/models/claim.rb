@@ -1,6 +1,6 @@
 class Claim < ActiveRecord::Base
+  belongs_to :employer
   has_one :user
-  has_one :employer
   has_one :address, as: :addressable
   has_many :documents
 
@@ -42,5 +42,9 @@ class Claim < ActiveRecord::Base
     # conditional_resources.inject(true) { |ready, res| ready && res.present? && res.valid? }
 
     ready
+  end
+
+  def owner
+    self.user
   end
 end

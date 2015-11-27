@@ -12,6 +12,7 @@ class CreateClaims < ActiveRecord::Migration
       t.string :employment_type
       t.boolean :regular_hours
       t.hstore :exemplary_week
+      t.references :employer, index: true, foreign_key: true
 
       t.timestamps null: false
     end

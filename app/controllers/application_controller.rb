@@ -13,13 +13,17 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) || root_url
   end
 
+  def forbidden!
+    render file: "public/403.html", status: :forbidden, layout: false
+  end
+
   private
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
   def root_for_signed_in_user
-    redirect_to current_user if (request.path == root_path_without_locale && current_user)
+    redirect_to current_user if (request.path == root_path && current_user)
   end
 
   def root_path_without_locale
@@ -27,8 +31,10 @@ class ApplicationController < ActionController::Base
   end
 
   def authorise_admin!
-    unless current_user && current_user.admin?
-      render file: "public/403.html", status: :forbidden, layout: false
-    end
+    forbidden! unless current_user && current_user.admin?
   end
+
+  # def authorise_owner!(resource)
+  #   forbidden unless resource.owner && resource.owner == current_user
+  # end
 end

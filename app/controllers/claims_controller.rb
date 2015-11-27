@@ -1,7 +1,8 @@
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:new, :create]
-  before_action :authenticate_admin!, only: [:index]
+  before_action :authorise_admin!, only: [:index, :destroy]
+  before_action :authorise_owner!, only: [:show, :edit, :update]
   # set_employer?
 
   # GET /claims

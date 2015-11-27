@@ -68,4 +68,8 @@ class EmployersController < ApplicationController
   def employer_params
     params.require(:employer).permit(:name, :abn, :phone, :email)
   end
+
+  def authorise_owner!
+    forbidden unless @employer.users.include?(current_user)
+  end
 end

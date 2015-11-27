@@ -17,4 +17,9 @@ class User < ActiveRecord::Base
   def owner
     self
   end
+
+  def owns?(resource)
+    # what about employers - multiple users through claims
+    self.admin? || self == resource.owner
+  end
 end
