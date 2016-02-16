@@ -15,15 +15,21 @@ gem 'devise',           '~> 3.5.2'
 gem 'devise_invitable', '~> 1.5.2'
 # Mailgun for transactional email
 gem 'mailgun_rails'
-# Pry for a nicer interpreter.
+# Notify me about exceptions in the production environment, via email/Slack
+gem 'exception_notification'
+gem 'slack-notifier'
+# Pry for a nicer interpreter
 gem 'pry'
+# Haml for markup, plus Redcarpet as our Markdown renderer for content
+gem 'haml-rails', '~> 0.9'
+gem 'redcarpet'
 
 # I18n - we need to support, e.g., Mandarin, Vietnamese
 gem 'i18n'
 gem 'devise-i18n'
 
-# Friendly ID for pretty page slugs
-gem 'friendly_id', '~> 5.1.0'
+# Friendly ID for pretty page slugs - probably irrelevant now
+# gem 'friendly_id', '~> 5.1.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -61,13 +67,21 @@ group :development do
 
   # `rails console` will open pry instead of irb
   gem 'pry-rails'
+
+  gem 'capistrano',         require: false
+  gem 'capistrano-rbenv',   require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
 end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
 
+  # FactoryGirl for factories
+  gem 'factory_girl_rails', '~> 4.0'
+
   # RSpec for unit testing of models
   gem 'rspec-rails'
 end
-

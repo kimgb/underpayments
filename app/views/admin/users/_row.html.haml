@@ -1,0 +1,8 @@
+%tr
+  %td= user.claim.status || "None"
+  %td= user.profile.full_name
+  %td= user.employer.name
+  %td= number_to_currency(user.claim.hourly_pay)
+  %td= user.claim.hours_worked
+  %td= number_to_currency(user.claim.lost_wages)
+  %td= link_to 'Review', admin_user_path(user)

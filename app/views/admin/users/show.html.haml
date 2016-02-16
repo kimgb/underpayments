@@ -1,0 +1,30 @@
+= link_to "Back to listing", admin_users_path, class: "btn btn-basic"
+&ensp;
+= link_to "Send a message", new_admin_user_message_path(@user), class: "btn btn-basic"
+&ensp;
+= link_to "Letter of demand", pages_path(page: "letter", layout: "print", user: @user), class: "btn btn-basic"
+
+= render partial: "admin/claims/form", locals: { claim: @user.claim }
+
+%h3 User details
+:markdown
+  #{ markdown_model(@user) }  
+  #{ markdown_model(@user.profile) }
+
+- if @user.address
+  = render partial: "addresses/address", locals: { address: @user.address, title: "User address", edit: "" }
+
+- if @user.claim
+  %h3 Claim
+  :markdown
+    #{ markdown_model(@user.claim) }  
+
+  = render partial: "documents/documents", locals: { documents: @user.claim.documents }
+
+  - if @user.employer
+    %h3 Employer
+    :markdown
+      #{ markdown_model(@user.employer) }
+
+  - if @user.claim.address
+    = render partial: "addresses/address", locals: { address: @user.claim.address, title: "Workplace", edit: "" }

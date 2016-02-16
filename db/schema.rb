@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 6) do
+ActiveRecord::Schema.define(version: 7) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,7 @@ ActiveRecord::Schema.define(version: 6) do
     t.string   "status"
     t.string   "comment"
     t.string   "award"
-    t.string   "lost_wages"
-    t.integer  "total_hours"
+    t.decimal  "weekly_hours",        precision: 10, scale: 2
     t.decimal  "hourly_pay",          precision: 10, scale: 2
     t.date     "employment_began_on"
     t.date     "employment_ended_on"
@@ -53,9 +52,13 @@ ActiveRecord::Schema.define(version: 6) do
 
   create_table "documents", force: :cascade do |t|
     t.string   "file"
+    t.boolean  "wage_evidence"
+    t.boolean  "time_evidence"
+    t.date     "coverage_start_date"
+    t.date     "coverage_end_date"
     t.integer  "claim_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
@@ -69,6 +72,19 @@ ActiveRecord::Schema.define(version: 6) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "profiles", force: :cascade do |t|
+    t.string   "family_name"
+    t.string   "given_name"
+    t.date     "date_of_birth"
+    t.string   "phone"
+    t.string   "preferred_language"
+    t.integer  "user_id"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -80,12 +96,6 @@ ActiveRecord::Schema.define(version: 6) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.string   "family_name"
-    t.string   "given_name"
-    t.date     "date_of_birth"
-    t.string   "phone"
-    t.string   "preferred_language"
-    t.string   "follow_up_detail"
     t.boolean  "admin",                  default: false
     t.integer  "claim_id"
     t.datetime "created_at",                             null: false
@@ -98,5 +108,6 @@ ActiveRecord::Schema.define(version: 6) do
 
   add_foreign_key "claims", "employers"
   add_foreign_key "documents", "claims"
+  add_foreign_key "profiles", "users"
   add_foreign_key "users", "claims"
 end

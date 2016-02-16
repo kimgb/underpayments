@@ -19,13 +19,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.inet     :current_sign_in_ip
       t.inet     :last_sign_in_ip
 
-      ## "Profile" fields
-      t.string :family_name
-      t.string :given_name
-      t.date :date_of_birth
-      t.string :phone
-      t.string :preferred_language
-      t.string :follow_up_detail
+
       t.boolean :admin, default: false
       t.references :claim, index: true, foreign_key: true
 

@@ -1,0 +1,28 @@
+= form_for([@claim, @employer], html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @employer }
+
+  %fieldset
+    %legend= t('employer.new.title')
+
+    .form-group
+      = f.label :name, class: "control-label"
+      %br/
+      = f.text_field :name, class: "form-control"
+
+    .form-group
+      = f.label :abn, class: "control-label"
+      %br/
+      = f.text_field :abn, class: "form-control"
+
+    .form-group
+      = f.label :phone, class: "control-label"
+      %br/
+      = f.telephone_field :phone, class: "form-control"
+
+    .form-group
+      = f.label :email, t('employer.email'), class: "control-label"
+      %br/
+      = f.email_field :email, class: "form-control"
+
+  .actions.text-right= f.submit t('employer.create'), class: "btn btn-default"
+

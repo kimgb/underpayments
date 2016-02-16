@@ -6,6 +6,10 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'devise'
+require 'support/factory_girl'
+require 'support/controller_helpers'
+require 'support/controller_macros'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -50,6 +54,8 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
 
-  # Devise tests
+  # Devise::TestHelpers: for controller testing, we need to be able to authenticate.
   config.include Devise::TestHelpers, type: :controller
+  config.include ControllerHelpers, type: :controller
+  config.extend ControllerMacros, type: :controller
 end

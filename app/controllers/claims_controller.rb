@@ -1,6 +1,5 @@
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:new, :create]
   before_action :authorise_admin!, only: [:index, :destroy]
   before_action :authorise_owner!, only: [:show, :edit, :update]
   # set_employer?
@@ -15,8 +14,10 @@ class ClaimsController < ApplicationController
     redirect_to @claim.user
   end
 
-  # GET /users/1/claims/new
+  # GET /claims/new
   def new
+    redirect_to current_user if current_user && current_user.claim.present?
+
     @claim = Claim.new
   end
 
@@ -27,11 +28,15 @@ class ClaimsController < ApplicationController
   # POST /claims
   # POST /claims.json
   def create
-     @claim = @user.build_claim(claim_params)
+    @claim = Claim.new(claim_params)
+    @claim.user = current_user if current_user.present?
 
     respond_to do |format|
       if @claim.save
-        format.html { redirect_to @user, notice: 'Claim was successfully created.' }
+        session[:claim_id] = @claim.id unless current_user.present?
+
+        format.html { redirect_to new_user_path, notice: 'Claim was successfully created.' }
+        # format.js   {  }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
@@ -78,6 +83,10 @@ class ClaimsController < ApplicationController
   end
 
   def claim_params
-    params.require(:claim).permit(:award, :total_hours, :hourly_pay, :lost_wages, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment)
+    params.require(:claim).permit(:award, :weekly_hours, :hourly_pay, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment)
+  end
+
+  def authorise_owner!
+    forbidden! unless current_user && current_user.owns?(@claim)
   end
 end

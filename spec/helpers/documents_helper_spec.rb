@@ -10,6 +10,20 @@ require 'rails_helper'
 #     end
 #   end
 # end
+
 RSpec.describe DocumentsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "date from request parameters" do
+    context "when there are no request parameters" do
+      it "should return today's date" do
+        expect(date_from_params(:coverage_start_date)).to eq(Date.today)
+      end
+    end
+
+    context "when there are request parameters" do
+      it "should return a date object" do
+        params[:coverage_start_date] = "2016-01-01"
+        expect(date_from_params(:coverage_start_date)).to be_instance_of(Date)
+      end
+    end
+  end
 end

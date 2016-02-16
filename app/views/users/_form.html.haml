@@ -1,0 +1,16 @@
+= form_for(@user, html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @user }
+
+  %fieldset
+    %legend= title
+    %p= description
+
+    .form-group
+      = f.label :email, t('views.users.form.email'), class: "control-label"
+      = f.email_field :email, class: "form-control"
+
+    .form-group
+      = f.label :password, t('views.users.form.password'), class: "control-label"
+      = f.password_field :password, autocomplete: "off", class: "form-control"
+
+  .actions.text-right= f.submit t('views.users.form.commit'), class: "btn btn-default"

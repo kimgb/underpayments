@@ -1,0 +1,11 @@
+%h3 
+  Employer
+  %small 
+    (
+    = link_to "Edit employer details", edit_employer_path(employer)
+    )
+:markdown
+  **#{ t('employer.name') }:** #{ employer.name }  
+  **#{ t('employer.abn') }:** #{ employer.abn }  
+  **#{ t('employer.phone') }:** #{ employer.phone }  
+  **#{ t('employer.email') }:** #{ employer.email }

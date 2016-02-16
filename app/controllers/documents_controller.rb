@@ -1,4 +1,5 @@
 class DocumentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_document, only: [:show, :destroy]
   before_action :set_claim, only: [:new, :create]
 
@@ -14,13 +15,17 @@ class DocumentsController < ApplicationController
 
   # GET /claims/1/documents/new
   def new
+    # TODO this is hackish
+    params[:coverage_start_date] ||= Date.today.to_s
+    params[:coverage_end_date] ||= Date.today.to_s
+
     @document = Document.new
   end
 
   # POST /claims/1/documents/new
   # POST /claims/1/documents/new.json
   def create
-    @document = @claim.documents.build
+    @document = @claim.documents.build(document_params)
     @document.file = document_params[:file]
 
     respond_to do |format|
@@ -54,6 +59,6 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
-    params.require(:document).permit(:file)
+    params.require(:document).permit(:file, :wage_evidence, :time_evidence, :coverage_start_date, :coverage_end_date)
   end
 end

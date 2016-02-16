@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Employer, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#owner" do
+    it "should return false" do
+      employer = build_stubbed(:employer)
+
+      expect(employer.owner).to be false
+    end
+  end
 end

@@ -1,0 +1,14 @@
+= form_for(claim, url: admin_claim_path(claim), html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: claim }
+
+  %fieldset
+    .form-group
+      = f.label :status, t('views.admin.claims.form.status'), class: "control-label"
+      = f.text_field :status, class: "form-control"
+
+    .form-group
+      = f.label :comment, t('views.admin.claims.form.comment'), class: "control-label"
+      = f.text_area :comment, class: "form-control"
+
+  .actions.text-right
+    = f.submit t('views.admin.claims.form.commit'), class: "btn btn-basic"

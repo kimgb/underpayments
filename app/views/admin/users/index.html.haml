@@ -1,0 +1,16 @@
+%h1 Claims for review
+
+%table.table
+  %thead
+    %tr
+      %th Status
+      %th Name
+      %th Employer
+      %th Hourly rate
+      %th Hours claimed
+      %th Lost wages
+      %th
+
+  %tbody
+    - @users.each do |user|
+      = render partial: 'admin/users/row', locals: { user: user }

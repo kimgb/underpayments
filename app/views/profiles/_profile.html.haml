@@ -1,0 +1,13 @@
+%h3 
+  Personal details
+  %small
+    (
+    = link_to 'Edit personal details', edit_profile_path 
+    )
+
+:markdown
+  **#{ t('views.profiles.profile.family_name') }:** #{ profile.family_name }  
+  **#{ t('views.profiles.profile.given_name') }:** #{ profile.given_name }  
+  **#{ t('views.profiles.profile.phone') }:** #{ profile.phone }  
+  **#{ t('views.profiles.profile.date_of_birth') }:** #{ profile.date_of_birth }  
+  **#{ t('views.profiles.profile.preferred_language') }:** #{ profile.preferred_language }

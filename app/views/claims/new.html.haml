@@ -1,0 +1,84 @@
+%section#introduction
+  %h3{ role: "presentation" }
+    = t('views.claims.new.title')
+  :markdown
+    #{ t('views.claims.new.intro') }
+
+= render 'form', locals: { remote: true }
+
+:javascript
+  function dateFromDateSelect(sel) {
+    // hoping Rails doesn't pull the rug out from under me with its '__ni' convention, for now
+    return new Date($(sel + "_1i").val(), $(sel + "_2i").val(), $(sel + "_3i").val());
+  }
+
+  function dateDiffInWeeks(date1, date2) {
+    // figure will be in milliseconds - multiply denominator appropriately
+    return Math.abs(date1 - date2) / (1000*60*60*24*7);
+  }
+
+  function estimateHours() {
+    var avgHrs = $("#claim_weekly_hours").val(),
+        weeksWorked = dateDiffInWeeks(dateFromDateSelect("#claim_employment_began_on"), dateFromDateSelect("#claim_employment_ended_on"));
+
+    return Math.round(avgHrs * weeksWorked);
+  }
+
+  function estimateMinPay() {
+    var award = $("#claim_award").val(),
+        emptype = $("#claim_employment_type").val(),
+        minWage = minWageSchedule[award][emptype];
+
+    return (estimateHours() * minWage);
+  }
+
+  function estimateActualPay() {
+    var wage = $("#claim_hourly_pay").val();
+
+    return (estimateHours() * wage).toFixed(2);
+  }
+
+  function naiveReverse(s) {
+    return s.split("").reverse().join("");
+  }
+
+  function currencyFormat(num) {
+    var ary = String(num).split(".");
+    // reverse, chunk into lengths of up to 3, insert commas, reverse
+    ary[0] = naiveReverse(naiveReverse(ary[0]).match(/.{1,3}/g).join(","));
+
+    return ary.join(".");
+  }
+
+  function submitFrmCalculator(e) {
+    e.preventDefault();
+
+    var minPay = estimateMinPay(),
+        actualPay = estimateActualPay(),
+        output = "By the numbers, you were paid $" + currencyFormat(actualPay) + ". The legal bare minimum pay for the hours you worked is $" + currencyFormat(minPay) + ".";
+
+    if (minPay > actualPay) {
+      output = output + " This means you were underpaid $" + currencyFormat((minPay - actualPay).toFixed(2)) + ". Want to get it back?";
+
+      $("#claim_calculate").addClass("collapse");
+      $("#claim_submit").removeClass("collapse");
+    }
+
+    $("#claim_output")[0].value = output;
+  }
+
+  var minWageSchedule = { horticulture: { casual: 21.61, permanent: 17.29 }, poultry_processing: { casual: 22.42, permanent: 17.94 } };
+
+  $(document).ready(function(){
+    $("#claim_calculate").on("click", submitFrmCalculator);
+  })
+
+:javascript
+  /*$(document).ready(function(e){
+    $("#new_claim").on("ajax:success", function(e, data, status, xhr){
+      $("#frmOutput").html(xhr.responseText);
+    }).on("ajax:error", function(e, xhr, status, error){
+      $("#frmOutput").html(error);
+    })
+  })*/
+

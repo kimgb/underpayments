@@ -1,0 +1,32 @@
+!!! 5
+%html{ lang: "#{ I18n.locale }" }
+  %head
+    %title= page_title
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+
+    /link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'
+
+  %body
+    .container-fluid
+      %header
+        #flash
+          - if notice 
+            %p.notice= notice
+          - if alert
+            %p.alert= alert
+
+        = render partial: 'layouts/authentication'
+        %hgroup
+          %h1.title= t('views.layouts.application.title')
+          %h5.byline= t('views.layouts.application.byline')
+
+      %main
+        = yield
+
+      %footer
+        %hr/
+
+        :markdown
+          #{ t('views.layouts.application.footer') }

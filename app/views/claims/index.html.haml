@@ -1,0 +1,13 @@
+%table.table
+  %thead
+    %tr
+      %th
+      %th Claimant
+      %th Lost wages
+  %tbody
+    = @claims.each do |claim|
+      %tr
+        %td= link_to "View claim", claim_path(claim), class: "btn btn-sm btn-info"
+        %td
+          #{ claim.user.full_name } <small>&lt;<a href="mailto:#{ claim.user.email }">#{ claim.user.email }</a>&gt;</small>
+        %td= number_to_currency(claim.lost_wages)

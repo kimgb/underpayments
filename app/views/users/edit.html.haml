@@ -1,0 +1,7 @@
+%h1 Editing User
+
+= render 'form', locals:  { title: t('views.users.edit.title'), description: t('views.users.edit.description') }
+
+= link_to 'Show', @user
+|
+= link_to 'Back', :back 

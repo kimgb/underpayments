@@ -1,4 +1,6 @@
 class Employer < ActiveRecord::Base
+  include Markdownable
+  
   has_many :claims
   has_many :users, through: :claims
   has_one :address, as: :addressable
@@ -6,6 +8,6 @@ class Employer < ActiveRecord::Base
   validates_presence_of :name
 
   def owner
-    self.claim.owner
+    false
   end
 end

@@ -20,50 +20,187 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  user:
-    new:
-      title: Let's fix this
-      description: "To get started, we need to know who you are, and how to reach you. This information is required for us to proceed with your claim - please fill it out completely and accurately!"
-    family_name: Family Name
-    given_name: Given Name(s)
-    date_of_birth: Date of birth
-    email: Email
-    phone: Phone
-    preferred_language: Preferred language
-    create: Submit
+  views:
+    layouts:
+      application:
+        title: UNDERPAID?
+        byline: (...or just overworked?)
+        footer: |
+          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-02-09">9 February, 2016</time>.
+      authentication:
+        welcome: Welcome
+        sign_out: Sign out
+        administrate: Administrate
+        returning: Returning user?
+        sign_in: Sign in
+
+    users:
+      user:
+        email: Email
+      new:
+        title: Let's fix this
+        description: "To get started, let's set you up with an account."
+      edit:
+        title: Change email and/or password
+        description: ""
+      form:
+        email: Email
+        password: Password
+        commit: Submit
+      show:
+        description: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and the details of your claim, including documents like bank statements that act as proof of what you were paid. Please add this information as prompted, below."
+        profile_heading: "Your details"
+        profile_not_provided: "You haven't provided your details yet:"
+        complete_profile: "Add your details"
+        address_heading: "Your address"
+        address_edit: "Edit your address"
+        address_not_provided: "You haven't provided your address yet:"
+        complete_address: "Add your address"
+        claim_heading: "Your claim"
+        claim_not_provided: "You haven't provided details of your claim yet:"
+        complete_claim: "Fill in your claim"
+
+
+    claims:
+      new:
+        title: Perhaps I can help you.
+        intro: |
+          Hello there. If you've done **work lately on a farm**, I'm here to help you find out if you've been ripped off—and help you get your money, if you want.
+
+          First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$21.61 per hour**.
+
+          So, you think you've been underpaid? Let's find out.
+      form:
+        title: Tell us about your work
+        award: "What industry did you work in?"
+        weekly_hours: "How many hours per week did you work, on average?"
+        hourly_pay: "How much were you paid per hour?"
+        employment_began_on: "When did your employment begin?"
+        employment_ended_on: "When did your employment end?"
+        employment_type: "Were you casual, or permanent?"
+        calculate: Am I underpaid?
+        commit: Let's fix this!
+      claim:
+        edit: Edit claim details
+        edit_address: Edit workplace address
+        address_heading: Workplace
+        address_not_provided: "You haven't provided a workplace address yet:"
+        complete_address: Add a workplace
+        employer_heading: Employer
+        employer_not_provided: "You haven't told us about your employer yet:"
+        complete_employer: Employer details
+        add_document: Add a supporting document
+        need_evidence: "We need evidence for:"
+        to: until
+        award: Industry
+        weekly_hours: Avg. hours per week
+        hourly_pay: Hourly wage
+        employment_began_on: Employment began on
+        employment_ended_on: Employment ended on
+        employment_type: Employment type
+        lost_wages: Calculated wages lost
+
+    addresses:
+      address:
+        street_address: Address line 1
+        secondary_street_address: Address line 2
+        town: Town
+        province: Province
+        postal_code: Postal code
+        country: Country
+      form:
+        user_title: Your address
+        claim_title: Where did you work?
+        employer_title: Employer's address
+        commit: Submit
+
+    profiles:
+      new:
+        title: Personal details
+        description: "Now that we've got an account for you, we'll need a few of your personal details to proceed with a claim on your behalf."
+      edit:
+        title: Edit personal details
+        description: ""
+      form:
+        commit: Submit
+      profile:
+        family_name: Family name
+        given_name: Given name(s)
+        date_of_birth: Date of birth
+        phone: Phone
+        preferred_language: Preferred language
+
+    documents:
+      form:
+        title: Add a document to your claim
+        coverage_start_date: "This document covers the period from:"
+        coverage_end_date: "To:"
+        wage_evidence: This document is evidence of wages paid to me
+        time_evidence: This document is evidence of hours I have worked
+        commit: Add document
+
+    employers:
+      employer:
+        name: Name
+        abn: ABN
+        phone: Contact phone
+        email: Contact email
+
+    admin:
+      claims:
+        form:
+          status: Status
+          comment: Explanation (optional)
+          commit: Update claim
+
+  message:
+    subject: Subject
+    body: Message
+    send: Send
 
   address:
-    user_title: Your address
-    claim_title: Where did you work?
-    employer_title: Employer's address
-    street_address: Address Line 1
-    secondary_street_address: Address Line 2
-    town: Town
-    province: Province
-    postal_code: Postal code
-    country: Country
-    create: Submit
 
-  claim:
-    new_form_title: Tell us about your work
-    award: Award
-    total_hours: Total hours worked
-    hourly_pay: Hourly rate of pay
-    lost_wages: Lost wages
-    employment_began_on: Employment start date
-    employment_ended_on: Employment end date
-    employment_type: Employment type
     create: Submit
 
   employer:
     new:
       title: Employer details
       description:
-    name: "Name of business, trading name"
-    email: Contact email
-    phone: Contact phone
-    abn: "ABN, if known"
     create: Submit
 
   start:
     intro: Perhaps I can help you.
+
+  activerecord:
+    attributes:
+      user:
+        email: Email
+        password: Password
+      profile:
+        family_name: Family name
+        given_name: Given name(s)
+        date_of_birth: Date of birth
+        phone: Phone
+        preferred_language: Preferred language
+      claim:
+        award: Award
+        weekly_hours: Weekly hours
+        hourly_pay: Hourly pay
+        employment_began_on: Employment began on
+        employment_ended_on: Employment ended on
+        employment_type: Employment type
+      employer:
+        name: Name of business or trading name
+        email: Contact email
+        phone: Contact phone
+        abn: "ABN, if known"
+      address:
+        street_address: Address line 1
+        secondary_street_address: Address line 2
+        town: Town
+        province: Province
+        postal_code: Postal code
+        country: Country
+    errors:
+      messages:
+        blank: "is required"

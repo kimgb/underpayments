@@ -1,0 +1,33 @@
+= form_for([@addressable, @address], html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @address }
+
+  %fieldset
+    %legend= t("views.addresses.form.#{form_title}")
+
+    .form-group
+      = f.label :street_address, class: "control-label"
+      %br
+      = f.text_field :street_address, class: "form-control"
+    .form-group
+      = f.label :secondary_street_address, class: "control-label"
+      %br
+      = f.text_field :secondary_street_address, class: "form-control"
+    .form-group
+      = f.label :town, class: "control-label"
+      %br
+      = f.text_field :town, class: "form-control"
+    .form-group
+      = f.label :province, class: "control-label"
+      %br
+      = f.text_field :province, class: "form-control"
+    .form-group
+      = f.label :postal_code, class: "control-label"
+      %br
+      = f.text_field :postal_code, class: "form-control"
+    .form-group
+      = f.label :country, class: "control-label"
+      %br
+      = f.text_field :country, class: "form-control"
+
+  .actions.text-right
+    = f.submit t('views.addresses.form.commit'), class: "btn btn-default"

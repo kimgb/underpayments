@@ -1,0 +1,42 @@
+= form_for(@claim, html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @claim }
+
+  %fieldset
+    %legend= t('views.claims.form.title')
+
+    .form-group
+      = f.label :award, t('views.claims.form.award'), class: "control-label"
+      = f.select :award, options_for_select([["Horticulture", "horticulture"], ["Poultry Processing", "poultry"]], "horticulture"), {}, { class: "form-control" }
+
+    .form-group
+      = f.label :weekly_hours, t('views.claims.form.weekly_hours'), class: "control-label"
+      %br
+      = f.number_field :weekly_hours, class: "form-control"
+
+    .form-group
+      = f.label :hourly_pay, t('views.claims.form.hourly_pay'), class: "control-label"
+      /%br
+      .input-group
+        .input-group-addon $
+        = f.number_field :hourly_pay, class: "form-control", min: "0", step: "0.01"
+
+    .form-group.form-inline
+      = f.label :employment_began_on, t('views.claims.form.employment_began_on'), class: "control-label"
+      %br
+      = f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+    .form-group.form-inline
+      = f.label :employment_ended_on, t('views.claims.form.employment_ended_on'), class: "control-label"
+      %br
+      = f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+    .form-group
+      = f.label :employment_type, t('views.claims.form.employment_type'), class: "control-label"
+      %br
+      = f.select :employment_type, options_for_select([["Casual", "casual"], ["Permanent", "permanent"]], "casual"), {}, { class: "form-control" }
+
+  %output#claim_output
+
+  .actions.text-right
+    = f.button t('views.claims.form.calculate'), class: "btn btn-basic", id: "claim_calculate"
+    = f.submit t('views.claims.form.commit'), class: "btn btn-basic collapse", id: "claim_submit"

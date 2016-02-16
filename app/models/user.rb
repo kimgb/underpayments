@@ -1,13 +1,18 @@
 class User < ActiveRecord::Base
+  include Markdownable
+
   devise :database_authenticatable, :recoverable,
          :rememberable, :trackable, :validatable
 
+  has_one :profile
   has_one :address, as: :addressable
   belongs_to :claim
+  has_one :employer, through: :claim
 
-  def full_name
-    # FIXME should be locale dependent in production
-    "#{given_name} #{family_name}"
+  validates_presence_of :email, :encrypted_password
+
+  def presentable_attributes
+    attributes.slice("email")
   end
 
   def admin?
@@ -19,7 +24,11 @@ class User < ActiveRecord::Base
   end
 
   def owns?(resource)
-    # what about employers - multiple users through claims
-    self.admin? || self == resource.owner
+    # Employer#owner returns false - puzzle piece to be considered.
+    admin? || self == resource.owner
+  end
+
+  def ready_to_submit?
+    claim && claim.ready_to_submit?
   end
 end

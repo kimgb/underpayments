@@ -1,0 +1,26 @@
+- unless @user.claim && @user.claim.ready_to_submit?
+  %p= t('views.users.show.description')
+
+- if @user.profile
+  = render partial: "profiles/profile", locals: { profile: @user.profile }
+- else
+  %h3= t('views.users.show.profile_heading')
+  %p
+    = t('views.users.show.profile_not_provided')
+    = link_to t('views.users.show.complete_profile'), new_profile_path, class: "btn btn-basic"
+
+- if @user.address
+  = render partial: "addresses/address", locals: { address: @user.address, title: t('views.users.show.address_heading'), edit: t('views.users.show.address_edit') }
+- else
+  %h3= t('views.users.show.address_heading')
+  %p
+    = t('views.users.show.address_not_provided')
+    = link_to t('views.users.show.complete_address'), new_user_address_path(@user), class: "btn btn-basic"
+
+- if @user.claim
+  = render partial: "claims/claim", locals: { claim: @user.claim }
+- else
+  %h3= t('views.users.show.claim_heading')
+  %p
+    = t('views.users.show.claim_not_provided')
+    = link_to t('views.users.show.complete_claim'), new_claim_path, class: "btn btn-basic"

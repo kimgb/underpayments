@@ -4,8 +4,7 @@ class CreateClaims < ActiveRecord::Migration
       t.string :status
       t.string :comment
       t.string :award
-      t.string :lost_wages
-      t.integer :total_hours
+      t.decimal :weekly_hours, precision: 10, scale: 2
       t.decimal :hourly_pay, precision: 10, scale: 2
       t.date :employment_began_on
       t.date :employment_ended_on

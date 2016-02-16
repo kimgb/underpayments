@@ -1,0 +1,28 @@
+= form_for([@claim, @document], html: { multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @document }
+
+  %fieldset
+    %legend= t('views.documents.form.title')
+
+    .form-group= f.file_field :file, style: "color: #BBB", class: "btn btn-basic"
+
+    .form-group.form-inline
+      .checkbox
+        = f.check_box :wage_evidence
+        = f.label :wage_evidence, t('views.documents.form.wage_evidence')
+
+      .checkbox
+        = f.check_box :time_evidence
+        = f.label :time_evidence, t('views.documents.form.time_evidence')
+
+    .form-group.form-inline
+      = f.label :coverage_start_date, t('views.documents.form.coverage_start_date'), class: "control-label"
+      %br/
+      = f.date_select :coverage_start_date, { selected: date_from_params(:coverage_start_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+    .form-group.form-inline
+      = f.label :coverage_end_date, t('views.documents.form.coverage_end_date'), class: "control-label"
+      %br/
+      = f.date_select :coverage_end_date, { selected: date_from_params(:coverage_end_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+  .actions.text-right= f.submit t('views.documents.form.commit'), class: "btn btn-basic"

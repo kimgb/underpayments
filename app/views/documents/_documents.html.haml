@@ -1,0 +1,7 @@
+%h3 Supporting documents
+- if documents.empty?
+  %p You haven't added any documents yet.
+- else
+  %ul
+    - documents.each do |doc|
+      %li= link_to basename(doc), doc

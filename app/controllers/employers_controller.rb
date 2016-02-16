@@ -1,10 +1,12 @@
 class EmployersController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_employer, only: [:show, :edit, :update, :destroy]
   before_action :set_claim, only: [:new, :create]
+  before_action :authorise_admin!, except: [:new, :create, :edit, :update]
 
   # GET /employers/1
   def show
-    redirect_to @employer.claim.user
+    redirect_to current_user
   end
 
   # GET /claims/1/employers/new
@@ -37,7 +39,7 @@ class EmployersController < ApplicationController
   def update
     respond_to do |format|
       if @employer.update(employer_params)
-        format.html { redirect_to @user, notice: 'Employer was successfully updated.' }
+        format.html { redirect_to current_user, notice: 'Employer was successfully updated.' }
         format.json { render :show, status: :ok, location: @employer.claim.user }
       else
         format.html { render :edit }
@@ -51,7 +53,7 @@ class EmployersController < ApplicationController
   def destroy
     @employer.destroy
     respond_to do |format|
-      format.html { redirect_to @employer.claim.user, notice: 'Employer was successfully destroyed.' }
+      format.html { redirect_to current_user, notice: 'Employer was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
