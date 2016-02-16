@@ -2,7 +2,7 @@
 
 %section#introduction
   %h3{ role: "presentation" }= t('start.intro')
-  %p 
+  %p
     Hello there. If you've done <strong>work lately on a farm</strong>, I'm here to help you find out if you've been ripped off&mdash;and help you get your money, if you want.
 
   %p
@@ -43,8 +43,8 @@
   %output#frmOutput
 
   .align-right
-    %button#btnCalc.btn.btn-basic{ type: "submit" } How Much Am I Underpaid?
-    = link_to "Let's Fix This", new_user_path, id: "btnAction", class: "btn btn-lg btn-basic collapse"
+    %button#btnCalc.btn.btn-default{ type: "submit" } How Much Am I Underpaid?
+    = link_to "Let's Fix This", new_user_path, id: "btnAction"
 
 :javascript
   function dateFromDateSelect(sel) {

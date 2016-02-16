@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-ruby "2.2.3"
+ruby "2.3.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.4'
+gem 'rails', '~> 4.2.5'
 # Use Puma as the web server
 gem 'puma'
 # Use postgresql as the database for Active Record
@@ -28,9 +28,6 @@ gem 'redcarpet'
 gem 'i18n'
 gem 'devise-i18n'
 
-# Friendly ID for pretty page slugs - probably irrelevant now
-# gem 'friendly_id', '~> 5.1.0'
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -51,9 +48,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Google V8, allows Less to operate, allows variables in Bootstrap CSS
-gem 'therubyracer'
-gem 'less-rails'
-gem 'twitter-bootstrap-rails'
+# gem 'therubyracer'
+# gem 'less-rails'
+# gem 'twitter-bootstrap-rails'
+
+# SASS instead of LESS for Bootstrap
+gem 'bootstrap-sass', '~> 3.3.6'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

@@ -26,4 +26,4 @@
       = f.label :preferred_language, class: "control-label"
       = f.select  :preferred_language, options_for_select([ ["English (Australia)", "en-AU"], ["Chinese (Taiwan)", "zh-TW"], ["Vietnamese", "vi"] ], "en-AU"), {}, { class: "form-control" }
 
-  .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-basic"
+  .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"

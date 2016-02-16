@@ -9,4 +9,4 @@
     = f.label :body, t('message.body'), class: "control-label"
     = f.text_area :body, class: "form-control", rows: 10, value: "Hello #{@user.profile.given_name},\n\n\n\nRegards,\n\n#{current_user.profile.full_name}\nNational Union of Workers"
 
-  .actions.text-right= f.submit t('message.send'), class: "btn btn-basic"
+  .actions.text-right= f.submit t('message.send'), class: "btn btn-default"

@@ -20,16 +20,16 @@
   %ul
     - claim.coverage_gaps.each do |gap|
       %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last)
-      
-= link_to t('views.claims.claim.add_document'), new_claim_document_path(claim), class: "btn btn-basic"
+
+= link_to t('views.claims.claim.add_document'), new_claim_document_path(claim), class: "btn btn-default"
 
 - if claim.address
   = render partial: "addresses/address", locals: { address: claim.address, title: t('views.claims.claim.address_heading'), edit: t('views.claims.claim.edit_address') }
-- else 
+- else
   %h3= t('views.claims.claim.address_heading')
   %p
     = t('views.claims.claim.address_not_provided')
-    = link_to t('views.claims.claim.complete_address'), new_claim_address_path(claim), class: "btn btn-basic"
+    = link_to t('views.claims.claim.complete_address'), new_claim_address_path(claim), class: "btn btn-default"
 
 - if claim.employer
   = render partial: "employers/employer", locals: { employer: claim.employer }
@@ -37,4 +37,4 @@
   %h3= t('views.claims.claim.employer_heading')
   %p
     = t('views.claims.claim.employer_not_provided')
-    = link_to t('views.claims.claim.complete_employer'), new_claim_employer_path(claim), class: "btn btn-basic"
+    = link_to t('views.claims.claim.complete_employer'), new_claim_employer_path(claim), class: "btn btn-default"

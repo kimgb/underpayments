@@ -48,14 +48,14 @@ Rails.application.configure do
   # Save on line prints (gets rid of can't log to ::1 warnings)
   config.web_console.whiny_requests = false
 
-  # Exception notifier - post to Slack and email 
-  config.middleware.use ExceptionNotification::Rack,
-    slack: {
-      webhook_url: "https://hooks.slack.com/services/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",
-      channel: "#exceptions"
-    },
-    email: {
-      sender: %{"notifier" <notifier@sandboxdf8c7f5edee24435b6baf2b87ed843d4.mailgun.org>},
-      exception_recipients: %w[kbuckley@nuw.org.au]
-    }
+  # Exception notifier - post to Slack and email
+  # config.middleware.use ExceptionNotification::Rack,
+  #   slack: {
+  #     webhook_url: "https://hooks.slack.com/services/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",
+  #     channel: "#exceptions"
+  #   },
+  #   email: {
+  #     sender: %{"notifier" <notifier@sandboxdf8c7f5edee24435b6baf2b87ed843d4.mailgun.org>},
+  #     exception_recipients: %w[kbuckley@nuw.org.au]
+  #   }
 end
