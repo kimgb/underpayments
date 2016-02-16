@@ -1,9 +1,6 @@
 server '188.166.237.32', port: 22, roles: [:web, :app, :db], primary: true
 
-# avoid having to password authenticate, with SSH set up
-set :ssh_options, { forward_agent: true }
-
-set :repo_url,    'git@github.com:kbuckley/underpayments.git'
+set :repo_url,    'git@github.com:kimgb/underpayments.git'
 set :application, 'underpaid'
 set :user,        'deploy'
 set :puma_threads, [4, 16]
