@@ -10,14 +10,7 @@ body {
   margin: 4rem auto;
   padding: 1rem;
 
-  line-height: 1.8;
-  font-size: 18px;
-  font-size: 1.8rem;
-  font-family: serif;
-
-  background-color: #161616;
   opacity: 0.8;
-  color: #EEEEEE;
 }
 
 #flash {
@@ -39,18 +32,8 @@ output {
   padding: 0.5rem;
 }
 
-h1, h2, h3, h4, h5, h6 { line-height: 1.2; font-weight: 700; color: #0B8842; }
 .byline { font-weight: normal; }
 
-a {
-  text-decoration: none;
-  color: #F5003D;
-}
-a:visited, a:active, a:hover { color: #A50029; }
-a:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
 a.btn {
   color: white;
 }
