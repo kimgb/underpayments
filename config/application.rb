@@ -39,5 +39,8 @@ module Underpaid
 
     # Set the application secret key through Figaro
     config.secret_key_base = Figaro.env.secret_key_base
+    
+    # config.autoload_paths << Rails.root.join('lib')
+    config.eager_load_paths += ["#{Rails.root}/lib"]
   end
 end

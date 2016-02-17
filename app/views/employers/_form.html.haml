@@ -8,6 +8,11 @@
       = f.label :name, class: "control-label"
       %br/
       = f.text_field :name, class: "form-control"
+      
+    .form-group
+      = f.label :contact, class: "control-label"
+      %br/
+      = f.text_field :contact, class: "form-control"
 
     .form-group
       = f.label :abn, class: "control-label"
@@ -25,4 +30,3 @@
       = f.email_field :email, class: "form-control"
 
   .actions.text-right= f.submit t('employer.create'), class: "btn btn-default"
-

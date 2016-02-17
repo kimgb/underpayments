@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 7) do
 
   create_table "employers", force: :cascade do |t|
     t.string   "name"
+    t.string   "contact"
     t.string   "abn"
     t.string   "phone"
     t.string   "email"

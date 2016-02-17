@@ -12,3 +12,10 @@ en-AU:
         town: Suburb
         province: State
         postal_code: Postcode
+  activerecord:
+    attributes:
+      address:
+        town: Suburb
+        province: State
+        postal_code: Postcode
+        country: Country

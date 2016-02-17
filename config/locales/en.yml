@@ -142,6 +142,7 @@ en:
     employers:
       employer:
         name: Name
+        contact: Name of contact person
         abn: ABN
         phone: Contact phone
         email: Contact email
@@ -191,9 +192,10 @@ en:
         employment_type: Employment type
       employer:
         name: Name of business or trading name
+        contact: Name of contact person
+        abn: "ABN, if known"
         email: Contact email
         phone: Contact phone
-        abn: "ABN, if known"
       address:
         street_address: Address line 1
         secondary_street_address: Address line 2

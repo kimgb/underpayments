@@ -5,7 +5,7 @@ class Employer < ActiveRecord::Base
   has_many :users, through: :claims
   has_one :address, as: :addressable
 
-  validates_presence_of :name
+  validates_presence_of :name, :contact
 
   def owner
     false

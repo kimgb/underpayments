@@ -40,26 +40,82 @@ class Claim < ActiveRecord::Base
   def hours_worked
     (weekly_hours * weeks_worked).round
   end
+  
+  def hours_worked_by_year
+    if employment_began_on.fy == employment_ended_on.fy
+      { employment_began_on.fy => weeks_worked }
+    else
+      Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
+        if year == employment_began_on.fy
+          [year, weeks_worked(employment_began_on, Date.new(year).end_of_fy) * weekly_hours]
+        elsif year == employment_ended_on.fy
+          [year, weeks_worked(Date.new(year).beginning_of_fy, employment_ended_on) * weekly_hours]
+        else
+          [year, weeks_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy) * weekly_hours]
+        end
+      end.flatten]
+    end
+  end
+  
+  # def weeks_worked_by_year
+  #   if employment_began_on.year == employment_ended_on.year
+  #     { employment_began_on.year => weeks_worked }
+  #   else
+  #     Hash[*(employment_began_on.year..employment_ended_on.year).map do |year|
+  #       if year == employment_began_on.year
+  #         [year, weeks_worked(employment_began_on, Date.new(year).end_of_year)]
+  #       elsif year == employment_ended_on.year
+  #         [year, weeks_worked(Date.new(year).beginning_of_year, employment_ended_on)]
+  #       else
+  #         [year, weeks_worked(Date.new(year).beginning_of_year, Date.new(year).end_of_year)]
+  #       end
+  #     end.flatten]
+  #   end
+  # end
+  
+  def base_pay_for_employment
+    hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
+      memo += hours * award_minimum(year)
+    end.round(2)
+  end
+  
+  # does not account for pay rises (or falls)
+  def actual_pay_for_employment
+    hourly_pay * weekly_hours * weeks_worked
+  end
 
   def lost_wages
-    # baseline
-    min_legal_pay = award_minimum * weekly_hours * weeks_worked
-    actual_pay = hourly_pay * weekly_hours * weeks_worked
-    lost_wages = (min_legal_pay - actual_pay).round(2)
-
-    # return 0 or lost_wages, whichever is higher
-    lost_wages > 0 ? lost_wages : 0
+    pay_difference = base_pay_for_employment - actual_pay_for_employment
+    
+    pay_difference > 0 ? pay_difference.round(2) : 0
   end
 
-  def weeks_worked
-    (employment_ended_on - employment_began_on) / 7.0
+  def weeks_worked(period_start = employment_began_on, period_end = employment_ended_on)
+    (period_end - period_start) / 7.0
   end
 
-  def award_minimum
+  def award_minimum(year = employment_began_on.year)
     {
-      "horticulture" => { "casual" => 21.61, "permanent" => 17.29 },
-      "poultry" => { "casual" => 21.61, "permanent" => 17.29 }
-    }[award][employment_type]
+      2015 => {
+        "horticulture" => { "casual" => 21.61, "permanent" => 17.29 },
+        "poultry" => { "casual" => 21.61, "permanent" => 17.29 }
+      }, 2014 => {
+        "horticulture" => { "casual" => 21.09, "permanent" => 16.87 },
+        "poultry" => { "casual" => 21.09, "permanent" => 16.87 }
+      }, 2013 => {
+        "horticulture" => { "casual" => 20.46, "permanent" => 16.37 },
+        "poultry" => { "casual" => 20.46, "permanent" => 16.37 }
+      }, 2012 => {
+        "horticulture" => { "casual" => 19.95, "permanent" => 15.96 },
+        "poultry" => { "casual" => 19.95, "permanent" => 15.96 }
+      }, 2011 => {
+        "horticulture" => { "casual" => 19.39, "permanent" => 15.51 },
+        "poultry" => { "casual" => 19.39, "permanent" => 15.51 }
+      }, 2010 => {
+        "horticulture" => { "casual" => 18.75, "permanent" => 15.00 },
+        "poultry" => { "casual" => 18.75, "permanent" => 15.00 }
+      }
+    }[year][award][employment_type]
   end
 
   def proper_award
