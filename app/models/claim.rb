@@ -43,7 +43,7 @@ class Claim < ActiveRecord::Base
   
   def hours_worked_by_year
     if employment_began_on.fy == employment_ended_on.fy
-      { employment_began_on.fy => weeks_worked }
+      { employment_began_on.fy => weeks_worked * weekly_hours }
     else
       Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
         if year == employment_began_on.fy

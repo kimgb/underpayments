@@ -60,8 +60,8 @@ FactoryGirl.define do
     award               "horticulture"
     hourly_pay          11.23
     weekly_hours        35
-    employment_began_on Date.new(2015, 2, 1)
-    employment_ended_on Date.new(2015, 7, 31)
+    employment_began_on Date.new(2015, 7, 1)
+    employment_ended_on Date.new(2016, 1, 31)
     employment_type     "casual"
     # association     :user, strategy: :build
     # association     :address, strategy: :build
@@ -71,8 +71,8 @@ FactoryGirl.define do
     award               "horticulture"
     hourly_pay          11.23
     weekly_hours        35
-    employment_began_on Date.new(2015, 2, 1)
-    employment_ended_on Date.new(2015, 7, 31)
+    employment_began_on Date.new(2015, 7, 1)
+    employment_ended_on Date.new(2016, 1, 31)
     employment_type     "casual"
     user
   end
@@ -80,8 +80,8 @@ FactoryGirl.define do
   factory :document do
     wage_evidence       true
     time_evidence       false
-    coverage_start_date Date.new(2015, 3, 1)
-    coverage_end_date   Date.new(2015, 3, 31)
+    coverage_start_date Date.new(2015, 8, 1)
+    coverage_end_date   Date.new(2015, 10, 31)
     claim
   end
 

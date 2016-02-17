@@ -35,14 +35,14 @@ RSpec.describe Claim, type: :model do
       it "should return zero" do
         @claim.hourly_pay = 21.61
 
-        expect(@claim.lost_wages).to be 0
+        expect(@claim.lost_wages).to eq(0)
       end
     end
   end
 
   describe "#weeks_worked" do
     it "should return a long floating point" do
-      expect(@claim.weeks_worked).to eq(25.714285714285715)
+      expect(@claim.weeks_worked).to eq(30.571428571428573)
     end
   end
 
@@ -101,7 +101,7 @@ RSpec.describe Claim, type: :model do
 
     context "a complete claim" do
       it "should return true" do
-        document = create(:document, coverage_start_date: Date.new(2015, 1, 1), coverage_end_date: Date.new(2015, 12, 31))
+        document = create(:document, coverage_start_date: Date.new(2015, 1, 1), coverage_end_date: Date.new(2016, 12, 31))
         claim = document.claim
 
         expect(claim.coverage_complete?).to be true
