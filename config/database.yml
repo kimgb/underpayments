@@ -1,0 +1,21 @@
+# PostgreSQL. Versions 8.2 and up are supported.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
+  username: <%= Figaro.env.db_user %>
+  password: <%= Figaro.env.db_pass %>
+
+development:
+  <<: *default
+  database: underpaid_development
+
+test:
+  <<: *default
+  database: underpaid_test
+
+production:
+  <<: *default
+  database: underpaid
