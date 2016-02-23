@@ -40,11 +40,9 @@ class User < ActiveRecord::Base
     claim && claim.submitted?
   end
   
+  alias_method :locked?, :submitted?
+  
   def not_submitted?
     !submitted?
-  end
-  
-  def locked?
-    submitted?
   end
 end

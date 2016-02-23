@@ -15,6 +15,7 @@ class CreateClaims < ActiveRecord::Migration
       t.timestamp :submitted_on
       t.jsonb :total_hours_by_year
       t.references :employer, index: true, foreign_key: true
+      t.references :workplace, foreign_key: true, index: true
 
       t.timestamps null: false
     end

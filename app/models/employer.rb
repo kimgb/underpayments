@@ -10,4 +10,8 @@ class Employer < ActiveRecord::Base
   def owner
     false
   end
+  
+  def owners
+    users
+  end
 end

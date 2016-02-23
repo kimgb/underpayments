@@ -2,6 +2,7 @@ class Claim < ActiveRecord::Base
   include Markdownable
 
   belongs_to :employer
+  belongs_to :workplace
   has_one :user
   has_one :address, as: :addressable
   has_many :documents
