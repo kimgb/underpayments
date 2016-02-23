@@ -9,7 +9,7 @@ class Admin::MessagesController < Admin::BaseController
   # POST /admin/users/1/messages
   def create
     @message = Message.new(message_params)
-    Admin::UserMailer.generic_email_with_token(@user, current_user, @message).deliver_now
+    UserMailer.generic_email_with_token(@user, current_user, @message).deliver_now
 
     redirect_to admin_user_path(@user), notice: "Message sent."
   end
