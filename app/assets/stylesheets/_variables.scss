@@ -26,4 +26,16 @@ $btn-default-bg: #A50029;
 $btn-default-border: #880022;
 
 // body background colour
-$body-bg: #161616;
+$body-bg: #e0e0e0;
+//$body-bg: #161616;
+
+//== Navbar
+// Basics
+$navbar-padding-horizontal: 0px;
+$navbar-default-color: #BBB;
+$navbar-default-bg: darken($brand-primary, 25%);
+$navbar-default-border: darken($navbar-default-bg, 5%);
+
+$navbar-default-link-color: $navbar-default-color;
+$navbar-default-link-hover-color: darken($navbar-default-link-color, 15%);
+$navbar-default-link-active-color: darken($navbar-default-link-color, 7.5%);

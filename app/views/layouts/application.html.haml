@@ -11,22 +11,22 @@
   %body
     .container-fluid
       %header
+        = render partial: 'layouts/authentication'
         #flash
           - if notice 
             %p.notice= notice
           - if alert
             %p.alert= alert
 
-        = render partial: 'layouts/authentication'
-        %hgroup
-          %h1.title= t('views.layouts.application.title')
-          %h5.byline= t('views.layouts.application.byline')
-
       %main
+        %header.align-right
+          %hgroup
+            %h1.title= t('views.layouts.application.title')
+            %h5.byline= t('views.layouts.application.byline')
         = yield
 
-      %footer
-        %hr/
+        %footer.align-right
+          %hr/
 
-        :markdown
-          #{ t('views.layouts.application.footer') }
+          :markdown
+            #{ t('views.layouts.application.footer') }

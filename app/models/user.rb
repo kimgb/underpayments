@@ -14,6 +14,10 @@ class User < ActiveRecord::Base
   def self.presentable_attributes
     ["email"]
   end
+  
+  def full_name
+    profile && profile.full_name
+  end
 
   def admin?
     admin

@@ -1,13 +1,23 @@
-.align-right
-  %small
-    - if current_user
-      = t('views.layouts.authentication.welcome')
-      = link_to current_user.email, current_user
-      |
-      = link_to t('views.layouts.authentication.sign_out'), destroy_user_session_path, method: :delete
-      - if current_user.admin?
-        |
-        = link_to t('views.layouts.authentication.administrate'), admin_users_path
-    - else
-      Returning user?
-      = link_to t('views.layouts.authentication.sign_in'), new_user_session_path, class: "btn btn-sm btn-default"
+%nav.navbar.navbar-default
+  .container-fluid
+    %ul.nav.navbar-nav
+      - if current_user
+        %li
+          %p.navbar-text
+            = t('views.layouts.authentication.signed_in')
+            = link_to (current_user.full_name || current_user.email), current_user, class: "navbar-link"
+        
+    %ul.nav.navbar-nav.navbar-right
+      - if current_user
+        %li
+          = link_to t('views.layouts.authentication.sign_out'), destroy_user_session_path, method: :delete
+      
+        - if current_user.admin?
+          %li
+            = link_to t('views.layouts.authentication.administrate'), admin_users_path
+            
+      - else
+        %li
+          %p.navbar-text
+            Returning user?
+            = link_to t('views.layouts.authentication.sign_in'), new_user_session_path, class: "navbar-link"

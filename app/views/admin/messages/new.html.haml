@@ -2,14 +2,14 @@
 
 = form_for [@user, @message], url: admin_user_messages_path(@user), html: { multipart: true, class: "form" } do |f|
   .form-group
-    = f.label :subject, t('message.subject'), class: "control-label"
+    = f.label :subject, t('views.admin.messages.new.subject'), class: "control-label"
     .input-group
       .input-group-addon
         %i.glyphicon.glyphicon-tag
       = f.text_field :subject, class: "form-control", value: "Your underpayment claim"
 
   .form-group
-    = f.label :body, t('message.body'), class: "control-label"
+    = f.label :body, t('views.admin.messages.new.body'), class: "control-label"
     .input-group
       .input-group-addon
         %i.glyphicon.glyphicon-pencil

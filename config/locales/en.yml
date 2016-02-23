@@ -28,11 +28,11 @@ en:
         footer: |
           Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-02-09">9 February, 2016</time>.
       authentication:
-        welcome: Welcome
+        signed_in: Signed in as
         sign_out: Sign out
+        sign_in: Sign in
         administrate: Administrate
         returning: Returning user?
-        sign_in: Sign in
 
     users:
       user:
@@ -167,24 +167,11 @@ en:
           status: Status
           comment: Explanation (optional)
           commit: Update claim
-
-  message:
-    subject: Subject
-    body: Message
-    send: Send
-
-  address:
-
-    create: Submit
-
-  employer:
-    new:
-      title: Employer details
-      description:
-    create: Submit
-
-  start:
-    intro: Perhaps I can help you.
+          
+      messages:
+        new:
+          subject: Subject
+          body: Body
 
   activerecord:
     attributes:
