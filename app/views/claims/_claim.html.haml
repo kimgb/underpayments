@@ -14,13 +14,21 @@
 
 = link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
 
-- if claim.address
-  = render partial: "addresses/address", locals: { address: claim.address, title: t('views.claims.claim.address.heading'), edit: t('views.claims.claim.address.edit') }
+-# - if claim.address
+-#   = render partial: "addresses/address", locals: { address: claim.address, title: t('views.claims.claim.address.heading'), edit: t('views.claims.claim.address.edit') }
+-# - else
+-#   %h3= t('views.claims.claim.address.heading')
+-#   %p
+-#     = t('views.claims.claim.address.missing')
+-#     = link_to t('views.claims.claim.address.complete'), new_claim_address_path(claim), class: "btn btn-sm btn-default"
+    
+- if claim.workplace
+  = render partial: "workplaces/workplace", locals: { workplace: claim.workplace }
 - else
-  %h3= t('views.claims.claim.address.heading')
-  %p
-    = t('views.claims.claim.address.missing')
-    = link_to t('views.claims.claim.address.complete'), new_claim_address_path(claim), class: "btn btn-sm btn-default"
+  %h3= t('views.claims.claim.workplace.heading')
+  %p 
+    = t('views.claims.claim.workplace.missing')
+    = link_to t('views.claims.claim.workplace.complete'), new_claim_workplace_path(claim), class: "btn btn-sm btn-default"
 
 - if claim.employer
   = render partial: "employers/employer", locals: { employer: claim.employer }

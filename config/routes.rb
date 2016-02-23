@@ -14,10 +14,12 @@ Rails.application.routes.draw do
 
     resources :claims, concerns: :addressable do
       resources :employers, only: [:new, :create]
+      resources :workplaces, only: [:new, :create]
       resources :documents, only: [:index, :new, :create]
     end
 
     resources :employers, concerns: :addressable, except: [:index, :new, :create]
+    resources :workplaces, concerns: :addressable, except: [:index, :new, :create]
 
     resources :documents, except: [:index, :new, :create]
     resources :addresses, except: [:index, :new, :create]

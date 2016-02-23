@@ -1,5 +1,5 @@
-= form_for([@claim, @employer], html: { class: "form", multipart: true }) do |f|
-  = render partial: "layouts/errors", locals: { resource: @employer }
+= form_for([@claim, @workplace], html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @workplace }
 
   %fieldset
     %legend= title
@@ -29,4 +29,4 @@
       %br/
       = f.email_field :email, class: "form-control"
 
-  .actions.text-right= f.submit t('views.employers.form.commit'), class: "btn btn-default"
+  .actions.text-right= f.submit t('views.workplaces.form.commit'), class: "btn btn-default"

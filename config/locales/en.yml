@@ -85,11 +85,11 @@ en:
         commit: Let's fix this!
       claim:
         edit: Edit claim details
-        address:
-          edit: Edit workplace address
+        workplace:
+          edit: Edit workplace
           heading: Workplace
-          missing: "You haven't provided a workplace address yet:"
-          complete: Add a workplace
+          missing: "You haven't provided workplace details yet:"
+          complete: Add workplace
         employer:
           heading: Employer
           missing: "You haven't told us about your employer yet:"
@@ -153,13 +153,44 @@ en:
         commit: Add document
 
     employers:
+      edit:
+        title: Edit employer details
+      new:
+        title: Enter employer details
+      form:
+        commit: Save employer details
       employer:
         name: Name
         contact: Name of contact person
         abn: ABN
         phone: Contact phone
-        email: Contact email
         edit: Edit employer details
+        email: Contact email
+        address:
+          heading: Workplace address
+          edit: Edit workplace address
+          complete: Add workplace address
+          missing: "You haven't provided a workplace address yet:"
+        
+    workplaces:
+      edit:
+        title: Edit workplace details
+      new:
+        title: Enter workplace details
+      form:
+        commit: Save workplace details
+      workplace:
+        name: Name
+        contact: Name of contact person
+        abn: ABN
+        phone: Contact phone
+        edit: Edit workplace details
+        email: Contact email
+        address:
+          heading: Workplace address
+          edit: Edit workplace address
+          complete: Add workplace address
+          missing: "You haven't provided a workplace address yet:"
 
     admin:
       claims:
@@ -196,6 +227,12 @@ en:
         employment_ended_on: Employment ended on
         employment_type: Employment type
       employer:
+        name: Name of business or trading name
+        contact: Name of contact person
+        abn: "ABN, if known"
+        email: Contact email
+        phone: Contact phone
+      workplace:
         name: Name of business or trading name
         contact: Name of contact person
         abn: "ABN, if known"

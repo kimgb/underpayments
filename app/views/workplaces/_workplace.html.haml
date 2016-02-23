@@ -1,0 +1,13 @@
+%h3 
+  Workplace
+  %small= link_if_unlocked(workplace, "(#{t('views.workplaces.workplace.edit')})", edit_workplace_path(workplace))
+:markdown
+  #{markdown_model(workplace)}
+  
+- if workplace.address
+  = render partial: "addresses/address", locals: { address: workplace.address, title: t('views.workplaces.workplace.address.heading'), edit: t('views.workplaces.workplace.address.edit') }
+- else
+  %h3= t('views.workplaces.workplace.address.heading')
+  %p
+    = t('views.workplaces.workplace.address.missing')
+    = link_to t('views.workplaces.workplace.address.complete'), new_workplace_address_path(workplace), class: "btn btn-sm btn-default"
