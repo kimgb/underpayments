@@ -122,7 +122,7 @@ en:
         country: Country
       form:
         user_title: Your address
-        claim_title: Where did you work?
+        workplace_title: Where did you work?
         employer_title: Employer's address
         commit: Submit
 
@@ -167,10 +167,10 @@ en:
         edit: Edit employer details
         email: Contact email
         address:
-          heading: Workplace address
-          edit: Edit workplace address
-          complete: Add workplace address
-          missing: "You haven't provided a workplace address yet:"
+          heading: Employer address
+          edit: Edit employer address
+          complete: Add employer address
+          missing: "You haven't provided an employer address yet:"
         
     workplaces:
       edit:
@@ -209,6 +209,7 @@ en:
       user:
         email: Email
         password: Password
+        
       profile:
         family_name: Family name
         given_name: Given name(s)
@@ -219,6 +220,7 @@ en:
         nationality: Nationality
         visa: Australian visa
         gender: Gender
+        
       claim:
         award: Award
         weekly_hours: Weekly hours
@@ -226,18 +228,21 @@ en:
         employment_began_on: Employment began on
         employment_ended_on: Employment ended on
         employment_type: Employment type
+        
       employer:
         name: Name of business or trading name
         contact: Name of contact person
         abn: "ABN, if known"
         email: Contact email
         phone: Contact phone
+        
       workplace:
         name: Name of business or trading name
         contact: Name of contact person
         abn: "ABN, if known"
         email: Contact email
         phone: Contact phone
+        
       address:
         street_address: Address line 1
         secondary_street_address: Address line 2
@@ -245,6 +250,7 @@ en:
         province: Province
         postal_code: Postal code
         country: Country
+        
     errors:
       messages:
         blank: "is required"

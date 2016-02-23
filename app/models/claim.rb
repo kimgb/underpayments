@@ -4,7 +4,6 @@ class Claim < ActiveRecord::Base
   belongs_to :employer
   belongs_to :workplace
   has_one :user
-  has_one :address, as: :addressable
   has_many :documents
 
   validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
@@ -140,21 +139,26 @@ class Claim < ActiveRecord::Base
   def coverage_complete?(evidence = :wage_evidence)
     coverage_gaps(evidence).empty?
   end
+  
+  def required_resources
+    @required_resources ||= [
+      self,
+      user,
+      if user then user.address end,
+      workplace,
+      if workplace then workplace.address end,
+      employer,
+      if employer then employer.address end
+    ].freeze
+  end
 
   # Confirms all information needed to generate Letter of Demand and fill out FCC forms is present
   # => Claim is validated
-  # => Claim is associated to a validated user that is associated to a validated address
-  # => Claim is associated to a validated address
-  # => Claim is associated to a validated employer
+  # => Claim is associated to a validated user with a validated address
+  # => Claim is associated to a validated workplace with a validated address
+  # => Claim is associated to a validated employer with a validated address
   def ready_to_submit?
-    required_resources = [self, user, if user then user.address end, address, employer].freeze
     required_resources.all?(&:present?) && required_resources.all?(&:valid?) && coverage_complete?
-
-    # old version, &&= makes false sticky
-    # ready = true
-    # required_resources.each { |res| ready &&= res.present? && res.valid? }
-
-    # ready
   end
   
   def submitted?
