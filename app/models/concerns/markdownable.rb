@@ -12,14 +12,16 @@ module Markdownable
   # end
 
   # simple rules, but class can override. Devise, for instance, creates a bunch more attributes.
-  def presentable_attributes
-    attributes.reject do |k, v| 
-      ["id", "created_at", "updated_at"].include?(k) || k.end_with?("_id", "_type")
+  module ClassMethods
+    def presentable_attributes
+      attribute_names.reject do |attr| 
+        ["id", "created_at", "updated_at"].include?(attr) || attr.end_with?("_id", "_type")
+      end
     end
-  end
 
-  def attr_transform
-    {}
+    def attr_transform
+      {}
+    end
   end
 
   # builds markdown attributes for key: value style presentation

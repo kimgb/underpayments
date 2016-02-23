@@ -36,16 +36,19 @@ ActiveRecord::Schema.define(version: 7) do
     t.string   "status"
     t.string   "comment"
     t.string   "award"
-    t.decimal  "weekly_hours",        precision: 10, scale: 2
-    t.decimal  "hourly_pay",          precision: 10, scale: 2
+    t.decimal  "weekly_hours",         precision: 10, scale: 2
+    t.decimal  "hourly_pay",           precision: 10, scale: 2
     t.date     "employment_began_on"
     t.date     "employment_ended_on"
     t.string   "employment_type"
     t.boolean  "regular_hours"
-    t.hstore   "exemplary_week"
+    t.jsonb    "exemplary_week"
+    t.boolean  "submitted_for_review",                          default: false
+    t.datetime "submitted_on"
+    t.jsonb    "total_hours_by_year"
     t.integer  "employer_id"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
   end
 
   add_index "claims", ["employer_id"], name: "index_claims_on_employer_id", using: :btree
@@ -76,8 +79,12 @@ ActiveRecord::Schema.define(version: 7) do
   create_table "profiles", force: :cascade do |t|
     t.string   "family_name"
     t.string   "given_name"
+    t.string   "preferred_name"
     t.date     "date_of_birth"
     t.string   "phone"
+    t.string   "gender"
+    t.string   "visa"
+    t.string   "nationality"
     t.string   "preferred_language"
     t.integer  "user_id"
     t.datetime "created_at",         null: false

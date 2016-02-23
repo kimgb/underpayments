@@ -6,7 +6,10 @@
   .form-group.form-inline
     = f.label :email
     %br/
-    = f.email_field :email, autofocus: true, class: "form-control"
+    .input-group
+      .input-group-addon
+        %i.glyphicon.glyphicon-envelope
+      = f.email_field :email, autofocus: true, class: "form-control"
     = f.submit "Send me password reset instructions", class: "btn btn-default"
 
 = render "users/shared/links"

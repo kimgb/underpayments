@@ -12,18 +12,34 @@
     .form-group
       = f.label :given_name, class: "control-label"
       = f.text_field :given_name, class: "form-control"
+      
+    .form-group
+      = f.label :preferred_name, class: "control-label"
+      = f.text_field :preferred_name, class: "form-control"
 
     .form-group.form-inline
       = f.label :date_of_birth, class: "control-label"
       %br/
-      = f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: Date.today.year - 20, end_year: Date.today.year - 100 }, { class: "form-control" }
+      = f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: Date.today.year - 20, end_year: profiles_lower_bound_year }, { class: "form-control" }
 
     .form-group
       = f.label :phone, class: "control-label"
       = f.telephone_field :phone, class: "form-control"
+      
+      .form-group
+      = f.label :nationality
+      = f.select :nationality, options_for_select(country_list, "AU"), {}, { class: "form-control" }
 
     .form-group
       = f.label :preferred_language, class: "control-label"
-      = f.select  :preferred_language, options_for_select([ ["English (Australia)", "en-AU"], ["Chinese (Taiwan)", "zh-TW"], ["Vietnamese", "vi"] ], "en-AU"), {}, { class: "form-control" }
+      = f.select :preferred_language, options_for_select([ ["English (Australia)", "en-AU"], ["Chinese (Taiwan)", "zh-TW"], ["Vietnamese", "vi"] ], "en-AU"), {}, { class: "form-control" }
+      
+    .form-group
+      = f.label :visa, class: "control-label"
+      = f.select :visa, options_for_select(visas_list, "unknown"), {}, { class: "form-control" }
+    
+    .form-group
+      = f.label :gender
+      = f.select :gender, options_for_select(gender_list, "U"), {}, { class: "form-control" }
 
   .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"

@@ -1,8 +1,8 @@
 %tr
   %td= user.claim.status || "None"
   %td= user.profile.full_name
-  %td= user.employer.name
-  %td= number_to_currency(user.claim.hourly_pay)
-  %td= user.claim.hours_worked
-  %td= number_to_currency(user.claim.lost_wages)
-  %td= link_to 'Review', admin_user_path(user)
+  %td{ class: "hidden-xs" }= user.employer.name
+  %td{ class: "hidden-xs" }= number_to_currency(user.claim.hourly_pay)
+  %td{ class: "hidden-xs" }= user.claim.hours_worked
+  %td{ class: "hidden-xs" }= number_to_currency(user.claim.lost_wages)
+  %td= link_to '', admin_user_path(user), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"

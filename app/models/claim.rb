@@ -6,17 +6,11 @@ class Claim < ActiveRecord::Base
   has_one :address, as: :addressable
   has_many :documents
 
-  # belongs_to :user
-
-  # belongs_to :employer
-  # accepts_nested_attributes_for :employer
-
-  # has_one :address, as: :addressable
-  # accepts_nested_attributes_for :address
-
-  # has_many :documents
-
-  validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type
+  validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
+    :employment_began_on, :employment_ended_on
+  
+  scope :submitted?, -> { where(submitted_for_review: true) }
+  scope :not_submitted?, -> { where(submitted_for_review: false) }
 
   # Testing AJAX estimate
   def summary
@@ -24,55 +18,51 @@ class Claim < ActiveRecord::Base
   end
 
   # Override Markdownable defaults
-  def presentable_attributes
-    super.merge({ "lost_wages" => lost_wages })
+  def self.presentable_attributes
+    super.concat(["lost_wages"]).reject{ |attr| ["submitted_for_review", "hours_self_witnessed"].include? attr }
   end
 
   # Provide transform methods for Markdownable
-  def attr_transform
+  def self.attr_transform
     {
-      "weekly_hours" => ActionController::Base.helpers.method(:number_with_delimiter),
-      "hourly_pay" => ActionController::Base.helpers.method(:number_to_currency),
-      "lost_wages" => ActionController::Base.helpers.method(:number_to_currency)
+      "weekly_hours" => { method: ActionController::Base.helpers.method(:number_with_delimiter), args: [] },
+      "hourly_pay" => { method: ActionController::Base.helpers.method(:number_to_currency), args: [] },
+      "lost_wages" => { method: ActionController::Base.helpers.method(:number_to_currency), args: [] },
+      "employment_ended_on" => { method: Date.instance_method(:to_formatted_s), args: [:rfc822] },
+      "employment_began_on" => { method: Date.instance_method(:to_formatted_s), args: [:rfc822] }
+      # "employment_ended_on" => { method: :to_formatted_s, args: [:rfc822] }
+      # "employment_began_on" => { method: :to_formatted_s, args: [:rfc822] },
     }
   end
 
-  def hours_worked
-    (weekly_hours * weeks_worked).round
+  # Inputs are Date objects
+  def hours_worked(period_start = employment_began_on, period_end = employment_ended_on)
+    (weekly_hours * weeks_worked(period_start, period_end))
   end
   
+  # Inputs are Date objects
+  def weeks_worked(period_start, period_end)
+    (period_end - period_start) / 7.0
+  end
+  
+  # Note use of Date#fy method that I added via refinement.
+  # Australian financial year is from 1 July to 30 June. By (my) convention, Date#fy returns the year that the financial year started in.
+  # see `lib/financial_years.rb`: loaded in `config/initializers/extensions.rb`.
   def hours_worked_by_year
-    if employment_began_on.fy == employment_ended_on.fy
-      { employment_began_on.fy => weeks_worked * weekly_hours }
-    else
-      Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
-        if year == employment_began_on.fy
-          [year, weeks_worked(employment_began_on, Date.new(year).end_of_fy) * weekly_hours]
-        elsif year == employment_ended_on.fy
-          [year, weeks_worked(Date.new(year).beginning_of_fy, employment_ended_on) * weekly_hours]
-        else
-          [year, weeks_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy) * weekly_hours]
-        end
-      end.flatten]
-    end
+    Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
+      if employment_began_on.fy == employment_ended_on.fy
+        [year, hours_worked]
+      elsif year == employment_began_on.fy
+        [year, hours_worked(employment_began_on, Date.new(year).end_of_fy)]
+      elsif year == employment_ended_on.fy
+        [year, hours_worked(Date.new(year).beginning_of_fy, employment_ended_on)]
+      else
+        [year, hours_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy)]
+      end
+    end.flatten]
   end
   
-  # def weeks_worked_by_year
-  #   if employment_began_on.year == employment_ended_on.year
-  #     { employment_began_on.year => weeks_worked }
-  #   else
-  #     Hash[*(employment_began_on.year..employment_ended_on.year).map do |year|
-  #       if year == employment_began_on.year
-  #         [year, weeks_worked(employment_began_on, Date.new(year).end_of_year)]
-  #       elsif year == employment_ended_on.year
-  #         [year, weeks_worked(Date.new(year).beginning_of_year, employment_ended_on)]
-  #       else
-  #         [year, weeks_worked(Date.new(year).beginning_of_year, Date.new(year).end_of_year)]
-  #       end
-  #     end.flatten]
-  #   end
-  # end
-  
+  # This is the minimum legal pay 
   def base_pay_for_employment
     hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
       memo += hours * award_minimum(year)
@@ -81,7 +71,7 @@ class Claim < ActiveRecord::Base
   
   # does not account for pay rises (or falls)
   def actual_pay_for_employment
-    hourly_pay * weekly_hours * weeks_worked
+    hourly_pay * hours_worked
   end
 
   def lost_wages
@@ -90,15 +80,12 @@ class Claim < ActiveRecord::Base
     pay_difference > 0 ? pay_difference.round(2) : 0
   end
 
-  def weeks_worked(period_start = employment_began_on, period_end = employment_ended_on)
-    (period_end - period_start) / 7.0
-  end
-
+  # 2015 and all horticulture rates are correct, poultry needs numbers for 2010-2014 f.y.'s
   def award_minimum(year = employment_began_on.year)
     {
       2015 => {
         "horticulture" => { "casual" => 21.61, "permanent" => 17.29 },
-        "poultry" => { "casual" => 21.61, "permanent" => 17.29 }
+        "poultry" => { "casual" => 22.34, "permanent" => 17.87 }
       }, 2014 => {
         "horticulture" => { "casual" => 21.09, "permanent" => 16.87 },
         "poultry" => { "casual" => 21.09, "permanent" => 16.87 }
@@ -168,8 +155,21 @@ class Claim < ActiveRecord::Base
 
     # ready
   end
+  
+  def submitted?
+    submitted_for_review
+  end
+  
+  def locked?
+    submitted?
+  end
 
   def owner
     user
+  end
+  
+  private
+  def set_total_hours_by_year
+    
   end
 end

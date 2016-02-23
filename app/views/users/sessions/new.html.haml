@@ -4,12 +4,18 @@
   .form-group
     = f.label :email
     %br/
-    = f.email_field :email, autofocus: true, class: "form-control"
+    .input-group
+      .input-group-addon
+        %i.glyphicon.glyphicon-envelope
+      = f.email_field :email, autofocus: true, class: "form-control"
 
   .form-group
     = f.label :password
     %br/
-    = f.password_field :password, autocomplete: "off", class: "form-control"
+    .input-group
+      .input-group-addon 
+        %i.glyphicon.glyphicon-lock
+      = f.password_field :password, autocomplete: "off", class: "form-control"
 
   - if devise_mapping.rememberable?
     .checkboxes
@@ -17,6 +23,6 @@
       = f.label :remember_me
 
   .actions
-    = f.submit "Log in", class: "btn btn-default"
+    = f.submit "Log in", class: "btn btn-sm btn-default"
 
 = render "users/shared/links"

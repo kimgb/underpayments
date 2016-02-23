@@ -10,7 +10,10 @@ class CreateClaims < ActiveRecord::Migration
       t.date :employment_ended_on
       t.string :employment_type
       t.boolean :regular_hours
-      t.hstore :exemplary_week
+      t.jsonb :exemplary_week
+      t.boolean :submitted_for_review, default: false
+      t.timestamp :submitted_on
+      t.jsonb :total_hours_by_year
       t.references :employer, index: true, foreign_key: true
 
       t.timestamps null: false

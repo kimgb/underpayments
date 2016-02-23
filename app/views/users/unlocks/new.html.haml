@@ -6,7 +6,10 @@
   .field
     = f.label :email
     %br/
-    = f.email_field :email, autofocus: true
+    .input-group
+      .input-group-addon
+        %i.glyphicon.glyphicon-envelope
+      = f.email_field :email, autofocus: true
 
   .actions
     = f.submit "Resend unlock instructions"

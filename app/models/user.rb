@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email, :encrypted_password
 
-  def presentable_attributes
-    attributes.slice("email")
+  def self.presentable_attributes
+    ["email"]
   end
 
   def admin?
@@ -30,5 +30,17 @@ class User < ActiveRecord::Base
 
   def ready_to_submit?
     claim && claim.ready_to_submit?
+  end
+  
+  def submitted?
+    claim && claim.submitted?
+  end
+  
+  def not_submitted?
+    !submitted?
+  end
+  
+  def locked?
+    submitted?
   end
 end

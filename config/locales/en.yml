@@ -48,18 +48,21 @@ en:
         password: Password
         commit: Submit
       show:
-        description: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and the details of your claim, including documents like bank statements that act as proof of what you were paid. Please add this information as prompted, below."
-        profile_heading: "Your details"
-        profile_not_provided: "You haven't provided your details yet:"
-        complete_profile: "Add your details"
-        address_heading: "Your address"
-        address_edit: "Edit your address"
-        address_not_provided: "You haven't provided your address yet:"
-        complete_address: "Add your address"
-        claim_heading: "Your claim"
-        claim_not_provided: "You haven't provided details of your claim yet:"
-        complete_claim: "Fill in your claim"
-
+        introduction: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and the details of your claim, including documents like bank statements that act as proof of what you were paid. Please add this information as prompted, below."
+        locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
+        profile:
+          heading: "Your details"
+          missing: "You haven't provided your details yet:"
+          complete: "Add your details"
+        address:
+          heading: "Your address"
+          edit: "Edit your address"
+          missing: "You haven't provided your address yet:"
+          complete: "Add your address"
+        claim:
+          heading: "Your claim"
+          missing: "You haven't provided details of your claim yet:"
+          complete: "Fill in your claim"
 
     claims:
       new:
@@ -67,7 +70,7 @@ en:
         intro: |
           Hello there. If you've done **work lately on a farm**, I'm here to help you find out if you've been ripped off—and help you get your money, if you want.
 
-          First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$21.61 per hour**.
+          First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$21.61 per hour** before tax.
 
           So, you think you've been underpaid? Let's find out.
       form:
@@ -82,15 +85,18 @@ en:
         commit: Let's fix this!
       claim:
         edit: Edit claim details
-        edit_address: Edit workplace address
-        address_heading: Workplace
-        address_not_provided: "You haven't provided a workplace address yet:"
-        complete_address: Add a workplace
-        employer_heading: Employer
-        employer_not_provided: "You haven't told us about your employer yet:"
-        complete_employer: Employer details
-        add_document: Add a supporting document
-        need_evidence: "We need evidence for:"
+        address:
+          edit: Edit workplace address
+          heading: Workplace
+          missing: "You haven't provided a workplace address yet:"
+          complete: Add a workplace
+        employer:
+          heading: Employer
+          missing: "You haven't told us about your employer yet:"
+          complete: Employer details
+        document: 
+          new: Add a supporting document
+        evidence: "We need evidence for:"
         to: until
         award: Industry
         weekly_hours: Avg. hours per week
@@ -99,7 +105,13 @@ en:
         employment_ended_on: Employment ended on
         employment_type: Employment type
         lost_wages: Calculated wages lost
-
+      review:
+        description: You've filled out enough of your claim details to send it to us for review. If you have more information to add, please do so. Otherwise, you can go ahead and "submit for review" below.
+        missing_time_evidence: It appears you haven't uploaded enough evidence of hours worked to cover your entire period of employment. You can opt to self-witness the hours worked, below.
+        certify: I certify that I worked 
+        hours: hours for
+        commit: Submit for review
+        
     addresses:
       address:
         street_address: Address line 1
@@ -129,6 +141,7 @@ en:
         date_of_birth: Date of birth
         phone: Phone
         preferred_language: Preferred language
+        edit: Edit personal details
 
     documents:
       form:
@@ -146,6 +159,7 @@ en:
         abn: ABN
         phone: Contact phone
         email: Contact email
+        edit: Edit employer details
 
     admin:
       claims:
@@ -180,9 +194,13 @@ en:
       profile:
         family_name: Family name
         given_name: Given name(s)
+        preferred_name: Preferred name
         date_of_birth: Date of birth
         phone: Phone
         preferred_language: Preferred language
+        nationality: Nationality
+        visa: Australian visa
+        gender: Gender
       claim:
         award: Award
         weekly_hours: Weekly hours

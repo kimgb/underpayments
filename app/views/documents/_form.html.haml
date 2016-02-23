@@ -25,4 +25,4 @@
       %br/
       = f.date_select :coverage_end_date, { selected: date_from_params(:coverage_end_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
 
-  .actions.text-right= f.submit t('views.documents.form.commit'), class: "btn btn-default"
+  .actions.text-right= f.submit t('views.documents.form.commit'), class: "btn btn-sm btn-default"

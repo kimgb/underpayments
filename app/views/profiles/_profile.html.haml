@@ -1,9 +1,6 @@
 %h3 
   Personal details
-  %small
-    (
-    = link_to 'Edit personal details', edit_profile_path 
-    )
+  %small= link_if_unlocked(profile, "(#{t('views.profiles.profile.edit')})", edit_profile_path)
 
 :markdown
   **#{ t('views.profiles.profile.family_name') }:** #{ profile.family_name }  

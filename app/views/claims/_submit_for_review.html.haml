@@ -1,0 +1,11 @@
+%p= t('views.claims.review.description')
+
+= form_for(claim, html: { class: "form", multipart: true }) do |f|
+  - if claim.coverage_gaps(:time_evidence).any?
+    %p= t('views.claims.review.missing_time_evidence')
+    .form-group.form-inline
+      .checkbox
+        = f.check_box :hours_self_witnessed
+        = f.label :hours_self_witnessed, t('views.claims.review.certify') + " #{claim.hours_worked} " + t('views.claims.review.hours') + " #{claim.employer.name}"
+  = f.hidden_field :submitted_for_review, value: true  
+  .actions.text-center= f.submit t('views.claims.review.commit'), class: "btn btn-lg btn-default"

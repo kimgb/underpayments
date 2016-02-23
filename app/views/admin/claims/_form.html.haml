@@ -4,11 +4,19 @@
   %fieldset
     .form-group
       = f.label :status, t('views.admin.claims.form.status'), class: "control-label"
-      = f.text_field :status, class: "form-control"
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-tag
+        = f.text_field :status, class: "form-control"
 
     .form-group
-      = f.label :comment, t('views.admin.claims.form.comment'), class: "control-label"
-      = f.text_area :comment, class: "form-control"
+      = f.label :comment, t('views.admin.claims.form.comment'), class: "control-label"\
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-pencil
+        = f.text_area :comment, class: "form-control"
 
   .actions.text-right
-    = f.submit t('views.admin.claims.form.commit'), class: "btn btn-default"
+    = button_tag "", type: "submit", class: "btn btn-default glyphicon glyphicon-ok pull-right", style: "margin-left: 1rem;"
+    = button_tag "", type: "reset", class: "btn btn-default glyphicon glyphicon-remove pull-right"
+    

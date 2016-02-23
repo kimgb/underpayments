@@ -1,12 +1,5 @@
 %h3 
   Employer
-  %small 
-    (
-    = link_to "Edit employer details", edit_employer_path(employer)
-    )
+  %small= link_if_unlocked(employer, "(#{t('views.employers.employer.edit')})", edit_employer_path(employer))
 :markdown
-  **#{ t('views.employers.employer.name') }:** #{ employer.name }  
-  **#{ t('views.employers.employer.contact') }:** #{ employer.contact }  
-  **#{ t('views.employers.employer.abn') }:** #{ employer.abn }  
-  **#{ t('views.employers.employer.phone') }:** #{ employer.phone }  
-  **#{ t('views.employers.employer.email') }:** #{ employer.email }
+  #{markdown_model(employer)}

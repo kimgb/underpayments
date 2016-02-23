@@ -36,6 +36,9 @@ module Underpaid
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+    
+    # Since we're using PostgreSQL's HStore, the schema dump may need to be in SQL, not Ruby
+    # config.active_record.schema_format = :sql
 
     # Set the application secret key through Figaro
     config.secret_key_base = Figaro.env.secret_key_base

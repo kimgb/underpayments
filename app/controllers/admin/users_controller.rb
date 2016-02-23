@@ -4,7 +4,9 @@ class Admin::UsersController < Admin::BaseController
   # GET /admin/users
   # GET /admin/users.json
   def index
-    @users = User.all.select(&:ready_to_submit?)
+    @submitted_users = User.select(&:submitted?)
+    @ready_users = User.select(&:ready_to_submit?).reject(&:submitted?)
+    @unready_users = User.select(&:not_submitted?).reject(&:ready_to_submit?)
   end
 
   # GET /admin/users/1

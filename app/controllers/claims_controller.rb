@@ -37,7 +37,7 @@ class ClaimsController < ApplicationController
 
         format.html { redirect_to new_user_path, notice: 'Claim was successfully created.' }
         # format.js   {  }
-        format.json { render :show, status: :created, location: @user }
+        # format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new }
         format.json { render json: @claim.errors, status: :unprocessable_entity }
@@ -50,8 +50,14 @@ class ClaimsController < ApplicationController
   def update
     respond_to do |format|
       if @claim.update(claim_params)
-        format.html { redirect_to @claim.user, notice: 'Claim was successfully updated.' }
-        format.json { render :show, status: :ok, location: @claim.user }
+        if claim_params[:submitted_for_review] == true
+          set_submission_date
+          format.html { redirect_to @claim.user, notice: 'Your claim has been submitted for review and is now locked for editing.' }
+          format.json { render :show, status: :ok, location: @claim.user }
+        else
+          format.html { redirect_to @claim.user, notice: 'Claim was successfully updated.' }
+          format.json { render :show, status: :ok, location: @claim.user }
+        end
       else
         format.html { render :edit }
         format.json { render json: @claim.errors, status: :unprocessable_entity }
@@ -70,6 +76,10 @@ class ClaimsController < ApplicationController
   end
 
   private
+  def set_submission_date
+    @claim.update_attribute(:submitted_on, DateTime.now)
+  end
+  
   def set_claim
     @claim = Claim.find(params[:id])
   end
@@ -83,7 +93,7 @@ class ClaimsController < ApplicationController
   end
 
   def claim_params
-    params.require(:claim).permit(:award, :weekly_hours, :hourly_pay, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment)
+    params.require(:claim).permit(:award, :weekly_hours, :hourly_pay, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed)
   end
 
   def authorise_owner!

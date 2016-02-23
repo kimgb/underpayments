@@ -1,40 +1,31 @@
 %h3
   Your claim
-  %small
-    (
-    =link_to t('views.claims.claim.edit'), edit_claim_path(claim)
-    )
+  %small= link_if_unlocked(claim, "(#{t('views.claims.claim.edit')})", edit_claim_path(claim))
 :markdown
-  **#{ t('views.claims.claim.award') }:** #{ claim.award }  
-  **#{ t('views.claims.claim.employment_type') }:** #{ claim.employment_type }  
-  **#{ t('views.claims.claim.weekly_hours') }:** #{ number_with_delimiter(claim.weekly_hours) }  
-  **#{ t('views.claims.claim.hourly_pay') }:** #{ number_to_currency(claim.hourly_pay) }  
-  **#{ t('views.claims.claim.lost_wages') }:** #{ number_to_currency(claim.lost_wages) }  
-  **#{ t('views.claims.claim.employment_began_on') }:** #{ claim.employment_began_on.to_s(:rfc822) }  
-  **#{ t('views.claims.claim.employment_ended_on') }:** #{ claim.employment_ended_on.to_s(:rfc822) }
+  #{markdown_model(claim)}  
 
 = render partial: "documents/documents", locals: { documents: claim.documents }
 - if claim.coverage_gaps.any?
-  = t('views.claims.claim.need_evidence')
-  %br
+  = t('views.claims.claim.evidence')
+  %br/
   %ul
     - claim.coverage_gaps.each do |gap|
       %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last)
 
-= link_to t('views.claims.claim.add_document'), new_claim_document_path(claim), class: "btn btn-default"
+= link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
 
 - if claim.address
-  = render partial: "addresses/address", locals: { address: claim.address, title: t('views.claims.claim.address_heading'), edit: t('views.claims.claim.edit_address') }
+  = render partial: "addresses/address", locals: { address: claim.address, title: t('views.claims.claim.address.heading'), edit: t('views.claims.claim.address.edit') }
 - else
-  %h3= t('views.claims.claim.address_heading')
+  %h3= t('views.claims.claim.address.heading')
   %p
-    = t('views.claims.claim.address_not_provided')
-    = link_to t('views.claims.claim.complete_address'), new_claim_address_path(claim), class: "btn btn-default"
+    = t('views.claims.claim.address.missing')
+    = link_to t('views.claims.claim.address.complete'), new_claim_address_path(claim), class: "btn btn-sm btn-default"
 
 - if claim.employer
   = render partial: "employers/employer", locals: { employer: claim.employer }
 - else
-  %h3= t('views.claims.claim.employer_heading')
+  %h3= t('views.claims.claim.employer.heading')
   %p
-    = t('views.claims.claim.employer_not_provided')
-    = link_to t('views.claims.claim.complete_employer'), new_claim_employer_path(claim), class: "btn btn-default"
+    = t('views.claims.claim.employer.missing')
+    = link_to t('views.claims.claim.employer.complete'), new_claim_employer_path(claim), class: "btn btn-sm btn-default"

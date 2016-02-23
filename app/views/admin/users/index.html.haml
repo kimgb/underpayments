@@ -5,12 +5,35 @@
     %tr
       %th Status
       %th Name
-      %th Employer
-      %th Hourly rate
-      %th Hours claimed
-      %th Lost wages
+      %th{ class: "hidden-xs" } Employer
+      %th{ class: "hidden-xs" } Hourly rate
+      %th{ class: "hidden-xs" } Hours claimed
+      %th{ class: "hidden-xs" } Lost wages
       %th
 
   %tbody
-    - @users.each do |user|
-      = render partial: 'admin/users/row', locals: { user: user }
+    %tr
+      %td{ colspan: 7 }
+        %em Submitted Claims
+    - if @submitted_users.any?
+      - @submitted_users.each do |user|
+        = render partial: 'admin/users/row', locals: { user: user }
+    - else
+      %tr
+        %td{ colspan: 7 }
+          No submitted claims
+    %tr
+      %td{ colspan: 7 }
+        %em Complete Claims
+    - if @ready_users.any?
+      - @ready_users.each do |user|
+        = render partial: 'admin/users/row', locals: { user: user }
+    - else
+      %tr
+        %td{ colspan: 7 }
+          No complete claims
+    -# %tr
+    -#   %td{ colspan: 7 }
+    -#     Incomplete Claims
+    -# - @unready_users.each do |user|
+    -#   = render partial: 'admin/users/row', locals: { user: user }

@@ -10,25 +10,29 @@
 
     .form-group
       = f.label :weekly_hours, t('views.claims.form.weekly_hours'), class: "control-label"
-      %br
-      = f.number_field :weekly_hours, class: "form-control"
+      /%br
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-time
+        = f.number_field :weekly_hours, class: "form-control"
 
     .form-group
       = f.label :hourly_pay, t('views.claims.form.hourly_pay'), class: "control-label"
       /%br
       .input-group
-        .input-group-addon $
+        .input-group-addon
+          %i.glyphicon.glyphicon-usd
         = f.number_field :hourly_pay, class: "form-control", min: "0", step: "0.01"
 
     .form-group.form-inline
       = f.label :employment_began_on, t('views.claims.form.employment_began_on'), class: "control-label"
       %br
-      = f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+      = f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
 
     .form-group.form-inline
       = f.label :employment_ended_on, t('views.claims.form.employment_ended_on'), class: "control-label"
       %br
-      = f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+      = f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
 
     .form-group
       = f.label :employment_type, t('views.claims.form.employment_type'), class: "control-label"
@@ -38,5 +42,5 @@
   %output#claim_output
 
   .actions.text-right
-    = f.button t('views.claims.form.calculate'), class: "btn btn-default", id: "claim_calculate"
-    = f.submit t('views.claims.form.commit'), class: "btn btn-default collapse", id: "claim_submit"
+    = f.button t('views.claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_calculate"
+    = f.submit t('views.claims.form.commit'), class: "btn btn-sm btn-default collapse", id: "claim_submit"
