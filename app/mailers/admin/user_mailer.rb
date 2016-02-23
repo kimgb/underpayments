@@ -1,5 +1,5 @@
 class Admin::UserMailer < ActionMailer::Base
-  default from: 'no-reply@nuw.org.au'
+  default from: 'no-reply@mg.nuw.org.au'
 
   def welcome_email(user)
     @user = user

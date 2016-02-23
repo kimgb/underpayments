@@ -10,11 +10,12 @@
     .container-fluid
       %header
         = render partial: 'layouts/authentication'
-
-      - if notice
-        %p.notice= notice
-      - if alert
-        %p.alert= alert
       
       %main
+        #flash
+          - if notice
+            %p.notice= notice
+          - if alert
+            %p.alert= alert
+        
         = yield

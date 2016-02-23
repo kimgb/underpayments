@@ -34,6 +34,14 @@ class Claim < ActiveRecord::Base
       # "employment_began_on" => { method: :to_formatted_s, args: [:rfc822] },
     }
   end
+  
+  def hours_evidenced
+    documents.sum(:hours)
+  end
+  
+  def wages_evidenced
+    documents.sum(:wages)
+  end
 
   # Inputs are Date objects
   def hours_worked(period_start = employment_began_on, period_end = employment_ended_on)

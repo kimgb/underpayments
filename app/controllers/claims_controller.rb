@@ -50,8 +50,10 @@ class ClaimsController < ApplicationController
   def update
     respond_to do |format|
       if @claim.update(claim_params)
-        if claim_params[:submitted_for_review] == true
+        if @claim.submitted_for_review
           set_submission_date
+          UserMailer.submission_email.deliver_now
+          
           format.html { redirect_to @claim.user, notice: 'Your claim has been submitted for review and is now locked for editing.' }
           format.json { render :show, status: :ok, location: @claim.user }
         else

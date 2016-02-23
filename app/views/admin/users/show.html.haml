@@ -26,5 +26,7 @@
     :markdown
       #{ markdown_model(@user.employer) }
 
-  - if @user.claim.address
-    = render partial: "addresses/address", locals: { address: @user.claim.address, title: "Workplace", edit: "" }
+  - if @user.workplace
+    %h3 Workplace
+    :markdown
+      #{ markdown_model(@user.workplace) }

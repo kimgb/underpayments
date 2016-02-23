@@ -15,5 +15,6 @@
         %i.glyphicon.glyphicon-pencil
       = f.text_area :body, class: "form-control", rows: 10, value: "Hello #{@user.profile.given_name},\n\n\n\nRegards,\n\n#{current_user.profile.full_name}\nNational Union of Workers"
 
-  .actions.text-right= button_tag "", type: "submit", class: "btn btn-default glyphicon glyphicon-send pull-right"
+  %p.actions.text-right= button_tag "", type: "submit", class: "btn btn-default glyphicon glyphicon-send pull-right"
+  %p &nbsp;
   /= f.submit t('message.send'), class: "btn btn-default"

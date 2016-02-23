@@ -12,13 +12,14 @@
     .container-fluid
       %header
         = render partial: 'layouts/authentication'
-        #flash
-          - if notice 
-            %p.notice= notice
-          - if alert
-            %p.alert= alert
 
       %main
+        #flash
+        - if notice 
+          %p.notice= notice
+        - if alert
+          %p.alert= alert
+          
         %header.align-right
           %hgroup
             %h1.title= t('views.layouts.application.title')

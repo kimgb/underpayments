@@ -59,6 +59,6 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
-    params.require(:document).permit(:file, :wage_evidence, :time_evidence, :coverage_start_date, :coverage_end_date)
+    params.require(:document).permit(:file, :wage_evidence, :wages, :time_evidence, :hours, :coverage_start_date, :coverage_end_date)
   end
 end

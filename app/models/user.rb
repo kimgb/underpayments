@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_one :address, as: :addressable
   belongs_to :claim
   has_one :employer, through: :claim
+  has_one :workplace, through: :claim
 
   validates_presence_of :email, :encrypted_password
 

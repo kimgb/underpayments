@@ -42,7 +42,7 @@ RSpec.describe Claim, type: :model do
 
   describe "#weeks_worked" do
     it "should return a long floating point" do
-      expect(@claim.weeks_worked).to eq(30.571428571428573)
+      expect(@claim.weeks_worked(@claim.employment_began_on, @claim.employment_ended_on)).to eq(30.571428571428573)
     end
   end
 
