@@ -8,12 +8,20 @@
 
     .form-group.form-inline
       .checkbox
-        = f.check_box :wage_evidence
+        = f.check_box :wage_evidence, data: { target: "#wages" }
         = f.label :wage_evidence, t('views.documents.form.wage_evidence')
 
       .checkbox
-        = f.check_box :time_evidence
+        = f.check_box :time_evidence, data: { target: "#hours" }
         = f.label :time_evidence, t('views.documents.form.time_evidence')
+        
+    .form-group.collapse#wages
+      = f.label :wages, t('views.documents.form.wages'), class: "control-label"
+      = f.number_field :wages, class: "form-control"
+      
+    .form-group.collapse#hours
+      = f.label :hours, t('views.documents.form.hours'), class: "control-label"
+      = f.number_field :hours, class: "form-control", min: "0", step: "0.01"
 
     .form-group.form-inline
       = f.label :coverage_start_date, t('views.documents.form.coverage_start_date'), class: "control-label"
@@ -26,3 +34,13 @@
       = f.date_select :coverage_end_date, { selected: date_from_params(:coverage_end_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
 
   .actions.text-right= f.submit t('views.documents.form.commit'), class: "btn btn-sm btn-default"
+  
+:javascript
+  $("input[type=checkbox]").on("click", function(e){
+    var box = $(e.target);
+    if (box.is(":checked")){
+      $(box.data().target).show();
+    } else {
+      $(box.data().target).hide();
+    }
+  })

@@ -150,6 +150,8 @@ en:
         coverage_end_date: "To:"
         wage_evidence: This document is evidence of wages paid to me
         time_evidence: This document is evidence of hours I have worked
+        wages: "How much does this document indicate you were paid?"
+        hours: "How many hours does this document indicate that you worked?"
         commit: Add document
 
     employers:

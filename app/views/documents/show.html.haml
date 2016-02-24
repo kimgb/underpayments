@@ -5,6 +5,13 @@
   %time{ datetime: @document.coverage_start_date }= @document.coverage_start_date.to_s(:long)
   to
   %time{ datetime: @document.coverage_end_date }= @document.coverage_end_date.to_s(:long)
+%p 
+  - if @document.wage_evidence
+    = "It is evidence of #{number_to_currency(@document.wages)} paid."
+  %br/
+  - if @document.time_evidence
+    = "It is evidence of #{number_with_delimiter(@document.hours)} hours worked."
+      
 %p= link_to image_tag(@document.file.thumb.url), @document.file.url
 %p
   = link_to "Delete", document_path(@document), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-default"
