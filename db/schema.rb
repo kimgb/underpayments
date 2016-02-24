@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 700) do
+ActiveRecord::Schema.define(version: 20160224052533) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,14 +42,13 @@ ActiveRecord::Schema.define(version: 700) do
     t.date     "employment_ended_on"
     t.string   "employment_type"
     t.boolean  "regular_hours"
-    t.jsonb    "exemplary_week"
-    t.boolean  "submitted_for_review",                          default: false
-    t.datetime "submitted_on"
-    t.jsonb    "total_hours_by_year"
+    t.hstore   "exemplary_week"
     t.integer  "employer_id"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.integer  "workplace_id"
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.boolean  "submitted_for_review"
+    t.datetime "submitted_on"
   end
 
   add_index "claims", ["employer_id"], name: "index_claims_on_employer_id", using: :btree
@@ -64,6 +63,8 @@ ActiveRecord::Schema.define(version: 700) do
     t.integer  "claim_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
+    t.decimal  "hours"
+    t.decimal  "wages"
   end
 
   add_index "documents", ["claim_id"], name: "index_documents_on_claim_id", using: :btree
@@ -81,16 +82,16 @@ ActiveRecord::Schema.define(version: 700) do
   create_table "profiles", force: :cascade do |t|
     t.string   "family_name"
     t.string   "given_name"
-    t.string   "preferred_name"
     t.date     "date_of_birth"
     t.string   "phone"
-    t.string   "gender"
-    t.string   "visa"
-    t.string   "nationality"
     t.string   "preferred_language"
     t.integer  "user_id"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "preferred_name"
+    t.string   "gender"
+    t.string   "visa"
+    t.string   "nationality"
   end
 
   add_index "profiles", ["user_id"], name: "index_profiles_on_user_id", using: :btree

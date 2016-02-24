@@ -1,6 +1,7 @@
 server 'robbed.nuw.org.au', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,    'git@github.com:kimgb/underpayments.git'
+set :branch,      'master'
 set :application, 'underpaid'
 set :user,        'deploy'
 set :puma_threads, [4, 16]

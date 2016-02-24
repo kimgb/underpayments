@@ -4,8 +4,6 @@ class CreateDocuments < ActiveRecord::Migration
       t.string      :file
       t.boolean     :wage_evidence
       t.boolean     :time_evidence
-      t.decimal     :hours
-      t.decimal     :wages
       t.date        :coverage_start_date
       t.date        :coverage_end_date
       t.references  :claim, index: true, foreign_key: true

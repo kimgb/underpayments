@@ -1,21 +1,21 @@
 ## UNDERPAID
 
-This Rails application, bespoke for the purposes of calculating Australian underpayments claims, was developed with Ruby 2.2.3, Rails 4.2.4, and rbenv 0.4.0. It uses a PostgreSQL database (9.3 during development). You will be able to specify the Postgres user and password using Figaro and the `config/application.yml` file, but as this application uses Postgres' `hstore` feature that user will need superuser in addition to the usual createdb powers.
+This Rails application, bespoke for the purposes of calculating Australian underpayments claims, was developed with Ruby 2.2.3, Rails 4.2.4, and rbenv 0.4.0. It's since been upgraded to Ruby 2.3, Rails 4.2.5.1. It uses a PostgreSQL database (9.3 and later 9.5 during development). You will be able to specify the Postgres user and password using Figaro and the `config/application.yml` file, but as this application uses Postgres' `hstore` feature that user will need superuser in addition to the usual createdb powers.
 
 
 ### SETUP
 
 #### RUBY
 
-For rbenv users, if you currently lack a Ruby 2.2.3 package, first make sure your `ruby-build` is up to date with `cd ~/.rbenv/plugins/ruby-build` and `git pull`. Then you should be able to run `rbenv install 2.2.3` without any problems.
+For rbenv users, if you currently lack a Ruby 2.3.0 package, first make sure your `ruby-build` is up to date with `cd ~/.rbenv/plugins/ruby-build` and `git pull`. Then you should be able to run `rbenv install 2.3.0` without any problems.
 
-You can try changing the version specified in `.ruby-version` but I can't guarantee functionality outside of 2.2.3.
+You can try changing the version specified in `.ruby-version`. The project was first developed with 2.2.3, but I ran the upgrade to 2.3 and that did involve some Gemfile tweaking (had to switch to the Sass version of Bootstrap, for instance). Safest to roll with 2.3.
 
 RVM users, as of writing, you're on your own.
 
 #### GEMS
 
-A `bundle install` should get you up and running: I've tried to keep the Gemfile quite explicit.
+A `bundle install` should get you up and running, probably followed by an `rbenv rehash`: I've tried to keep the Gemfile quite explicit.
 
 #### ENV VARS
 
@@ -32,7 +32,7 @@ As is, the application uses Mailgun for transactional emails. If you prefer a di
 
 ### TESTS
 
-Don't have any yet.
+Patchy at best, but I've tried to keep controller test coverage high: this makes it easier for me to find the big application breaking bugs. Some model testing is present. It's a work in progress.
 
 
 ### SERVICES
@@ -42,4 +42,4 @@ None as of writing.
 
 ### DEPLOYMENT
 
-Haven't got that far yet.
+Deployment with Capistrano. WIP
