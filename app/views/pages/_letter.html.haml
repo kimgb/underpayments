@@ -1,7 +1,7 @@
 %p= Date.today.strftime("%e %B %Y")
 %address
   :markdown
-    #{ markdown_postal_format(@user.employer.name, @user.claim.address) }
+    #{ markdown_postal_format(@user.employer.name, @user.employer.address) }
 
 :markdown
   Dear #{ @user.employer.name },
