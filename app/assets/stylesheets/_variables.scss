@@ -1,6 +1,9 @@
 // brand colours
 $brand-primary: #F5003D;
 
+//== Grid gutter width - WILL make columns look shit if I ever use them!!!
+$grid-gutter-width: 0px;
+
 $text-color: #EEEEEE;
 $headings-color: #0B8842;
 
@@ -32,7 +35,9 @@ $body-bg: none;
 
 //== Navbar
 // Basics
-$navbar-padding-horizontal: 0px;
+$navbar-border-radius: 0px;
+$navbar-margin-bottom: 0px;
+$navbar-padding-horizontal: 10px;
 $navbar-default-color: #BBB;
 $navbar-default-bg: darken($brand-primary, 25%);
 $navbar-default-border: darken($navbar-default-bg, 5%);

@@ -18,4 +18,9 @@ class Document < ActiveRecord::Base
   def days
     Array(coverage_start_date..coverage_end_date)
   end
+  
+  # may need refining
+  def fy
+    coverage_end_date.fy
+  end
 end

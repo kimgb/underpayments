@@ -95,7 +95,7 @@ class ClaimsController < ApplicationController
   end
 
   def claim_params
-    params.require(:claim).permit(:award, :weekly_hours, :hourly_pay, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed)
+    params.require(:claim).permit(:award, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed)
   end
 
   def authorise_owner!

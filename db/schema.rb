@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160224052533) do
+ActiveRecord::Schema.define(version: 20160224235909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,11 +44,12 @@ ActiveRecord::Schema.define(version: 20160224052533) do
     t.boolean  "regular_hours"
     t.hstore   "exemplary_week"
     t.integer  "employer_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
     t.integer  "workplace_id"
     t.boolean  "submitted_for_review"
     t.datetime "submitted_on"
+    t.boolean  "payslips_received",                             default: false
   end
 
   add_index "claims", ["employer_id"], name: "index_claims_on_employer_id", using: :btree
@@ -71,12 +72,12 @@ ActiveRecord::Schema.define(version: 20160224052533) do
 
   create_table "employers", force: :cascade do |t|
     t.string   "name"
-    t.string   "contact"
     t.string   "abn"
     t.string   "phone"
     t.string   "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "contact"
   end
 
   create_table "profiles", force: :cascade do |t|

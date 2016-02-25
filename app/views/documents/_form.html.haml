@@ -8,12 +8,14 @@
 
     .form-group.form-inline
       .checkbox
-        = f.check_box :wage_evidence, data: { target: "#wages" }
-        = f.label :wage_evidence, t('views.documents.form.wage_evidence')
+        = f.label :wage_evidence do
+          = f.check_box :wage_evidence, data: { target: "#wages" }
+          = t('views.documents.form.wage_evidence')
 
       .checkbox
-        = f.check_box :time_evidence, data: { target: "#hours" }
-        = f.label :time_evidence, t('views.documents.form.time_evidence')
+        = f.label :time_evidence do
+          = f.check_box :time_evidence, data: { target: "#hours" }
+          = t('views.documents.form.time_evidence')
         
     .form-group.collapse#wages
       = f.label :wages, t('views.documents.form.wages'), class: "control-label"

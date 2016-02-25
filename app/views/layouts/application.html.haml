@@ -16,17 +16,16 @@
       %header#top-header
         = render partial: 'layouts/authentication'
 
+      
       %main
         #flash
-        - if notice 
-          %p.notice= notice
-        - if alert
-          %p.alert= alert
-          
-        %header.align-right
-          %hgroup
-            %h1.title= t('views.layouts.application.title')
-            %h5.byline= t('views.layouts.application.byline')
+          - if notice 
+            %p.notice= notice
+          - if alert
+            %p.alert= alert
+
+        = render partial: 'layouts/banner'
+            
         = yield
 
         %footer.align-right

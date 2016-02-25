@@ -19,7 +19,7 @@ class Claim < ActiveRecord::Base
 
   # Override Markdownable defaults
   def self.presentable_attributes
-    super.concat(["lost_wages"]).reject{ |attr| ["submitted_for_review", "hours_self_witnessed"].include? attr }
+    super.concat(["lost_wages"]).reject{ |attr| ["submitted_for_review", "submitted_on", "hours_self_witnessed"].include? attr }
   end
 
   # Provide transform methods for Markdownable
@@ -37,6 +37,11 @@ class Claim < ActiveRecord::Base
   
   def hours_evidenced
     documents.sum(:hours)
+  end
+  
+  def hours_evidenced_by_year
+    documents.where(time_evidence: true).group_by(&:fy)
+      .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
   end
   
   def wages_evidenced
@@ -82,10 +87,27 @@ class Claim < ActiveRecord::Base
     hourly_pay * hours_worked
   end
 
-  def lost_wages
+  def stolen_wages
+    if payslips_received && coverage_complete?
+      stolen_wages_from_evidence
+    else
+      stolen_wages_from_calculation
+    end
+  end
+  alias_method :lost_wages, :stolen_wages
+  
+  def stolen_wages_from_calculation
     pay_difference = base_pay_for_employment - actual_pay_for_employment
     
     pay_difference > 0 ? pay_difference.round(2) : 0
+  end
+  
+  def stolen_wages_from_evidence
+    base_pay_for_employment - wages_evidenced
+  end
+  
+  def stolen_wages_from_declaration
+    
   end
 
   # 2015 and all horticulture rates are correct, poultry needs numbers for 2010-2014 f.y.'s

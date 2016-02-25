@@ -10,7 +10,7 @@
 
     .form-group
       = f.label :weekly_hours, t('views.claims.form.weekly_hours'), class: "control-label"
-      /%br
+      /%br/
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-time
@@ -18,25 +18,30 @@
 
     .form-group
       = f.label :hourly_pay, t('views.claims.form.hourly_pay'), class: "control-label"
-      /%br
+      /%br/
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-usd
         = f.number_field :hourly_pay, class: "form-control", min: "0", step: "0.01"
+        
+    .checkbox
+      = f.label :payslips_received do
+        = f.check_box :payslips_received
+        = t('views.claims.form.payslips_received')
 
     .form-group.form-inline
       = f.label :employment_began_on, t('views.claims.form.employment_began_on'), class: "control-label"
-      %br
+      %br/
       = f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
 
     .form-group.form-inline
       = f.label :employment_ended_on, t('views.claims.form.employment_ended_on'), class: "control-label"
-      %br
+      %br/
       = f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
 
     .form-group
       = f.label :employment_type, t('views.claims.form.employment_type'), class: "control-label"
-      %br
+      %br/
       = f.select :employment_type, options_for_select([["Casual", "casual"], ["Permanent", "permanent"]], "casual"), {}, { class: "form-control" }
 
   %output#claim_output

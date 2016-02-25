@@ -48,7 +48,10 @@ en:
         password: Password
         commit: Submit
       show:
-        introduction: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and the details of your claim, including documents like bank statements that act as proof of what you were paid. Please add this information as prompted, below."
+        introduction: |
+          You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and evidence of your claim—documents like payslips or bank statements that act as proof of what you were paid, or how many hours you worked. 
+          
+          Please add this information as prompted, below.
         locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
         profile:
           heading: "Your details"
@@ -78,6 +81,7 @@ en:
         award: "What industry did you work in?"
         weekly_hours: "How many hours per week did you work, on average?"
         hourly_pay: "How much were you paid per hour?"
+        payslips_received: "Were you given any payslips?"
         employment_began_on: "When did your employment begin?"
         employment_ended_on: "When did your employment end?"
         employment_type: "Were you casual, or permanent?"
