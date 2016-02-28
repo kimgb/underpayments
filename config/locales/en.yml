@@ -118,7 +118,7 @@ en:
         
     addresses:
       address:
-        street_address: Address line 1
+        street_address: Address
         secondary_street_address: Address line 2
         town: Town
         province: Province
@@ -250,7 +250,7 @@ en:
         phone: Contact phone
         
       address:
-        street_address: Address line 1
+        street_address: Address
         secondary_street_address: Address line 2
         town: Town
         province: Province
