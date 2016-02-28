@@ -19,7 +19,9 @@ class Claim < ActiveRecord::Base
 
   # Override Markdownable defaults
   def self.presentable_attributes
-    super.concat(["lost_wages"]).reject{ |attr| ["submitted_for_review", "submitted_on", "hours_self_witnessed"].include? attr }
+    super.concat(["lost_wages"]).reject do |attr| 
+      ["submitted_for_review", "submitted_on", "hours_self_witnessed", "payslips_received"].include? attr 
+    end
   end
 
   # Provide transform methods for Markdownable
