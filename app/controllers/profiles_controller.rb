@@ -13,6 +13,7 @@ class ProfilesController < ApplicationController
       redirect_to current_user, notice: 'This account already has a profile.'
     else
       @profile = Profile.new
+      @profile.build_address
     end
   end
 
@@ -20,6 +21,7 @@ class ProfilesController < ApplicationController
   # POST /profile.json
   def create
     @profile = current_user.build_profile(profile_params)
+    @profile.build_address(address_params) if address_params.any?
 
     respond_to do |format|
       if @profile.save
@@ -39,6 +41,8 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profile
   # PATCH/PUT /profile.json
   def update
+    @profile.build_address(address_params) if address_params.any?
+    
     respond_to do |format|
       if @profile.update(profile_params)
         format.html { redirect_to current_user, notice: 'Details successfully updated.' }
@@ -61,6 +65,16 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(:date_of_birth, :family_name, :given_name, :phone, :preferred_language, :nationality, :visa, :gender)
+    params.require(:profile).permit(
+      :date_of_birth, :family_name, :given_name, :preferred_name, 
+      :phone, :preferred_language, :nationality, :visa, :gender, 
+      address_attributes: [
+        :street_address, :town, :province, :postal_code, :country
+      ]
+    )
+  end
+  
+  def address_params
+    profile_params[:address_attributes]
   end
 end

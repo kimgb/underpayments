@@ -1,10 +1,11 @@
 class Claim < ActiveRecord::Base
   include Markdownable
-
-  belongs_to :employer
-  belongs_to :workplace
+  
   has_one :user
   has_many :documents
+
+  has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
+  has_many :companies, through: :claim_companies
 
   validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
     :employment_began_on, :employment_ended_on
@@ -35,6 +36,10 @@ class Claim < ActiveRecord::Base
       # "employment_ended_on" => { method: :to_formatted_s, args: [:rfc822] }
       # "employment_began_on" => { method: :to_formatted_s, args: [:rfc822] },
     }
+  end
+  
+  def presentable_companies
+    companies.all { |co| co.presentable_against?(self) }
   end
   
   def hours_evidenced
@@ -170,6 +175,16 @@ class Claim < ActiveRecord::Base
 
   def coverage_complete?(evidence = :wage_evidence)
     coverage_gaps(evidence).empty?
+  end
+  
+  def workplace
+    @workplace = claim_companies.workplace.first
+    @workplace && @workplace.company
+  end
+  
+  def employer
+    @employer = claim_companies.employer.first
+    @employer && @employer.company
   end
   
   def required_resources

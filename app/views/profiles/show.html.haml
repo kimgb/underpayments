@@ -1,0 +1,35 @@
+= form_for(@profile, url: profile_path, html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @profile }
+  = f.fields_for(:address) do |fa|
+    
+    %fieldset
+      %legend= t("views.addresses.form.title")
+      = fa.hidden_field :country, value: "AU"
+
+      .form-group
+        = fa.label :street_address, class: "control-label"
+        %br/
+        = fa.text_area :street_address, class: "form-control", rows: 2
+      -# .form-group
+      -#   = fa.label :secondary_street_address, class: "control-label"
+      -#   %br/
+      -#   = fa.text_field :secondary_street_address, class: "form-control"
+      .form-group
+        = fa.label :town, class: "control-label"
+        %br/
+        = fa.text_field :town, class: "form-control"
+      .form-group
+        = fa.label :province, class: "control-label"
+        %br/
+        = fa.select :province, options_for_select([["Australian Capital Territory", "ACT"], ["New South Wales", "NSW"], ["Northern Territory", "NT"], ["Queensland", "QLD"], ["South Australia", "SA"], ["Tasmania", "TAS"], ["Victoria", "VIC"], ["Western Australia", "WA"]]), {}, { class: "form-control" }
+      .form-group
+        = fa.label :postal_code, class: "control-label"
+        %br/
+        = fa.text_field :postal_code, class: "form-control"
+      -# .form-group
+        -# = fa.label :country, class: "control-label"
+        -# %br/
+        -# = fa.text_field :country, class: "form-control"
+
+    .actions.text-right
+      = fa.submit t('views.addresses.form.commit'), class: "btn btn-sm btn-default"

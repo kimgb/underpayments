@@ -3,10 +3,11 @@ class Address < ActiveRecord::Base
 
   validates_presence_of :street_address, :town, :province, :postal_code, :country
 
-  belongs_to :addressable, polymorphic: true
+  has_many :profiles
+  has_many :company_addresses
 
   def owner
-    addressable
+    false
   end
 
   # def markdown_postal_format(addressee)

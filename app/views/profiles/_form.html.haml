@@ -26,7 +26,7 @@
       = f.label :phone, class: "control-label"
       = f.telephone_field :phone, class: "form-control"
       
-      .form-group
+    .form-group
       = f.label :nationality
       = f.select :nationality, options_for_select(country_list, "AU"), {}, { class: "form-control" }
 
@@ -41,5 +41,27 @@
     .form-group
       = f.label :gender
       = f.select :gender, options_for_select(gender_list, "U"), {}, { class: "form-control" }
+      
+  %fieldset
+    %legend Address
+    = f.fields_for(:address) do |fa|
+      = fa.hidden_field :country, value: "AU"
+
+      .form-group
+        = fa.label :street_address, class: "control-label"
+        %br/
+        = fa.text_area :street_address, class: "form-control", rows: 2
+      .form-group
+        = fa.label :town, class: "control-label"
+        %br/
+        = fa.text_field :town, class: "form-control"
+      .form-group
+        = fa.label :province, class: "control-label"
+        %br/
+        = fa.select :province, options_for_select([["Australian Capital Territory", "ACT"], ["New South Wales", "NSW"], ["Northern Territory", "NT"], ["Queensland", "QLD"], ["South Australia", "SA"], ["Tasmania", "TAS"], ["Victoria", "VIC"], ["Western Australia", "WA"]]), {}, { class: "form-control" }
+      .form-group
+        = fa.label :postal_code, class: "control-label"
+        %br/
+        = fa.text_field :postal_code, class: "form-control"
 
   .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"

@@ -5,10 +5,8 @@ class User < ActiveRecord::Base
          :rememberable, :trackable, :validatable
 
   has_one :profile
-  has_one :address, as: :addressable
+  has_one :address, through: :profile
   belongs_to :claim
-  has_one :employer, through: :claim
-  has_one :workplace, through: :claim
 
   validates_presence_of :email, :encrypted_password
 

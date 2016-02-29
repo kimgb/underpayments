@@ -1,4 +1,16 @@
-FactoryGirl.define do
+FactoryGirl.define do  factory :company_address do
+    company nil
+address nil
+is_active false
+  end
+  factory :claim_company do
+    claim nil
+company nil
+is_active false
+is_employer false
+is_workplace false
+  end
+
   factory :user do
     email     "user@nuw.org.au"
     password  "password"
@@ -85,9 +97,10 @@ FactoryGirl.define do
     claim
   end
 
-  factory :employer do
-    name  "NUW"
-    phone "0392871777"
-    email "info@nuw.org.au"
+  factory :company do
+    name    "NUW"
+    contact "lrohde"
+    phone   "0392871777"
+    email   "info@nuw.org.au"
   end
 end

@@ -1,0 +1,42 @@
+= form_for(@claim_company, url: claim_claim_companies_path(@claim), html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @claim_company }
+
+  %fieldset
+    %legend Claim company
+    
+    .checkbox
+      = f.label :is_workplace do
+        = f.check_box :is_workplace
+        = "This company is my workplace"
+    .checkbox
+      = f.label :is_employer do
+        = f.check_box :is_employer
+        = "This company is my employer"
+    
+    = f.fields_for(:company) do |fc|
+      .form-group
+        = fc.label :name, class: "control-label"
+        %br/
+        = fc.text_field :name, class: "form-control"
+        
+      .form-group
+        = fc.label :contact, class: "control-label"
+        %br/
+        = fc.text_field :contact, class: "form-control"
+
+      .form-group
+        = fc.label :abn, class: "control-label"
+        %br/
+        = fc.text_field :abn, class: "form-control"
+
+      .form-group
+        = fc.label :phone, class: "control-label"
+        %br/
+        = fc.telephone_field :phone, class: "form-control"
+
+      .form-group
+        = fc.label :email, class: "control-label"
+        %br/
+        = fc.email_field :email, class: "form-control"
+
+  .actions.text-right= f.submit t('views.companies.form.commit'), class: "btn btn-default"

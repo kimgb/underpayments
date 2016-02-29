@@ -1,9 +1,11 @@
-= form_for([@addressable, @address], html: { class: "form", multipart: true }) do |f|
+= form_for([@company, @address], html: { class: "form", multipart: true }) do |f|
   = render partial: "layouts/errors", locals: { resource: @address }
 
   %fieldset
-    %legend= t("views.addresses.form.#{form_title}")
+    %legend= t("views.addresses.form.title")
     = f.hidden_field :country, value: "AU"
+    -# = hidden_field_tag :addressable_type, @addressable.class.to_s
+    -# = hidden_field_tag :addressable_id, @addressable.id
 
     .form-group
       = f.label :street_address, class: "control-label"

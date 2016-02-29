@@ -49,7 +49,7 @@ en:
         commit: Submit
       show:
         introduction: |
-          You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your employer; and evidence of your claim—documents like payslips or bank statements that act as proof of what you were paid, or how many hours you worked. 
+          You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your company; and evidence of your claim—documents like payslips or bank statements that act as proof of what you were paid, or how many hours you worked. 
           
           Please add this information as prompted, below.
         locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
@@ -94,9 +94,9 @@ en:
           heading: Workplace
           missing: "You haven't provided workplace details yet:"
           complete: Add workplace
-        employer:
+        company:
           heading: Employer
-          missing: "You haven't told us about your employer yet:"
+          missing: "You haven't told us about your company yet:"
           complete: Employer details
         document: 
           new: Add a supporting document
@@ -125,9 +125,9 @@ en:
         postal_code: Postal code
         country: Country
       form:
+        title: Address
         user_title: Your address
-        workplace_title: Where did you work?
-        employer_title: Employer's address
+        company_title: Company's address
         commit: Submit
 
     profiles:
@@ -158,25 +158,25 @@ en:
         hours: "How many hours does this document indicate that you worked?"
         commit: Add document
 
-    employers:
+    companies:
       edit:
-        title: Edit employer details
+        title: Edit company details
       new:
-        title: Enter employer details
+        title: Enter company details
       form:
-        commit: Save employer details
-      employer:
+        commit: Save company details
+      company:
         name: Name
         contact: Name of contact person
         abn: ABN
         phone: Contact phone
-        edit: Edit employer details
+        edit: Edit company details
         email: Contact email
         address:
-          heading: Employer address
-          edit: Edit employer address
-          complete: Add employer address
-          missing: "You haven't provided an employer address yet:"
+          heading: Company address
+          edit: Edit company address
+          complete: Add company address
+          missing: "You haven't provided an company address yet:"
         
     workplaces:
       edit:
@@ -235,7 +235,7 @@ en:
         employment_ended_on: Employment ended on
         employment_type: Employment type
         
-      employer:
+      company:
         name: Name of business or trading name
         contact: Name of contact person
         abn: "ABN, if known"

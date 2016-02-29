@@ -3,8 +3,12 @@
   %small= link_if_unlocked(profile, "(#{t('views.profiles.profile.edit')})", edit_profile_path)
 
 :markdown
-  **#{ t('views.profiles.profile.family_name') }:** #{ profile.family_name }  
-  **#{ t('views.profiles.profile.given_name') }:** #{ profile.given_name }  
-  **#{ t('views.profiles.profile.phone') }:** #{ profile.phone }  
-  **#{ t('views.profiles.profile.date_of_birth') }:** #{ profile.date_of_birth }  
-  **#{ t('views.profiles.profile.preferred_language') }:** #{ profile.preferred_language }
+  #{markdown_model(profile)}
+
+- if profile.address
+  = render partial: "addresses/address", locals: { address: profile.address, title: t('views.users.show.address.heading'), edit: t('views.users.show.address.edit') }
+- else
+  %h4= t('views.users.show.address.heading')
+  %p
+    = t('views.users.show.address.missing')
+    = link_to t('views.users.show.address.complete'), new_profile_address_path(addressable_type: "Profile", addressable_id: profile.id), class: "btn btn-sm btn-default"
