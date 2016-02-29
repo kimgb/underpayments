@@ -95,9 +95,9 @@ en:
           missing: "You haven't provided workplace details yet:"
           complete: Add workplace
         company:
-          heading: Employer
+          heading: Company
           missing: "You haven't told us about your company yet:"
-          complete: Employer details
+          complete: Company details
         document: 
           new: Add a supporting document
         evidence: "We need evidence for:"
@@ -142,6 +142,7 @@ en:
       profile:
         family_name: Family name
         given_name: Given name(s)
+        preferred_name: Preferred name
         date_of_birth: Date of birth
         phone: Phone
         preferred_language: Preferred language

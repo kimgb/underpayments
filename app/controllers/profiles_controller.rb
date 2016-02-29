@@ -36,6 +36,7 @@ class ProfilesController < ApplicationController
 
   # GET /profile/edit
   def edit
+    @profile.build_address
   end
 
   # PATCH/PUT /profile

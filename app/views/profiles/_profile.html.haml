@@ -11,4 +11,4 @@
   %h4= t('views.users.show.address.heading')
   %p
     = t('views.users.show.address.missing')
-    = link_to t('views.users.show.address.complete'), new_profile_address_path(addressable_type: "Profile", addressable_id: profile.id), class: "btn btn-sm btn-default"
+    = link_to t('views.users.show.address.complete'), edit_profile_path, class: "btn btn-sm btn-default"

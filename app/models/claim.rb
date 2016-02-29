@@ -191,6 +191,7 @@ class Claim < ActiveRecord::Base
     @required_resources ||= [
       self,
       user,
+      if user then user.profile end,
       if user then user.address end,
       workplace,
       if workplace then workplace.address end,
