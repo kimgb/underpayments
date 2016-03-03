@@ -10,6 +10,10 @@ class Company < ActiveRecord::Base
   has_one :address, through: :company_address
 
   validates_presence_of :name, :contact
+  
+  def done?
+    valid? && address.valid? && phone || email
+  end
 
   def owner
     false

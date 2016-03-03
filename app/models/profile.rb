@@ -5,6 +5,11 @@ class Profile < ActiveRecord::Base
   belongs_to :address
   
   accepts_nested_attributes_for :address
+  
+  validates_presence_of :family_name, :given_name, :phone, :date_of_birth, 
+    :nationality
+    
+  alias_method :done?, :valid?
 
   def self.presentable_attributes
     super.reject do |attr| 

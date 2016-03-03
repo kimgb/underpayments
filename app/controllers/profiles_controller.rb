@@ -1,6 +1,7 @@
 class ProfilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_profile, only: [:show, :edit, :update]
+  before_action :set_address, only: [:show, :edit, :update]
   before_action :authorise_owner!, only: [:edit, :update]
 
   # GET /profile
@@ -13,7 +14,7 @@ class ProfilesController < ApplicationController
       redirect_to current_user, notice: 'This account already has a profile.'
     else
       @profile = Profile.new
-      @profile.build_address
+      @address = @profile.build_address
     end
   end
 
@@ -36,16 +37,13 @@ class ProfilesController < ApplicationController
 
   # GET /profile/edit
   def edit
-    @profile.build_address
   end
 
   # PATCH/PUT /profile
   # PATCH/PUT /profile.json
   def update
-    @profile.build_address(address_params) if address_params.any?
-    
     respond_to do |format|
-      if @profile.update(profile_params)
+      if @profile.update(profile_params) && @address.update(address_params)
         format.html { redirect_to current_user, notice: 'Details successfully updated.' }
         format.json { render :show, status: :ok, location: current_user }
       else
@@ -63,6 +61,10 @@ class ProfilesController < ApplicationController
 
   def set_profile
     @profile = current_user.profile
+  end
+  
+  def set_address
+    @address = @profile.address || @profile.build_address
   end
 
   def profile_params

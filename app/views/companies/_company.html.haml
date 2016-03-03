@@ -8,7 +8,7 @@
 - if company.address
   = render partial: "addresses/address", locals: { address: company.address, title: t('views.companies.company.address.heading'), edit: t('views.companies.company.address.edit') }
 - else
-  %h3= t('views.companies.company.address.heading')
+  %h4= t('views.companies.company.address.heading')
   %p
     = t('views.companies.company.address.missing')
-    = link_to t('views.companies.company.address.complete'), new_company_address_path(company), class: "btn btn-sm btn-default"
+    = link_to t('views.companies.company.address.complete'), new_company_company_address_path(company), class: "btn btn-sm btn-default"

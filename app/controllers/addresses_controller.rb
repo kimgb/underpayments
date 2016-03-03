@@ -6,7 +6,7 @@ class AddressesController < ApplicationController
   # GET /addressable/:addressable_id/addresses/new
   def new
     @address = Address.new
-    @company_address = @address.company_addresses.build(company: @company)
+    # @company_address = @address.company_addresses.build(company: @company)
   end
 
   # GET /addresses/1/edit
@@ -17,7 +17,7 @@ class AddressesController < ApplicationController
   # POST /addresses.json
   def create
      @address = Address.new(address_params)
-     @company_address = @address.company_addresses.build(is_active: true, company: @company)
+    #  @company_address = @address.company_addresses.build(is_active: true, company: @company)
 
     respond_to do |format|
       if @address.save

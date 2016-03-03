@@ -2,6 +2,7 @@ class CompaniesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   before_action :set_claim, only: [:new, :create]
+  before_action :set_claim_company, only: [:edit, :update]
   before_action :authorise_admin!, except: [:new, :create, :edit, :update]
 
   # GET /companies/1
@@ -17,6 +18,7 @@ class CompaniesController < ApplicationController
 
   # GET /companies/1/edit
   def edit
+    
   end
 
   # POST /claims/1/companies
@@ -67,6 +69,10 @@ class CompaniesController < ApplicationController
 
   def set_claim
     @claim = Claim.find(params[:claim_id])
+  end
+  
+  def set_claim_company
+    @claim_company = ClaimCompany.where(claim: @claim, company: @company).first
   end
 
   def company_params

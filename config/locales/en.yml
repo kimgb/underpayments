@@ -20,13 +20,63 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  helpers:
+    addresses:
+      states_list:
+        ACT: Australian Capital Territory
+        NSW: New South Wales
+        NT: Northern Territory
+        QLD: Queensland
+        SA: South Australia
+        TAS: Tasmania
+        VIC: Victoria
+        WA: Western Australia
+    profiles:
+      languages_list:
+        en-AU: English (Australian)
+        zh: Chinese (Mandarin)
+        zh-TW: Chinese (Taiwanese)
+        vi: Vietnamese
+      visas_list:
+        resident: Australian citizen or permanent resident
+        unknown: I don't know
+        v400: 400 - Temporary Work (Short Stay Activity) visa
+        v416: 416 - Special Program visa for the seasonal worker programme
+        v417: 417 - Working Holiday visa
+        v444: 444 - Special Category visa for New Zealand citizens
+        v457: 457 - Temporary Work - Skilled visa
+        v201: 201 - In-country Special Humanitarian visa
+        v202: 202 - Global Special Humanitarian visa
+        v203: 203 - Emergency Rescue visa
+        v204: 204- Woman at risk visa
+        other: Other visa
+      gender_list:
+        female: Female
+        male: Male
+        refused: I'd rather not say
+        neither: It's not that simple
+      country_list:
+        australia: Australia
+        new_zealand: New Zealand
+        tonga: Tonga
+        fiji: Fiji
+        taiwan: Taiwan
+        samoa: Samoa
+        kiribati: Kiribati
+        nauru: Nauru
+        papua_new_guinea: Papua New Guinea
+        solomon_islands: Solomon Islands
+        east_timor: Timor-Leste
+        tuvalu: Tuvalu
+        vanuatu: Vanuatu
+    
   views:
     layouts:
       application:
         title: UNDERPAID?
         byline: (...or just overworked?)
         footer: |
-          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-02-09">9 February, 2016</time>.
+          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-02-29">29 February, 2016</time>.
       authentication:
         signed_in: Signed in as
         sign_out: Sign out
@@ -48,10 +98,14 @@ en:
         password: Password
         commit: Submit
       show:
-        introduction: |
-          You're off to a good start. In order to begin proceedings for you, we need certain pieces of information, things like: your address; the address of your place of work; your company; and evidence of your claim—documents like payslips or bank statements that act as proof of what you were paid, or how many hours you worked. 
-          
-          Please add this information as prompted, below.
+        introduction: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information:"
+        requirements:
+          profile: 'Your personal details'
+          address: 'Your address'
+          claim: 'Details of your employment, including evidence of hours worked and wages paid'
+          workplace: 'Details of your workplace, including a contact person and address'
+          employer: 'Details of your employer, if different from your workplace'
+        add: Please add these as prompted, below.
         locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
         profile:
           heading: "Your details"
@@ -173,6 +227,7 @@ en:
         phone: Contact phone
         edit: Edit company details
         email: Contact email
+        remove: Remove
         address:
           heading: Company address
           edit: Edit company address
@@ -225,7 +280,7 @@ en:
         phone: Phone
         preferred_language: Preferred language
         nationality: Nationality
-        visa: Australian visa
+        visa: Australian visa status
         gender: Gender
         
       claim:

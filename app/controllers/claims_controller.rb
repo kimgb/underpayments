@@ -35,7 +35,8 @@ class ClaimsController < ApplicationController
       if @claim.save
         session[:claim_id] = @claim.id unless current_user.present?
 
-        format.html { redirect_to new_user_path, notice: 'Claim was successfully created.' }
+        format.html { redirect_to pages_path(page: "estimate", claim_id: @claim) }
+        # format.html { redirect_to new_user_path, notice: 'Claim was successfully created.' }
         # format.js   {  }
         # format.json { render :show, status: :created, location: @user }
       else

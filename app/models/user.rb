@@ -25,21 +25,17 @@ class User < ActiveRecord::Base
   def owner
     self
   end
+  
+  # claim pass-through methods, very simple, excuse the meta-programming
+  [:ready_to_submit?, :submitted?, :employer, :workplace, :locked?].each do |m|
+    define_method(m) { claim && claim.send(m) }
+  end
 
   def owns?(resource)
-    # Employer#owner returns false - puzzle piece to be considered.
+    # e.g. Companies and Addresses can't be owned.
+    # Such resources are not edited, just disassociated.
     admin? || self == resource.owner
   end
-
-  def ready_to_submit?
-    claim && claim.ready_to_submit?
-  end
-  
-  def submitted?
-    claim && claim.submitted?
-  end
-  
-  alias_method :locked?, :submitted?
   
   def not_submitted?
     !submitted?

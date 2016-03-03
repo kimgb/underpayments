@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     resources :documents, except: [:index, :new, :create]
     resources :claim_companies, except: [:index, :new, :create]
     resources :companies, except: [:index] do
-      resources :addresses, only: [:new, :create]
+      resources :company_addresses, only: [:new, :create]
     end
     resources :addresses, except: [:index, :new, :create]
     resource  :profile

@@ -9,6 +9,8 @@ class Address < ActiveRecord::Base
   def owner
     false
   end
+  
+  alias_method :done?, :valid?
 
   # def markdown_postal_format(addressee)
   #   <<-MD.gsub(/^\s+\|/, "")

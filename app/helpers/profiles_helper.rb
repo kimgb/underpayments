@@ -3,50 +3,55 @@ module ProfilesHelper
     Date.today.year - 100
   end
   
+  def languages_list
+    [
+      [I18n.t('helpers.profiles.languages_list.en-AU'), "en-AU"],
+      [I18n.t('helpers.profiles.languages_list.zh-TW'), "zh-TW"],
+      [I18n.t('helpers.profiles.languages_list.vi'), "vi"]
+    ]
+  end
+  
   def visas_list
     [
-      ["I don't know", "unknown"],
-      ["400 - Temporary Work (Short Stay Activity) visa", "400"], 
-      ["416 - Special Program visa for the seasonal worker programme", "416"], 
-      ["417 - Working Holiday visa", "417"], 
-      ["444 - Special Category visa for New Zealand citizens", "444"], 
-      ["457 - Temporary Work - Skilled visa", "457"], 
-      ["461 - New Zealand Citizen Family Relationship temporary visa", "461"], 
-      ["186 - Employer Nomination Scheme", "186"], 
-      ["187 - Regional Sponsored Migration Scheme visa", "187"], 
-      ["189 - Skilled Independent visa", "189"], 
-      ["190 - Skilled Nominated visa", "190"], 
-      ["201 - In-country Special Humanitarian visa", "201"], 
-      ["202 - Global Special Humanitarian visa", "202"], 
-      ["203 - Emergency Rescue visa", "203"], 
-      ["204 - Woman at risk visa", "204"] 
+      [I18n.t('helpers.profiles.visas_list.resident'), "resident"],
+      [I18n.t('helpers.profiles.visas_list.unknown'), "unknown"],
+      [I18n.t('helpers.profiles.visas_list.v400'), "400"], 
+      [I18n.t('helpers.profiles.visas_list.v416'), "416"], 
+      [I18n.t('helpers.profiles.visas_list.v417'), "417"], 
+      [I18n.t('helpers.profiles.visas_list.v444'), "444"], 
+      [I18n.t('helpers.profiles.visas_list.v457'), "457"], 
+      [I18n.t('helpers.profiles.visas_list.v201'), "201"], 
+      [I18n.t('helpers.profiles.visas_list.v202'), "202"], 
+      [I18n.t('helpers.profiles.visas_list.v203'), "203"], 
+      [I18n.t('helpers.profiles.visas_list.v204'), "204"],
+      [I18n.t('helpers.profiles.visas_list.other'), "other"]
     ]
   end
   
   def country_list
     [ 
-      ["Australia", "AU"], 
-      ["New Zealand", "NZ"], 
-      ["Tonga", "TO"], 
-      ["Fiji", "FJ"], 
-      ["Taiwan", "TW"], 
-      ["Samoa", "WS"], 
-      ["Kiribati", "KI"], 
-      ["Nauru", "NR"], 
-      ["Papua New Guinea", "PG"], 
-      ["Solomon Islands", "SB"], 
-      ["Timor-Leste", "TL"], 
-      ["Tuvalu", "TV"], 
-      ["Vanuatu", "VU"]
+      [I18n.t('helpers.profiles.country_list.australia'), "AU"], 
+      [I18n.t('helpers.profiles.country_list.new_zealand'), "NZ"], 
+      [I18n.t('helpers.profiles.country_list.tonga'), "TO"], 
+      [I18n.t('helpers.profiles.country_list.fiji'), "FJ"], 
+      [I18n.t('helpers.profiles.country_list.taiwan'), "TW"], 
+      [I18n.t('helpers.profiles.country_list.samoa'), "WS"], 
+      [I18n.t('helpers.profiles.country_list.kiribati'), "KI"], 
+      [I18n.t('helpers.profiles.country_list.nauru'), "NR"], 
+      [I18n.t('helpers.profiles.country_list.papua_new_guinea'), "PG"], 
+      [I18n.t('helpers.profiles.country_list.solomon_islands'), "SB"], 
+      [I18n.t('helpers.profiles.country_list.east_timor'), "TL"], 
+      [I18n.t('helpers.profiles.country_list.tuvalu'), "TV"], 
+      [I18n.t('helpers.profiles.country_list.vanuatu'), "VU"]
     ]
   end
   
   def gender_list
     [ 
-      ["I'd rather not say", "U"], 
-      ["Female", "F"], 
-      ["Male", "M"], 
-      ["It's not that simple", "O"] 
+      [I18n.t('helpers.profiles.gender_list.refused'), "U"], 
+      [I18n.t('helpers.profiles.gender_list.female'), "F"], 
+      [I18n.t('helpers.profiles.gender_list.male'), "M"], 
+      [I18n.t('helpers.profiles.gender_list.neither'), "N"] 
     ]
   end
 end

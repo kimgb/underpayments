@@ -13,12 +13,15 @@
       %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last)
 
 = link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
-    
+
+-# present attached companies: zero, one, or two
 - if claim.presentable_companies.any?
-  - claim.presentable_companies.each do |co|
-    = render partial: "companies/company", locals: { company: co, claim: claim } 
-- else
+  - claim.presentable_companies.each do |cc|
+    = render partial: "claim_companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
+
+-# if employer or workplace is lacking, allow additional company
+- unless claim.employer && claim.workplace
   %h3= t('views.claims.claim.company.heading')
   %p
     = t('views.claims.claim.company.missing')
-    = link_to t('views.claims.claim.company.complete'), new_claim_company_path(claim), class: "btn btn-sm btn-default"
+    = link_to t('views.claims.claim.company.complete'), new_claim_claim_company_path(claim), class: "btn btn-sm btn-default"

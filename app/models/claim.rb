@@ -39,7 +39,8 @@ class Claim < ActiveRecord::Base
   end
   
   def presentable_companies
-    companies.all { |co| co.presentable_against?(self) }
+    claim_companies.all { |cc| cc.company.presentable_against?(self) }
+    # companies.all { |co| co.presentable_against?(self) }
   end
   
   def hours_evidenced
@@ -102,6 +103,10 @@ class Claim < ActiveRecord::Base
     end
   end
   alias_method :lost_wages, :stolen_wages
+  
+  def underpaid?
+    stolen_wages > 0
+  end
   
   def stolen_wages_from_calculation
     pay_difference = base_pay_for_employment - actual_pay_for_employment
@@ -209,13 +214,14 @@ class Claim < ActiveRecord::Base
     required_resources.all?(&:present?) && required_resources.all?(&:valid?) && coverage_complete?
   end
   
+  def done?
+    valid? && coverage_complete? && coverage_complete?(:time_evidence)
+  end
+  
   def submitted?
     submitted_for_review
   end
-  
-  def locked?
-    submitted?
-  end
+  alias_method :locked?, :submitted?
 
   def owner
     user

@@ -4,7 +4,7 @@ class PagesController < ApplicationController
       redirect_to show_user_path(current_user)
     else
       @page = params[:page]
-      @user = User.find(params[:user])
+      @entity = find_entity
 
       render :show, layout: (params[:layout] == "print" ? false : :default)
     end
@@ -14,5 +14,13 @@ class PagesController < ApplicationController
 
   def test_exception_notification
     raise "Testing, 1 2 3"
+  end
+  
+  def find_entity
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return $1.classify.constantize.find(value)
+      end
+    end
   end
 end
