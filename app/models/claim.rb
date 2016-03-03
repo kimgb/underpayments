@@ -9,23 +9,18 @@ class Claim < ActiveRecord::Base
 
   validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
     :employment_began_on, :employment_ended_on
+  validate :employment_begins_before_employment_ends
   
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
-
-  # Testing AJAX estimate
-  def summary
-    "Summary of claim"
-  end
-
-  # Override Markdownable defaults
+  
+  ### MARKDOWNABLE CONFIG
   def self.presentable_attributes
     super.concat(["lost_wages"]).reject do |attr| 
       ["submitted_for_review", "submitted_on", "hours_self_witnessed", "payslips_received"].include? attr 
     end
   end
 
-  # Provide transform methods for Markdownable
   def self.attr_transform
     {
       "weekly_hours" => { method: ActionController::Base.helpers.method(:number_with_delimiter), args: [] },
@@ -38,6 +33,7 @@ class Claim < ActiveRecord::Base
     }
   end
   
+  ### PUBLIC METHODS
   def presentable_companies
     claim_companies.all { |cc| cc.company.presentable_against?(self) }
     # companies.all { |co| co.presentable_against?(self) }
@@ -228,6 +224,13 @@ class Claim < ActiveRecord::Base
   end
   
   private
+  ### CUSTOM VALIDATIONS
+  def employment_begins_before_employment_ends
+    if employment_began_on > employment_ended_on
+      errors.add(:employment_began_on, "must be before employment end date")
+    end
+  end
+  
   def set_total_hours_by_year
     
   end
