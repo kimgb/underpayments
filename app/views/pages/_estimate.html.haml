@@ -3,5 +3,10 @@
 
 - if @entity.underpaid?
   This means you were underpaid #{number_to_currency(@entity.stolen_wages)}. Want to get it back?
-  
-  = link_to "Let's fix this!", new_user_path, class: "btn btn-sm btn-default"
+
+  .actions.text-right
+    = link_to t('views.claims.new.commit'), new_user_path, class: "btn btn-sm btn-default"
+- else
+  You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member,
+  %a{ href: "https://www.nuw.org.au" }contact us
+  and we may be able to look into your case.
