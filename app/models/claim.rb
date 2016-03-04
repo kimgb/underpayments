@@ -76,7 +76,7 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
   end
   
   def presentable_companies
-    claim_companies.where("true in (is_workplace, is_employer)").collect(&:company)
+    claim_companies.where("true in (is_workplace, is_employer)")
     # companies.all { |co| co.presentable_against?(self) }
   end
   

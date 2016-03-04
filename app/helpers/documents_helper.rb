@@ -4,6 +4,10 @@ module DocumentsHelper
   end
 
   def basename(doc)
-    Pathname(doc.file.url).basename
+    if doc.file.present?
+      Pathname(doc.file.url).basename
+    else
+      "Affidavit"
+    end
   end
 end

@@ -1,7 +1,7 @@
 %h3 
   Company
   = home_title(company, claim) 
-  %small= link_to "(#{t('views.companies.company.remove')})", claim_company_path(claim_company), data: { confirm: "Are you sure?" }, method: :delete
+  %small= link_if_unlocked(company, "(#{t('views.companies.company.remove')})", claim_company_path(claim_company), data: { confirm: "Are you sure?" }, method: :delete)
   -# %small= link_if_unlocked(company, "(#{t('views.companies.company.edit')})", edit_claim_company_path(claim_company))
 :markdown
   #{markdown_model(company)}

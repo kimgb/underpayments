@@ -29,7 +29,7 @@
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-usd
-        = f.number_field :wages, class: "form-control"
+        = f.number_field :wages, class: "form-control", min: "0", step: "0.01"
       
     .form-group.collapse#hours
       = f.label :hours, t('views.documents.form.hours'), class: "control-label"
