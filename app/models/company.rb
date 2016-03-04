@@ -12,7 +12,7 @@ class Company < ActiveRecord::Base
   validates_presence_of :name, :contact
   
   def done?
-    valid? && address.valid? && phone || email
+    valid? && address.present? && address.valid? && phone || email
   end
 
   def owner

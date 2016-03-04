@@ -2,10 +2,13 @@
   By the numbers, you were paid #{number_to_currency(@entity.actual_pay_for_employment)}. The legal bare minimum pay for the hours you worked is #{number_to_currency(@entity.base_pay_for_employment)}.
 
 - if @entity.underpaid?
-  This means you were underpaid #{number_to_currency(@entity.stolen_wages)}. Want to get it back?
+  %p{ style: "font-size: 2.4rem;" }
+    This means you were underpaid 
+    %span{ style: "color: red" }= "#{number_to_currency(@entity.stolen_wages)}!"
+    Want to get it back?
 
   .actions.text-right
-    = link_to t('views.claims.new.commit'), new_user_path, class: "btn btn-sm btn-default"
+    = link_to t('views.claims.form.commit'), new_user_path, class: "btn btn-sm btn-default"
 - else
   You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member,
   %a{ href: "https://www.nuw.org.au" }contact us

@@ -10,6 +10,10 @@ class Address < ActiveRecord::Base
     false
   end
   
+  def to_s
+    "#{street_address}, #{town}, #{province} #{postal_code}"
+  end
+  
   alias_method :done?, :valid?
 
   # def markdown_postal_format(addressee)

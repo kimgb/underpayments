@@ -4,7 +4,7 @@
     - t('views.users.show.requirements').each do |key, req|
       %li
         = req
-        - if @user.send(key).done?
+        - if @user.send(key).present? && @user.send(key).done?
           %span{ style: "color: green" } DONE
   %p= t('views.users.show.add')
   

@@ -1,4 +1,4 @@
-= form_for(@claim_company, html: { class: "form", multipart: true }) do |f|
+= form_for([@claim, @claim_company], html: { class: "form", multipart: true }) do |f|
   = render partial: "layouts/errors", locals: { resource: @claim_company }
 
   %fieldset
@@ -23,12 +23,18 @@
         = fc.label :contact, class: "control-label"
         %br/
         = fc.text_field :contact, class: "form-control"
+        .text-right
+          %small= "If you can't think of anyone more suitable, your supervisor"
 
       .form-group
         = fc.label :abn, class: "control-label"
         %br/
         = fc.text_field :abn, class: "form-control"
-
+        .text-right
+          %small
+            Not sure? You can try looking it up
+            %a{ href: "http://abr.business.gov.au/", target: "_blank" }here
+            
       .form-group
         = fc.label :phone, class: "control-label"
         %br/

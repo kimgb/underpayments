@@ -5,8 +5,8 @@ class Document < ActiveRecord::Base
   
   scope :hours, -> { where(time_evidence: true) }
   scope :wages, -> { where(wage_evidence: true) }
-
-  # TODO validations?
+  
+  validate :presence_of_file_or_statement
 
   def owner
     claim && claim.owner
@@ -22,5 +22,12 @@ class Document < ActiveRecord::Base
   # may need refining
   def fy
     coverage_end_date.fy
+  end
+  
+  private
+  def presence_of_file_or_statement
+    unless file.present? || statement.present?
+      errors.add(:document, "must contain a statement or an uploaded file")
+    end
   end
 end

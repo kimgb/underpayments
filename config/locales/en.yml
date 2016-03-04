@@ -102,7 +102,7 @@ en:
         requirements:
           profile: 'Your personal details'
           address: 'Your address'
-          claim: 'Details of your employment, including evidence of hours worked and wages paid'
+          claim: 'Details of employment, including evidence of hours worked and wages paid'
           workplace: 'Details of your workplace, including a contact person and address'
           employer: 'Details of your employer, if different from your workplace'
         add: Please add these as prompted, below.
@@ -154,7 +154,8 @@ en:
           complete: Company details
         document: 
           new: Add a supporting document
-        evidence: "We need evidence for:"
+        wage_evidence: "We need evidence of wages paid for:"
+        time_evidence: "We need evidence of hours worked for:"
         to: until
         award: Industry
         weekly_hours: Avg. hours per week
@@ -205,6 +206,9 @@ en:
     documents:
       form:
         title: Add a document to your claim
+        file: Upload an image or document
+        statement: Or, write your own statement
+        affidavit: Generate an affidavit?
         coverage_start_date: "This document covers the period from:"
         coverage_end_date: "To:"
         wage_evidence: This document is evidence of wages paid to me

@@ -15,11 +15,15 @@ class DocumentsController < ApplicationController
 
   # GET /claims/1/documents/new
   def new
+    if params[:affidavit]
+      @document = Document.new(@claim.affidavit_generator)
+    else
+      @document = Document.new
+    end
+    
     # TODO this is hackish
     params[:coverage_start_date] ||= Date.today.to_s
     params[:coverage_end_date] ||= Date.today.to_s
-
-    @document = Document.new
   end
 
   # POST /claims/1/documents/new
@@ -44,7 +48,7 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy
     respond_to do |format|
-      format.html { redirect_to @document.claim.user, notice: 'Document was successfully destroyed.' }
+      format.html { redirect_to @document.claim.user, notice: 'Document was successfully removed.' }
       format.json { head :no_content }
     end
   end

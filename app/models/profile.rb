@@ -24,4 +24,30 @@ class Profile < ActiveRecord::Base
   def owner
     user
   end
+  
+  def visa_string_for_statement
+    case visa
+    when "resident" then "I am a citizen or permanent resident of Australia"
+    when "unknown" then "I am not aware of my visa status."
+    when "other" then "I came to Australia on a [please fill in] visa."
+    else "I came to Australia on a #{visa} visa." end
+  end
+  
+  def country_of_origin
+    {
+      "AU" => "Australia",
+      "NZ" => "New Zealand",
+      "TO" => "Tonga",
+      "FJ" => "Fiji",
+      "TW" => "Republic of China",
+      "WS" => "Samoa",
+      "KI" => "Kiribati",
+      "NR" => "Nauru",
+      "PG" => "Papua New Guinea",
+      "SB" => "Solomon Islands",
+      "TL" => "Timor-Leste",
+      "TV" => "Tuvalu",
+      "VU" => "Vanuatu"
+    }[nationality]
+  end
 end

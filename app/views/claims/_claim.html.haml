@@ -6,13 +6,21 @@
 
 = render partial: "documents/documents", locals: { documents: claim.documents }
 - if claim.coverage_gaps.any?
-  = t('views.claims.claim.evidence')
+  = t('views.claims.claim.wage_evidence')
   %br/
   %ul
     - claim.coverage_gaps.each do |gap|
-      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last)
+      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, wage_evidence: true)
+- if claim.coverage_gaps(:time_evidence).any?
+  = t('views.claims.claim.time_evidence')
+  %br/
+  %ul
+    - claim.coverage_gaps(:time_evidence).each do |gap|
+      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, time_evidence: true)
 
-= link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
+%p= link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
+- if claim.display_affidavit?
+  %p= link_if_unlocked(claim, "Add an affidavit", new_claim_document_path(claim, affidavit: true), class: "btn btn-sm btn-default #{"disabled" unless claim.enable_affidavit?}")
 
 -# present attached companies: zero, one, or two
 - if claim.presentable_companies.any?

@@ -34,8 +34,49 @@ class Claim < ActiveRecord::Base
   end
   
   ### PUBLIC METHODS
+  def affidavit_generator
+    {
+      wage_evidence: true,
+      time_evidence: true,
+      wages: actual_pay_for_employment,
+      hours: hours_worked,
+      coverage_start_date: employment_began_on,
+      coverage_end_date: employment_ended_on,
+      statement: affidavit_statement
+    }
+  end
+  
+  # Takes the array from affidavit_statements and turns it into a string, containing a preamble and numbered list.
+  def affidavit_statement
+    <<-TEXT
+I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
+
+1. I am originally from #{owner.profile.country_of_origin}.
+
+2. #{owner.profile.visa_string_for_statement}
+
+3. I started working at #{workplace.name}, located at #{workplace.address.to_s}, on #{employment_began_on.to_s(:rfc822)}.
+
+4. To the best of my knowledge, I was employed by #{(workplace || employer).name}.
+    TEXT
+  end
+  
+  # An array of statements, in particular order, based on supplied information.
+  def affidavit_statements
+  end
+  
+  def display_affidavit?
+    !payslips_received
+  end
+  
+  def enable_affidavit?
+    [owner.profile, workplace, employer].all? do |e| 
+      e.present? && e.address.present? && e.valid? && e.address.valid?
+    end
+  end
+  
   def presentable_companies
-    claim_companies.all { |cc| cc.company.presentable_against?(self) }
+    claim_companies.where("true in (is_workplace, is_employer)").collect(&:company)
     # companies.all { |co| co.presentable_against?(self) }
   end
   
