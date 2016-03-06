@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :addresses, except: [:index, :new, :create]
     resource  :profile
 
-    get "/:page", to: "pages#show", as: :pages
+    get "/pages/:page", to: "pages#show", as: :pages
 
     namespace :admin do
       root "users#index"
