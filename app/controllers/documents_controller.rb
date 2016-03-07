@@ -30,7 +30,7 @@ class DocumentsController < ApplicationController
   # POST /claims/1/documents/new.json
   def create
     @document = @claim.documents.build(document_params)
-    @document.file = document_params[:file]
+    @document.evidence = document_params[:evidence]
 
     respond_to do |format|
       if @document.save
@@ -63,6 +63,6 @@ class DocumentsController < ApplicationController
   end
 
   def document_params
-    params.require(:document).permit(:file, :statement, :wage_evidence, :wages, :time_evidence, :hours, :coverage_start_date, :coverage_end_date)
+    params.require(:document).permit(:evidence, :statement, :wage_evidence, :wages, :time_evidence, :hours, :coverage_start_date, :coverage_end_date)
   end
 end

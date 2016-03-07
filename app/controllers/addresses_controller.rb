@@ -1,12 +1,10 @@
 class AddressesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_address, only: [:edit, :update, :destroy]
-  before_action :set_company, only: [:new, :create]
 
   # GET /addressable/:addressable_id/addresses/new
   def new
     @address = Address.new
-    # @company_address = @address.company_addresses.build(company: @company)
   end
 
   # GET /addresses/1/edit
@@ -16,9 +14,8 @@ class AddressesController < ApplicationController
   # POST /addresses
   # POST /addresses.json
   def create
-     @address = Address.new(address_params)
-    #  @company_address = @address.company_addresses.build(is_active: true, company: @company)
-
+    @address = Address.new(address_params)
+     
     respond_to do |format|
       if @address.save
         format.html { redirect_to current_user, notice: 'Address was successfully created.' }
@@ -55,14 +52,7 @@ class AddressesController < ApplicationController
   end
 
   private
-  # Use callbacks to share common setup or constraints between actions.
-  def set_company
-    @company = Company.find(params[:company_id])
-  end
-  # def set_addressable
-  #   @addressable = params[:addressable_type].classify.constantize.find(params[:addressable_id])
-  # end
-  
+  # Use callbacks to share common setup or constraints between actions.  
   def set_address
     @address = Address.find(params[:id])
   end

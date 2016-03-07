@@ -1,0 +1,21 @@
+%fieldset
+  %legend Address
+  = f.fields_for(:address) do |fa|
+    = fa.hidden_field :country, value: "AU"
+
+    .form-group
+      = fa.label :street_address, class: "control-label"
+      %br/
+      = fa.text_area :street_address, class: "form-control", rows: 2
+    .form-group
+      = fa.label :town, class: "control-label"
+      %br/
+      = fa.text_field :town, class: "form-control"
+    .form-group
+      = fa.label :province, class: "control-label"
+      %br/
+      = fa.select :province, options_for_select(states_list), {}, { class: "form-control" }
+    .form-group
+      = fa.label :postal_code, class: "control-label"
+      %br/
+      = fa.text_field :postal_code, class: "form-control"

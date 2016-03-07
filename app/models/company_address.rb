@@ -4,7 +4,7 @@ class CompanyAddress < ActiveRecord::Base
   
   accepts_nested_attributes_for :address
   
-  def owner
-    false    
+  def owners
+    company ? company.owners : []
   end
 end

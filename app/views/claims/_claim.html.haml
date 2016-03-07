@@ -20,7 +20,10 @@
 
 %p= link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
 - if claim.display_affidavit?
-  %p= link_if_unlocked(claim, "Add an affidavit", new_claim_document_path(claim, affidavit: true), class: "btn btn-sm btn-default #{"disabled" unless claim.enable_affidavit?}")
+  %p
+  = link_if_unlocked(claim, "Add an affidavit", new_claim_document_path(claim, affidavit: true), class: "btn btn-sm btn-default #{"disabled" unless claim.enable_affidavit?}")
+  - unless claim.enable_affidavit?
+    %small (You need to complete all other sections before submitting an affidavit.)
 
 -# present attached companies: zero, one, or two
 - if claim.presentable_companies.any?

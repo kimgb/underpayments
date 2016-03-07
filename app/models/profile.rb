@@ -21,8 +21,8 @@ class Profile < ActiveRecord::Base
     [given_name, family_name].join(" ")
   end
 
-  def owner
-    user
+  def owners
+    [user]
   end
   
   def visa_string_for_statement

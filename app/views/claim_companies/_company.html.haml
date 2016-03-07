@@ -7,7 +7,12 @@
   #{markdown_model(company)}
 
 - if company.address
-  = render partial: "addresses/address", locals: { address: company.address, title: t('views.companies.company.address.heading'), edit: t('views.companies.company.address.edit') }
+  %h4
+    = t('views.companies.company.address.heading')
+    %small= link_if_unlocked(company, "(#{t('views.companies.company.address.remove')})", company_address_path(company.company_address, company_address: { is_active: false }), method: :put, data: { confirm: "Are you sure?" })
+
+  :markdown
+    #{ markdown_model(company.address) }
 - else
   %h4= t('views.companies.company.address.heading')
   %p

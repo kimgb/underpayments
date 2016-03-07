@@ -20,7 +20,7 @@
     .form-group.form-inline
       = f.label :date_of_birth, class: "control-label"
       %br/
-      = f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: Date.today.year - 20, end_year: profiles_lower_bound_year }, { class: "form-control" }
+      = f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: upper_bound_birth_year, end_year: lower_bound_birth_year }, { class: "form-control" }
 
     .form-group
       = f.label :phone, class: "control-label"
@@ -28,40 +28,21 @@
       
     .form-group
       = f.label :nationality
-      = f.select :nationality, options_for_select(country_list, "AU"), {}, { class: "form-control" }
+      = f.select :nationality, options_for_select(country_list, (@profile.nationality || "AU")), {}, { class: "form-control" }
 
     .form-group
       = f.label :preferred_language, class: "control-label"
-      = f.select :preferred_language, options_for_select(languages_list, "en-AU"), {}, { class: "form-control" }
+      = f.select :preferred_language, options_for_select(languages_list, (@profile.preferred_language || "en-AU")), {}, { class: "form-control" }
       
     .form-group
       = f.label :visa, class: "control-label"
-      = f.select :visa, options_for_select(visas_list, "unknown"), {}, { class: "form-control" }
+      = f.select :visa, options_for_select(visas_list, (@profile.visa || "unknown")), {}, { class: "form-control" }
     
     .form-group
       = f.label :gender
-      = f.select :gender, options_for_select(gender_list, "U"), {}, { class: "form-control" }
+      = f.select :gender, options_for_select(gender_list, (@profile.gender || "U")), {}, { class: "form-control" }
       
-  %fieldset
-    %legend Address
-    = f.fields_for(:address) do |fa|
-      = fa.hidden_field :country, value: "AU"
-
-      .form-group
-        = fa.label :street_address, class: "control-label"
-        %br/
-        = fa.text_area :street_address, class: "form-control", rows: 2
-      .form-group
-        = fa.label :town, class: "control-label"
-        %br/
-        = fa.text_field :town, class: "form-control"
-      .form-group
-        = fa.label :province, class: "control-label"
-        %br/
-        = fa.select :province, options_for_select(states_list), {}, { class: "form-control" }
-      .form-group
-        = fa.label :postal_code, class: "control-label"
-        %br/
-        = fa.text_field :postal_code, class: "form-control"
+    - if include_address
+      = render partial: "profiles/address_fields", locals: { f: f }
 
   .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"

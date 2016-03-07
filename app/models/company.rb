@@ -10,20 +10,24 @@ class Company < ActiveRecord::Base
   has_one :address, through: :company_address
 
   validates_presence_of :name, :contact
+  validate :presence_of_phone_or_email
   
   def done?
-    valid? && address.present? && address.valid? && phone || email
-  end
-
-  def owner
-    false
+    valid? && address.present? && address.valid? && (phone || email)
   end
   
   def owners
-    users
+    claims ? claims.collect(&:user) : []
   end
   
   def presentable_against?(claim)
     claim_companies.where(claim: claim).any? { |cc| cc.is_employer || cc.is_workplace }
+  end
+  
+  private
+  def presence_of_phone_or_email
+    unless phone.present? || email.present?
+      errors.add(:company, "must contain a phone or email contact")
+    end
   end
 end

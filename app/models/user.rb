@@ -22,8 +22,8 @@ class User < ActiveRecord::Base
     admin
   end
 
-  def owner
-    self
+  def owners
+    [self]
   end
   
   # claim pass-through methods, very simple, excuse the meta-programming
@@ -31,13 +31,13 @@ class User < ActiveRecord::Base
     define_method(m) { claim && claim.send(m) }
   end
 
+  def not_submitted?
+    !submitted?
+  end
+
   def owns?(resource)
     # e.g. Companies and Addresses can't be owned.
     # Such resources are not edited, just disassociated.
-    admin? || self == resource.owner
-  end
-  
-  def not_submitted?
-    !submitted?
+    admin? || resource.owners.include?(self)
   end
 end

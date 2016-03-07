@@ -6,7 +6,12 @@
   #{markdown_model(profile)}
 
 - if profile.address
-  = render partial: "addresses/address", locals: { address: profile.address, title: t('views.users.show.address.heading'), edit: t('views.users.show.address.edit') }
+  %h4
+    = t('views.users.show.address.heading')
+    %small= link_if_unlocked(profile, "(#{t('views.profiles.profile.address.remove')})", profile_path(profile: { address_id: nil }), method: :put, data: { confirm: "Are you sure?" })
+
+  :markdown
+    #{ markdown_model(profile.address) }
 - else
   %h4= t('views.users.show.address.heading')
   %p

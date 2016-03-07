@@ -11,6 +11,11 @@ class ClaimCompany < ActiveRecord::Base
   validate :unique_claim_id_when_employer_and_active
   validate :unique_claim_id_when_workplace_and_active
   
+  def owners
+    company ? company.owners : []
+  end
+  
+  private
   def unique_claim_id_when_employer_and_active
     if is_active && is_employer && ClaimCompany.exists?(["claim_id = ? AND is_active = true AND is_employer = true AND id != ?", claim_id, id.to_i])
       errors.add(:claim_id, "already has an active employer")

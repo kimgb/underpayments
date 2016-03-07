@@ -14,7 +14,7 @@ class Claim < ActiveRecord::Base
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
   
-  ### MARKDOWNABLE CONFIG
+  ### MARKDOWNABLE CONFIG - class methods
   def self.presentable_attributes
     super.concat(["lost_wages"]).reject do |attr| 
       ["submitted_for_review", "submitted_on", "hours_self_witnessed", "payslips_received"].include? attr 
@@ -33,13 +33,17 @@ class Claim < ActiveRecord::Base
     }
   end
   
-  ### PUBLIC METHODS
+  ### INSTANCE METHODS
+  
+  #############################################################################
+  #-- AFFIDAVIT GENERATION METHODS
+  #############################################################################
   def affidavit_generator
     {
       wage_evidence: true,
       time_evidence: true,
-      wages: actual_pay_for_employment,
-      hours: hours_worked,
+      wages: estimated_wages_paid,
+      hours: estimated_hours_worked,
       coverage_start_date: employment_began_on,
       coverage_end_date: employment_ended_on,
       statement: affidavit_statement
@@ -75,90 +79,148 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
     end
   end
   
+  # Claim#presentable_companies - more appropriate as a helper?
   def presentable_companies
     claim_companies.where("true in (is_workplace, is_employer)")
     # companies.all { |co| co.presentable_against?(self) }
   end
   
-  def hours_evidenced
-    documents.sum(:hours)
-  end
+  #############################################################################
+  ### ESTIMATING METHODS
+  #-- These methods calculate estimates from the initial user input.
+  #############################################################################
   
-  def hours_evidenced_by_year
-    documents.where(time_evidence: true).group_by(&:fy)
-      .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
-  end
-  
-  def wages_evidenced
-    documents.sum(:wages)
-  end
-
-  # Inputs are Date objects
-  def hours_worked(period_start = employment_began_on, period_end = employment_ended_on)
-    (weekly_hours * weeks_worked(period_start, period_end))
-  end
-  
-  # Inputs are Date objects
+  # Claim#weeks_worked(Date.today - 3.months, Date.today) => 13.0
+  # Returns number of weeks between two Date objects. Inputs are Date objects
+  # because days are the unit for arithmetic ops.
   def weeks_worked(period_start, period_end)
     (period_end - period_start) / 7.0
   end
   
-  # Note use of Date#fy method that I added via refinement.
-  # Australian financial year is from 1 July to 30 June. By (my) convention, Date#fy returns the year that the financial year started in.
+  # Claim#estimated_hours_worked()
+  # Multiplies the initial user input of avg weekly hours by the number of weeks
+  # between two dates. As above, inputs are Date objects.
+  def estimated_hours_worked(period_start = employment_began_on, period_end = employment_ended_on)
+    (weekly_hours * weeks_worked(period_start, period_end))
+  end
+  
+  # Claim#estimated_hours_worked_by_year()
+  # Returns a hash with years as keys and a pro rated estimate of hours as vals.
+  # Note use of Date#fy method that I added via refinement  Australian financial
+  # year is from 1 July to 30 June. By (my) convention, Date#fy returns the year
+  # that the financial year started in.
   # see `lib/financial_years.rb`: loaded in `config/initializers/extensions.rb`.
-  def hours_worked_by_year
+  def estimated_hours_worked_by_year
     Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
       if employment_began_on.fy == employment_ended_on.fy
-        [year, hours_worked]
+        [year, estimated_hours_worked]
       elsif year == employment_began_on.fy
-        [year, hours_worked(employment_began_on, Date.new(year).end_of_fy)]
+        [year, estimated_hours_worked(employment_began_on, Date.new(year).end_of_fy)]
       elsif year == employment_ended_on.fy
-        [year, hours_worked(Date.new(year).beginning_of_fy, employment_ended_on)]
+        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, employment_ended_on)]
       else
-        [year, hours_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy)]
+        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy)]
       end
     end.flatten]
   end
   
-  # This is the minimum legal pay 
-  def base_pay_for_employment
-    hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
+  # Claim#estimated_min_award_pay()
+  # Returns the absolute legal minimum pay, based on estimated hours per year, 
+  # user supplied award and employment type. 
+  def estimated_min_award_pay
+    estimated_hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
       memo += hours * award_minimum(year)
     end.round(2)
   end
   
-  # does not account for pay rises (or falls)
-  def actual_pay_for_employment
-    hourly_pay * hours_worked
+  # Claim#estimated_wages_paid()
+  # Returns an estimate of what was actually paid the claimant, based on their
+  # input of pay per hour, avg. hours per week and length of employment.
+  # TODO figure a way to allow changes in pay rate to be reported.
+  def estimated_wages_paid
+    hourly_pay * estimated_hours_worked
+  end
+  
+  #############################################################################
+  #-- EVIDENCE METHODS
+  #-- These methods aim to provide a more reliable figure based on subsequent
+  #-- user upload of evidence and statements. Some still depend partly on
+  #-- estimation methods above.
+  #############################################################################
+  
+  # Claim#hours_from_evidence()
+  # Simply sums the values of associated documents' hours attribute.
+  def hours_from_evidence
+    documents.sum(:hours)
+  end
+  
+  # Claim#hours_from_evidence_by_year()
+  # For when calculating award minimum, returns a hash with years as keys and
+  # hours worked in the year as values.
+  # PITFALL: the Document#fy method will return the financial year in which it
+  # mostly falls.
+  def hours_from_evidence_by_year
+    documents.where(time_evidence: true).group_by(&:fy)
+      .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
+  end
+  
+  # Claim#wages_from_evidence()
+  # Simply sums the values of associated documents' wages attribute.
+  def wages_from_evidence
+    documents.sum(:wages)
+  end
+  
+  # Claim#min_award_pay_from_evidence()
+  # Uses Claim#hours_from_evidence_by_year and multiplies each year's hours by
+  # the relevant historical award minimum rate.
+  def min_award_pay_from_evidence
+    hours_from_evidence_by_year.reduce(0) { |sum, (yr, hrs)| sum += hrs * award_minimum(yr) }
+  end
+  
+  # Claim#estimated_wages_from_time_evidence()
+  # Part estimate, part evidence. Multiplies user supplied hourly pay by the 
+  # sum of hours in evidence.
+  # TODO figure a way to allow changes in pay rate to be reported.
+  def estimated_wages_from_time_evidence
+    hourly_pay * hours_from_evidence
+  end
+  
+  # Claim#award_pay
+  # Based on evidence coverage, calls the best method to determine hours worked.
+  def award_pay
+    coverage_complete?(:time_evidence) ? min_award_pay_from_evidence : estimated_min_award_pay
+  end
+  
+  # CLaim#actual_pay
+  # Based on evidence coverage, calls the best method to determine pay received.
+  def actual_pay
+    if coverage_complete?(:wage_evidence)
+      wages_from_evidence
+    elsif coverage_complete?(:time_evidence)
+      estimated_wages_from_time_evidence
+    else
+      estimated_wages_paid
+    end
   end
 
+  # Claim#stolen_wages()
+  # It all boils down to this. Based on evidence coverage, uses several
+  # different methods of calculation to report the claiman't stolen wages.
   def stolen_wages
-    if payslips_received && coverage_complete?
-      stolen_wages_from_evidence
-    else
-      stolen_wages_from_calculation
-    end
+    sw = award_pay - actual_pay
+    
+    sw > 0 ? sw.round(2) : 0
   end
   alias_method :lost_wages, :stolen_wages
   
+  # Claim#underpaid?
+  # Simple true/false report
   def underpaid?
     stolen_wages > 0
   end
-  
-  def stolen_wages_from_calculation
-    pay_difference = base_pay_for_employment - actual_pay_for_employment
-    
-    pay_difference > 0 ? pay_difference.round(2) : 0
-  end
-  
-  def stolen_wages_from_evidence
-    base_pay_for_employment - wages_evidenced
-  end
-  
-  def stolen_wages_from_declaration
-    
-  end
 
+  # Claim#award_minimum()
+  # Deeply nested hash with award level 1 rates by year, award, employment type.
   # 2015 and all horticulture rates are correct, poultry needs numbers for 2010-2014 f.y.'s
   def award_minimum(year = employment_began_on.year)
     {
@@ -181,9 +243,10 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
         "horticulture" => { "casual" => 18.75, "permanent" => 15.00 },
         "poultry" => { "casual" => 18.75, "permanent" => 15.00 }
       }
-    }[year][award][employment_type]
+    }.dig(year, award, employment_type)
   end
 
+  # Better as a helper?
   def proper_award
     case award
     when "horticulture" then "Horticulture Award 2010"
@@ -191,15 +254,29 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
     end
   end
 
+  #############################################################################
+  #-- COVERAGE METHODS
+  #-- These methods work together to report back coverage completion of wages
+  #-- and time evidence. They can also report gaps in coverage.
+  #############################################################################
+  
+  # Claim#days()
+  # Returns a set of days for the claim's employment period.
   def days
     Set.new(employment_began_on..employment_ended_on)
   end
 
-  # calculates document coverage for a type of evidence
+  # Claim#document_coverage()
+  # Returns a set of days that are covered by documents of a certain evidence 
+  # type, default :wage_evidence.
   def document_coverage(evidence = :wage_evidence)
     Set.new(documents.where(evidence => true).inject([]) { |memo, doc| memo + doc.days }.sort)
   end
 
+  # Claim#coverage_gaps()
+  # Gets the set difference of Claim#days and Claim#document_coverage. Anything
+  # left in the resulting set is a gap in coverage, for the requested evidence
+  # type. Consecutive days are then sliced together before returning.
   def coverage_gaps(evidence = :wage_evidence)
     # get the set difference - note set difference returns an array
     missing_days = days - document_coverage(evidence)
@@ -215,20 +292,41 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
     end.to_a
   end
 
+  # Claim#coverage_complete?()
+  # If there are no gaps for the evidence type, we have complete coverage.
   def coverage_complete?(evidence = :wage_evidence)
     coverage_gaps(evidence).empty?
   end
   
+  #############################################################################
+  #-- CUSTOM COMPANY ASSOCIATION METHODS
+  #-- The two methods below are provided on the basis that a claim should never
+  #-- have more than one active workplace or employer, even though it can have
+  #-- multiple companies.
+  #--
+  #-- Ownership methods necessary for all models.
+  #############################################################################
   def workplace
-    @workplace = claim_companies.workplace.first
-    @workplace && @workplace.company
+    @workplace ||= claim_companies.workplace.first && 
+      claim_companies.workplace.first.company
   end
   
   def employer
-    @employer = claim_companies.employer.first
-    @employer && @employer.company
+    @employer ||= claim_companies.employer.first && 
+      claim_companies.employer.first.company
+  end  
+
+  def owner
+    user
   end
   
+  def owners
+    [owner]
+  end
+  
+  #############################################################################
+  #-- MISC
+  #############################################################################
   def required_resources
     @required_resources ||= [
       self,
@@ -248,7 +346,8 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
   # => Claim is associated to a validated workplace with a validated address
   # => Claim is associated to a validated employer with a validated address
   def ready_to_submit?
-    required_resources.all?(&:present?) && required_resources.all?(&:valid?) && coverage_complete?
+    required_resources.all?(&:present?) && required_resources.all?(&:valid?) && 
+      coverage_complete? && coverage_complete?(:time_evidence)
   end
   
   def done?
@@ -259,10 +358,6 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
     submitted_for_review
   end
   alias_method :locked?, :submitted?
-
-  def owner
-    user
-  end
   
   private
   ### CUSTOM VALIDATIONS

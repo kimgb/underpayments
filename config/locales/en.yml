@@ -38,7 +38,8 @@ en:
         zh-TW: Chinese (Taiwanese)
         vi: Vietnamese
       visas_list:
-        resident: Australian citizen or permanent resident
+        citizen: Australian citizen
+        resident: Australian permanent resident
         unknown: I don't know
         v400: 400 - Temporary Work (Short Stay Activity) visa
         v416: 416 - Special Program visa for the seasonal worker programme
@@ -202,11 +203,13 @@ en:
         phone: Phone
         preferred_language: Preferred language
         edit: Edit personal details
+        address:
+          remove: Remove address
 
     documents:
       form:
         title: Add a document to your claim
-        file: Upload an image or document
+        evidence: Upload an image or document
         statement: Or, write your own statement
         affidavit: Generate an affidavit?
         coverage_start_date: "This document covers the period from:"
@@ -236,6 +239,7 @@ en:
           heading: Company address
           edit: Edit company address
           complete: Add company address
+          remove: Remove address
           missing: "You haven't provided an company address yet:"
         
     workplaces:

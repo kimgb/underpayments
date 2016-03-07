@@ -1,6 +1,5 @@
 class ClaimCompaniesController < ApplicationController
   before_action :authenticate_user!
-  before_action :new_claim_company, only: [:new]
   before_action :set_claim_company, only: [:show, :edit, :update, :destroy]
   before_action :set_claim, only: [:new, :create]
   before_action :set_company, only: [:edit, :update]
@@ -13,6 +12,7 @@ class ClaimCompaniesController < ApplicationController
 
   # GET /claims/1/claim_companies/new
   def new
+    @claim_company = ClaimCompany.new
     @claim_company.build_company
   end
 
@@ -54,18 +54,18 @@ class ClaimCompaniesController < ApplicationController
   # DELETE /claim_companies/1
   # DELETE /claim_companies/1.json
   def destroy
-    @claim_company.destroy
     respond_to do |format|
-      format.html { redirect_to current_user, notice: 'Company was successfully removed.' }
-      format.json { head :no_content }
+      if @claim_company.update(is_active: false)
+        format.html { redirect_to current_user, notice: 'Company was successfully removed.' }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to current_user, notice: 'Company could not be removed.' }
+        format.json { render json: @claim_company.errors, status: :unprocessable_entity }
+      end
     end
   end
 
   private
-  def new_claim_company
-    @claim_company = ClaimCompany.new
-  end
-  
   def set_claim_company
     @claim_company = ClaimCompany.find(params[:id])
   end

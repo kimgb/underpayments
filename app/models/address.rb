@@ -6,8 +6,11 @@ class Address < ActiveRecord::Base
   has_many :profiles
   has_many :company_addresses
 
-  def owner
-    false
+  def owners
+    profile_owners = profiles ? profiles.collect(&:owners).flatten.uniq : []
+    company_owners = company_addresses ? company_addresses.collect(&:owners).flatten.uniq : []
+    
+    profile_owners + company_owners
   end
   
   def to_s

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303043846) do
+ActiveRecord::Schema.define(version: 20160307014230) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,7 +80,7 @@ ActiveRecord::Schema.define(version: 20160303043846) do
   add_index "company_addresses", ["company_id"], name: "index_company_addresses_on_company_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
-    t.string   "file"
+    t.string   "evidence"
     t.boolean  "wage_evidence"
     t.boolean  "time_evidence"
     t.date     "coverage_start_date"

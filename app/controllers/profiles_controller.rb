@@ -43,8 +43,22 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profile.json
   def update
     respond_to do |format|
-      if @profile.update(profile_params) && @address.update(address_params)
+      if @profile.update(profile_params)
         format.html { redirect_to current_user, notice: 'Details successfully updated.' }
+        format.json { render :show, status: :ok, location: current_user }
+      else
+        format.html { render :edit }
+        format.json { render json: @profile.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  # DELETE /profile
+  # DELETE /profile.json
+  def destroy
+    respond_to do |format|
+      if @profile.update(address: nil)
+        format.html { redirect_to current_user, notice: 'Address removed.' }
         format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }
@@ -71,7 +85,7 @@ class ProfilesController < ApplicationController
     params.require(:profile).permit(
       :date_of_birth, :family_name, :given_name, :preferred_name, 
       :phone, :preferred_language, :nationality, :visa, :gender, 
-      address_attributes: [
+      :address_id, address_attributes: [
         :street_address, :town, :province, :postal_code, :country
       ]
     )

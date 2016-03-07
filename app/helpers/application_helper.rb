@@ -12,12 +12,14 @@ module ApplicationHelper
     klass = model.class
     class_str = klass.to_s.downcase
 
-    klass.presentable_attributes.map do |attr|
-      l10n_key = "views.#{class_str.pluralize}.#{class_str}.#{attr}"
-      value = value_with_transform(model.send(attr), klass.attr_transform[attr])
+    html_escape(
+      klass.presentable_attributes.map do |attr|
+        l10n_key = "views.#{class_str.pluralize}.#{class_str}.#{attr}"
+        value = value_with_transform(model.send(attr), klass.attr_transform[attr])
 
-      "**#{I18n.t(l10n_key)}:** #{value}" unless value.blank?
-    end.compact.join("  \n")
+        "**#{I18n.t(l10n_key)}:** #{value}" unless value.blank?
+      end.compact.join("  \n")
+    )
   end
   
   private
