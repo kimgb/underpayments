@@ -26,9 +26,16 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  # TODO support arrays, check params against whitelisted/supported locales
   def set_locale
-    I18n.locale = params[:locale] || I18n.default_locale
+    supported_locale = if params[:locale].is_a?(Array)
+      # get the earliest supported locale
+      params[:locale].find { |locale| I18n.available_locales.include?(locale.to_sym) }
+    else
+      params[:locale] if I18n.available_locales.include?(params[:locale].to_sym)
+    end
+    
+    # set locale, fall back to default if no supported locale requested.
+    I18n.locale = supported_locale || I18n.default_locale
   end
 
   # def root_for_signed_in_user
