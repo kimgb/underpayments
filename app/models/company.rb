@@ -11,6 +11,7 @@ class Company < ActiveRecord::Base
 
   validates_presence_of :name, :contact
   validate :presence_of_phone_or_email
+  validate :abn_well_formed
   
   def done?
     valid? && address.present? && address.valid? && (phone || email)
@@ -29,5 +30,26 @@ class Company < ActiveRecord::Base
     unless phone.present? || email.present?
       errors.add(:company, "must contain a phone or email contact")
     end
+  end
+  
+  def abn_well_formed
+    if abn.present? && !abn_valid?(abn)
+      errors.add(:abn, "must be valid.")
+    end
+  end
+  
+  def abn_valid?(abn)
+    # Strip non-digits, & get an array of digits.
+    abn_digits = abn.to_s.gsub(/\D/, '').chars.map(&:to_i)
+    
+    # Fail it if it's not 11 digits long.
+    return false unless abn_digits.size == 11
+    
+    # Run it through the weighting, get the remainder from 89, make sure it's 0.
+    abn.map.with_index(&method(:abn_weighting)).sum % 89 == 0
+  end
+  
+  def abn_weighting(n, idx)
+    idx.zero? ? (n - 1) * 10 : n * ((idx + 1) * 2 - 3)
   end
 end
