@@ -20,10 +20,10 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "#owner" do
-    it "should be self" do
-      expect(@user.owner).to be @user
-      expect(@admin.owner).to be @admin
+  describe "#owners" do
+    it "should include self" do
+      expect(@user.owners).to include(@user)
+      expect(@admin.owners).to include(@admin)
     end
   end
 

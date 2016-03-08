@@ -90,7 +90,7 @@ RSpec.describe Claim, type: :model do
   end
 
   describe "#coverage_complete?" do
-    context "an incomplete claim" do
+    context "a claim with gaps" do
       it "should return false" do
         document = create(:document)
         claim = document.claim
@@ -99,7 +99,7 @@ RSpec.describe Claim, type: :model do
       end
     end
 
-    context "a complete claim" do
+    context "a claim with full documentation" do
       it "should return true" do
         document = create(:document, coverage_start_date: Date.new(2015, 1, 1), coverage_end_date: Date.new(2016, 12, 31))
         claim = document.claim

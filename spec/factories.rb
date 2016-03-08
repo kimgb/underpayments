@@ -1,16 +1,4 @@
-FactoryGirl.define do  factory :company_address do
-    company nil
-address nil
-is_active false
-  end
-  factory :claim_company do
-    claim nil
-company nil
-is_active false
-is_employer false
-is_workplace false
-  end
-
+FactoryGirl.define do
   factory :user do
     email     "user@nuw.org.au"
     password  "password"
@@ -90,11 +78,20 @@ is_workplace false
   end
 
   factory :document do
+    statement           "My statement, signed Factory Girl"
     wage_evidence       true
-    time_evidence       false
+    time_evidence       true
     coverage_start_date Date.new(2015, 8, 1)
     coverage_end_date   Date.new(2015, 10, 31)
     claim
+  end
+  
+  factory :claim_company do
+    is_active           true
+    is_employer         true
+    is_workplace        true
+    company
+    association :claim, factory: :claim_with_user
   end
 
   factory :company do

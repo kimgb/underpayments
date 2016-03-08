@@ -11,9 +11,9 @@ RSpec.describe Profile, type: :model do
     end
   end
 
-  describe "#owner" do
-    it "should return the associated user" do
-      expect(@profile.owner).to be @profile.user
+  describe "#owners" do
+    it "should include the associated user" do
+      expect(@profile.owners).to include(@profile.user)
     end
   end
 end

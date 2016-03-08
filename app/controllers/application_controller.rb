@@ -27,11 +27,12 @@ class ApplicationController < ActionController::Base
 
   private
   def set_locale
+    available_locales = I18n.available_locales.map(&:to_s)
     supported_locale = if params[:locale].is_a?(Array)
       # get the earliest supported locale
-      params[:locale].find { |locale| I18n.available_locales.include?(locale.to_sym) }
+      params[:locale].find { |locale| available_locales.include?(locale) }
     else
-      params[:locale] if I18n.available_locales.include?(params[:locale].to_sym)
+      params[:locale] if available_locales.include?(params[:locale])
     end
     
     # set locale, fall back to default if no supported locale requested.
