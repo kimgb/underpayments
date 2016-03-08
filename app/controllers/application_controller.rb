@@ -5,21 +5,14 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   # before_action :root_for_signed_in_user
   
-  # def root_url(*options)
-  #   if user_signed_in?
-  #     user_url(current_user)
-  #   else
-  #     super(*options)
-  #   end
-  # end
-  
   def default_url_options(options = {})
     { locale: I18n.locale }.merge(options)
   end
 
-  # def after_sign_in_path_for(resource)
-  #   stored_location_for(resource) || root_url
-  # end
+  def after_sign_in_path_for(resource)
+    resource.admin? ? admin_users_url : user_url(resource)
+    # stored_location_for(resource) || root_url
+  end
 
   def forbidden!
     render file: "public/403.html", status: :forbidden, layout: false
