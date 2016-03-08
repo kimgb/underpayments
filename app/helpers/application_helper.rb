@@ -23,6 +23,10 @@ module ApplicationHelper
   end
   
   private
+  def locale_list_for_select_options(locale_string)
+    I18n.t(locale_string).stringify_keys.to_a.map(&:reverse)
+  end
+  
   def value_with_transform(value, transform)
     if !transform.present?
       value

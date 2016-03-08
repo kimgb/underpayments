@@ -213,6 +213,12 @@ I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
   end
   alias_method :lost_wages, :stolen_wages
   
+  # Claim#hours_worked
+  # 'Top' level method that answers based on evidence completeness.
+  def hours_worked
+    coverage_complete?(:time_evidence) ? hours_from_evidence : estimated_hours_worked
+  end
+  
   # Claim#underpaid?
   # Simple true/false report
   def underpaid?

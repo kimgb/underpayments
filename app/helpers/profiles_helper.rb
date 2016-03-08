@@ -7,6 +7,7 @@ module ProfilesHelper
     Date.today.year - 14
   end
   
+  # see: ApplicationHelper#locale_list_for_select_options
   def languages_list
     locale_list_for_select_options('helpers.profiles.languages_list')
   end
@@ -26,10 +27,5 @@ module ProfilesHelper
       [I18n.t('helpers.profiles.gender_list.male'), "M"], 
       [I18n.t('helpers.profiles.gender_list.neither'), "N"] 
     ]
-  end
-  
-  private
-  def locale_list_for_select_options(locale_string)
-    I18n.t(locale_string).stringify_keys.to_a.map(&:reverse)
   end
 end
