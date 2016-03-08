@@ -227,6 +227,11 @@ en:
         title: Enter company details
       form:
         commit: Save company details
+        name: Name of business
+        contact: Name of contact person
+        abn: ABN, if known
+        phone: Contact phone
+        email: Contact email
       company:
         name: Name
         contact: Name of contact person
@@ -241,26 +246,6 @@ en:
           complete: Add company address
           remove: Remove address
           missing: "You haven't provided an company address yet:"
-        
-    workplaces:
-      edit:
-        title: Edit workplace details
-      new:
-        title: Enter workplace details
-      form:
-        commit: Save workplace details
-      workplace:
-        name: Name
-        contact: Name of contact person
-        abn: ABN
-        phone: Contact phone
-        edit: Edit workplace details
-        email: Contact email
-        address:
-          heading: Workplace address
-          edit: Edit workplace address
-          complete: Add workplace address
-          missing: "You haven't provided a workplace address yet:"
 
     admin:
       claims:
@@ -302,14 +287,7 @@ en:
       company:
         name: Name of business or trading name
         contact: Name of contact person
-        abn: "ABN, if known"
-        email: Contact email
-        phone: Contact phone
-        
-      workplace:
-        name: Name of business or trading name
-        contact: Name of contact person
-        abn: "ABN, if known"
+        abn: ABN
         email: Contact email
         phone: Contact phone
         

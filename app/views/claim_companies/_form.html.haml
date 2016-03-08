@@ -15,19 +15,19 @@
     
     = f.fields_for(:company) do |fc|
       .form-group
-        = fc.label :name, class: "control-label"
+        = fc.label :name, t('views.companies.form.name'), class: "control-label"
         %br/
         = fc.text_field :name, class: "form-control"
         
       .form-group
-        = fc.label :contact, class: "control-label"
+        = fc.label :contact, t('views.companies.form.contact'), class: "control-label"
         %br/
         = fc.text_field :contact, class: "form-control"
         .text-right
           %small= "E.g. your supervisor"
 
       .form-group
-        = fc.label :abn, class: "control-label"
+        = fc.label :abn, t('views.companies.form.abn'), class: "control-label"
         %br/
         = fc.text_field :abn, class: "form-control"
         .text-right
@@ -36,7 +36,7 @@
             %a{ href: "http://abr.business.gov.au/", target: "_blank" }here
             
       .form-group
-        = fc.label :phone, class: "control-label"
+        = fc.label :phone, t('views.companies.form.phone'), class: "control-label"
         %br/
         .input-group
           .input-group-addon
@@ -44,7 +44,7 @@
           = fc.telephone_field :phone, class: "form-control"
 
       .form-group
-        = fc.label :email, class: "control-label"
+        = fc.label :email, t('views.companies.form.email'), class: "control-label"
         %br/
         .input-group
           .input-group-addon @
