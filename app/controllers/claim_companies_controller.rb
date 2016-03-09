@@ -12,7 +12,7 @@ class ClaimCompaniesController < ApplicationController
 
   # GET /claims/1/claim_companies/new
   def new
-    @claim_company = ClaimCompany.new
+    @claim_company = ClaimCompany.new(claim_company_params)
     @claim_company.build_company
   end
 
@@ -24,7 +24,9 @@ class ClaimCompaniesController < ApplicationController
   # POST /claims/1/claim_companies.json
   def create
      @claim_company = @claim.claim_companies.build(claim_company_params)
-     @claim_company.build_company(company_params) if company_params.any?
+     if @claim_company.company.blank?
+       @claim_company.build_company(company_params) if company_params.any?
+     end
 
     respond_to do |format|
       if @claim_company.save
@@ -79,11 +81,12 @@ class ClaimCompaniesController < ApplicationController
   end
 
   def claim_company_params
-    params.require(:claim_company).permit(:is_employer, :is_workplace, :is_active, company_attributes: [:id, :name, :contact, :abn, :phone, :email])
+    params.fetch(:claim_company, {}).permit(:is_employer, :is_workplace, :is_active, :claim_id, :company_id)
   end
   
   def company_params
-    claim_company_params[:company_attributes]
+    params.fetch(:claim_company, {}).require(:company_attributes).permit(:name, :contact, :abn, :email, :phone)
+    # claim_company_params[:company_attributes]
   end
 
   def authorise_owner!

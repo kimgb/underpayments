@@ -2,7 +2,7 @@
   = render partial: "layouts/errors", locals: { resource: @claim_company }
 
   %fieldset
-    %legend Claim company
+    %legend= t('views.companies.form.title')
     
     .checkbox
       = f.label :is_workplace do
@@ -12,11 +12,23 @@
       = f.label :is_employer do
         = f.check_box :is_employer
         = "This company is my employer"
+        
+  %fieldset#search_company
+    %legend.h4= t('views.companies.form.search')
+    .form-group
+      -# = f.label :company_id, t('views.companies.form.search'), class: "control-label"
+      = f.select :company_id, options_for_select([["Start typing...", ""]]), {}, { class: "form-control" }
+      %small.text-right
+        Can't find it?
+        %a#show_manual_entry{ href: "#" } Enter it yourself
     
+  %fieldset.collapse#manual_entry
+    %legend.h4= t('views.companies.form.manual')
     = f.fields_for(:company) do |fc|
       .form-group
         = fc.label :name, t('views.companies.form.name'), class: "control-label"
         %br/
+        -# = fc.select :name, options_for_select([@claim_company.company.name]), {}, { class: "form-control" }
         = fc.text_field :name, class: "form-control"
         
       .form-group
@@ -51,3 +63,47 @@
           = fc.email_field :email, class: "form-control"
 
   .actions.text-right= f.submit t('views.companies.form.commit'), class: "btn btn-default"
+
+:css
+  .select2-results {
+    color: #666;
+  }
+  
+:javascript
+  $("#show_manual_entry").on("click", function(e){
+    $("#search_company").slideUp('slow');
+    $("#manual_entry").delay(800).slideDown('slow');
+  })
+
+  $("#claim_company_company_id").select2({
+    theme: "bootstrap",
+    ajax: {
+      url: "#{companies_path}.json",
+      dataType: "json",
+      type: "GET",
+      quietMillis: 50,
+      delay: 250,
+      data: function(params){
+        return { name: params.term };
+      },
+      processResults: function(data, params){
+        return {
+          results: $.map(data, function(item){
+            if (item.address){
+              var addr = item.address.town + ", " + item.address.province + " " + item.address.postal_code;
+            } else {
+              var addr = "no address";
+            }
+          
+            return { 
+              text: item.name + " (" + addr + ")",
+              id: item.id
+            }
+          })
+        };
+      },
+      cache: true
+    },
+    escapeMarkup: function(markup){ return markup; },
+    minimumInputLength: 3
+  });

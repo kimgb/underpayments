@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     resources  :claim_companies, except: [:index, :new, :create]
     resources  :company_addresses, except: [:index, :new, :create]
     
+    # JSON lookup resources
+    resources  :companies, only: [:index]
     resources  :addresses, only: [:edit, :update]
 
     get "/pages/:page", to: "pages#show", as: :pages

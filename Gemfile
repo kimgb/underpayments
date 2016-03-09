@@ -55,6 +55,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # SASS instead of LESS for Bootstrap
 gem 'bootstrap-sass', '~> 3.3.6'
 
+# Select2 for search to local API endpoints.
+gem 'select2-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

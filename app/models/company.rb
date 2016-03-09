@@ -46,7 +46,7 @@ class Company < ActiveRecord::Base
     return false unless abn_digits.size == 11
     
     # Run it through the weighting, get the remainder from 89, make sure it's 0.
-    abn.map.with_index(&method(:abn_weighting)).sum % 89 == 0
+    abn_digits.map.with_index(&method(:abn_weighting)).sum % 89 == 0
   end
   
   def abn_weighting(n, idx)

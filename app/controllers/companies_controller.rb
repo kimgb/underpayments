@@ -3,7 +3,16 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   before_action :set_claim, only: [:new, :create]
   before_action :set_claim_company, only: [:edit, :update]
-  before_action :authorise_admin!, except: [:new, :create, :edit, :update]
+  before_action :authorise_admin!, except: [:index, :new, :create, :edit, :update]
+
+  # GET /companies
+  def index
+    @companies = Company.where("name ILIKE ?", "%#{params[:name]}%") || Company.all
+    
+    respond_to do |format|
+      format.json { render json: @companies.to_json(include: [:address]) }
+    end
+  end
 
   # GET /companies/1
   def show

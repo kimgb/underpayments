@@ -32,7 +32,21 @@
 
 -# if employer or workplace is lacking, allow additional company
 - unless claim.employer && claim.workplace
-  %h3= t('views.claims.claim.company.heading')
-  %p
-    = t('views.claims.claim.company.missing')
-    = link_to t('views.claims.claim.company.complete'), new_claim_claim_company_path(claim), class: "btn btn-sm btn-default"
+  - if claim.employer && !claim.workplace
+    -# ask for a workplace
+    %h3= t('views.claims.claim.workplace.heading')
+    %p
+      = t('views.claims.claim.workplace.missing')
+      = link_to t('views.claims.claim.workplace.complete'), new_claim_claim_company_path(claim, claim_company: { is_workplace: true }), class: "btn btn-sm btn-default"
+  - elsif claim.workplace && !claim.employer
+    -# ask for an employer
+    %h3= t('views.claims.claim.employer.heading')
+    %p
+      = t('views.claims.claim.employer.missing')
+      = link_to t('views.claims.claim.employer.complete'), new_claim_claim_company_path(claim, claim_company: { is_employer: true }), class: "btn btn-sm btn-default"
+  - else
+    -# ask for generic company
+    %h3= t('views.claims.claim.company.heading')
+    %p
+      = t('views.claims.claim.company.missing')
+      = link_to t('views.claims.claim.company.complete'), new_claim_claim_company_path(claim), class: "btn btn-sm btn-default"
