@@ -38,6 +38,9 @@ output {
 a.btn {
   color: white;
 }
+a.manipulator {
+  cursor: pointer;
+}
 
 main, #banner { 
   display: block; 

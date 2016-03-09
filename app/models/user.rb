@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   include Markdownable
 
-  devise :database_authenticatable, :recoverable,
-         :rememberable, :trackable, :validatable
+  devise :database_authenticatable, :recoverable, :rememberable,
+         :trackable, :validatable, :invitable
 
   has_one :profile
   has_one :address, through: :profile

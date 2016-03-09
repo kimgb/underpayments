@@ -20,7 +20,7 @@
       = f.select :company_id, options_for_select([["Start typing...", ""]]), {}, { class: "form-control" }
       %small.text-right
         Can't find it?
-        %a#show_manual_entry{ href: "#" } Enter it yourself
+        %a.manipulator{ data: { show: "#manual_entry", hide: "#search_company" } } Enter it yourself
     
   %fieldset.collapse#manual_entry
     %legend.h4= t('views.companies.form.manual')
@@ -30,6 +30,8 @@
         %br/
         -# = fc.select :name, options_for_select([@claim_company.company.name]), {}, { class: "form-control" }
         = fc.text_field :name, class: "form-control"
+        %small.text-right
+          %a.manipulator{ data: { show: "#search_company", hide: "#manual_entry" } } Search instead?
         
       .form-group
         = fc.label :contact, t('views.companies.form.contact'), class: "control-label"
@@ -70,9 +72,9 @@
   }
   
 :javascript
-  $("#show_manual_entry").on("click", function(e){
-    $("#search_company").slideUp('slow');
-    $("#manual_entry").delay(800).slideDown('slow');
+  $("a.manipulator").on("click", function(e){
+    $(e.target.dataset.hide).slideUp(800);
+    $(e.target.dataset.show).delay(800).slideDown(800);
   })
 
   $("#claim_company_company_id").select2({

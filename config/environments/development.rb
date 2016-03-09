@@ -22,6 +22,8 @@ Rails.application.configure do
   # Don't care about delivery errors in development
   config.action_mailer.raise_delivery_errors = false
 
+  config.action_mailer.default_url_options = { host: Figaro.env.app_host, port: Figaro.env.app_port }
+
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
