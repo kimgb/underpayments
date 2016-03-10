@@ -7,7 +7,7 @@ html {
 }
 
 #top-header {
-  max-width: 768px;
+  max-width: 1024px;
   margin: 0 auto;
 }
 nav {
@@ -44,11 +44,22 @@ a.manipulator {
 
 main, #banner { 
   display: block; 
-  max-width: 768px;
+  max-width: 1024px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem;
   background-color: #161616;
 }
+@media screen and (min-width: 640px) {
+  main, #banner {
+    padding: 2rem 10rem;
+  }
+}
+@media screen and (min-width: 1024px) {
+  main, #banner {
+    padding: 2rem 15rem;
+  }
+}
+
 img {
   max-width: 100%;
 }
