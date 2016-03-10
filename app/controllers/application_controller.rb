@@ -17,6 +17,11 @@ class ApplicationController < ActionController::Base
   def forbidden!
     render file: "public/403.html", status: :forbidden, layout: false
   end
+  
+  protected
+  def authenticate_inviter!
+    authorise_admin!
+  end
 
   private
   def set_locale

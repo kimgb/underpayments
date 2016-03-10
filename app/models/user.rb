@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable,
          :trackable, :validatable, :invitable
 
-  has_one :profile
+  has_one :profile, dependent: :destroy
   has_one :address, through: :profile
   belongs_to :claim
 
