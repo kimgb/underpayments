@@ -1,6 +1,14 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-
+  
+  # Mailer config
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: Figaro.env.mailgun_api_key,
+    domain: Figaro.env.mailgun_domain
+  }
+  config.action_mailer.default_url_options = { host: Figaro.env.app_host, port: Figaro.env.app_port }
+  
   # Code is not reloaded between requests.
   config.cache_classes = true
 
