@@ -27,7 +27,8 @@ class Profile < ActiveRecord::Base
   
   def visa_string_for_statement
     case visa
-    when "resident" then "I am a citizen or permanent resident of Australia"
+    when "citizen" then "I am a citizen of Australia."
+    when "resident" then "I am a permanent resident of Australia"
     when "unknown" then "I am not aware of my visa status."
     when "other" then "I came to Australia on a [please fill in] visa."
     else "I came to Australia on a #{visa} visa." end
