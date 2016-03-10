@@ -47,7 +47,11 @@ class ApplicationController < ActionController::Base
   end
 
   def authorise_admin!
-    forbidden! unless current_user && current_user.admin?
+    if current_user && current_user.admin?
+      current_user
+    else
+      forbidden!
+    end
   end
 
   # def authorise_owner!(resource)

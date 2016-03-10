@@ -1,4 +1,5 @@
 %h1 Claims for review
+= link_to 'Invite someone', new_user_invitation_path, class: "btn btn-default btn-sm"
 
 %table.table
   %thead
@@ -12,6 +13,8 @@
       %th
 
   %tbody
+    -# TODO make a partial here. It's already worth it but the pattern may see
+            yet more use!
     %tr
       %td{ colspan: 7 }
         %em Submitted Claims
