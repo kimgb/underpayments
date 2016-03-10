@@ -12,7 +12,7 @@ class Profile < ActiveRecord::Base
   alias_method :done?, :valid?
 
   def self.presentable_attributes
-    super.reject do |attr| 
+    super.reject do |attr|
       ["gender", "visa", "nationality"].include? attr 
     end
   end
