@@ -22,7 +22,9 @@ class ProfilesController < ApplicationController
   # POST /profile.json
   def create
     @profile = current_user.build_profile(profile_params)
-    @profile.build_address(address_params) if address_params.any?
+    if address_params.any?
+      @profile.build_address(address_params)
+    end
 
     respond_to do |format|
       if @profile.save
@@ -43,7 +45,7 @@ class ProfilesController < ApplicationController
   # PATCH/PUT /profile.json
   def update
     respond_to do |format|
-      if @profile.update(profile_params)
+      if @profile.update_attributes(profile_params)
         format.html { redirect_to current_user, notice: 'Details successfully updated.' }
         format.json { render :show, status: :ok, location: current_user }
       else
@@ -82,16 +84,14 @@ class ProfilesController < ApplicationController
   end
 
   def profile_params
-    params.require(:profile).permit(
-      :date_of_birth, :family_name, :given_name, :preferred_name, 
-      :phone, :preferred_language, :nationality, :visa, :gender, 
-      :address_id, address_attributes: [
-        :street_address, :town, :province, :postal_code, :country
-      ]
-    )
+    params.require(:profile).permit(:date_of_birth, :family_name, :given_name, 
+      :preferred_name, :phone, :preferred_language, :nationality, :visa, 
+      :gender, :address_id, address_attributes: [:street_address, 
+      :town, :province, :postal_code, :country])
   end
   
   def address_params
-    profile_params[:address_attributes]
+    params.fetch(:profile).fetch(:address_attributes).permit(:street_address, 
+      :town, :province, :postal_code, :country)
   end
 end
