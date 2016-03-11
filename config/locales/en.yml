@@ -318,10 +318,18 @@ en:
         header:
           one: 1 error prevented this %{model} from being saved
           other: "%{count} errors prohibited this %{model} from being saved"
+      models:
+        user:
+          attributes:
+            email:
+              taken: has already been taken
           
   errors:
     format: "%{attribute} %{message}"
     messages:
+      not_saved: 
+        one: "1 error prevented this %{resource} from being saved:"
+        other: "%{count} errors prevented this %{resource} from being saved:"
     template:
       body: 'There were problems with the following fields:'
       header:

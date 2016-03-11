@@ -58,7 +58,7 @@ namespace :puma do
 end
 
 namespace :deploy do
-  # Customised for local precompile
+  # Customised for local precompile, to get around low RAM servers (e.g. 512MB)
   desc 'Compile assets'
   task :compile_assets => [:set_rails_env] do
     # invoke 'deploy:assets:precompile'
@@ -78,6 +78,7 @@ namespace :deploy do
       # rsync to each server
       local_dir = "./public/assets/"
       on roles( fetch(:assets_roles, [:web]) ) do
+        host.user = fetch(:user)
         # this needs to be done outside run_locally in order for host to exist
         remote_dir = "#{host.user}@#{host.hostname}:#{release_path}/public/assets/"
     
