@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :authenticate_user!
+  before_action :extract_locale_from_accept_language_header
   # before_action :root_for_signed_in_user
   
   def default_url_options(options = {})
@@ -25,17 +26,53 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  # def set_locale
+  #   available_locales = I18n.available_locales.map(&:to_s)
+  #   supported_locale = if params[:locale].is_a?(Array)
+  #     # get the earliest supported locale
+  #     params[:locale].find { |locale| available_locales.include?(locale) }
+  #   else
+  #     params[:locale] if available_locales.include?(params[:locale])
+  #   end
+  #   
+  #   # set locale, fall back to default if no supported locale requested.
+  #   I18n.locale = supported_locale || I18n.default_locale
+  # end
+  
+  # locale precedence: params -> user prefs -> browser -> default
   def set_locale
-    available_locales = I18n.available_locales.map(&:to_s)
-    supported_locale = if params[:locale].is_a?(Array)
-      # get the earliest supported locale
-      params[:locale].find { |locale| available_locales.include?(locale) }
-    else
-      params[:locale] if available_locales.include?(params[:locale])
+    supported_locales = I18n.available_locales.map(&:to_s)
+    
+    I18n.locale = provided_locales.find(&supported_locales.method(:include?))
+  end
+  
+  # finder = supported_locales.method(:include?)
+  # 
+  # I18n.locale = params_locales.find(&finder) ||
+  #   user_locale.find(&finder) ||
+  #   language_header_locales.find(&finder) ||
+  #   I18n.default_locale
+  
+  def provided_locales
+    [*params_locales, *user_locale, *language_header_locales, *I18n.default_locale].uniq
+  end
+  
+  def params_locales
+    [*params[:locale]]
+  end
+  
+  def user_locale
+    [*(current_user && current_user.preferred_language)]
+  end
+  
+  def language_header_locales
+    langs = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/([\-a-zA-Z]{2,5})(?:;q=(1|0?\.[0-9]{1,3}))?/).map do |pair|
+      lang, q = pair
+      [lang, (q || '1').to_f]
     end
     
-    # set locale, fall back to default if no supported locale requested.
-    I18n.locale = supported_locale || I18n.default_locale
+    # sort by q value, map languages and reverse
+    langs.sort_by(&:last).map(&:first).reverse
   end
 
   # def root_for_signed_in_user
@@ -52,6 +89,10 @@ class ApplicationController < ActionController::Base
     else
       forbidden!
     end
+  end
+  
+  def extract_locale_from_accept_language_header
+    puts request.env['HTTP_ACCEPT_LANGUAGE'] #.scan(/^[a-z]{2}/).first
   end
 
   # def authorise_owner!(resource)

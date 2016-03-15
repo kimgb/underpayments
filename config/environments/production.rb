@@ -34,7 +34,7 @@ Rails.application.configure do
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+  config.assets.css_compressor = :sass
   config.middleware.insert_before(Rack::Sendfile, Rack::Deflater)
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.

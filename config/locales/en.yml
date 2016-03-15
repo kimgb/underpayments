@@ -20,6 +20,271 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  views:
+    layouts:
+      application:
+        title: UNDERPAID?
+        byline: (...or just overworked?)
+        footer: |
+          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-03-10">10 March, 2016</time>.
+      authentication:
+        signed_in: Signed in as
+        sign_out: Sign out
+        sign_in: Sign in
+        administrate: Administrate
+        returning: Returning user?
+
+    users:
+      user:
+        email: Email
+      new:
+        title: Let's fix this
+        description: "To get started, let's set you up with an account."
+      edit:
+        title: Change email and/or password
+        description: ""
+      form:
+        email: Email
+        password: Password
+        commit: Submit
+      show:
+        introduction: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information:"
+        requirements:
+          profile: 'Your personal details'
+          address: 'Your address'
+          claim: 'Details of employment, including evidence of hours worked and wages paid'
+          workplace: 'Details of your workplace, including a contact person and address'
+          employer: 'Details of your employer, if different from your workplace'
+        add: Please add these as prompted, below.
+        locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
+        profile:
+          heading: "Your details"
+          missing: "You haven't provided your details yet:"
+          complete: "Add your details"
+        address:
+          heading: "Your address"
+          edit: "Edit your address"
+          missing: "You haven't provided your address yet:"
+          complete: "Add your address"
+        claim:
+          heading: "Your claim"
+          missing: "You haven't provided details of your claim yet:"
+          complete: "Fill in your claim"
+
+    claims:
+      new:
+        title: Perhaps I can help you.
+        intro: |
+          Hello there. If you've done **work lately on a farm**, I'm here to help you find out if you've been ripped off—and help you get your money, if you want.
+
+          First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$21.61 per hour** before tax.
+
+          So, you think you've been underpaid? Let's find out.
+      form:
+        title: Tell us about your work
+        award: "What industry did you work in?"
+        weekly_hours: "How many hours per week did you work, on average?"
+        hourly_pay: "How much were you paid per hour?"
+        payslips_received: "Were you given any payslips?"
+        employment_began_on: "When did your employment begin?"
+        employment_ended_on: "When did your employment end?"
+        employment_type: "Were you casual, or permanent?"
+        calculate: Am I underpaid?
+        commit: Let's fix this!
+      claim:
+        edit: Edit claim details
+        employer:
+          heading: Employer
+          missing: "You're still missing an employer:"
+          complete: Employer details
+        workplace:
+          heading: Workplace
+          missing: "You're still missing a workplace:"
+          complete: Workplace details
+        company:
+          heading: Company
+          missing: "You're still missing an employer and/or workplace:"
+          complete: Company details
+        document: 
+          new: Add a supporting document
+        wage_evidence: "We need evidence of wages paid for:"
+        time_evidence: "We need evidence of hours worked for:"
+        to: until
+        award: Industry
+        weekly_hours: Avg. hours per week
+        hourly_pay: Hourly wage
+        employment_began_on: Employment began on
+        employment_ended_on: Employment ended on
+        employment_type: Employment type
+        lost_wages: Calculated wages lost
+      review:
+        description: You've filled out enough of your claim details to send it to us for review. If you have more information to add, please do so. Otherwise, you can go ahead and "submit for review" below.
+        missing_time_evidence: It appears you haven't uploaded enough evidence of hours worked to cover your entire period of employment. You can opt to self-witness the hours worked, below.
+        certify: I certify that I worked 
+        hours: hours for
+        commit: Submit for review
+        
+    addresses:
+      address:
+        street_address: Address
+        secondary_street_address: Address line 2
+        town: Town
+        province: Province
+        postal_code: Postal code
+        country: Country
+      form:
+        title: Address
+        user_title: Your address
+        company_title: Company's address
+        commit: Submit
+
+    profiles:
+      new:
+        title: Personal details
+        description: "Now that we've got an account for you, we'll need a few of your personal details to proceed with a claim on your behalf."
+      edit:
+        title: Edit personal details
+        description: ""
+      form:
+        commit: Submit
+      profile:
+        family_name: Family name
+        given_name: Given name(s)
+        preferred_name: Preferred name
+        date_of_birth: Date of birth
+        phone: Phone
+        preferred_language: Preferred language
+        edit: Edit personal details
+        address:
+          remove: Remove address
+
+    documents:
+      form:
+        title: Add a document to your claim
+        evidence: Upload an image or document
+        statement: Or, write your own statement
+        affidavit: Generate an affidavit?
+        coverage_start_date: "This document covers the period from:"
+        coverage_end_date: "To:"
+        wage_evidence: This document is evidence of wages paid to me
+        time_evidence: This document is evidence of hours I have worked
+        wages: "How much does this document indicate you were paid?"
+        hours: "How many hours does this document indicate that you worked?"
+        commit: Add document
+
+    companies:
+      edit:
+        title: Edit company details
+      new:
+        title: Enter company details
+      form:
+        title: Add a company to your claim
+        commit: Save company details
+        search: Search for your company
+        manual: Enter company details
+        name: Name of business
+        contact: Name of contact person
+        abn: ABN, if known
+        phone: Contact phone
+        email: Contact email
+      company:
+        name: Name
+        contact: Name of contact person
+        abn: ABN
+        phone: Contact phone
+        edit: Edit company details
+        email: Contact email
+        remove: Remove
+        address:
+          heading: Company address
+          edit: Edit company address
+          complete: Add company address
+          remove: Remove address
+          missing: "You haven't provided an company address yet:"
+
+    admin:
+      claims:
+        form:
+          status: Status
+          comment: Explanation (optional)
+          commit: Update claim
+          
+      messages:
+        new:
+          subject: Subject
+          body: Body
+
+  activerecord:
+    models:
+      claim_company: Company
+      
+    attributes:
+      user:
+        email: Email
+        password: Password
+        
+      profile:
+        family_name: Family name
+        given_name: Given name(s)
+        preferred_name: Preferred name
+        date_of_birth: Date of birth
+        phone: Phone
+        preferred_language: Preferred language
+        nationality: Nationality
+        visa: Australian visa status
+        gender: Gender
+        
+      claim:
+        award: Award
+        weekly_hours: Weekly hours
+        hourly_pay: Hourly pay
+        employment_began_on: Employment began on
+        employment_ended_on: Employment ended on
+        employment_type: Employment type
+        
+      claim_company:
+        claim_id: Company
+        
+      company:
+        name: Name of business or trading name
+        contact: Name of contact person
+        abn: ABN
+        email: Contact email
+        phone: Contact phone
+        
+      address:
+        street_address: Address
+        secondary_street_address: Address line 2
+        town: Town
+        province: Province
+        postal_code: Postal code
+        country: Country
+        
+    errors:
+      messages:
+        blank: "is required"
+      template:
+        header:
+          one: 1 error prevented this %{model} from being saved
+          other: "%{count} errors prohibited this %{model} from being saved"
+      models:
+        user:
+          attributes:
+            email:
+              taken: has already been taken
+          
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      not_saved: 
+        one: "1 error prevented this %{resource} from being saved:"
+        other: "%{count} errors prevented this %{resource} from being saved:"
+    template:
+      body: 'There were problems with the following fields:'
+      header:
+        one: 1 error prevented this %{model} from being saved
+        other: "%{count} errors prevented this %{model} from being saved"
+
   helpers:
     addresses:
       states_list:
@@ -296,10 +561,14 @@ en:
         v417: 417 - Working Holiday visa
         v444: 444 - Special Category visa for New Zealand citizens
         v457: 457 - Temporary Work - Skilled visa
+        v572: 572 - Vocational Education and Training Sector visa
+        v573: 573 - Higher Education Sector visa
+        v574: 574 - Postgraduate Research Sector visa
+        v575: 575 - Non Award Sector visa
         v201: 201 - In-country Special Humanitarian visa
         v202: 202 - Global Special Humanitarian visa
         v203: 203 - Emergency Rescue visa
-        v204: 204- Woman at risk visa
+        v204: 204 - Woman at risk visa
         other: Other visa
       gender_list:
         female: Female
@@ -320,268 +589,3 @@ en:
         east_timor: Timor-Leste
         tuvalu: Tuvalu
         vanuatu: Vanuatu
-    
-  views:
-    layouts:
-      application:
-        title: UNDERPAID?
-        byline: (...or just overworked?)
-        footer: |
-          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-03-10">10 March, 2016</time>.
-      authentication:
-        signed_in: Signed in as
-        sign_out: Sign out
-        sign_in: Sign in
-        administrate: Administrate
-        returning: Returning user?
-
-    users:
-      user:
-        email: Email
-      new:
-        title: Let's fix this
-        description: "To get started, let's set you up with an account."
-      edit:
-        title: Change email and/or password
-        description: ""
-      form:
-        email: Email
-        password: Password
-        commit: Submit
-      show:
-        introduction: "You're off to a good start. In order to begin proceedings for you, we need certain pieces of information:"
-        requirements:
-          profile: 'Your personal details'
-          address: 'Your address'
-          claim: 'Details of employment, including evidence of hours worked and wages paid'
-          workplace: 'Details of your workplace, including a contact person and address'
-          employer: 'Details of your employer, if different from your workplace'
-        add: Please add these as prompted, below.
-        locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
-        profile:
-          heading: "Your details"
-          missing: "You haven't provided your details yet:"
-          complete: "Add your details"
-        address:
-          heading: "Your address"
-          edit: "Edit your address"
-          missing: "You haven't provided your address yet:"
-          complete: "Add your address"
-        claim:
-          heading: "Your claim"
-          missing: "You haven't provided details of your claim yet:"
-          complete: "Fill in your claim"
-
-    claims:
-      new:
-        title: Perhaps I can help you.
-        intro: |
-          Hello there. If you've done **work lately on a farm**, I'm here to help you find out if you've been ripped off—and help you get your money, if you want.
-
-          First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$21.61 per hour** before tax.
-
-          So, you think you've been underpaid? Let's find out.
-      form:
-        title: Tell us about your work
-        award: "What industry did you work in?"
-        weekly_hours: "How many hours per week did you work, on average?"
-        hourly_pay: "How much were you paid per hour?"
-        payslips_received: "Were you given any payslips?"
-        employment_began_on: "When did your employment begin?"
-        employment_ended_on: "When did your employment end?"
-        employment_type: "Were you casual, or permanent?"
-        calculate: Am I underpaid?
-        commit: Let's fix this!
-      claim:
-        edit: Edit claim details
-        employer:
-          heading: Employer
-          missing: "You're still missing an employer:"
-          complete: Employer details
-        workplace:
-          heading: Workplace
-          missing: "You're still missing a workplace:"
-          complete: Workplace details
-        company:
-          heading: Company
-          missing: "You're still missing an employer and/or workplace:"
-          complete: Company details
-        document: 
-          new: Add a supporting document
-        wage_evidence: "We need evidence of wages paid for:"
-        time_evidence: "We need evidence of hours worked for:"
-        to: until
-        award: Industry
-        weekly_hours: Avg. hours per week
-        hourly_pay: Hourly wage
-        employment_began_on: Employment began on
-        employment_ended_on: Employment ended on
-        employment_type: Employment type
-        lost_wages: Calculated wages lost
-      review:
-        description: You've filled out enough of your claim details to send it to us for review. If you have more information to add, please do so. Otherwise, you can go ahead and "submit for review" below.
-        missing_time_evidence: It appears you haven't uploaded enough evidence of hours worked to cover your entire period of employment. You can opt to self-witness the hours worked, below.
-        certify: I certify that I worked 
-        hours: hours for
-        commit: Submit for review
-        
-    addresses:
-      address:
-        street_address: Address
-        secondary_street_address: Address line 2
-        town: Town
-        province: Province
-        postal_code: Postal code
-        country: Country
-      form:
-        title: Address
-        user_title: Your address
-        company_title: Company's address
-        commit: Submit
-
-    profiles:
-      new:
-        title: Personal details
-        description: "Now that we've got an account for you, we'll need a few of your personal details to proceed with a claim on your behalf."
-      edit:
-        title: Edit personal details
-        description: ""
-      form:
-        commit: Submit
-      profile:
-        family_name: Family name
-        given_name: Given name(s)
-        preferred_name: Preferred name
-        date_of_birth: Date of birth
-        phone: Phone
-        preferred_language: Preferred language
-        edit: Edit personal details
-        address:
-          remove: Remove address
-
-    documents:
-      form:
-        title: Add a document to your claim
-        evidence: Upload an image or document
-        statement: Or, write your own statement
-        affidavit: Generate an affidavit?
-        coverage_start_date: "This document covers the period from:"
-        coverage_end_date: "To:"
-        wage_evidence: This document is evidence of wages paid to me
-        time_evidence: This document is evidence of hours I have worked
-        wages: "How much does this document indicate you were paid?"
-        hours: "How many hours does this document indicate that you worked?"
-        commit: Add document
-
-    companies:
-      edit:
-        title: Edit company details
-      new:
-        title: Enter company details
-      form:
-        title: Add a company to your claim
-        commit: Save company details
-        search: Search for your company
-        manual: Enter company details
-        name: Name of business
-        contact: Name of contact person
-        abn: ABN, if known
-        phone: Contact phone
-        email: Contact email
-      company:
-        name: Name
-        contact: Name of contact person
-        abn: ABN
-        phone: Contact phone
-        edit: Edit company details
-        email: Contact email
-        remove: Remove
-        address:
-          heading: Company address
-          edit: Edit company address
-          complete: Add company address
-          remove: Remove address
-          missing: "You haven't provided an company address yet:"
-
-    admin:
-      claims:
-        form:
-          status: Status
-          comment: Explanation (optional)
-          commit: Update claim
-          
-      messages:
-        new:
-          subject: Subject
-          body: Body
-
-  activerecord:
-    models:
-      claim_company: Company
-      
-    attributes:
-      user:
-        email: Email
-        password: Password
-        
-      profile:
-        family_name: Family name
-        given_name: Given name(s)
-        preferred_name: Preferred name
-        date_of_birth: Date of birth
-        phone: Phone
-        preferred_language: Preferred language
-        nationality: Nationality
-        visa: Australian visa status
-        gender: Gender
-        
-      claim:
-        award: Award
-        weekly_hours: Weekly hours
-        hourly_pay: Hourly pay
-        employment_began_on: Employment began on
-        employment_ended_on: Employment ended on
-        employment_type: Employment type
-        
-      claim_company:
-        claim_id: Company
-        
-      company:
-        name: Name of business or trading name
-        contact: Name of contact person
-        abn: ABN
-        email: Contact email
-        phone: Contact phone
-        
-      address:
-        street_address: Address
-        secondary_street_address: Address line 2
-        town: Town
-        province: Province
-        postal_code: Postal code
-        country: Country
-        
-    errors:
-      messages:
-        blank: "is required"
-      template:
-        header:
-          one: 1 error prevented this %{model} from being saved
-          other: "%{count} errors prohibited this %{model} from being saved"
-      models:
-        user:
-          attributes:
-            email:
-              taken: has already been taken
-          
-  errors:
-    format: "%{attribute} %{message}"
-    messages:
-      not_saved: 
-        one: "1 error prevented this %{resource} from being saved:"
-        other: "%{count} errors prevented this %{resource} from being saved:"
-    template:
-      body: 'There were problems with the following fields:'
-      header:
-        one: 1 error prevented this %{model} from being saved
-        other: "%{count} errors prevented this %{model} from being saved"

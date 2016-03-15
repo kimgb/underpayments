@@ -13,10 +13,6 @@ class User < ActiveRecord::Base
   def self.presentable_attributes
     ["email"]
   end
-  
-  def full_name
-    profile && profile.full_name
-  end
 
   def admin?
     admin
@@ -29,6 +25,11 @@ class User < ActiveRecord::Base
   # claim pass-through methods, very simple, excuse the meta-programming
   [:ready_to_submit?, :submitted?, :employer, :workplace, :locked?].each do |m|
     define_method(m) { claim && claim.send(m) }
+  end
+  
+  # ditto for profile pass-through methods
+  [:full_name, :preferred_language].each do |m|
+    define_method(m) { profile && profile.send(m) }
   end
 
   def not_submitted?
