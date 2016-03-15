@@ -15,4 +15,8 @@ module AddressesHelper
   def states_list
     locale_list_for_select_options('helpers.addresses.states_list')
   end
+  
+  def full_country_list
+    locale_list_for_select_options('helpers.addresses.country_list')
+  end
 end

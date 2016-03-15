@@ -22,5 +22,9 @@
         = fa.label :postal_code, class: "control-label"
         %br/
         = fa.text_field :postal_code, class: "form-control"
+      .form-group
+        = fa.label :country, class: "control-label"
+        %br/
+        = fa.select :country, options_for_select(country_list, "AU"), {}, { class: "form-control", placeholder: "Type your country..." }
 
   .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"

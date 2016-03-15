@@ -28,7 +28,7 @@
       
     .form-group
       = f.label :nationality
-      = f.select :nationality, options_for_select(country_list, (@profile.nationality || "AU")), {}, { class: "form-control" }
+      = f.select :nationality, options_for_select(full_country_list, @profile.nationality), {}, { class: "form-control" }
 
     .form-group
       = f.label :preferred_language, class: "control-label"
@@ -43,6 +43,9 @@
       = f.select :gender, options_for_select(gender_list, (@profile.gender || "U")), {}, { class: "form-control" }
       
     - if include_address
-      = render partial: "profiles/address_fields", locals: { f: f }
+      = render partial: "profiles/address_fields", locals: { f: f, address: @profile.address }
 
   .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"
+  
+:javascript
+  $("#profile_nationality").select2({theme: "bootstrap"});

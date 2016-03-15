@@ -65,11 +65,6 @@
           = fc.email_field :email, class: "form-control"
 
   .actions.text-right= f.submit t('views.companies.form.commit'), class: "btn btn-default"
-
-:css
-  .select2-results {
-    color: #666;
-  }
   
 :javascript
   $("a.manipulator").on("click", function(e){
@@ -109,3 +104,39 @@
     escapeMarkup: function(markup){ return markup; },
     minimumInputLength: 3
   });
+
+  //Selectize version, mostly functional
+  //$("#claim_company_company_id").selectize({
+  //  loadThrottle: 250,
+  //  valueField: 'id',
+  //  labelField: 'name',
+  //  searchField: 'name',
+  //  render: {
+  //    option: function(item, escape){
+  //      if (item.address){
+  //        var addr = item.address.town + ", " + item.address.province + " " + item.address.postal_code;
+  //      } else {
+  //        var addr = "no address";
+  //      }
+  //      
+  //      return '<div><span>' + escape(item.name) + ' (' + escape(addr) + ')' + '</span></div>';
+  //    }
+  //  },
+  //  load: function(query, callback){
+  //    if (query.length < 3) return callback();
+  //    $.ajax({
+  //      url: "#{companies_path}.json",
+  //      dataType: "json",
+  //      type: "GET",
+  //      data: {
+  //        name: query
+  //      },
+  //      error: function() {
+  //        callback();
+  //      },
+  //      success: function(res) {
+  //        callback(res);
+  //      }
+  //    })
+  //  }
+  //})

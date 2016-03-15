@@ -87,3 +87,29 @@ footer { margin-top: 4rem; }
   padding: 1rem;
   margin: 1rem 0;
 }
+
+/* Select2 style fixes */
+.select2-results {
+  color: #666;
+}
+
+.select2-container--bootstrap .select2-selection--single {
+  height: 42px !important;
+}
+
+.select2-selection {
+  font-family: 'Open Sans' !important;
+  font-size: 18px !important;
+  line-height: 1.6 !important;
+  color: #555;
+}
+
+/* Selectize fixes */
+.selectize-input {
+  min-height: 42px !important;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+  color: #555 !important;
+  line-height: 28.8px !important;
+}
