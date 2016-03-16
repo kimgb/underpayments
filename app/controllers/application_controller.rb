@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :authenticate_user!
-  before_action :extract_locale_from_accept_language_header
   # before_action :root_for_signed_in_user
   
   def default_url_options(options = {})
@@ -26,37 +25,23 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  # def set_locale
-  #   available_locales = I18n.available_locales.map(&:to_s)
-  #   supported_locale = if params[:locale].is_a?(Array)
-  #     # get the earliest supported locale
-  #     params[:locale].find { |locale| available_locales.include?(locale) }
-  #   else
-  #     params[:locale] if available_locales.include?(params[:locale])
-  #   end
-  #   
-  #   # set locale, fall back to default if no supported locale requested.
-  #   I18n.locale = supported_locale || I18n.default_locale
-  # end
-  
   # locale precedence: params -> user prefs -> browser -> default
   def set_locale
     supported_locales = I18n.available_locales.map(&:to_s)
-    
+
     I18n.locale = provided_locales.find(&supported_locales.method(:include?))
   end
   
-  # finder = supported_locales.method(:include?)
-  # 
-  # I18n.locale = params_locales.find(&finder) ||
-  #   user_locale.find(&finder) ||
-  #   language_header_locales.find(&finder) ||
-  #   I18n.default_locale
-  
+  # combines locales from various sources in order of priority. removes nils
+  # and duplicates - keeps only the highest priority occurrence of any given
+  # locale.
   def provided_locales
-    [*params_locales, *user_locale, *language_header_locales, *I18n.default_locale].uniq
+    [*params_locales, *user_locale, *language_header_locales, *I18n.default_locale].compact.uniq
   end
   
+  # currently, this is stored in the path instead of the query string.
+  # this causes problems because locale from param has the highest precedence
+  # but it's always set, so no other mode gets a look-in!
   def params_locales
     [*params[:locale]]
   end
@@ -66,7 +51,10 @@ class ApplicationController < ActionController::Base
   end
   
   def language_header_locales
-    langs = request.env['HTTP_ACCEPT_LANGUAGE'].scan(/([\-a-zA-Z]{2,5})(?:;q=(1|0?\.[0-9]{1,3}))?/).map do |pair|
+    # Scary regex is not that scary! On an example header string (mine):
+    # "en-AU,en-US;q=0.7,en;q=0.3" => [["en-AU", nil], ["en-US", "0.7"], ["en", "0.3"]]
+    rx = /([\-a-zA-Z]{2,5})(?:;q=(1|0?\.[0-9]{1,3}))?/
+    langs = request.env['HTTP_ACCEPT_LANGUAGE'].to_s.scan(rx).map do |pair|
       lang, q = pair
       [lang, (q || '1').to_f]
     end
@@ -74,10 +62,6 @@ class ApplicationController < ActionController::Base
     # sort by q value, map languages and reverse
     langs.sort_by(&:last).map(&:first).reverse
   end
-
-  # def root_for_signed_in_user
-  #   redirect_to current_user if (request.path == root_path && current_user)
-  # end
 
   def root_path_without_locale
     root_path.gsub(/en$|en-AU$|vi$|zh$|zh-TW$/, "")
@@ -90,12 +74,4 @@ class ApplicationController < ActionController::Base
       forbidden!
     end
   end
-  
-  def extract_locale_from_accept_language_header
-    puts request.env['HTTP_ACCEPT_LANGUAGE'] #.scan(/^[a-z]{2}/).first
-  end
-
-  # def authorise_owner!(resource)
-  #   forbidden unless resource.owner && resource.owner == current_user
-  # end
 end
