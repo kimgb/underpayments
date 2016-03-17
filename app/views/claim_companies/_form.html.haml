@@ -7,20 +7,20 @@
     .checkbox
       = f.label :is_workplace do
         = f.check_box :is_workplace
-        = "This company is my workplace"
+        = t('views.companies.form.is_workplace')
     .checkbox
       = f.label :is_employer do
         = f.check_box :is_employer
-        = "This company is my employer"
+        = t('views.companies.form.is_employer')
         
   %fieldset#search_company
     %legend.h4= t('views.companies.form.search')
     .form-group
       -# = f.label :company_id, t('views.companies.form.search'), class: "control-label"
-      = f.select :company_id, options_for_select([["Start typing...", ""]]), {}, { class: "form-control" }
+      = f.select :company_id, options_for_select([[t('views.companies.form.search_placeholder'), ""]]), {}, { class: "form-control" }
       %small.text-right
-        Can't find it?
-        %a.manipulator{ data: { show: "#manual_entry", hide: "#search_company" } } Enter it yourself
+        = t('views.companies.form.search_desc')
+        %a.manipulator{ data: { show: "#manual_entry", hide: "#search_company" } }= t('views.companies.form.search_desc2')
     
   %fieldset.collapse#manual_entry
     %legend.h4= t('views.companies.form.manual')
@@ -31,14 +31,14 @@
         -# = fc.select :name, options_for_select([@claim_company.company.name]), {}, { class: "form-control" }
         = fc.text_field :name, class: "form-control"
         %small.text-right
-          %a.manipulator{ data: { show: "#search_company", hide: "#manual_entry" } } Search instead?
+          %a.manipulator{ data: { show: "#search_company", hide: "#manual_entry" } }= t('views.companies.form.search_desc3')
         
       .form-group
         = fc.label :contact, t('views.companies.form.contact'), class: "control-label"
         %br/
         = fc.text_field :contact, class: "form-control"
         .text-right
-          %small= "E.g. your supervisor"
+          %small= t('views.companies.form.contact_desc')
 
       .form-group
         = fc.label :abn, t('views.companies.form.abn'), class: "control-label"
@@ -46,8 +46,8 @@
         = fc.text_field :abn, class: "form-control"
         .text-right
           %small
-            Not sure? You can try looking it up
-            %a{ href: "http://abr.business.gov.au/", target: "_blank" }here
+            = t('views.companies.form.abn_desc')
+            %a{ href: "http://abr.business.gov.au/", target: "_blank" }= t('views.companies.form.abn_desc2')
             
       .form-group
         = fc.label :phone, t('views.companies.form.phone'), class: "control-label"

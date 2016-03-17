@@ -5,7 +5,7 @@
       %li
         = req
         - if @user.send(key).present? && @user.send(key).done?
-          %span{ style: "color: green" } DONE
+          %span{ style: "color: green" }= t('views.users.show.requirement_done')
   %p= t('views.users.show.add')
   
 - if @user.ready_to_submit? && !@user.submitted?

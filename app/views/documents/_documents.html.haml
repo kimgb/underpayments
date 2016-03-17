@@ -1,6 +1,6 @@
-%h3 Supporting documents
+%h3= t('views.documents.document.title')
 - if documents.empty?
-  %p You haven't added any documents yet.
+  %p= t('views.documents.document.empty')
 - else
   %ul
     - documents.each do |doc|

@@ -2,7 +2,7 @@
   = render partial: "layouts/errors", locals: { resource: @company_address }
 
   %fieldset
-    %legend Address
+    %legend= t('views.addresses.form.title')
     = f.fields_for(:address) do |fa|
       = fa.hidden_field :country, value: "AU"
 

@@ -3,7 +3,7 @@
     #banner.text-center
       %h1{ style: "color: #F5003D; margin: 1rem 0;" }
         :markdown
-          You're owed _#{number_to_currency(current_user.claim.lost_wages)}_
+          #{t('views.layouts.banner.owed')}  _#{number_to_currency(current_user.claim.lost_wages)}_
 - else
   %header.align-right
     %hgroup

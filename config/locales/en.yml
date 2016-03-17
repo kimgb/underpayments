@@ -33,6 +33,8 @@ en:
         sign_in: Sign in
         administrate: Administrate
         returning: Returning user?
+      banner:
+        owed: You're owed
 
     users:
       user:
@@ -55,6 +57,7 @@ en:
           claim: 'Details of employment, including evidence of hours worked and wages paid'
           workplace: 'Details of your workplace, including a contact person and address'
           employer: 'Details of your employer, if different from your workplace'
+        requirement_done: DONE
         add: Please add these as prompted, below.
         locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
         profile:
@@ -92,6 +95,7 @@ en:
         calculate: Am I underpaid?
         commit: Let's fix this!
       claim:
+        title: Your claim
         edit: Edit claim details
         employer:
           heading: Employer
@@ -107,6 +111,7 @@ en:
           complete: Company details
         document: 
           new: Add a supporting document
+        affidavit_locked: "(You need to complete all other sections before submitting an affidavit.)"
         wage_evidence: "We need evidence of wages paid for:"
         time_evidence: "We need evidence of hours worked for:"
         to: until
@@ -118,16 +123,17 @@ en:
         employment_type: Employment type
         lost_wages: Calculated wages lost
       review:
-        description: You've filled out enough of your claim details to send it to us for review. If you have more information to add, please do so. Otherwise, you can go ahead and "submit for review" below.
-        missing_time_evidence: It appears you haven't uploaded enough evidence of hours worked to cover your entire period of employment. You can opt to self-witness the hours worked, below.
-        certify: I certify that I worked 
-        hours: hours for
+        description: |
+          Well done, it looks like you've got a complete claim. If you do have more information to add, please do so. 
+          Otherwise, you can go ahead and "submit for review" below.
+          After you submit your claim, we will review it for completeness. 
+          If we believe anything is missing, we'll get in touch with you.
+          If everything's in order, we'll start trying to get your money back, and we'll keep you posted about this process.
         commit: Submit for review
         
     addresses:
       address:
         street_address: Address
-        secondary_street_address: Address line 2
         town: Town
         province: Province
         postal_code: Postal code
@@ -147,7 +153,9 @@ en:
         description: ""
       form:
         commit: Submit
+        address: Address
       profile:
+        title: Personal details
         family_name: Family name
         given_name: Given name(s)
         preferred_name: Preferred name
@@ -159,6 +167,17 @@ en:
           remove: Remove address
 
     documents:
+      show:
+        duration: This document covers the period from %{beginning} to %{end}.
+        wages: It is a claim of %{wages} wages paid.
+        hours: It is a claim of %{hours} hours worked.
+        evidence: "This document contains evidence:"
+        statement: "This document contains a statement:"
+        delete: Delete
+        back: Back
+      document:
+        title: Supporting documents
+        empty: You haven't added any documents yet.
       form:
         title: Add a document to your claim
         evidence: Upload an image or document
@@ -181,10 +200,19 @@ en:
         title: Add a company to your claim
         commit: Save company details
         search: Search for your company
+        search_placeholder: Start typing...
+        search_desc: Can't find it?
+        search_desc2: Enter it yourself
+        search_desc3: Search instead?
+        is_workplace: This company is my workplace
+        is_employer: This company is my employer
         manual: Enter company details
         name: Name of business
         contact: Name of contact person
+        contact_desc: E.g. your supervisor
         abn: ABN, if known
+        abn_desc: Not sure? You can try looking it up 
+        abn_desc2: here
         phone: Contact phone
         email: Contact email
       company:
@@ -286,6 +314,13 @@ en:
         other: "%{count} errors prevented this %{model} from being saved"
 
   helpers:
+    claims:
+      employment_types:
+        casual: Casual
+        permanent: Permanent
+      awards:
+        horticulture: Horticulture
+        poultry: Poultry Processing
     addresses:
       states_list:
         ACT: Australian Capital Territory
@@ -297,255 +332,266 @@ en:
         VIC: Victoria
         WA: Western Australia
       country_list:
-        AF: Afghanistan
-        AX: Åland Islands
-        AL: Albania
-        DZ: Algeria
-        AS: American Samoa
+        AC: Ascension Island
         AD: Andorra
-        AO: Angola
+        AE: United Arab Emirates
+        AF: Afghanistan
+        AG: Antigua & Barbuda
         AI: Anguilla
-        AQ: Antarctica
-        AG: Antigua and Barbuda
-        AR: Argentina
+        AL: Albania
         AM: Armenia
-        AW: Aruba
-        AU: Australia
+        AN: Netherlands Antilles
+        AO: Angola
+        AQ: Antarctica
+        AR: Argentina
+        AS: American Samoa
         AT: Austria
+        AU: Australia
+        AW: Aruba
+        AX: Åland Islands
         AZ: Azerbaijan
-        BS: Bahamas
-        BH: Bahrain
-        BD: Bangladesh
+        BA: Bosnia & Herzegovina
         BB: Barbados
-        BY: Belarus
+        BD: Bangladesh
         BE: Belgium
-        BZ: Belize
-        BJ: Benin
-        BM: Bermuda
-        BT: Bhutan
-        BO: "Bolivia, Plurinational State of"
-        BQ: "Bonaire, Sint Eustatius and Saba"
-        BA: Bosnia and Herzegovina
-        BW: Botswana
-        BV: Bouvet Island
-        BR: Brazil
-        IO: British Indian Ocean Territory
-        BN: Brunei Darussalam
-        BG: Bulgaria
         BF: Burkina Faso
+        BG: Bulgaria
+        BH: Bahrain
         BI: Burundi
-        KH: Cambodia
-        CM: Cameroon
+        BJ: Benin
+        BL: St. Barthélemy
+        BM: Bermuda
+        BN: Brunei
+        BO: Bolivia
+        BQ: Caribbean Netherlands
+        BR: Brazil
+        BS: Bahamas
+        BT: Bhutan
+        BV: Bouvet Island
+        BW: Botswana
+        BY: Belarus
+        BZ: Belize
         CA: Canada
-        CV: Cape Verde
-        KY: Cayman Islands
-        CF: Central African Republic
-        TD: Chad
-        CL: Chile
-        CN: China
-        CX: Christmas Island
         CC: Cocos (Keeling) Islands
-        CO: Colombia
-        KM: Comoros
-        CG: Congo
-        CD: "Congo, the Democratic Republic of the"
+        CD: Congo - Kinshasa
+        CF: Central African Republic
+        CG: Congo - Brazzaville
+        CH: Switzerland
+        CI: Côte d’Ivoire
         CK: Cook Islands
+        CL: Chile
+        CM: Cameroon
+        CN: China
+        CO: Colombia
+        CP: Clipperton Island
         CR: Costa Rica
-        CI: "Côte d'Ivoire"
-        HR: Croatia
         CU: Cuba
+        CV: Cape Verde
         CW: Curaçao
+        CX: Christmas Island
         CY: Cyprus
         CZ: Czech Republic
-        DK: Denmark
+        DE: Germany
+        DG: Diego Garcia
         DJ: Djibouti
+        DK: Denmark
         DM: Dominica
         DO: Dominican Republic
+        DZ: Algeria
+        EA: Ceuta & Melilla
         EC: Ecuador
-        EG: Egypt
-        SV: El Salvador
-        GQ: Equatorial Guinea
-        ER: Eritrea
         EE: Estonia
+        EG: Egypt
+        EH: Western Sahara
+        ER: Eritrea
+        ES: Spain
         ET: Ethiopia
-        FK: Falkland Islands (Malvinas)
-        FO: Faroe Islands
-        FJ: Fiji
+        EU: European Union
         FI: Finland
+        FJ: Fiji
+        FK: Falkland Islands
+        FM: Micronesia
+        FO: Faroe Islands
         FR: France
-        GF: French Guiana
-        PF: French Polynesia
-        TF: French Southern Territories
         GA: Gabon
-        GM: Gambia
+        GB: United Kingdom
+        GD: Grenada
         GE: Georgia
-        DE: Germany
+        GF: French Guiana
+        GG: Guernsey
         GH: Ghana
         GI: Gibraltar
-        GR: Greece
         GL: Greenland
-        GD: Grenada
-        GP: Guadeloupe
-        GU: Guam
-        GT: Guatemala
-        GG: Guernsey
+        GM: Gambia
         GN: Guinea
+        GP: Guadeloupe
+        GQ: Equatorial Guinea
+        GR: Greece
+        GS: South Georgia & South Sandwich Islands
+        GT: Guatemala
+        GU: Guam
         GW: Guinea-Bissau
         GY: Guyana
-        HT: Haiti
-        HM: Heard Island and McDonald Islands
-        VA: Holy See (Vatican City State)
+        HK: Hong Kong SAR China
+        HM: Heard & McDonald Islands
         HN: Honduras
-        HK: Hong Kong
+        HR: Croatia
+        HT: Haiti
         HU: Hungary
-        IS: Iceland
-        IN: India
+        IC: Canary Islands
         ID: Indonesia
-        IR: "Iran, Islamic Republic of"
-        IQ: Iraq
         IE: Ireland
-        IM: Isle of Man
         IL: Israel
+        IM: Isle of Man
+        IN: India
+        IO: British Indian Ocean Territory
+        IQ: Iraq
+        IR: Iran
+        IS: Iceland
         IT: Italy
-        JM: Jamaica
-        JP: Japan
         JE: Jersey
+        JM: Jamaica
         JO: Jordan
-        KZ: Kazakhstan
+        JP: Japan
         KE: Kenya
-        KI: Kiribati
-        KP: "Korea, Democratic People's Republic of"
-        KR: "Korea, Republic of"
-        KW: Kuwait
         KG: Kyrgyzstan
-        LA: Lao People's Democratic Republic
-        LV: Latvia
+        KH: Cambodia
+        KI: Kiribati
+        KM: Comoros
+        KN: St. Kitts & Nevis
+        KP: North Korea
+        KR: South Korea
+        KW: Kuwait
+        KY: Cayman Islands
+        KZ: Kazakhstan
+        LA: Laos
         LB: Lebanon
-        LS: Lesotho
-        LR: Liberia
-        LY: Libya
+        LC: St. Lucia
         LI: Liechtenstein
+        LK: Sri Lanka
+        LR: Liberia
+        LS: Lesotho
         LT: Lithuania
         LU: Luxembourg
-        MO: Macao
-        MK: "Macedonia, the Former Yugoslav Republic of"
+        LV: Latvia
+        LY: Libya
+        MA: Morocco
+        MC: Monaco
+        MD: Moldova
+        ME: Montenegro
+        MF: St. Martin
         MG: Madagascar
-        MW: Malawi
-        MY: Malaysia
-        MV: Maldives
-        ML: Mali
-        MT: Malta
         MH: Marshall Islands
+        MK: Macedonia
+        ML: Mali
+        MM: Myanmar (Burma)
+        MN: Mongolia
+        MO: Macau SAR China
+        MP: Northern Mariana Islands
         MQ: Martinique
         MR: Mauritania
-        MU: Mauritius
-        YT: Mayotte
-        MX: Mexico
-        FM: "Micronesia, Federated States of"
-        MD: "Moldova, Republic of"
-        MC: Monaco
-        MN: Mongolia
-        ME: Montenegro
         MS: Montserrat
-        MA: Morocco
+        MT: Malta
+        MU: Mauritius
+        MV: Maldives
+        MW: Malawi
+        MX: Mexico
+        MY: Malaysia
         MZ: Mozambique
-        MM: Myanmar
         NA: Namibia
-        NR: Nauru
-        NP: Nepal
-        NL: Netherlands
         NC: New Caledonia
-        NZ: New Zealand
-        NI: Nicaragua
         NE: Niger
-        NG: Nigeria
-        NU: Niue
         NF: Norfolk Island
-        MP: Northern Mariana Islands
-        NO: Norway
+        NG: Nigeria
+        NI: Nicaragua
+        NL: Netherlands
+        'NO': Norway
+        NP: Nepal
+        NR: Nauru
+        NU: Niue
+        NZ: New Zealand
         OM: Oman
-        PK: Pakistan
-        PW: Palau
-        PS: "Palestine, State of"
         PA: Panama
-        PG: Papua New Guinea
-        PY: Paraguay
         PE: Peru
+        PF: French Polynesia
+        PG: Papua New Guinea
         PH: Philippines
-        PN: Pitcairn
+        PK: Pakistan
         PL: Poland
-        PT: Portugal
+        PM: St. Pierre & Miquelon
+        PN: Pitcairn Islands
         PR: Puerto Rico
+        PS: Palestinian Territories
+        PT: Portugal
+        PW: Palau
+        PY: Paraguay
         QA: Qatar
+        QO: Outlying Oceania
         RE: Réunion
         RO: Romania
-        RU: Russian Federation
-        RW: Rwanda
-        BL: Saint Barthélemy
-        SH: "Saint Helena, Ascension and Tristan da Cunha"
-        KN: Saint Kitts and Nevis
-        LC: Saint Lucia
-        MF: Saint Martin (French part)
-        PM: Saint Pierre and Miquelon
-        VC: Saint Vincent and the Grenadines
-        WS: Samoa
-        SM: San Marino
-        ST: Sao Tome and Principe
-        SA: Saudi Arabia
-        SN: Senegal
         RS: Serbia
-        SC: Seychelles
-        SL: Sierra Leone
-        SG: Singapore
-        SX: Sint Maarten (Dutch part)
-        SK: Slovakia
-        SI: Slovenia
+        RU: Russia
+        RW: Rwanda
+        SA: Saudi Arabia
         SB: Solomon Islands
-        SO: Somalia
-        ZA: South Africa
-        GS: South Georgia and the South Sandwich Islands
-        SS: South Sudan
-        ES: Spain
-        LK: Sri Lanka
+        SC: Seychelles
         SD: Sudan
-        SR: Suriname
-        SJ: Svalbard and Jan Mayen
-        SZ: Swaziland
         SE: Sweden
-        CH: Switzerland
-        SY: Syrian Arab Republic
-        TW: "Taiwan, Province of China"
-        TJ: Tajikistan
-        TZ: "Tanzania, United Republic of"
-        TH: Thailand
-        TL: Timor-Leste
+        SG: Singapore
+        SH: St. Helena
+        SI: Slovenia
+        SJ: Svalbard & Jan Mayen
+        SK: Slovakia
+        SL: Sierra Leone
+        SM: San Marino
+        SN: Senegal
+        SO: Somalia
+        SR: Suriname
+        SS: South Sudan
+        ST: São Tomé & Príncipe
+        SV: El Salvador
+        SX: Saint Martin
+        SY: Syria
+        SZ: Swaziland
+        TA: Tristan da Cunha
+        TC: Turks & Caicos Islands
+        TD: Chad
+        TF: French Southern Territories
         TG: Togo
+        TH: Thailand
+        TJ: Tajikistan
         TK: Tokelau
-        TO: Tonga
-        TT: Trinidad and Tobago
-        TN: Tunisia
-        TR: Turkey
+        TL: Timor-Leste
         TM: Turkmenistan
-        TC: Turks and Caicos Islands
+        TN: Tunisia
+        TO: Tonga
+        TR: Turkey
+        TT: Trinidad & Tobago
         TV: Tuvalu
-        UG: Uganda
+        TW: Taiwan
+        TZ: Tanzania
         UA: Ukraine
-        AE: United Arab Emirates
-        GB: United Kingdom
+        UG: Uganda
+        UM: U.S. Outlying Islands
         US: United States
-        UM: United States Minor Outlying Islands
         UY: Uruguay
         UZ: Uzbekistan
+        VA: Vatican City
+        VC: St. Vincent & Grenadines
+        VE: Venezuela
+        VG: British Virgin Islands
+        VI: U.S. Virgin Islands
+        VN: Vietnam
         VU: Vanuatu
-        VE: "Venezuela, Bolivarian Republic of"
-        VN: Viet Nam
-        VG: "Virgin Islands, British"
-        VI: "Virgin Islands, U.S."
-        WF: Wallis and Futuna
-        EH: Western Sahara
+        WF: Wallis & Futuna
+        WS: Samoa
+        XK: Kosovo
         YE: Yemen
+        YT: Mayotte
+        ZA: South Africa
         ZM: Zambia
         ZW: Zimbabwe
+        ZZ: Unknown Region
     profiles:
       languages_list:
         en-AU: English (Australian)
@@ -561,6 +607,7 @@ en:
         v417: 417 - Working Holiday visa
         v444: 444 - Special Category visa for New Zealand citizens
         v457: 457 - Temporary Work - Skilled visa
+        v570: 570 - Independent ELICOS Sector visa
         v572: 572 - Vocational Education and Training Sector visa
         v573: 573 - Higher Education Sector visa
         v574: 574 - Postgraduate Research Sector visa
@@ -575,17 +622,3 @@ en:
         male: Male
         refused: I'd rather not say
         neither: It's not that simple
-      country_list:
-        australia: Australia
-        new_zealand: New Zealand
-        tonga: Tonga
-        fiji: Fiji
-        taiwan: Taiwan
-        samoa: Samoa
-        kiribati: Kiribati
-        nauru: Nauru
-        papua_new_guinea: Papua New Guinea
-        solomon_islands: Solomon Islands
-        east_timor: Timor-Leste
-        tuvalu: Tuvalu
-        vanuatu: Vanuatu

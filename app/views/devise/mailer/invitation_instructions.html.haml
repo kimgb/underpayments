@@ -4,4 +4,8 @@
 
 %p= link_to t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token)
 
+%p= t('devise.mailer.invitation_instructions.explanation')
+
 %p= t("devise.mailer.invitation_instructions.ignore").html_safe
+
+%p= t('devise.mailer.invitation_instructions.signature').html_safe

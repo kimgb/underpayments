@@ -6,7 +6,7 @@
 
     .form-group
       = f.label :award, t('views.claims.form.award'), class: "control-label"
-      = f.select :award, options_for_select([["Horticulture", "horticulture"], ["Poultry Processing", "poultry"]], "horticulture"), {}, { class: "form-control" }
+      = f.select :award, options_for_select(awards_list, "horticulture"), {}, { class: "form-control" }
 
     .form-group
       = f.label :weekly_hours, t('views.claims.form.weekly_hours'), class: "control-label"
@@ -42,7 +42,7 @@
     .form-group
       = f.label :employment_type, t('views.claims.form.employment_type'), class: "control-label"
       %br/
-      = f.select :employment_type, options_for_select([["Casual", "casual"], ["Permanent", "permanent"]], "casual"), {}, { class: "form-control" }
+      = f.select :employment_type, options_for_select(employment_type_list, "casual"), {}, { class: "form-control" }
 
   %output#claim_output
 

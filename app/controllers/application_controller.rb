@@ -6,9 +6,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   # before_action :root_for_signed_in_user
   
-  def default_url_options(options = {})
-    { locale: I18n.locale }.merge(options)
-  end
+  # def default_url_options(options = {})
+  #   { locale: I18n.locale }.merge(options)
+  # end
 
   def after_sign_in_path_for(resource)
     resource.admin? ? admin_users_url : user_url(resource)
@@ -32,11 +32,11 @@ class ApplicationController < ActionController::Base
     I18n.locale = provided_locales.find(&supported_locales.method(:include?))
   end
   
-  # combines locales from various sources in order of priority. removes nils
-  # and duplicates - keeps only the highest priority occurrence of any given
-  # locale.
+  # combines locales from various sources in order of priority. set union `|`
+  # removes duplicates - keeps only the highest priority occurrence of any given
+  # locale. Array#compact removes nils.
   def provided_locales
-    [*params_locales, *user_locale, *language_header_locales, *I18n.default_locale].compact.uniq
+    (params_locales | user_locale | language_header_locales | [I18n.default_locale]).compact
   end
   
   # currently, this is stored in the path instead of the query string.
@@ -54,8 +54,7 @@ class ApplicationController < ActionController::Base
     # Scary regex is not that scary! On an example header string (mine):
     # "en-AU,en-US;q=0.7,en;q=0.3" => [["en-AU", nil], ["en-US", "0.7"], ["en", "0.3"]]
     rx = /([\-a-zA-Z]{2,5})(?:;q=(1|0?\.[0-9]{1,3}))?/
-    langs = request.env['HTTP_ACCEPT_LANGUAGE'].to_s.scan(rx).map do |pair|
-      lang, q = pair
+    langs = request.env['HTTP_ACCEPT_LANGUAGE'].to_s.scan(rx).map do |lang, q|
       [lang, (q || '1').to_f]
     end
     

@@ -1,0 +1,26 @@
+zh-TW:
+  devise:
+    failure:
+      invited: "You have a pending invitation, accept it to finish creating your account."
+    invitations:
+      send_instructions: "An invitation email has been sent to %{email}."
+      invitation_token_invalid: "The invitation token provided is not valid!"
+      updated: "Your password was set successfully. You are now signed in."
+      updated_not_active: "Your password was set successfully."
+      no_invitations_remaining: "No invitations remaining"
+      invitation_removed: "Your invitation was removed."
+      new:
+        header: "Send invitation"
+        submit_button: "Send an invitation"
+      edit:
+        header: "設定密碼"
+        submit_button: "設定我的密碼"
+    mailer:
+      invitation_instructions:
+        subject: "你覺得被欠薪了嗎"
+        hello: "哈囉 %{信箱帳號}" 
+        someone_invited_you: "你覺得你有被欠薪嗎? 我們設計了一套系統可以幫助你計算欠薪 %{url} 幫助你討回欠薪, 系統將直接送出邀請 %{url}, 你可以直接點入以下連接進入系統."
+        accept: "同意邀請"
+        explanation: "一旦你接受邀請，你需要設定一組帳號密碼，建立個人檔案。接下來系統會要求你鍵入相關欠薪資料，系統會自動計算欠薪。"
+        ignore: "如果你不願接受邀請, 請忽略該郵件.<br />你必須建立帳號，否則系統無法成功建檔."
+        signature: "Best,<br/><br/>Kim Buckley<br/>IT　Officer<br/>National Union of Workers"

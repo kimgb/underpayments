@@ -1,5 +1,5 @@
 %h3
-  Your claim
+  = t('views.claims.claim.title')
   %small= link_if_unlocked(claim, "(#{t('views.claims.claim.edit')})", edit_claim_path(claim))
 :markdown
   #{markdown_model(claim)}  
@@ -23,7 +23,7 @@
   %p
   = link_if_unlocked(claim, "Add an affidavit", new_claim_document_path(claim, affidavit: true), class: "btn btn-sm btn-default #{"disabled" unless claim.enable_affidavit?}")
   - unless claim.enable_affidavit?
-    %small (You need to complete all other sections before submitting an affidavit.)
+    %small= t('views.claims.claim.affidavit_locked')
 
 -# present attached companies: zero, one, or two
 - if claim.presentable_companies.any?

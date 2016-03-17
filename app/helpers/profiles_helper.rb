@@ -17,7 +17,7 @@ module ProfilesHelper
   end
   
   def country_list
-    locale_list_for_select_options('helpers.profiles.country_list')
+    locale_list_for_select_options('helpers.addresses.country_list')
   end
   
   def gender_list

@@ -1,11 +1,5 @@
 # Australian locale
 en-AU:
-  # address:
-  #   town: Suburb
-  #   province: State
-  #   postal_code: Postcode
-
-  # validation messages
   views:
     addresses:
       address:
