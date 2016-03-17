@@ -1,6 +1,6 @@
 %h3= basename(@document)
 
-%p= t(:duration, scope: 'views.documents.show', beginning: @document.coverage_start_date.to_s(:long), end: @document.coverage_end_date.to_s(:long))
+%p= t(:duration, scope: 'views.documents.show', beginning: date_to_time_tag(@document.coverage_start_date), end: date_to_time_tag(@document.coverage_end_date)).html_safe
 
 %p 
   - if @document.wage_evidence

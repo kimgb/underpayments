@@ -187,7 +187,7 @@ zh-TW:
         coverage_end_date: "給:"
         wage_evidence: 這份文件為我的薪資證明
         time_evidence: 這份資料為我的總工作時數
-        wages: "這份文件如何證明你的薪資?"
+        wages: "你所領取的總薪資?"
         hours: "此份文件所指的你工作總時數是?"
         commit: 新增文件
 
