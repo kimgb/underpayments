@@ -63,9 +63,9 @@ class Claim < ActiveRecord::Base
       I18n.t('two', scope: t_scope, visa_statement: owner.profile.visa_string_for_statement),
       I18n.t('three', scope: t_scope, workplace: workplace.name, address: workplace.address.to_s, date: employment_began_on.to_s(:rfc822)),
       I18n.t('four', scope: t_scope, employer: (employer || workplace).name),
-      I18n.t('five', scope: t_scope, employer: (employer || workplace).name, hours: hours_worked),
-      I18n.t('six', scope: t_scope, hours: hours_worked, dollars: actual_pay),
-      I18n.t('seven', scope: t_scope, dollars: stolen_wages, award: proper_award)
+      I18n.t('five', scope: t_scope, employer: (employer || workplace).name, hours: hours_worked.round(2)),
+      I18n.t('six', scope: t_scope, hours: hours_worked.round(2), dollars: actual_pay.round(2)),
+      I18n.t('seven', scope: t_scope, dollars: stolen_wages.round(2), award: proper_award)
     ]
   end
   

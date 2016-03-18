@@ -5,6 +5,8 @@
   #{markdown_model(claim)}  
 
 = render partial: "documents/documents", locals: { documents: claim.documents }
+- unless claim.payslips_received
+  %p.bold= t('views.claims.claim.no_evidence')
 - if claim.coverage_gaps.any?
   = t('views.claims.claim.wage_evidence')
   %br/

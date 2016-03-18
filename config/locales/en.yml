@@ -78,7 +78,6 @@ en:
           employer: 'Details of your employer, if different from your workplace'
         requirement_done: DONE
         add: Please add these as prompted, below.
-        no_evidence: If you have no documents (e.g. payslips, bank statements) to use as evidence, you will first need to complete all other sections of your claim before adding a statement.
         locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
         profile:
           heading: "Your details"
@@ -131,6 +130,7 @@ en:
           complete: Company details
         document: 
           new: Add a supporting document
+        no_evidence: If you have no documents (e.g. payslips, bank statements) to use as evidence, you will first need to complete all other sections of your claim before adding a statement.
         add_affidavit: Add a statement
         affidavit_locked: "(You need to complete all other sections before submitting a statement.)"
         wage_evidence: "We need evidence of wages paid for:"
