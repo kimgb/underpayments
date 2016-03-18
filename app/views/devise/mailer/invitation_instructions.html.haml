@@ -8,4 +8,4 @@
 
 %p= t("devise.mailer.invitation_instructions.ignore").html_safe
 
-%p= t('devise.mailer.invitation_instructions.signature', inviter: @inviter.full_name).html_safe
+%p= t('devise.mailer.invitation_instructions.signature', sender: @inviter.full_name).html_safe
