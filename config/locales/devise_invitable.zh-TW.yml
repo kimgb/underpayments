@@ -18,8 +18,8 @@ zh-TW:
     mailer:
       invitation_instructions:
         subject: "覺得你被欠薪了嗎?"
-        hello: "哈囉 %{email}" 
-        someone_invited_you: "你覺得你被欠薪了嗎?  National Union of Workers (NUW)工會設計了一套系統幫助你拿回欠薪，只要點選以下"接受邀請"連結，就可以直接進入系統。"
+        hello: "哈囉 %{email}"
+        someone_invited_you: "你覺得你被欠薪了嗎? National Union of Workers (NUW)工會設計了一套系統幫助你拿回欠薪，只要點選以下\"接受邀請\"連結，就可以直接進入系統。"
         accept: "接受邀請"
         explanation: "一旦你接受邀請，系統會協助你設定密碼，然後你可以隨時進入系統輸入所有欠薪資料。為了讓你的案子能夠順利送出，系統會要求你提供你現有的欠薪相關資料。"
         ignore: "忽略: 如果你不願意接受邀請，請忽略這份郵件，在未設定密碼以及進入系統前，你的帳號將不會存在。"
