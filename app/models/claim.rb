@@ -52,21 +52,21 @@ class Claim < ActiveRecord::Base
   
   # Takes the array from affidavit_statements and turns it into a string, containing a preamble and numbered list.
   def affidavit_statement
-    <<-TEXT
-I, #{owner.full_name}, of #{owner.address.to_s}, affirm as follows:
-
-1. I am originally from #{owner.profile.country_of_origin}.
-
-2. #{owner.profile.visa_string_for_statement}
-
-3. I started working at #{workplace.name}, located at #{workplace.address.to_s}, on #{employment_began_on.to_s(:rfc822)}.
-
-4. To the best of my knowledge, I was employed by #{(workplace || employer).name}.
-    TEXT
+    affidavit_statements.join("\n\n")
   end
   
   # An array of statements, in particular order, based on supplied information.
-  def affidavit_statements
+  def affidavit_statements(t_scope = "controllers.claim.affidavit")
+    [
+      I18n.t('preamble', scope: t_scope,  name: owner.full_name, address: owner.address.to_s),
+      I18n.t('one', scope: t_scope, country: owner.profile.country_of_origin),
+      I18n.t('two', scope: t_scope, visa_statement: owner.profile.visa_string_for_statement),
+      I18n.t('three', scope: t_scope, workplace: workplace.name, address: workplace.address.to_s, date: employment_began_on.to_s(:rfc822)),
+      I18n.t('four', scope: t_scope, employer: (employer || workplace).name),
+      I18n.t('five', scope: t_scope, employer: (employer || workplace).name, hours: hours_worked),
+      I18n.t('six', scope: t_scope, hours: hours_worked, dollars: actual_pay),
+      I18n.t('seven', scope: t_scope, dollars: stolen_wages, award: proper_award)
+    ]
   end
   
   def display_affidavit?

@@ -8,10 +8,11 @@
       = f.label :evidence, t('views.documents.form.evidence'), class: "control-label"
       = f.file_field :evidence, style: "color: #BBB", class: "btn btn-default", disabled: params[:affidavit]
     
-    .form-group
-      = f.label :statement, t('views.documents.form.statement'), class: "control-label"
-      %br/
-      = f.text_area :statement, rows: 3, class: "form-control"
+    - if params[:affidavit]
+      .form-group
+        = f.label :statement, t('views.documents.form.statement'), class: "control-label"
+        %br/
+        = f.text_area :statement, rows: 3, class: "form-control"
 
     .form-group
       .checkbox

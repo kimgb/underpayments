@@ -20,13 +20,32 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 zh-TW:
+  models:
+    profile:
+      visas:
+        citizen: 我是澳洲公民
+        resident: 我是永久居民
+        unknown: 我不確定我的簽證類別
+        named: 我抵達澳洲時，是持有 %{visa}簽證類別
+        other: 我到澳洲時是___簽證
+  controllers:
+    claim:
+      affidavit:
+        preamble: "我%{name}，現居在 %{address} 確認以下口供內容"
+        one: "1.我是%{country}國籍"
+        two: "2. %{visa_statement}"
+        three: "3. 我開始在%{workplace}(工廠/農場名)工作，位居%{address}(地址) 在%{date}(日期)"
+        four: "4. 就我所知，我的雇主是%{employer}(聘顧者)"
+        five: "5. 在我受雇於%{employer}(雇主名) 期間，我的總工作時數%{hours}小時"
+        six: "6.在總%{hours}工作時數，我領到總薪資$%{dollars}元"
+        seven: "7. 這份文件確認在%{award}(產業)法定最低薪資的規範下，欠薪為$%{dollars}元"
   views:
     layouts:
       application:
         title: 被欠薪?
         byline: 超時工作
         footer: |
-          本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-03-10">2016年3月10日, </time>.
+          本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-03-18">2016年3月18日, </time>.
       authentication:
         signed_in: 登入中
         sign_out: 登出
@@ -59,6 +78,7 @@ zh-TW:
           employer: 雇主資料， 如果雇主資料與工作廠址資料不同
         requirement_done: 完成
         add: 接下來我們需要你告訴我們更多的關於你欠薪的資訊與證據
+        no_evidence: 如果你無法提供任何的文件資料作為佐證，包括: 薪資明細 或是 銀行轉帳證明等，為了讓你的欠薪申訴案件能夠成立，你必須要至少提供其他必填的資料，接下來你方可使用聲明書來作為證明。
         locked: 你的案子已經送出，無法更改內容，若有進一步消息我們將會跟你聯繫
         profile:
           heading: 你的資料
@@ -111,6 +131,7 @@ zh-TW:
           complete: 聘僱公司詳細資料
         document: 
           new: 提交文件
+        add_affidavit: 新增聲明書
         affidavit_locked: "(你需要填妥所有系統所需資料才能送出聲明書.)"
         wage_evidence: 我們需要你提供雇主給付薪資的證明
         time_evidence: 我們需要你提供工作時數的證明
@@ -292,8 +313,8 @@ zh-TW:
         blank: "必填"
       template:
         header:
-          one: 錯誤%{model} 系統拒絕存取
-          other: "%{count}錯誤 %{model} 系統拒絕存取"
+          one: "錯誤 %{model} 系統拒絕存取:"
+          other: "%{count} 錯誤 %{model} 系統拒絕存取:"
       models:
         user:
           attributes:
@@ -304,13 +325,13 @@ zh-TW:
     format: "%{提供} %{訊息}"
     messages:
       not_saved: 
-        one: "錯誤，%{resource} 系統無法儲存:"
+        one: "錯誤%{resource} 系統無法儲存:"
         other: "%{count} 錯誤 %{resource} 系統無法儲存:"
     template:
       body: '以下欄位出錯:'
       header:
-        one: 錯誤 %{model} 系統無法儲存
-        other: "%{count}錯誤 %{model} 系統無法儲存"
+        one: "錯誤 %{model} 系統無法儲存:"
+        other: "%{count}錯誤 %{model} 系統無法儲存:"
 
   helpers:
     claims:

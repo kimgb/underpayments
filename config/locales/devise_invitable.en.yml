@@ -18,9 +18,9 @@ en:
     mailer:
       invitation_instructions:
         subject: "Think you've been underpaid?"
-        hello: "Hello %{email}"
-        someone_invited_you: "Do you think you've been underpaid? We've built an underpayment calculator at %{url} to help you get your money back. Here's your invitation:"
+        hello: "Hello, %{email}"
+        someone_invited_you: "Do you think you've been underpaid? The National Union of Workers (NUW) has designed a system to help you get the money you're owed. Just click the link below to get started."
         accept: "Accept invitation"
-        explanation: "Once you've accepted your invitation, you'll need to set a password, create a profile, and then the application will ask you for the information it needs. It will calculate for you the amount you are owed."
+        explanation: "Once you've accepted your invitation, you'll need to set a password, and will then be free to complete your underpayment claim at your leisure. In order to give your claim the best chance of success, the system will need to collect a variety of information, and whatever evidence you have available."
         ignore: "If you don't want to accept the invitation, please ignore this email.<br />Your account won't be created until you access the link above and set your password."
-        signature: "Best,<br/><br/>Kim Buckley<br/>IT Officer<br/>National Union of Workers"
+        signature: "Best,<br/><br/>%{sender}<br/>National Union of Workers"

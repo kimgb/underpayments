@@ -4,10 +4,12 @@ class DeviseMailer < Devise::Mailer
   default template_path: 'devise/mailer'
   
   def invitation_instructions(record, token, opts={})
+    @inviter = record.invited_by
+    
     opts[:subject] = I18n.t("devise.mailer.invitation_instructions.subject")
-    opts[:from] = "#{record.invited_by.full_name} <#{record.invited_by.email}>"
+    opts[:from] = "#{@inviter.full_name} <#{@inviter.email}>"
     opts[:reply_to] = opts[:from]
-    headers[:bcc] = record.invited_by.email
+    headers[:bcc] = @inviter.email
     super
   end
 end

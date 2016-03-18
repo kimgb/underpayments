@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root "claims#new"
 
-  devise_for :users
+  devise_for :users, controllers: { invitations: 'users/invitations' }
   resources  :users
   
   resource   :profile

@@ -27,11 +27,11 @@ class Profile < ActiveRecord::Base
   
   def visa_string_for_statement
     case visa
-    when "citizen" then "I am a citizen of Australia."
-    when "resident" then "I am a permanent resident of Australia"
-    when "unknown" then "I am not aware of my visa status."
-    when "other" then "I came to Australia on a [please fill in] visa."
-    else "I came to Australia on a #{visa} visa." end
+    when "citizen" then I18n.t('models.profile.visas.citizen')
+    when "resident" then I18n.t('models.profile.visas.resident')
+    when "unknown" then I18n.t('models.profile.visas.unknown')
+    when "other" then I18n.t('models.profile.visas.other')
+    else I18n.t('models.profile.visas.named', visa: I18n.t("helpers.profiles.visas_list.#{visa}")) end
   end
   
   def country_of_origin

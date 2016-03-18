@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
   include Markdownable
+  
+  attr_accessor :locale_for_email
 
   devise :database_authenticatable, :recoverable, :rememberable,
          :trackable, :validatable, :invitable

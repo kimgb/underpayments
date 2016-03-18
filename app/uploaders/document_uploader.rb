@@ -38,7 +38,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
   # Add a white list of extensions which are allowed to be uploaded.
   def extension_white_list
-    %w(jpg jpeg gif png pdf)
+    %w(jpg jpeg tif tiff gif png pdf txt doc docx rtf xls xlsx eml msg)
   end
 
   def cover

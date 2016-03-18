@@ -20,13 +20,32 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  models:
+    profile:
+      visas:
+        citizen: I am a citizen of Australia
+        resident: I am a permanent resident of Australia
+        unknown: I am not aware of my visa status
+        named: I came to Australia on a %{visa}
+        other: I came to Australia on a [please fill in] visa
+  controllers:
+    claim:
+      affidavit:
+        preamble: "I, %{name}, of %{address}, affirm as follows:"
+        one: "1. I am originally from %{country}."
+        two: "2. %{visa_statement}."
+        three: "3. I started working at %{workplace}, located at %{address}, on %{date}."
+        four: "4. To the best of my knowledge, I was employed by %{employer}."
+        five: "5. During my employment with %{employer}, I worked %{hours} hours."
+        six: "6. For %{hours} hours of work, I was paid $%{dollars}."
+        seven: "7. This represents an underpayment of $%{dollars} under the %{award}."
   views:
     layouts:
       application:
         title: UNDERPAID?
         byline: (...or just overworked?)
         footer: |
-          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-03-10">10 March, 2016</time>.
+          Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-03-18">18 March, 2016</time>.
       authentication:
         signed_in: Signed in as
         sign_out: Sign out
@@ -59,6 +78,7 @@ en:
           employer: 'Details of your employer, if different from your workplace'
         requirement_done: DONE
         add: Please add these as prompted, below.
+        no_evidence: If you have no documents (e.g. payslips, bank statements) to use as evidence, you will first need to complete all other sections of your claim before adding a statement.
         locked: Your claim has been submitted for review and is now locked for editing. We'll be in touch with next steps.
         profile:
           heading: "Your details"
@@ -111,7 +131,8 @@ en:
           complete: Company details
         document: 
           new: Add a supporting document
-        affidavit_locked: "(You need to complete all other sections before submitting an affidavit.)"
+        add_affidavit: Add a statement
+        affidavit_locked: "(You need to complete all other sections before submitting a statement.)"
         wage_evidence: "We need evidence of wages paid for:"
         time_evidence: "We need evidence of hours worked for:"
         to: until
