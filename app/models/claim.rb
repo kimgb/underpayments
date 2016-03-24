@@ -39,6 +39,9 @@ class Claim < ActiveRecord::Base
   end
   
   ### INSTANCE METHODS
+  def duration_of_employment_in_days
+    "#{(employment_ended_on - employment_began_on).to_i} days"
+  end
   
   #############################################################################
   #-- AFFIDAVIT GENERATION METHODS
@@ -68,15 +71,15 @@ class Claim < ActiveRecord::Base
       I18n.t('two', scope: t_scope, visa_statement: owner.profile.visa_string_for_statement),
       I18n.t('three', scope: t_scope, workplace: workplace.name, address: workplace.address.to_s, date: employment_began_on.to_s(:rfc822)),
       I18n.t('four', scope: t_scope, employer: (employer || workplace).name),
-      I18n.t('five', scope: t_scope, employer: (employer || workplace).name, hours: hours_worked.round(2)),
-      I18n.t('six', scope: t_scope, hours: hours_worked.round(2), dollars: actual_pay.round(2)),
-      I18n.t('seven', scope: t_scope, dollars: stolen_wages.round(2), award: proper_award),
+      I18n.t('five', scope: t_scope, employer: (employer || workplace).name, hours: ActionController::Base.helpers.number_with_delimiter(hours_worked.round(2))),
+      I18n.t('six', scope: t_scope, hours: ActionController::Base.helpers.number_with_delimiter(hours_worked.round(2)), dollars: ActionController::Base.helpers.number_to_currency(actual_pay.round(2))),
+      I18n.t('seven', scope: t_scope, dollars: ActionController::Base.helpers.number_to_currency(stolen_wages.round(2)), award: proper_award),
     ]
     
     if pieceworker
       statements = statements + [
         I18n.t('pieceworker.one', scope: t_scope),
-        I18n.t('pieceworker.two', scope: t_scope),
+        I18n.t('pieceworker.two', scope: t_scope, duration: ActionController::Base.helpers.number_with_delimiter(duration_of_employment_in_days)),
         I18n.t('pieceworker.three', scope: t_scope),
       ]
     end

@@ -37,13 +37,13 @@ en:
         three: "3. I started working at %{workplace}, located at %{address}, on %{date}."
         four: "4. To the best of my knowledge, I was employed by %{employer}."
         five: "5. During my employment with %{employer}, I worked %{hours} hours."
-        six: "6. For %{hours} hours of work, I was paid $%{dollars}."
-        seven: "7. This represents an underpayment of $%{dollars} under the %{award}."
+        six: "6. For %{hours} hours of work, I was paid %{dollars}."
+        seven: "7. This represents an underpayment of %{dollars} under the %{award}."
         ########## PIECERATES - WIP ############
-        piecerates:
-          one: "I agreed/did not agree to employment as a pieceworker."
-          twp: "I was employed for %{duration}."
-          three: "I received no warnings during my employment."
+        pieceworker:
+          one: "8. I [agreed/did not agree] to employment as a pieceworker."
+          two: "9. I was employed for %{duration}."
+          three: "10. I received [no/specify number] warnings during my employment."
           
   views:
     layouts:
