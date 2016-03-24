@@ -4,4 +4,9 @@
 - else
   %ul
     - documents.each do |doc|
-      %li= link_to basename(doc), doc
+      %li
+        -# = link_to basename(doc), doc
+        = link_to doc do
+          - if doc.evidence.present? && doc.evidence.image?
+            = image_tag(doc.evidence.thumb.url)
+          = basename(doc)

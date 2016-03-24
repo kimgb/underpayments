@@ -6,7 +6,7 @@
 
     - if @document.evidence.present?
       %p= t('views.documents.show.evidence')
-      %p= link_to image_tag(@document.evidence.thumb.url), @document.evidence.url
+      %p= link_to image_tag(@document.evidence.standard.url), @document.evidence.url
   
     - if @document.statement.present?
       .form-group

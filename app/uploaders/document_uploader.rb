@@ -33,6 +33,9 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :thumb do
+    process :resize_to_fit => [75, 75]
+  end
+  version :standard do
     process :resize_to_fit => [480, 480]
   end
 
@@ -48,6 +51,10 @@ class DocumentUploader < CarrierWave::Uploader::Base
       img = yield(img) if block_given?
       img
     end
+  end
+  
+  def image?
+    %w(jpg jpeg tif tiff gif png).include? file.extension
   end
 
   # Override the filename of the uploaded files:
