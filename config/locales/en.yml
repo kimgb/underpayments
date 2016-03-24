@@ -39,6 +39,12 @@ en:
         five: "5. During my employment with %{employer}, I worked %{hours} hours."
         six: "6. For %{hours} hours of work, I was paid $%{dollars}."
         seven: "7. This represents an underpayment of $%{dollars} under the %{award}."
+        ########## PIECERATES - WIP ############
+        piecerates:
+          one: "I agreed/did not agree to employment as a pieceworker."
+          twp: "I was employed for %{duration}."
+          three: "I received no warnings during my employment."
+          
   views:
     layouts:
       application:
@@ -107,6 +113,8 @@ en:
         award: "What industry did you work in?"
         weekly_hours: "How many hours per week did you work, on average?"
         hourly_pay: "How much were you paid per hour?"
+        pieceworker_hourly_pay: What was your approximate, average hourly rate from piecework?
+        pieceworker: "Were you a pieceworker?"
         payslips_received: "Were you given any payslips?"
         employment_began_on: "When did your employment begin?"
         employment_ended_on: "When did your employment end?"
@@ -195,11 +203,11 @@ en:
         evidence: "This document contains evidence:"
         statement: "This document contains a statement:"
         delete: Delete
-        back: Back
+        back: Back to claim
       document:
         title: Supporting documents
-        empty: You haven't added any documents yet.
-      form:
+        empty: You haven't added any documents yet. Please upload any payslips, timesheets, bank statements, warnings, performance reviews, personal work diaries, offers of employment, job descriptions, agreements to piecework or the like.
+      new:
         title: Add a document to your claim
         evidence: Upload an image or document
         statement: Or, write your own statement
@@ -211,6 +219,16 @@ en:
         wages: "How much does this document indicate you were paid?"
         hours: "How many hours does this document indicate that you worked?"
         commit: Add document
+      edit:
+        title: Edit document
+        statement: Edit your statement
+        coverage_start_date: "This document covers the period from:"
+        coverage_end_date: "To:"
+        wage_evidence: This document is evidence of wages paid to me
+        time_evidence: This document is evidence of hours I have worked
+        wages: "How much does this document indicate you were paid?"
+        hours: "How many hours does this document indicate that you worked?"
+        commit: Update document
 
     companies:
       edit:

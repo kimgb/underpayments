@@ -15,7 +15,7 @@ module Markdownable
   module ClassMethods
     def presentable_attributes
       attribute_names.reject do |attr| 
-        ["id", "created_at", "updated_at"].include?(attr) || attr.end_with?("_id", "_type")
+        ["id", "created_at", "updated_at"].include?(attr) || attr.end_with?("_id")
       end
     end
 

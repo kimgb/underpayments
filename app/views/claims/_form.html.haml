@@ -15,6 +15,11 @@
         .input-group-addon
           %i.glyphicon.glyphicon-time
         = f.number_field :weekly_hours, class: "form-control"
+        
+    .checkbox
+      = f.label :pieceworker do
+        = f.check_box :pieceworker
+        = t('views.claims.form.pieceworker')
 
     .form-group
       = f.label :hourly_pay, t('views.claims.form.hourly_pay'), class: "control-label"
@@ -49,3 +54,25 @@
   .actions.text-right
     -# = f.button t('views.claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_calculate"
     = f.submit t('views.claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_submit"
+    
+:javascript
+  $("#claim_pieceworker").on('click', function(e){
+    if ($(this).prop('checked')){
+      $("label[for=claim_hourly_pay]").fadeOut(400).queue(function(n){
+        $(this).text("#{t('views.claims.form.pieceworker_hourly_pay')}"); n();
+      }).fadeIn(400);
+    } else {
+      $("label[for=claim_hourly_pay]").fadeOut(400).queue(function(n){
+        $(this).text("#{t('views.claims.form.hourly_pay')}"); n();
+      }).fadeIn(400);
+    }
+  })
+  
+  $("#claim_award").on('change', function(e){
+    if ($(this).val() != "horticulture"){
+      $("label[for=claim_pieceworker]").parent().slideUp(400);
+      $("#claim_pieceworker").prop('checked', false);
+    } else {
+      $("label[for=claim_pieceworker]").parent().slideDown(400);
+    }
+  })

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309072335) do
+ActiveRecord::Schema.define(version: 20160322072034) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160309072335) do
     t.boolean  "submitted_for_review"
     t.datetime "submitted_on"
     t.boolean  "payslips_received",                             default: false
+    t.boolean  "pieceworker",                                   default: false
   end
 
   create_table "companies", force: :cascade do |t|

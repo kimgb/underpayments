@@ -17,7 +17,12 @@ class Claim < ActiveRecord::Base
   ### MARKDOWNABLE CONFIG - class methods
   def self.presentable_attributes
     super.concat(["lost_wages"]).reject do |attr| 
-      ["submitted_for_review", "submitted_on", "hours_self_witnessed", "payslips_received"].include? attr 
+      [
+        "submitted_for_review", 
+        "submitted_on", 
+        "hours_self_witnessed", 
+        "payslips_received"
+      ].include? attr 
     end
   end
 
@@ -57,16 +62,26 @@ class Claim < ActiveRecord::Base
   
   # An array of statements, in particular order, based on supplied information.
   def affidavit_statements(t_scope = "controllers.claim.affidavit")
-    [
-      I18n.t('preamble', scope: t_scope,  name: owner.full_name, address: owner.address.to_s),
+    statements = [
+      I18n.t('preamble', scope: t_scope, name: owner.full_name, address: owner.address.to_s),
       I18n.t('one', scope: t_scope, country: owner.profile.country_of_origin),
       I18n.t('two', scope: t_scope, visa_statement: owner.profile.visa_string_for_statement),
       I18n.t('three', scope: t_scope, workplace: workplace.name, address: workplace.address.to_s, date: employment_began_on.to_s(:rfc822)),
       I18n.t('four', scope: t_scope, employer: (employer || workplace).name),
       I18n.t('five', scope: t_scope, employer: (employer || workplace).name, hours: hours_worked.round(2)),
       I18n.t('six', scope: t_scope, hours: hours_worked.round(2), dollars: actual_pay.round(2)),
-      I18n.t('seven', scope: t_scope, dollars: stolen_wages.round(2), award: proper_award)
+      I18n.t('seven', scope: t_scope, dollars: stolen_wages.round(2), award: proper_award),
     ]
+    
+    if pieceworker
+      statements = statements + [
+        I18n.t('pieceworker.one', scope: t_scope),
+        I18n.t('pieceworker.two', scope: t_scope),
+        I18n.t('pieceworker.three', scope: t_scope),
+      ]
+    end
+    
+    statements
   end
   
   def display_affidavit?
@@ -86,126 +101,36 @@ class Claim < ActiveRecord::Base
   end
   
   #############################################################################
-  ### ESTIMATING METHODS
-  #-- These methods calculate estimates from the initial user input.
+  #-- MOCKING IN PIECE RATE SUPPORT
+  #-- Support for piece rates will need to fit itself loosely into the existing
+  #-- framework built around hourly rates.
   #############################################################################
   
-  # Claim#weeks_worked(Date.today - 3.months, Date.today) => 13.0
-  # Returns number of weeks between two Date objects. Inputs are Date objects
-  # because days are the unit for arithmetic ops.
-  def weeks_worked(period_start, period_end)
-    (period_end - period_start) / 7.0
-  end
+  # Attributes to be migrated into the Claim table
+  # Piecework wage for average competent employee $24.21
+  def piece_rates_paid; true; end
+  def pick_rate_per_shift; 2.0; end
+  def pick_rate_kpi_per_shift; 6.5; end
+  # average competent employee pick rate
+  def ace_pick_rate; 24.21 * hours_in_shift / piece_rate_per_pick; end
+  def piece_rate_per_pick; 30.0; end
+  def hours_in_shift; 8.0; end
   
-  # Claim#estimated_hours_worked()
-  # Multiplies the initial user input of avg weekly hours by the number of weeks
-  # between two dates. As above, inputs are Date objects.
-  def estimated_hours_worked(period_start = employment_began_on, period_end = employment_ended_on)
-    (weekly_hours * weeks_worked(period_start, period_end))
-  end
+  def agreed_to_piecework; false; end
+  def warnings_received; 0; end
   
-  # Claim#estimated_hours_worked_by_year()
-  # Returns a hash with years as keys and a pro rated estimate of hours as vals.
-  # Note use of Date#fy method that I added via refinement  Australian financial
-  # year is from 1 July to 30 June. By (my) convention, Date#fy returns the year
-  # that the financial year started in.
-  # see `lib/financial_years.rb`: loaded in `config/initializers/extensions.rb`.
-  def estimated_hours_worked_by_year
-    Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
-      if employment_began_on.fy == employment_ended_on.fy
-        [year, estimated_hours_worked]
-      elsif year == employment_began_on.fy
-        [year, estimated_hours_worked(employment_began_on, Date.new(year).end_of_fy)]
-      elsif year == employment_ended_on.fy
-        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, employment_ended_on)]
-      else
-        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy)]
-      end
-    end.flatten]
-  end
-  
-  # Claim#estimated_min_award_pay()
-  # Returns the absolute legal minimum pay, based on estimated hours per year, 
-  # user supplied award and employment type. 
-  def estimated_min_award_pay
-    estimated_hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
-      memo += hours * award_minimum(year)
-    end.round(2)
-  end
-  
-  # Claim#estimated_wages_paid()
-  # Returns an estimate of what was actually paid the claimant, based on their
-  # input of pay per hour, avg. hours per week and length of employment.
-  # TODO figure a way to allow changes in pay rate to be reported.
-  def estimated_wages_paid
-    hourly_pay * estimated_hours_worked
-  end
-  
-  #############################################################################
-  #-- EVIDENCE METHODS
-  #-- These methods aim to provide a more reliable figure based on subsequent
-  #-- user upload of evidence and statements. Some still depend partly on
-  #-- estimation methods above.
-  #############################################################################
-  
-  # Claim#hours_from_evidence()
-  # Simply sums the values of associated documents' hours attribute.
-  def hours_from_evidence
-    documents.sum(:hours)
-  end
-  
-  # Claim#hours_from_evidence_by_year()
-  # For when calculating award minimum, returns a hash with years as keys and
-  # hours worked in the year as values.
-  # PITFALL: the Document#fy method will return the financial year in which it
-  # mostly falls.
-  def hours_from_evidence_by_year
-    documents.where(time_evidence: true).group_by(&:fy)
-      .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
-  end
-  
-  # Claim#wages_from_evidence()
-  # Simply sums the values of associated documents' wages attribute.
-  def wages_from_evidence
-    documents.sum(:wages)
-  end
-  
-  # Claim#min_award_pay_from_evidence()
-  # Uses Claim#hours_from_evidence_by_year and multiplies each year's hours by
-  # the relevant historical award minimum rate.
-  def min_award_pay_from_evidence
-    hours_from_evidence_by_year.reduce(0) { |sum, (yr, hrs)| sum += hrs * award_minimum(yr) }
-  end
-  
-  # Claim#estimated_wages_from_time_evidence()
-  # Part estimate, part evidence. Multiplies user supplied hourly pay by the 
-  # sum of hours in evidence.
-  # TODO figure a way to allow changes in pay rate to be reported.
-  def estimated_wages_from_time_evidence
-    hourly_pay * hours_from_evidence
-  end
-  
-  # Claim#award_pay
-  # Based on evidence coverage, calls the best method to determine hours worked.
-  def award_pay
-    coverage_complete?(:time_evidence) ? min_award_pay_from_evidence : estimated_min_award_pay
-  end
-  
-  # CLaim#actual_pay
-  # Based on evidence coverage, calls the best method to determine pay received.
-  def actual_pay
-    if coverage_complete?(:wage_evidence)
-      wages_from_evidence
-    elsif coverage_complete?(:time_evidence)
-      estimated_wages_from_time_evidence
+  # override attr_reader
+  def hourly_pay
+    if piece_rates_paid
+      BigDecimal.new(pick_rate_per_shift * piece_rate_per_pick / hours_in_shift, 10)
     else
-      estimated_wages_paid
+      attributes["hourly_pay"]
     end
   end
-
+  
   # Claim#stolen_wages()
   # It all boils down to this. Based on evidence coverage, uses several
-  # different methods of calculation to report the claiman't stolen wages.
+  # different methods of calculation to report the claimant's stolen wages.
   def stolen_wages
     sw = award_pay - actual_pay
     
@@ -374,6 +299,125 @@ class Claim < ActiveRecord::Base
   end
   
   def set_total_hours_by_year
-    
+  end
+  
+  
+  #############################################################################
+  #-- EVIDENCE METHODS
+  #-- These methods aim to provide a more reliable figure based on subsequent
+  #-- user upload of evidence and statements. Some still depend partly on
+  #-- estimation methods above.
+  #############################################################################
+  
+  # Claim#hours_from_evidence()
+  # Simply sums the values of associated documents' hours attribute.
+  def hours_from_evidence
+    documents.sum(:hours)
+  end
+  
+  # Claim#hours_from_evidence_by_year()
+  # For when calculating award minimum, returns a hash with years as keys and
+  # hours worked in the year as values.
+  # PITFALL: the Document#fy method will return the financial year in which it
+  # mostly falls.
+  def hours_from_evidence_by_year
+    documents.where(time_evidence: true).group_by(&:fy)
+      .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
+  end
+  
+  # Claim#wages_from_evidence()
+  # Simply sums the values of associated documents' wages attribute.
+  def wages_from_evidence
+    documents.sum(:wages)
+  end
+  
+  # Claim#min_award_pay_from_evidence()
+  # Uses Claim#hours_from_evidence_by_year and multiplies each year's hours by
+  # the relevant historical award minimum rate.
+  def min_award_pay_from_evidence
+    hours_from_evidence_by_year.reduce(0) { |sum, (yr, hrs)| sum += hrs * award_minimum(yr) }
+  end
+  
+  # Claim#estimated_wages_from_time_evidence()
+  # Part estimate, part evidence. Multiplies user supplied hourly pay by the 
+  # sum of hours in evidence.
+  # TODO figure a way to allow changes in pay rate to be reported.
+  def estimated_wages_from_time_evidence
+    hourly_pay * hours_from_evidence
+  end
+  
+  # Claim#award_pay
+  # Based on evidence coverage, calls the best method to determine hours worked.
+  def award_pay
+    coverage_complete?(:time_evidence) ? min_award_pay_from_evidence : estimated_min_award_pay
+  end
+  
+  # CLaim#actual_pay
+  # Based on evidence coverage, calls the best method to determine pay received.
+  def actual_pay
+    if coverage_complete?(:wage_evidence)
+      wages_from_evidence
+    elsif coverage_complete?(:time_evidence)
+      estimated_wages_from_time_evidence
+    else
+      estimated_wages_paid
+    end
+  end
+  
+  
+  #############################################################################
+  #-- ESTIMATING METHODS
+  #-- These methods calculate estimates from the initial user input.
+  #############################################################################  
+  
+  # Claim#weeks_worked(Date.today - 3.months, Date.today) => 13.0
+  # Returns number of weeks between two Date objects. Inputs are Date objects
+  # because days are the unit for arithmetic ops.
+  def weeks_worked(period_start, period_end)
+    (period_end - period_start) / 7.0
+  end
+  
+  # Claim#estimated_hours_worked()
+  # Multiplies the initial user input of avg weekly hours by the number of weeks
+  # between two dates. As above, inputs are Date objects.
+  def estimated_hours_worked(period_start = employment_began_on, period_end = employment_ended_on)
+    (weekly_hours * weeks_worked(period_start, period_end))
+  end
+  
+  # Claim#estimated_hours_worked_by_year()
+  # Returns a hash with years as keys and a pro rated estimate of hours as vals.
+  # Note use of Date#fy method that I added via refinement  Australian financial
+  # year is from 1 July to 30 June. By (my) convention, Date#fy returns the year
+  # that the financial year started in.
+  # see `lib/financial_years.rb`: loaded in `config/initializers/extensions.rb`.
+  def estimated_hours_worked_by_year
+    Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
+      if employment_began_on.fy == employment_ended_on.fy
+        [year, estimated_hours_worked]
+      elsif year == employment_began_on.fy
+        [year, estimated_hours_worked(employment_began_on, Date.new(year).end_of_fy)]
+      elsif year == employment_ended_on.fy
+        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, employment_ended_on)]
+      else
+        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy)]
+      end
+    end.flatten]
+  end
+  
+  # Claim#estimated_min_award_pay()
+  # Returns the absolute legal minimum pay, based on estimated hours per year, 
+  # user supplied award and employment type. 
+  def estimated_min_award_pay
+    estimated_hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
+      memo += hours * award_minimum(year)
+    end.round(2)
+  end
+  
+  # Claim#estimated_wages_paid()
+  # Returns an estimate of what was actually paid the claimant, based on their
+  # input of pay per hour, avg. hours per week and length of employment.
+  # TODO figure a way to allow changes in pay rate to be reported.
+  def estimated_wages_paid
+    hourly_pay * estimated_hours_worked
   end
 end

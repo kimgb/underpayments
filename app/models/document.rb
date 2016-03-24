@@ -7,6 +7,7 @@ class Document < ActiveRecord::Base
   scope :wages, -> { where(wage_evidence: true) }
   
   validate :presence_of_evidence_or_statement
+  validate :coverage_start_before_coverage_end
 
   def owners
     claim ? claim.owners : []
@@ -39,6 +40,12 @@ class Document < ActiveRecord::Base
   def presence_of_evidence_or_statement
     unless evidence.present? || statement.present?
       errors.add(:document, "must contain a statement or an uploaded file")
+    end
+  end
+  
+  def coverage_start_before_coverage_end
+    if coverage_start_date > coverage_end_date
+      errors.add(:coverage_start_date, "must be before coverage end date")
     end
   end
 end

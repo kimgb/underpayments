@@ -1,13 +1,14 @@
 class DocumentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_document, only: [:show, :destroy]
+  before_action :set_document, only: [:show, :destroy, :edit, :update]
+  before_action :authorise_owner!, only: [:show, :destroy, :edit, :update]
   before_action :set_claim, only: [:new, :create]
 
   # GET /documents
-  def index
-    # TODO scope to claim
-    @documents = Document.all
-  end
+  # def index
+  #   # TODO scope to claim
+  #   @documents = Document.all
+  # end
 
   # GET /documents/1
   def show
@@ -42,6 +43,17 @@ class DocumentsController < ApplicationController
       end
     end
   end
+  
+  # GET /documents/1/edit
+  def edit
+  end
+  
+  # PATCH/PUT /documents/1
+  def update
+    if @document.update(document_params)
+      redirect_to @document, notice: 'Document was updated.'
+    end
+  end
 
   # DELETE /documents/1
   # DELETE /documents/1.json
@@ -54,6 +66,10 @@ class DocumentsController < ApplicationController
   end
 
   private
+  def authorise_owner!
+    forbidden! unless current_user && current_user.owns?(@document)
+  end
+  
   def set_document
     @document = Document.find(params[:id])
   end
