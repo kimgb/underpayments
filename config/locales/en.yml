@@ -41,7 +41,14 @@ en:
         seven: "7. This represents an underpayment of %{dollars} under the %{award}."
         ########## PIECERATES - WIP ############
         pieceworker:
-          one: "8. I [agreed/did not agree] to employment as a pieceworker."
+          agreement:
+            agreed: I signed an agreement to be employed as a pieceworker.
+            not_agreed: I did not sign an agreement to be employed as a pieceworker.
+          duration: I was employed for %{duration}.
+          warnings:
+            none: I received no warnings during my employment.
+            some: I received %{num_warnings} during my employment.
+          one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
           two: "9. I was employed for %{duration}."
           three: "10. I received [no/specify number] warnings during my employment."
           

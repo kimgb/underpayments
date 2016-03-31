@@ -30,13 +30,15 @@ class ApplicationController < ActionController::Base
     supported_locales = I18n.available_locales.map(&:to_s)
 
     I18n.locale = provided_locales.find(&supported_locales.method(:include?))
+    
+    session[:locale] = I18n.locale
   end
   
   # combines locales from various sources in order of priority. set union `|`
   # removes duplicates - keeps only the highest priority occurrence of any given
   # locale. Array#compact removes nils.
   def provided_locales
-    (params_locales | user_locale | language_header_locales | [I18n.default_locale]).compact
+    (params_locales | user_locale | session_locale | language_header_locales | [I18n.default_locale]).compact
   end
   
   # currently, this is stored in the path instead of the query string.
@@ -46,6 +48,14 @@ class ApplicationController < ActionController::Base
     [*params[:locale]]
   end
   
+  def session_locale
+    [*session[:locale]]
+  end
+  
+  def reset_session_locale
+    session.delete :locale
+  end
+  
   def user_locale
     [*(current_user && current_user.preferred_language)]
   end
@@ -53,7 +63,7 @@ class ApplicationController < ActionController::Base
   def language_header_locales
     # Scary regex is not that scary! On an example header string (mine):
     # "en-AU,en-US;q=0.7,en;q=0.3" => [["en-AU", nil], ["en-US", "0.7"], ["en", "0.3"]]
-    rx = /([\-a-zA-Z]{2,5})(?:;q=(1|0?\.[0-9]{1,3}))?/
+    rx = /([A-Za-z]{2}(?:-[A-Za-z]{2})?)(?:;q=(1|0?\.[0-9]{1,3}))?/
     langs = request.env['HTTP_ACCEPT_LANGUAGE'].to_s.scan(rx).map do |lang, q|
       [lang, (q || '1').to_f]
     end

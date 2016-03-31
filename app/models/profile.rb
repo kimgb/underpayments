@@ -7,7 +7,7 @@ class Profile < ActiveRecord::Base
   accepts_nested_attributes_for :address
   
   validates_presence_of :family_name, :given_name, :phone, :date_of_birth, 
-    :nationality
+    :nationality, :visa
     
   alias_method :done?, :valid?
 
@@ -35,20 +35,6 @@ class Profile < ActiveRecord::Base
   end
   
   def country_of_origin
-    {
-      "AU" => "Australia",
-      "NZ" => "New Zealand",
-      "TO" => "Tonga",
-      "FJ" => "Fiji",
-      "TW" => "Republic of China",
-      "WS" => "Samoa",
-      "KI" => "Kiribati",
-      "NR" => "Nauru",
-      "PG" => "Papua New Guinea",
-      "SB" => "Solomon Islands",
-      "TL" => "Timor-Leste",
-      "TV" => "Tuvalu",
-      "VU" => "Vanuatu"
-    }[nationality]
+    I18n.t('helpers.addresses.country_list')[nationality.to_sym]
   end
 end

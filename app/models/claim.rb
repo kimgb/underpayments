@@ -141,6 +141,24 @@ class Claim < ActiveRecord::Base
   end
   alias_method :lost_wages, :stolen_wages
   
+  # CLaim#actual_pay
+  # Based on evidence coverage, calls the best method to determine pay received.
+  def actual_pay
+    if coverage_complete?(:wage_evidence)
+      wages_from_evidence
+    elsif coverage_complete?(:time_evidence)
+      estimated_wages_from_time_evidence
+    else
+      estimated_wages_paid
+    end
+  end
+  
+  # Claim#award_pay
+  # Based on evidence coverage, calls the best method to determine hours worked.
+  def award_pay
+    coverage_complete?(:time_evidence) ? min_award_pay_from_evidence : estimated_min_award_pay
+  end
+  
   # Claim#hours_worked
   # 'Top' level method that answers based on evidence completeness.
   def hours_worked
@@ -348,25 +366,6 @@ class Claim < ActiveRecord::Base
   def estimated_wages_from_time_evidence
     hourly_pay * hours_from_evidence
   end
-  
-  # Claim#award_pay
-  # Based on evidence coverage, calls the best method to determine hours worked.
-  def award_pay
-    coverage_complete?(:time_evidence) ? min_award_pay_from_evidence : estimated_min_award_pay
-  end
-  
-  # CLaim#actual_pay
-  # Based on evidence coverage, calls the best method to determine pay received.
-  def actual_pay
-    if coverage_complete?(:wage_evidence)
-      wages_from_evidence
-    elsif coverage_complete?(:time_evidence)
-      estimated_wages_from_time_evidence
-    else
-      estimated_wages_paid
-    end
-  end
-  
   
   #############################################################################
   #-- ESTIMATING METHODS

@@ -39,6 +39,17 @@ zh-TW:
         five: "5. 在我受雇於%{employer}(雇主名) 期間，我的總工作時數%{hours}小時"
         six: "6.在總%{hours}工作時數，我領到總薪資$%{dollars}元"
         seven: "7. 這份文件確認在%{award}(產業)法定最低薪資的規範下，欠薪為$%{dollars}元"
+      pieceworker:
+        agreement:
+          agreed: 我在受聘僱之後，有簽屬計件制工作的合約
+          not_agreed: 我在受聘僱之後，沒有簽屬任何計件制工作合約書
+        duration: 我的聘僱時間 %{duration}
+        warnings:
+          none: 在聘僱期間，我沒有收到任何的警告（威脅性字眼：主管或農主）
+          some: 我在工作期間有收到多次的警告（威脅性字眼：主管或農主 %{num_warnings}
+        one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
+        two: "9. I was employed for %{duration}."
+        three: "10. I received [no/specify number] warnings during my employment."
   views:
     layouts:
       application:
