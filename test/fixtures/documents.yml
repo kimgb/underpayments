@@ -1,0 +1,10 @@
+statement:
+  id: 1
+  claim_id: 1
+  wage_evidence: true
+  time_evidence: true
+  coverage_start_date: 2015-03-31
+  coverage_end_date: 2016-03-31
+  hours: 2000.00
+  wages: 32000.00
+  statement: "I Kim Buckley"

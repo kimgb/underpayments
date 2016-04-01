@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "2.3.0"
+ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.5'
@@ -76,15 +76,32 @@ group :development do
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
+  
+  gem 'guard', :require => false
+  gem 'guard-minitest', :require => false
+  gem 'rb-fsevent', :require => false
+  gem 'terminal-notifier-guard', :require => false
+end
+
+group :test do
+  gem 'capybara'
+  gem 'launchy'
+  gem 'mocha'
+  gem 'poltergeist'
+  gem 'shoulda-context'
+  gem 'shoulda-matchers'
+  gem 'test_after_commit'
 end
 
 group :development, :test do
+  gem 'minitest'
+  gem 'minitest-rails'
+  gem 'minitest-reporters'
+  gem 'connection_pool'
+  
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
 
   # FactoryGirl for factories
   gem 'factory_girl_rails', '~> 4.0'
-
-  # RSpec for unit testing of models
-  gem 'rspec-rails'
 end

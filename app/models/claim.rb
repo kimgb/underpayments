@@ -22,7 +22,7 @@ class Claim < ActiveRecord::Base
         "submitted_on", 
         "hours_self_witnessed", 
         "payslips_received"
-      ].include? attr 
+      ].include? attr
     end
   end
 
@@ -101,34 +101,6 @@ class Claim < ActiveRecord::Base
   def presentable_companies
     claim_companies.where("true in (is_workplace, is_employer)")
     # companies.all { |co| co.presentable_against?(self) }
-  end
-  
-  #############################################################################
-  #-- MOCKING IN PIECE RATE SUPPORT
-  #-- Support for piece rates will need to fit itself loosely into the existing
-  #-- framework built around hourly rates.
-  #############################################################################
-  
-  # Attributes to be migrated into the Claim table
-  # Piecework wage for average competent employee $24.21
-  def piece_rates_paid; true; end
-  def pick_rate_per_shift; 2.0; end
-  def pick_rate_kpi_per_shift; 6.5; end
-  # average competent employee pick rate
-  def ace_pick_rate; 24.21 * hours_in_shift / piece_rate_per_pick; end
-  def piece_rate_per_pick; 30.0; end
-  def hours_in_shift; 8.0; end
-  
-  def agreed_to_piecework; false; end
-  def warnings_received; 0; end
-  
-  # override attr_reader
-  def hourly_pay
-    if piece_rates_paid
-      BigDecimal.new(pick_rate_per_shift * piece_rate_per_pick / hours_in_shift, 10)
-    else
-      attributes["hourly_pay"]
-    end
   end
   
   # Claim#stolen_wages()
@@ -273,7 +245,7 @@ class Claim < ActiveRecord::Base
   end
   
   def owners
-    [owner]
+    [owner].compact
   end
   
   #############################################################################
@@ -375,7 +347,7 @@ class Claim < ActiveRecord::Base
   # Claim#weeks_worked(Date.today - 3.months, Date.today) => 13.0
   # Returns number of weeks between two Date objects. Inputs are Date objects
   # because days are the unit for arithmetic ops.
-  def weeks_worked(period_start, period_end)
+  def weeks_worked(period_start = employment_began_on, period_end = employment_ended_on)
     (period_end - period_start) / 7.0
   end
   

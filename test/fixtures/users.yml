@@ -1,0 +1,16 @@
+owner:
+  id: 1
+  claim_id: 1
+  email: kbuckley@nuw.org.au
+  encrypted_password: 123greetings
+
+admin:
+  id: 2
+  email: admin@nuw.org.au
+  encrypted_password: bossAdmin
+  admin: true
+  
+non_owner:
+  id: 3
+  email: lrohde@nuw.org.au
+  encrypted_password: rudewords

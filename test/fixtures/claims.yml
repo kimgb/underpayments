@@ -1,0 +1,21 @@
+basic:
+  id: 1
+  hourly_pay: 16.16
+  weekly_hours: 32.00
+  employment_began_on: 2015-03-31
+  employment_ended_on: 2016-03-31
+  employment_type: casual
+  payslips_received: false
+  pieceworker: false
+  award: horticulture
+
+over_min:
+  id: 2
+  hourly_pay: 23.44
+  weekly_hours: 32.00
+  employment_began_on: 2015-03-31
+  employment_ended_on: 2016-03-31
+  employment_type: casual
+  payslips_received: true
+  pieceworker: false
+  award: poultry
