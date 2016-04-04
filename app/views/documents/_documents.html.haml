@@ -10,3 +10,9 @@
           - if doc.evidence.present? && doc.evidence.image?
             = image_tag(doc.evidence.thumb.url)
           = basename(doc)
+        %small
+          (
+          = link_to(t('views.documents.show.edit'), edit_document_path(doc))
+          |
+          = link_to t('views.documents.show.delete'), document_path(doc), data: { confirm: "Are you sure?" }, method: :delete
+          )

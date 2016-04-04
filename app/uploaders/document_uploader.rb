@@ -44,7 +44,6 @@ class DocumentUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg tif tiff gif png pdf txt doc docx rtf xls xlsx eml msg)
   end
 
-  # TODO - a bit more work than it seems.
   # def thumbnail_pdf
   #   manipulate! do |img|
   #     # first_page = Magick::ImageList.new("#{current_path}[0]").first
