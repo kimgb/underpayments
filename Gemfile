@@ -84,6 +84,10 @@ group :development do
 end
 
 group :test do
+  gem 'minitest'
+  gem 'minitest-rails'
+  gem 'minitest-reporters'
+  gem 'connection_pool'
   gem 'capybara'
   gem 'launchy'
   gem 'mocha'
@@ -94,11 +98,6 @@ group :test do
 end
 
 group :development, :test do
-  gem 'minitest'
-  gem 'minitest-rails'
-  gem 'minitest-reporters'
-  gem 'connection_pool'
-  
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'pry-byebug'
 end

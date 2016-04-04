@@ -44,13 +44,21 @@ class DocumentUploader < CarrierWave::Uploader::Base
     %w(jpg jpeg tif tiff gif png pdf txt doc docx rtf xls xlsx eml msg)
   end
 
-  def cover
-    manipulate! do |img|
-      img.format("png", 1)
-      img.resize("50x50")
-      img = yield(img) if block_given?
-      img
-    end
+  # TODO - a bit more work than it seems.
+  # def thumbnail_pdf
+  #   manipulate! do |img|
+  #     # first_page = Magick::ImageList.new("#{current_path}[0]").first
+  #     # thumb = first_page.resize_to_fit!(75, 75)
+  #     # thumb
+  #     # img.format("png", 1)
+  #     # img.resize("75x75")
+  #     # img = yield(img) if block_given?
+  #     # img
+  #   end
+  # end
+  
+  def set_content_type(*args)
+    self.file.instance_variable_set(:@content_type, "image/png")
   end
   
   def image?

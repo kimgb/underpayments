@@ -12,7 +12,7 @@ user.save!
 home_address = Address.new(street_address: "106/7 Warrs Ave", town: "Preston", province: "VIC", postal_code: "3072", country: "Australia")
 home_address.save!
 
-profile = Profile.new(family_name: "Buckley", given_name: "Kim", phone: "0424897579", date_of_birth: "1985-07-23", preferred_language: "en-AU")
+profile = Profile.new(family_name: "Buckley", given_name: "Kim", phone: "0424897579", date_of_birth: "1985-07-23", preferred_language: "en-AU", nationality: "NZ", visa: "444")
 profile.user = user
 profile.address = home_address
 profile.save!
