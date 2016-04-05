@@ -1,3 +1,8 @@
+# lib/financial_years.rb
+# Adds a few methods to Date to handle Australian financial year logic.
+# Financial years in this module are forward-dated to the year they end in.
+# E.g. financial year 2015 -> 1 July 2014 to 30 June 2015
+
 module FinancialYears
   # refine Date do
   def fy

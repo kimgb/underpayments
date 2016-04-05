@@ -364,16 +364,17 @@ class Claim < ActiveRecord::Base
   # year is from 1 July to 30 June. By (my) convention, Date#fy returns the year
   # that the financial year started in.
   # see `lib/financial_years.rb`: loaded in `config/initializers/extensions.rb`.
+  # FIXME: seems to be dropping a day for each fy
   def estimated_hours_worked_by_year
     Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
       if employment_began_on.fy == employment_ended_on.fy
         [year, estimated_hours_worked]
       elsif year == employment_began_on.fy
-        [year, estimated_hours_worked(employment_began_on, Date.new(year).end_of_fy)]
+        [year, estimated_hours_worked(employment_began_on, employment_began_on.end_of_fy)]
       elsif year == employment_ended_on.fy
-        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, employment_ended_on)]
+        [year, estimated_hours_worked(employment_ended_on.beginning_of_fy - 1, employment_ended_on)]
       else
-        [year, estimated_hours_worked(Date.new(year).beginning_of_fy, Date.new(year).end_of_fy)]
+        [year, estimated_hours_worked(Date.new(year).end_of_fy, Date.new(year+1).end_of_fy)]
       end
     end.flatten]
   end

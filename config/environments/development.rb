@@ -7,6 +7,7 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
+  # NOTE: true for financial_years.rb
   config.eager_load = false
 
   # Show full error reports and disable caching.

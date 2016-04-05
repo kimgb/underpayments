@@ -19,3 +19,14 @@ over_min:
   payslips_received: true
   pieceworker: false
   award: poultry
+
+tina_poy:
+  id: 3
+  hourly_pay: 16.00
+  weekly_hours: 40.0
+  employment_began_on: 2015-05-16
+  employment_ended_on: 2015-08-14
+  employment_type: casual
+  payslips_received: true
+  pieceworker: false
+  award: horticulture

@@ -23,7 +23,7 @@ class ClaimTest < ActiveSupport::TestCase
   
   test "ownership" do
     assert_equal claims(:basic).owner, claims(:basic).user
-    assert_equal Claim.new.owner, nil
+    assert_equal nil, Claim.new.owner
     
     assert_includes claims(:basic).owners, claims(:basic).user
     assert_empty Claim.new.owners
@@ -47,8 +47,8 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "award minimums" do
-    assert_equal claims(:basic).award_minimum, 21.61 #horticulture
-    assert_equal claims(:over_min).award_minimum, 22.34 #poultry
+    assert_equal 21.61, claims(:basic).award_minimum #horticulture
+    assert_equal 22.34, claims(:over_min).award_minimum #poultry
   end
   
   test "#document_coverage should be a set" do
@@ -65,5 +65,10 @@ class ClaimTest < ActiveSupport::TestCase
   test "#coverage_complete?" do
     refute claims(:over_min).coverage_complete?
     assert claims(:basic).coverage_complete?
+  end
+  
+  test "time estimation" do
+    year_1_hours = (6.428571428571429 * 40.0)
+    assert_equal year_1_hours, claims(:tina_poy).send(:estimated_hours_worked_by_year).values.map(&:to_f)[0]
   end
 end
