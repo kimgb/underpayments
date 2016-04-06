@@ -626,9 +626,9 @@ zh-TW:
     profiles:
       languages_list:
         en-AU: 英語 (澳式英語)
-        zh: 中文 (簡體中文)
+        # zh: 中文 (簡體中文)
         zh-TW: 中文 (繁體中文)
-        vi: 越南語
+        # vi: 越南語
       visas_list:
         citizen: 澳洲公民
         resident: 澳州永久居民
