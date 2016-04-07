@@ -5,12 +5,18 @@ class Address < ActiveRecord::Base
 
   has_many :profiles
   has_many :company_addresses
+  
+  def self.attr_transform
+    {
+      "street_address" => { method: String.instance_method(:gsub), args: [/(\r?\n)/, '  \1'] }
+    }
+  end
 
   def owners
-    profile_owners = profiles ? profiles.collect(&:owners).flatten.uniq : []
-    company_owners = company_addresses ? company_addresses.collect(&:owners).flatten.uniq : []
+    profile_owners = profiles ? profiles.collect(&:owners).flatten : []
+    company_owners = company_addresses ? company_addresses.collect(&:owners).flatten : []
     
-    profile_owners + company_owners
+    profile_owners | company_owners
   end
   
   def to_s
