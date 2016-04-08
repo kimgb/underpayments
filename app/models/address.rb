@@ -24,14 +24,4 @@ class Address < ActiveRecord::Base
   end
   
   alias_method :done?, :valid?
-
-  # def markdown_postal_format(addressee)
-  #   <<-MD.gsub(/^\s+\|/, "")
-  #     |#{addressee}  
-  #     |#{street_address}  
-  #     |#{if secondary_street_address then secondary_street_address + "  " else "" end}
-  #     |#{town}  
-  #     |#{province}&emsp;#{postal_code}
-  #   MD
-  # end
 end

@@ -21,12 +21,6 @@
 
   = render partial: "documents/documents", locals: { documents: @user.claim.documents }
 
-  - if @user.employer
-    %h3 Employer
-    :markdown
-      #{ markdown_model(@user.employer) }
-
-  - if @user.workplace
-    %h3 Workplace
-    :markdown
-      #{ markdown_model(@user.workplace) }
+- if @user.claim.presentable_companies.any?
+  - @user.claim.presentable_companies.each do |cc|
+    = render partial: "claim_companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
