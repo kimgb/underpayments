@@ -13,7 +13,7 @@
         - if current_user.owns?(doc) && !current_user.locked?
           %small
             (
-            = link_to(doc.claim, t('views.documents.show.edit'), edit_document_path(doc))
+            = link_to(t('views.documents.show.edit'), edit_document_path(doc))
             |
-            = link_to(doc.claim, t('views.documents.show.delete'), document_path(doc), data: { confirm: "Are you sure?" }, method: :delete)
+            = link_to(t('views.documents.show.delete'), document_path(doc), data: { confirm: "Are you sure?" }, method: :delete)
             )

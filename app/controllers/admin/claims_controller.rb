@@ -5,7 +5,7 @@ class Admin::ClaimsController < Admin::BaseController
   def update
     @claim.update_attributes(claim_params)
 
-    redirect_to admin_user_path(@claim.user), notice: "Status updated"
+    redirect_to admin_user_path(@claim.user), notice: "Updated."
   end
 
   private
@@ -14,6 +14,6 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def claim_params
-    params.require(:claim).permit(:status, :comment)
+    params.require(:claim).permit(:status, :comment, :submitted_for_review)
   end
 end

@@ -131,6 +131,8 @@ en:
       claim:
         title: Your claim
         edit: Edit claim details
+        status: Claim status
+        comment: Status explanation
         employer:
           heading: Employer
           missing: "You're still missing an employer:"

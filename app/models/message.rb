@@ -4,7 +4,7 @@ class Message
   include ActiveModel::Conversion
   extend ActiveModel::Naming
 
-  attr_accessor :subject, :body
+  attr_accessor :subject, :body, :unlock
 
   def initialize(attributes = {})
     attributes.each do |name, value|

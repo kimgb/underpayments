@@ -3,8 +3,10 @@
 = link_to "Send a message", new_admin_user_message_path(@user), class: "btn btn-default"
 &ensp;
 = link_to "Letter of demand", pages_path(page: "letter", layout: "print", user_id: @user), class: "btn btn-default"
+&ensp;
+= render partial: "admin/claims/toggle_lock", locals: { claim: @user.claim }
 
-= render partial: "admin/claims/form", locals: { claim: @user.claim }
+= render partial: "admin/claims/update_status", locals: { claim: @user.claim }
 
 %h3 User details
 :markdown
