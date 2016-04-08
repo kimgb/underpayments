@@ -1,0 +1,21 @@
+%p= Date.today.strftime("%e %B %Y")
+%address
+  :markdown
+    #{ markdown_postal_format(@letter.addressee, @user.employer.address) }
+
+:markdown
+  Dear #{ @letter.addressee },
+
+  We write on behalf of National Union of Workers (**the NUW**) member #{ @user.profile.full_name }, who was formerly employed by #{ @user.employer.name }, as a #{ @user.claim.employment_type.downcase } employee at #{ @user.employer.name }.
+
+  #{ @user.profile.full_name } has advised us that during their employment with #{ @user.employer.name }, they were paid a flat rate of #{ number_to_currency(@user.claim.hourly_pay) } per hour.
+
+  #{ @user.profile.full_name }'s employment was covered by the _#{ @user.claim.proper_award }_ (**the Award**). This provides for a person engaged in award duties to be paid a minimum of $17.29 plus a loading of 25% for casual employees. This means that #{ @user.profile.full_name } should have been entitled to a minimum hourly rate of #{ number_to_currency(@user.claim.award_minimum) }. This is a clear breach of s. 45 of the _Fair Work Act 2009_ (Cth).
+
+  The NUW has reviewed evidence provided by #{ @user.profile.full_name }, and estimates that during their employment with #{ @user.employer.name }, #{ @user.profile.full_name } was underpaid #{ number_to_currency(@user.claim.lost_wages) }.
+
+  The NUW, on behalf of #{ @user.profile.full_name }, demands that #{ @user.employer.name } pay the abovementioned amount to #{ @user.profile.full_name }. If this payment is not made within 7 days of receipt of this letter, the NUW will, without further notice, commence proceedings in the Federal Circuit Court in order to recover the amount owed.
+
+  <br>Kind regards
+
+  <br>#{ @letter.signature }

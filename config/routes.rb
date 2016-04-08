@@ -32,6 +32,7 @@ Rails.application.routes.draw do
 
     resources :users, only: [:show, :index] do
       resources :messages, only: [:new, :create]
+      resources :letters, only: [:new, :create, :show]
     end
     resources :claims, only: [:update]
   end

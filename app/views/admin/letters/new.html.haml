@@ -1,0 +1,14 @@
+%h3 Compose a letter of demand
+
+= form_for [@user, @letter], url: admin_user_letters_path(@user), html: { multipart: true, class: "form" } do |f|
+  .form-group
+    = f.label :addressee, "Addressee", class: "control-label"
+    = f.select :addressee, options_for_select(addressee_list(@claim), "casual"), {}, { class: "form-control" }
+
+  .form-group
+    = f.label :signature, "Signature", class: "control-label"
+    = f.select :signature, options_for_select(signature_list, "casual"), {}, { class: "form-control" }
+
+  %p.actions.text-right= button_tag "", type: "submit", class: "btn btn-default glyphicon glyphicon-envelope pull-right"
+  -# make sure the border doesn't cut through the glyphicon
+  %p &nbsp;
