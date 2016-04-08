@@ -3,6 +3,10 @@ module ApplicationHelper
     content_for(:title) || "Underpaid"
   end
   
+  def mdash_or_value(val)
+    val.blank? ? "&mdash;".html_safe : val
+  end
+  
   def link_if_unlocked(resource, link_text, path, *args)
     link_to(link_text, path, *args) if current_user.owns?(resource) && !current_user.locked?
   end

@@ -35,5 +35,6 @@ Rails.application.routes.draw do
       resources :letters, only: [:new, :create, :show]
     end
     resources :claims, only: [:update]
+    resources :companies, except: [:new, :create]
   end
 end

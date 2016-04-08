@@ -1,0 +1,6 @@
+%h3= @company.name
+:markdown
+  #{markdown_model(@company)}
+
+- if @company.address
+  = render partial: "addresses/address", locals: { address: @company.address, title: t('views.companies.company.address.heading'), edit: t('views.companies.company.address.edit') }

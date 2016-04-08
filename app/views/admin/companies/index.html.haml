@@ -1,0 +1,24 @@
+%h1 Companies
+
+%table.table
+  %thead
+    %tr
+      %th Company
+      %th{ class: "hidden-xs" } ABN
+      %th Contact
+      %th{ class: "hidden-xs" } Email
+      %th{ class: "hidden-xs" } Phone
+      %th
+
+  %tbody
+    -# TODO make a partial here. It's already worth it but the pattern may see
+            yet more use!
+    
+    - @companies.each do |co|
+      %tr
+        %td= link_to co.name, admin_company_path(co)
+        %td{ class: "hidden-xs" }= mdash_or_value(co.abn)
+        %td= mdash_or_value(co.contact)
+        %td{ class: "hidden-xs" }= mdash_or_value(co.email)
+        %td{ class: "hidden-xs" }= mdash_or_value(co.phone)
+        %td= link_to "Edit", edit_admin_company_path(co), class: "btn btn-default btn-sm"
