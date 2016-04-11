@@ -40,7 +40,7 @@ set :puma_init_active_record, true
 
 ## Linked Files & Directories (Default None):
 set :linked_files, %w{config/application.yml}
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{public/uploads}
 
 # Clear existing task so we can replace it rather than "add" to it.
 Rake::Task["deploy:compile_assets"].clear 
