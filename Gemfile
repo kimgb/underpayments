@@ -58,6 +58,8 @@ gem 'bootstrap-sass', '~> 3.3.6'
 # Select2 for search to local API endpoints.
 gem 'select2-rails'
 
+gem 'nuw-api', path: '/home/kbuckley/nuw-api'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
