@@ -4,6 +4,10 @@
   .form-group
     = f.label :addressee, "Addressee", class: "control-label"
     = f.select :addressee, options_for_select(addressee_list(@claim), "casual"), {}, { class: "form-control" }
+    
+  .form-group
+    = f.label :contact_inbox, "Assist inbox", class: "control-label"
+    = f.select :contact_inbox, options_for_select(inbox_list, @claim.award), {}, { class: "form-control" }
 
   .form-group
     = f.label :signature, "Signature", class: "control-label"

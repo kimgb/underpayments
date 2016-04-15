@@ -6,7 +6,7 @@ module AddressesHelper
   def markdown_postal_format(addressee, address)
     [
       addressee,
-      address.street_address,
+      address.street_address.gsub(/(\r?\n)/, '  \1'),
       address.town,
       address.province + "&emsp;" + address.postal_code
     ].reject(&:blank?).join("  \n")

@@ -11,11 +11,18 @@ module LettersHelper
     end
   end
   
+  def inbox_list
+    [
+      ["poultry", "assistpoultry@nuw.org.au"],
+      ["horticulture", "assistfruitandveg@nuw.org.au"]
+    ]
+  end
+  
   # Currently using Markdown for formatting - two spaces + newline formats as <br>
   def signature_list
     [
-      ["General Branch - Sam Roberts", "Sam Roberts  \nGeneral Branch Secretary"], 
-      ["Victoria Branch - Gary Maas", "Gary Maas  \nVictoria Branch Secretary"]
+      ["General Branch - Sam Roberts", "#{ image_tag "signatures/sroberts.jpg" }  \nSam Roberts  \nGeneral Branch Secretary"], 
+      ["Victoria Branch - Gary Maas", "#{ image_tag "signatures/gmaas.jpg" }  \nGary Maas  \nVictoria Branch Secretary"]
     ]
   end
 end

@@ -23,6 +23,6 @@ class Admin::LettersController < Admin::BaseController
   end
 
   def letter_params
-    params.require(:letter).permit(:addressee, :signature)
+    params.require(:letter).permit(:addressee, :contact_inbox, :signature)
   end
 end

@@ -15,7 +15,8 @@
   The NUW has reviewed evidence provided by #{ @user.profile.full_name }, and estimates that during their employment with #{ @user.employer.name }, #{ @user.profile.full_name } was underpaid #{ number_to_currency(@user.claim.lost_wages) }.
 
   The NUW, on behalf of #{ @user.profile.full_name }, demands that #{ @user.employer.name } pay the abovementioned amount to #{ @user.profile.full_name }. If this payment is not made within 7 days of receipt of this letter, the NUW will, without further notice, commence proceedings in the Federal Circuit Court in order to recover the amount owed.
+  
+  To discuss this letter further, please email the NUW at #{ @letter.contact_inbox }.
 
   <br>Kind regards
-
-  <br>#{ @letter.signature }
+  <br>#{ @letter.signature }.html_safe
