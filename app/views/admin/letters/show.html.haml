@@ -1,3 +1,9 @@
+:css
+  body {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12pt;
+  }
+
 %p= Date.today.strftime("%e %B %Y")
 %address
   :markdown
@@ -10,7 +16,7 @@
 
   #{ @user.profile.full_name } has advised us that during their employment with #{ @user.employer.name }, they were paid a flat rate of #{ number_to_currency(@user.claim.hourly_pay) } per hour.
 
-  #{ @user.profile.full_name }'s employment was covered by the _#{ @user.claim.proper_award }_ (**the Award**). This provides for a person engaged in award duties to be paid a minimum of $17.29 plus a loading of 25% for casual employees. This means that #{ @user.profile.full_name } should have been entitled to a minimum hourly rate of #{ number_to_currency(@user.claim.award_minimum) }. This is a clear breach of s. 45 of the _Fair Work Act 2009_ (Cth).
+  #{ @user.profile.full_name }'s employment was covered by the _#{ @user.claim.proper_award }_ (**the Award**). This provides for a person engaged in Award duties to be paid a minimum of $17.29 plus a loading of 25% for casual employees. This means that #{ @user.profile.full_name } should have been entitled to a minimum hourly rate of #{ number_to_currency(@user.claim.award_minimum) }. This is a clear breach of s. 45 of the _Fair Work Act 2009_ (Cth).
 
   The NUW has reviewed evidence provided by #{ @user.profile.full_name }, and estimates that during their employment with #{ @user.employer.name }, #{ @user.profile.full_name } was underpaid #{ number_to_currency(@user.claim.lost_wages) }.
 
