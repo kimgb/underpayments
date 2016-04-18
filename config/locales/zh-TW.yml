@@ -50,229 +50,228 @@ zh-TW:
         one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
         two: "9. I was employed for %{duration}."
         three: "10. I received [no/specify number] warnings during my employment."
-  views:
-    layouts:
-      application:
-        title: 被欠薪?
-        byline: 超時工作
-        footer: |
-          本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-03-18">2016年3月18日, </time>.
-      authentication:
-        signed_in: 登入中
-        sign_out: 登出
-        sign_in: 登入
-        administrate: 系統管理員
-        returning: 回到原使用者
-      banner:
-        owed: 你被積欠的金額
+  layouts:
+    application:
+      title: 被欠薪?
+      byline: 超時工作
+      footer: |
+        本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-03-18">2016年3月18日, </time>.
+    authentication:
+      signed_in: 登入中
+      sign_out: 登出
+      sign_in: 登入
+      administrate: 系統管理員
+      returning: 回到原使用者
+    banner:
+      owed: 你被積欠的金額
 
-    users:
-      user:
-        email: 電子信箱
-      new:
-        title: 讓我們一起改變現狀
-        description: 第一步，建立帳號
-      edit:
-        title: 更改電子信箱或密碼
-        description: ""
-      form:
-        email: 電子信箱
-        password: 密碼
-        commit: 送出
-      show:
-        introduction: 你已經成功完成第一步！為了讓您更快進入以下程序，我們需要先建立你的個人資料
-        requirements:
-          profile: 個人資料
-          address: 地址
-          claim: 聘僱資料，包含工作時間以及薪資明細
-          workplace: 雇用狀況，工作廠址以及聯絡人
-          employer: 雇主資料， 如果雇主資料與工作廠址資料不同
-        requirement_done: 完成
-        add: 接下來我們需要你告訴我們更多的關於你欠薪的資訊與證據
-        locked: 你的案子已經送出，無法更改內容，若有進一步消息我們將會跟你聯繫
-        profile:
-          heading: 你的資料
-          missing: 尚未提交資料
-          complete: 新增資料
-        address:
-          heading: 你的地址
-          edit: 修改地址
-          missing: 你尚未提供你的地址資訊
-          complete: 新增地址
-        claim:
-          heading: 你的案子
-          missing: 你尚未提交任何相關欠薪案件的相關資料
-          complete: 新增資料
-
-    claims:
-      new:
-        title: 或許我可以幫你
-        intro: |
-          哈囉  如果你近期**在農場**工作, 我的任務就是幫你計算出你被積欠的薪資，如果你要的話，幫你把欠新討回
-
-          First, the basics: 以農場的非典型聘僱工人來說，每小時最低薪資稅前為澳幣,你覺得你被欠薪了嗎?我們一起來看看
-
-          
-      form:
-        title: 告訴我們你的工作
-        award: 你在甚麼產業?
-        weekly_hours: 平均一週工作時數?
-        hourly_pay: 平均時薪為?
-        payslips_received: 雇主每周有固定給你薪資明細?
-        employment_began_on: 聘僱關係是何時開始?
-        employment_ended_on: 聘僱關係何時結束
-        employment_type: 你是非典型聘用還是專職聘用?
-        calculate: 我被欠薪了嗎?
-        commit: 我們一起來解決!
-      claim:
-        title: 你的欠薪追溯案
-        edit: 修改欠薪個案資料
-        employer:
-          heading: 雇主
-          missing: 你還未填入雇主資料喔!
-          complete: 雇主資料
-        workplace:
-          heading: 工作地點
-          missing: 你尚未填入工作地點喔!
-          complete: 工作地點詳細資訊
-        company:
-          heading: 聘僱公司
-          missing: 你尚未填入雇主資訊及工作地點喔!
-          complete: 聘僱公司詳細資料
-        document: 
-          new: 提交文件
-        no_evidence: "如果你無法提供任何的文件資料作為佐證，包括: 薪資明細 或是 銀行轉帳證明等，為了讓你的欠薪申訴案件能夠成立，你必須要至少提供其他必填的資料，接下來你方可使用聲明書來作為證明。"
-        add_affidavit: 新增聲明書
-        affidavit_locked: "(你需要填妥所有系統所需資料才能送出聲明書.)"
-        wage_evidence: 我們需要你提供雇主給付薪資的證明
-        time_evidence: 我們需要你提供工作時數的證明
-        to: 迄
-        award: 產業
-        weekly_hours: 平均 每周工作時數
-        hourly_pay: 時薪
-        employment_began_on: 聘僱開始
-        employment_ended_on: 聘僱結束
-        employment_type: Employment type
-        lost_wages: 欠薪計算結果
-      review:
-        description: |
-          恭喜你，看來你已經填妥所有申訴的表格，如果你想新增更多的鄉館檔案資料，可以繼續上傳。
-          若無，你可以直接點選下列的送出選項。
-          在送出之後，我們會做深入的調查並且瀏覽你的資料。
-          如果有需要送交其他資料我們會與你做進一步的聯繫。
-          若進度順利，我們將會追回你所被積欠的薪資，將會與你作更進一步的聯繫。
-        commit: 送交
-        
-    addresses:
-      address:
-        street_address: 地址
-        town: 鎮
-        province: 州
-        postal_code: 郵遞區號
-        country: 國家
-      form:
-        title: 地址
-        user_title: 你的地址
-        company_title: 公司地址
-        commit: 送出
-    profiles:
-      new:
-        title: 個人資料
-        description: 現在我們已經替你建檔了，我們還需要其他的資料來完成下一步動作。
-        title: 修改個人資料
-        description: ""
-      edit:
-        title: 
-      form:
-        commit: 送出
+  users:
+    user:
+      email: 電子信箱
+    new:
+      title: 讓我們一起改變現狀
+      description: 第一步，建立帳號
+    edit:
+      title: 更改電子信箱或密碼
+      description: ""
+    form:
+      email: 電子信箱
+      password: 密碼
+      commit: 送出
+    show:
+      introduction: 你已經成功完成第一步！為了讓您更快進入以下程序，我們需要先建立你的個人資料
+      requirements:
+        profile: 個人資料
         address: 地址
+        claim: 聘僱資料，包含工作時間以及薪資明細
+        workplace: 雇用狀況，工作廠址以及聯絡人
+        employer: 雇主資料， 如果雇主資料與工作廠址資料不同
+      requirement_done: 完成
+      add: 接下來我們需要你告訴我們更多的關於你欠薪的資訊與證據
+      locked: 你的案子已經送出，無法更改內容，若有進一步消息我們將會跟你聯繫
       profile:
-        title: 個人資料
-        family_name: 姓氏
-        given_name: 名字
-        preferred_name: 偏好暱稱
-        date_of_birth: 出生年月日
-        phone: 電話號碼
-        preferred_language: 偏好語言
-        edit: 修改資料
-        address:
-          remove: 刪除地址
+        heading: 你的資料
+        missing: 尚未提交資料
+        complete: 新增資料
+      address:
+        heading: 你的地址
+        edit: 修改地址
+        missing: 你尚未提供你的地址資訊
+        complete: 新增地址
+      claim:
+        heading: 你的案子
+        missing: 你尚未提交任何相關欠薪案件的相關資料
+        complete: 新增資料
 
-    documents:
-      show:
-        duration: 這份文件包含________年___月___日至_______年___月___日期間的工作時數 %{beginning} %{end}.
-        wages: 這是我所領取的總薪資 %{wages}.
-        hours: 這是我所工作的總時數 %{hours}.
-        evidence: "這份文件包含證據:"
-        statement: "這份文件為聲明書:"
-        delete: 刪除
-        back: 回上一頁
-      document:
-        title: 有效證據
-        empty: 你尚未上傳任何資料
-      form:
-        title: 新增文件
-        evidence: 上傳文件或圖檔
-        statement: 或，寫下你的聲明書
-        affidavit: 自動產出聲明書
-        coverage_start_date: "這份文件所指的時間為:"
-        coverage_end_date: "給:"
-        wage_evidence: 這份文件為我的薪資證明
-        time_evidence: 這份資料為我的總工作時數
-        wages: "你所領取的總薪資?"
-        hours: "此份文件所指的你工作總時數是?"
-        commit: 新增文件
+  claims:
+    new:
+      title: 或許我可以幫你
+      intro: |
+        哈囉  如果你近期**在農場**工作, 我的任務就是幫你計算出你被積欠的薪資，如果你要的話，幫你把欠新討回
 
-    companies:
-      edit:
-        title: 修改公司資料
-      new:
-        title: 新增公司資料
-      form:
-        title: 新增你的欠薪案件所指的公司
-        commit: 儲存公司資訊
-        search: 尋找系統內建公司名稱
-        search_placeholder: 開始填寫...
-        search_desc: 系統未內建資料?
-        search_desc2: 自行輸入
-        search_desc3: 搜尋?
-        is_workplace: 這個公司是我工作的公司
-        is_employer: 這個公司是我的雇主
-        manual: 輸入公司資料
-        name: 公司名稱
-        contact: 聯絡人姓名
-        contact_desc: 例如：我的主管
-        abn: 澳洲商業登記號碼(ABN), 如果你知道的話
-        abn_desc: 不確定，可以直接搜尋
-        abn_desc2: 這裡
-        phone: 連絡電話
-        email: 聯絡電子信箱
+        First, the basics: 以農場的非典型聘僱工人來說，每小時最低薪資稅前為澳幣,你覺得你被欠薪了嗎?我們一起來看看
+
+        
+    form:
+      title: 告訴我們你的工作
+      award: 你在甚麼產業?
+      weekly_hours: 平均一週工作時數?
+      hourly_pay: 平均時薪為?
+      payslips_received: 雇主每周有固定給你薪資明細?
+      employment_began_on: 聘僱關係是何時開始?
+      employment_ended_on: 聘僱關係何時結束
+      employment_type: 你是非典型聘用還是專職聘用?
+      calculate: 我被欠薪了嗎?
+      commit: 我們一起來解決!
+    claim:
+      title: 你的欠薪追溯案
+      edit: 修改欠薪個案資料
+      employer:
+        heading: 雇主
+        missing: 你還未填入雇主資料喔!
+        complete: 雇主資料
+      workplace:
+        heading: 工作地點
+        missing: 你尚未填入工作地點喔!
+        complete: 工作地點詳細資訊
       company:
-        name: 姓名
-        contact: 聯絡人姓名
-        abn: 澳洲商業登記號碼(ABN)
-        phone: 連絡電話
-        edit: 修改公司資料
-        email: 聯絡電子信箱
-        remove: 刪除
-        address:
-          heading: 公司地址
-          edit: 修改公司地址
-          complete: 新增公司地址
-          remove: 刪除地址
-          missing: "你還未提供公司地址喔!:"
+        heading: 聘僱公司
+        missing: 你尚未填入雇主資訊及工作地點喔!
+        complete: 聘僱公司詳細資料
+      document: 
+        new: 提交文件
+      no_evidence: "如果你無法提供任何的文件資料作為佐證，包括: 薪資明細 或是 銀行轉帳證明等，為了讓你的欠薪申訴案件能夠成立，你必須要至少提供其他必填的資料，接下來你方可使用聲明書來作為證明。"
+      add_affidavit: 新增聲明書
+      affidavit_locked: "(你需要填妥所有系統所需資料才能送出聲明書.)"
+      wage_evidence: 我們需要你提供雇主給付薪資的證明
+      time_evidence: 我們需要你提供工作時數的證明
+      to: 迄
+      award: 產業
+      weekly_hours: 平均 每周工作時數
+      hourly_pay: 時薪
+      employment_began_on: 聘僱開始
+      employment_ended_on: 聘僱結束
+      employment_type: Employment type
+      lost_wages: 欠薪計算結果
+    review:
+      description: |
+        恭喜你，看來你已經填妥所有申訴的表格，如果你想新增更多的鄉館檔案資料，可以繼續上傳。
+        若無，你可以直接點選下列的送出選項。
+        在送出之後，我們會做深入的調查並且瀏覽你的資料。
+        如果有需要送交其他資料我們會與你做進一步的聯繫。
+        若進度順利，我們將會追回你所被積欠的薪資，將會與你作更進一步的聯繫。
+      commit: 送交
+      
+  addresses:
+    address:
+      street_address: 地址
+      town: 鎮
+      province: 州
+      postal_code: 郵遞區號
+      country: 國家
+    form:
+      title: 地址
+      user_title: 你的地址
+      company_title: 公司地址
+      commit: 送出
+  profiles:
+    new:
+      title: 個人資料
+      description: 現在我們已經替你建檔了，我們還需要其他的資料來完成下一步動作。
+      title: 修改個人資料
+      description: ""
+    edit:
+      title: 
+    form:
+      commit: 送出
+      address: 地址
+    profile:
+      title: 個人資料
+      family_name: 姓氏
+      given_name: 名字
+      preferred_name: 偏好暱稱
+      date_of_birth: 出生年月日
+      phone: 電話號碼
+      preferred_language: 偏好語言
+      edit: 修改資料
+      address:
+        remove: 刪除地址
 
-    admin:
-      claims:
-        form:
-          status: Status
-          comment: Explanation (optional)
-          commit: Update claim
-          
-      messages:
-        new:
-          subject: Subject
-          body: Body
+  documents:
+    show:
+      duration: 這份文件包含________年___月___日至_______年___月___日期間的工作時數 %{beginning} %{end}.
+      wages: 這是我所領取的總薪資 %{wages}.
+      hours: 這是我所工作的總時數 %{hours}.
+      evidence: "這份文件包含證據:"
+      statement: "這份文件為聲明書:"
+      delete: 刪除
+      back: 回上一頁
+    documents:
+      title: 有效證據
+      empty: 你尚未上傳任何資料
+    form:
+      title: 新增文件
+      evidence: 上傳文件或圖檔
+      statement: 或，寫下你的聲明書
+      affidavit: 自動產出聲明書
+      coverage_start_date: "這份文件所指的時間為:"
+      coverage_end_date: "給:"
+      wage_evidence: 這份文件為我的薪資證明
+      time_evidence: 這份資料為我的總工作時數
+      wages: "你所領取的總薪資?"
+      hours: "此份文件所指的你工作總時數是?"
+      commit: 新增文件
+
+  companies:
+    edit:
+      title: 修改公司資料
+    new:
+      title: 新增公司資料
+    form:
+      title: 新增你的欠薪案件所指的公司
+      commit: 儲存公司資訊
+      search: 尋找系統內建公司名稱
+      search_placeholder: 開始填寫...
+      search_desc: 系統未內建資料?
+      search_desc2: 自行輸入
+      search_desc3: 搜尋?
+      is_workplace: 這個公司是我工作的公司
+      is_employer: 這個公司是我的雇主
+      manual: 輸入公司資料
+      name: 公司名稱
+      contact: 聯絡人姓名
+      contact_desc: 例如：我的主管
+      abn: 澳洲商業登記號碼(ABN), 如果你知道的話
+      abn_desc: 不確定，可以直接搜尋
+      abn_desc2: 這裡
+      phone: 連絡電話
+      email: 聯絡電子信箱
+    company:
+      name: 姓名
+      contact: 聯絡人姓名
+      abn: 澳洲商業登記號碼(ABN)
+      phone: 連絡電話
+      edit: 修改公司資料
+      email: 聯絡電子信箱
+      remove: 刪除
+      address:
+        heading: 公司地址
+        edit: 修改公司地址
+        complete: 新增公司地址
+        remove: 刪除地址
+        missing: "你還未提供公司地址喔!:"
+
+  admin:
+    claims:
+      form:
+        status: Status
+        comment: Explanation (optional)
+        commit: Update claim
+        
+    messages:
+      new:
+        subject: Subject
+        body: Body
 
   activerecord:
     models:

@@ -1,20 +1,20 @@
 %h3 
   Company
   = home_title(company, claim) 
-  %small= link_if_unlocked(company, "(#{t('views.companies.company.remove')})", claim_company_path(claim_company), data: { confirm: "Are you sure?" }, method: :delete)
-  -# %small= link_if_unlocked(company, "(#{t('views.companies.company.edit')})", edit_claim_company_path(claim_company))
+  %small= link_if_unlocked(company, "(#{t('companies.company.remove')})", claim_company_path(claim_company), data: { confirm: "Are you sure?" }, method: :delete)
+  -# %small= link_if_unlocked(company, "(#{t('companies.company.edit')})", edit_claim_company_path(claim_company))
 :markdown
   #{markdown_model(company)}
 
 - if company.address
   %h4
-    = t('views.companies.company.address.heading')
-    %small= link_if_unlocked(company, "(#{t('views.companies.company.address.remove')})", company_address_path(company.company_address, company_address: { is_active: false }), method: :put, data: { confirm: "Are you sure?" })
+    = t('companies.company.address.heading')
+    %small= link_if_unlocked(company, "(#{t('companies.company.address.remove')})", company_address_path(company.company_address, company_address: { is_active: false }), method: :put, data: { confirm: "Are you sure?" })
 
   :markdown
     #{ markdown_model(company.address) }
 - else
-  %h4= t('views.companies.company.address.heading')
+  %h4= t('companies.company.address.heading')
   %p
-    = t('views.companies.company.address.missing')
-    = link_to t('views.companies.company.address.complete'), new_company_company_address_path(company), class: "btn btn-sm btn-default"
+    = t('companies.company.address.missing')
+    = link_to t('companies.company.address.complete'), new_company_company_address_path(company), class: "btn btn-sm btn-default"

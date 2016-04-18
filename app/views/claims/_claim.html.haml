@@ -1,31 +1,31 @@
 %h3
-  = t('views.claims.claim.title')
-  %small= link_if_unlocked(claim, "(#{t('views.claims.claim.edit')})", edit_claim_path(claim))
+  = t('.title')
+  %small= link_if_unlocked(claim, "(#{t('.edit')})", edit_claim_path(claim))
 :markdown
   #{markdown_model(claim)}  
 
 = render partial: "documents/documents", locals: { documents: claim.documents }
 - unless claim.payslips_received
-  %p.bold= t('views.claims.claim.no_evidence')
+  %p.bold= t('.no_evidence')
 - if claim.coverage_gaps.any?
-  = t('views.claims.claim.wage_evidence')
+  = t('.wage_evidence')
   %br/
   %ul
     - claim.coverage_gaps.each do |gap|
-      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, wage_evidence: true)
+      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, wage_evidence: true)
 - if claim.coverage_gaps(:time_evidence).any?
-  = t('views.claims.claim.time_evidence')
+  = t('.time_evidence')
   %br/
   %ul
     - claim.coverage_gaps(:time_evidence).each do |gap|
-      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('views.claims.claim.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, time_evidence: true)
+      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, time_evidence: true)
 
-%p= link_if_unlocked(claim, t('views.claims.claim.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
+%p= link_if_unlocked(claim, t('.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
 - if claim.display_affidavit?
   %p
-  = link_if_unlocked(claim, t('views.claims.claim.add_affidavit'), new_claim_document_path(claim, affidavit: true), class: "btn btn-sm btn-default #{"disabled" unless claim.enable_affidavit?}")
+  = link_if_unlocked(claim, t('.add_affidavit'), new_claim_document_path(claim, affidavit: true), class: "btn btn-sm btn-default #{"disabled" unless claim.enable_affidavit?}")
   - unless claim.enable_affidavit?
-    %small= t('views.claims.claim.affidavit_locked')
+    %small= t('.affidavit_locked')
 
 -# present attached companies: zero, one, or two
 - if claim.presentable_companies.any?
@@ -36,19 +36,19 @@
 - unless claim.employer && claim.workplace
   - if claim.employer && !claim.workplace
     -# ask for a workplace
-    %h3= t('views.claims.claim.workplace.heading')
+    %h3= t('.workplace.heading')
     %p
-      = t('views.claims.claim.workplace.missing')
-      = link_to t('views.claims.claim.workplace.complete'), new_claim_claim_company_path(claim, claim_company: { is_workplace: true }), class: "btn btn-sm btn-default"
+      = t('.workplace.missing')
+      = link_to t('.workplace.complete'), new_claim_claim_company_path(claim, claim_company: { is_workplace: true }), class: "btn btn-sm btn-default"
   - elsif claim.workplace && !claim.employer
     -# ask for an employer
-    %h3= t('views.claims.claim.employer.heading')
+    %h3= t('.employer.heading')
     %p
-      = t('views.claims.claim.employer.missing')
-      = link_to t('views.claims.claim.employer.complete'), new_claim_claim_company_path(claim, claim_company: { is_employer: true }), class: "btn btn-sm btn-default"
+      = t('.employer.missing')
+      = link_to t('.employer.complete'), new_claim_claim_company_path(claim, claim_company: { is_employer: true }), class: "btn btn-sm btn-default"
   - else
     -# ask for generic company
-    %h3= t('views.claims.claim.company.heading')
+    %h3= t('.company.heading')
     %p
-      = t('views.claims.claim.company.missing')
-      = link_to t('views.claims.claim.company.complete'), new_claim_claim_company_path(claim), class: "btn btn-sm btn-default"
+      = t('.company.missing')
+      = link_to t('.company.complete'), new_claim_claim_company_path(claim), class: "btn btn-sm btn-default"

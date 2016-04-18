@@ -3,7 +3,7 @@
   = f.fields_for(:address) do |fa|
     
     %fieldset
-      %legend= t("views.addresses.form.title")
+      %legend= t("addresses.form.title")
       = fa.hidden_field :country, value: "AU"
 
       .form-group
@@ -32,4 +32,4 @@
         -# = fa.text_field :country, class: "form-control"
 
     .actions.text-right
-      = fa.submit t('views.addresses.form.commit'), class: "btn btn-sm btn-default"
+      = fa.submit t('addresses.form.commit'), class: "btn btn-sm btn-default"

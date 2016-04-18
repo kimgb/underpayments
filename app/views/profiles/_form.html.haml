@@ -45,7 +45,7 @@
     - if include_address
       = render partial: "profiles/address_fields", locals: { f: f, address: @profile.address }
 
-  .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"
+  .actions.text-right= f.submit t('.commit'), class: "btn btn-default"
   
 :javascript
   $("#profile_nationality").select2({theme: "bootstrap"});

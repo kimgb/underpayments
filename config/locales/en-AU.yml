@@ -1,11 +1,10 @@
 # Australian locale
 en-AU:
-  views:
-    addresses:
-      address:
-        town: Suburb
-        province: State
-        postal_code: Postcode
+  addresses:
+    address:
+      town: Suburb
+      province: State
+      postal_code: Postcode
   activerecord:
     attributes:
       address:

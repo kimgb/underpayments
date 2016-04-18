@@ -1,31 +1,31 @@
 - unless @user.ready_to_submit?
-  %p= t('views.users.show.introduction')
+  %p= t('.introduction')
   %ul
-    - t('views.users.show.requirements').each do |key, req|
+    - t('.requirements').each do |key, req|
       %li
         = req
         - if @user.send(key).present? && @user.send(key).done?
-          %span{ style: "color: green" }= t('views.users.show.requirement_done')
-  %p= t('views.users.show.add')
+          %span{ style: "color: green" }= t('.requirement_done')
+  %p= t('.add')
   
 - if @user.ready_to_submit? && !@user.submitted?
   = render partial: "claims/submit_for_review", locals: { claim: @user.claim }
   
 - if @user.locked?
-  %p.bold= t('views.users.show.locked')
+  %p.bold= t('.locked')
 
 - if @user.profile
   = render partial: "profiles/profile", locals: { profile: @user.profile }
 - else
-  %h3= t('views.users.show.profile.heading')
+  %h3= t('.profile.heading')
   %p
-    = t('views.users.show.profile.missing')
-    = link_to t('views.users.show.profile.complete'), new_profile_path, class: "btn btn-sm btn-default"
+    = t('.profile.missing')
+    = link_to t('.profile.complete'), new_profile_path, class: "btn btn-sm btn-default"
 
 - if @user.claim
   = render partial: "claims/claim", locals: { claim: @user.claim }
 - else
-  %h3= t('views.users.show.claim.heading')
+  %h3= t('.claim.heading')
   %p
-    = t('views.users.show.claim.missing')
-    = link_to t('views.users.show.claim.complete'), new_claim_path, class: "btn btn-sm btn-default"
+    = t('.claim.missing')
+    = link_to t('.claim.complete'), new_claim_path, class: "btn btn-sm btn-default"

@@ -2,15 +2,15 @@
   = render partial: "layouts/errors", locals: { resource: @document }
 
   %fieldset
-    %legend= t('views.documents.form.title')
+    %legend= t('.title')
 
     .form-group
-      = f.label :evidence, t('views.documents.form.evidence'), class: "control-label"
+      = f.label :evidence, t('.evidence'), class: "control-label"
       = f.file_field :evidence, style: "color: #BBB", class: "btn btn-default", disabled: params[:affidavit]
     
     - if params[:affidavit]
       .form-group
-        = f.label :statement, t('views.documents.form.statement'), class: "control-label"
+        = f.label :statement, t('.statement'), class: "control-label"
         %br/
         = f.text_area :statement, rows: 3, class: "form-control"
 
@@ -18,38 +18,38 @@
       .checkbox
         = f.label :wage_evidence do
           = f.check_box :wage_evidence, data: { target: "#wages" }
-          = t('views.documents.form.wage_evidence')
+          = t('.wage_evidence')
 
       .checkbox
         = f.label :time_evidence do
           = f.check_box :time_evidence, data: { target: "#hours" }
-          = t('views.documents.form.time_evidence')
+          = t('.time_evidence')
         
     .form-group.collapse#wages
-      = f.label :wages, t('views.documents.form.wages'), class: "control-label"
+      = f.label :wages, t('.wages'), class: "control-label"
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-usd
         = f.number_field :wages, value: number_with_precision(f.object.wages, precision: 2), class: "form-control", min: "0", step: "0.01"
       
     .form-group.collapse#hours
-      = f.label :hours, t('views.documents.form.hours'), class: "control-label"
+      = f.label :hours, t('.hours'), class: "control-label"
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-time
         = f.number_field :hours, value: number_with_precision(f.object.hours, precision: 2), class: "form-control", min: "0", step: "0.01"
 
     .form-group.form-inline
-      = f.label :coverage_start_date, t('views.documents.form.coverage_start_date'), class: "control-label"
+      = f.label :coverage_start_date, t('.coverage_start_date'), class: "control-label"
       %br/
       = f.date_select :coverage_start_date, { selected: @document.coverage_start_date || date_from_params(:coverage_start_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
 
     .form-group.form-inline
-      = f.label :coverage_end_date, t('views.documents.form.coverage_end_date'), class: "control-label"
+      = f.label :coverage_end_date, t('.coverage_end_date'), class: "control-label"
       %br/
       = f.date_select :coverage_end_date, { selected: @document.coverage_end_date || date_from_params(:coverage_end_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
 
-  .actions.text-right= f.submit t('views.documents.form.commit'), class: "btn btn-sm btn-default"
+  .actions.text-right= f.submit t('.commit'), class: "btn btn-sm btn-default"
   
 :javascript
   function boxChecked(box){

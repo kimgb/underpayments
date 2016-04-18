@@ -18,7 +18,7 @@ module ApplicationHelper
 
     html_escape(
       klass.presentable_attributes.map do |attr|
-        l10n_key = "views.#{class_str.pluralize}.#{class_str}.#{attr}"
+        l10n_key = "#{class_str.pluralize}.#{class_str}.#{attr}"
         value = value_with_transform(model.send(attr), klass.attr_transform[attr])
 
         "**#{I18n.t(l10n_key)}:** #{value}" unless value.blank?

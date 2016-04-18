@@ -1,5 +1,5 @@
-%p= t('views.claims.review.description')
+%p= t('.description')
 
 = form_for(claim, html: { class: "form", multipart: true }) do |f|
   = f.hidden_field :submitted_for_review, value: true  
-  .actions.text-center= f.submit t('views.claims.review.commit'), class: "btn btn-lg btn-default"
+  .actions.text-center= f.submit t('.commit'), class: "btn btn-lg btn-default"

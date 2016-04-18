@@ -2,7 +2,7 @@
   = render partial: "layouts/errors", locals: { resource: @company_address }
 
   %fieldset
-    %legend= t('views.addresses.form.title')
+    %legend= t('addresses.form.title')
     = f.fields_for(:address) do |fa|
       = fa.hidden_field :country, value: "AU"
 
@@ -27,4 +27,4 @@
         %br/
         = fa.select :country, options_for_select(country_list, "AU"), {}, { class: "form-control", placeholder: "Type your country..." }
 
-  .actions.text-right= f.submit t('views.profiles.form.commit'), class: "btn btn-default"
+  .actions.text-right= f.submit t('profiles.form.commit'), class: "btn btn-default"

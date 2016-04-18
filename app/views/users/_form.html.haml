@@ -6,17 +6,17 @@
     %p= description
 
     .form-group
-      = f.label :email, t('views.users.form.email'), class: "control-label"
+      = f.label :email, t('.email'), class: "control-label"
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-envelope
         = f.email_field :email, class: "form-control"
 
     .form-group
-      = f.label :password, t('views.users.form.password'), class: "control-label"
+      = f.label :password, t('.password'), class: "control-label"
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-lock
         = f.password_field :password, autocomplete: "off", class: "form-control"
 
-  .actions.text-right= f.submit t('views.users.form.commit'), class: "btn btn-sm btn-default"
+  .actions.text-right= f.submit t('.commit'), class: "btn btn-sm btn-default"

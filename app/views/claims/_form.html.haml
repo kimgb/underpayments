@@ -2,14 +2,14 @@
   = render partial: "layouts/errors", locals: { resource: @claim }
 
   %fieldset
-    %legend= t('views.claims.form.title')
+    %legend= t('.title')
 
     .form-group
-      = f.label :award, t('views.claims.form.award'), class: "control-label"
+      = f.label :award, t('.award'), class: "control-label"
       = f.select :award, options_for_select(awards_list, "horticulture"), {}, { class: "form-control" }
 
     .form-group
-      = f.label :weekly_hours, t('views.claims.form.weekly_hours'), class: "control-label"
+      = f.label :weekly_hours, t('.weekly_hours'), class: "control-label"
       /%br/
       .input-group
         .input-group-addon
@@ -19,10 +19,10 @@
     .checkbox
       = f.label :pieceworker do
         = f.check_box :pieceworker
-        = t('views.claims.form.pieceworker')
+        = t('.pieceworker')
 
     .form-group
-      = f.label :hourly_pay, t('views.claims.form.hourly_pay'), class: "control-label"
+      = f.label :hourly_pay, t('.hourly_pay'), class: "control-label"
       /%br/
       .input-group
         .input-group-addon
@@ -32,38 +32,38 @@
     .checkbox
       = f.label :payslips_received do
         = f.check_box :payslips_received
-        = t('views.claims.form.payslips_received')
+        = t('.payslips_received')
 
     .form-group.form-inline
-      = f.label :employment_began_on, t('views.claims.form.employment_began_on'), class: "control-label"
+      = f.label :employment_began_on, t('.employment_began_on'), class: "control-label"
       %br/
       = f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
 
     .form-group.form-inline
-      = f.label :employment_ended_on, t('views.claims.form.employment_ended_on'), class: "control-label"
+      = f.label :employment_ended_on, t('.employment_ended_on'), class: "control-label"
       %br/
       = f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
 
     .form-group
-      = f.label :employment_type, t('views.claims.form.employment_type'), class: "control-label"
+      = f.label :employment_type, t('.employment_type'), class: "control-label"
       %br/
       = f.select :employment_type, options_for_select(employment_type_list, "casual"), {}, { class: "form-control" }
 
   %output#claim_output
 
   .actions.text-right
-    -# = f.button t('views.claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_calculate"
-    = f.submit t('views.claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_submit"
+    -# = f.button t('.calculate'), class: "btn btn-sm btn-default", id: "claim_calculate"
+    = f.submit t('.calculate'), class: "btn btn-sm btn-default", id: "claim_submit"
     
 :javascript
   $("#claim_pieceworker").on('click', function(e){
     if ($(this).prop('checked')){
       $("label[for=claim_hourly_pay]").fadeOut(400).queue(function(n){
-        $(this).text("#{t('views.claims.form.pieceworker_hourly_pay')}"); n();
+        $(this).text("#{t('.pieceworker_hourly_pay')}"); n();
       }).fadeIn(400);
     } else {
       $("label[for=claim_hourly_pay]").fadeOut(400).queue(function(n){
-        $(this).text("#{t('views.claims.form.hourly_pay')}"); n();
+        $(this).text("#{t('.hourly_pay')}"); n();
       }).fadeIn(400);
     }
   })
