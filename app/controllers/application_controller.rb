@@ -21,11 +21,7 @@ class ApplicationController < ActionController::Base
   end
   
   def nuw_member
-    if params[:refresh_membership_data]
-      session[:member] = fetch_nuw_member
-    else
-      session[:member] ||= fetch_nuw_member
-    end
+    session[:member] = fetch_nuw_member
   end
   
   def fetch_nuw_member
