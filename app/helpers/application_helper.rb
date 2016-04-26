@@ -10,6 +10,40 @@ module ApplicationHelper
   def link_if_unlocked(resource, link_text, path, *args)
     link_to(link_text, path, *args) if current_user.owns?(resource) && !current_user.locked?
   end
+  
+  def paying?
+    if session[:member] && session[:member].subscription
+      ["Paying", "Awaiting 1st payment"].include? session[:member].subscription["status"]
+    end
+  end
+  
+  def paid?
+    if paying?
+      payments = session[:member].subscription["payments"]
+      sum_received = (payments || {}).map { |p| p["amount"] }.map(&:to_f).reduce(:+)
+      
+      (sum_received || 0) > 300
+    end
+  end
+  
+  def join_form_link(link_text, *args)
+    link_to(link_text, "#{join_url}?#{join_query_params}", *args)
+  end
+  
+  def join_url
+    "https://www.joinaunion.org.au/nuw/backpay/join"
+  end
+  
+  def join_query_params
+    if current_user
+      query_params = current_user.join_form_params.merge({
+        "callback_url" => URI::encode("#{ENV['host']}/users/#{current_user.id}?refresh_membership_data=true", /\W/),
+        "auto_submit" => true        
+      })
+      
+      query_params.compact.map { |k, v| "#{k}=#{v}" }.join("&")
+    end
+  end
 
   # Requires #presentable_attributes to be defined on the receiving model
   def markdown_model(model)

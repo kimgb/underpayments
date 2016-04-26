@@ -43,4 +43,8 @@ class User < ActiveRecord::Base
     # Such resources are not edited, just disassociated.
     admin? || resource.owners.include?(self)
   end
+  
+  def join_form_params
+    { "email" => email }.merge(profile && profile.join_form_params || {})
+  end
 end

@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :authenticate_user!
+  before_action :nuw_member
   # before_action :root_for_signed_in_user
   
   # def default_url_options(options = {})
@@ -17,6 +18,20 @@ class ApplicationController < ActionController::Base
 
   def forbidden!
     render file: "public/403.html", status: :forbidden, layout: false
+  end
+  
+  def nuw_member
+    if params[:refresh_membership_data]
+      session[:member] = fetch_nuw_member
+    else
+      session[:member] ||= fetch_nuw_member
+    end
+  end
+  
+  def fetch_nuw_member
+    if current_user
+      NUW::Person.get(email: current_user.email)
+    end
   end
   
   protected

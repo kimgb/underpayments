@@ -37,4 +37,14 @@ class Profile < ActiveRecord::Base
   def country_of_origin
     I18n.t('helpers.addresses.country_list')[nationality.to_sym]
   end
+  
+  def join_form_params
+    { 
+      "first_name" => given_name,
+      "last_name" => family_name,
+      "mobile" => phone,
+      "dob" => date_of_birth.strftime("%Y/%m/%d"),
+      "gender" => gender
+    }.merge(address && address.join_form_params || {})
+  end
 end

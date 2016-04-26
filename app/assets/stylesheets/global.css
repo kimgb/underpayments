@@ -107,13 +107,3 @@ footer { margin-top: 4rem; }
   line-height: 1.6 !important;
   color: #555;
 }
-
-/* Selectize fixes */
-.selectize-input {
-  min-height: 42px !important;
-}
-
-.selectize-dropdown, .selectize-input, .selectize-input input {
-  color: #555 !important;
-  line-height: 28.8px !important;
-}
