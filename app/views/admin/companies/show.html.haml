@@ -1,6 +1,8 @@
-%h3= @company.name
+%h3
+  = @company.name
+  %small= link_to "(Edit)", edit_admin_company_path(@company)
 :markdown
   #{markdown_model(@company)}
 
 - if @company.address
-  = render partial: "addresses/address", locals: { address: @company.address, title: t('views.companies.company.address.heading'), edit: t('views.companies.company.address.edit') }
+  = render partial: "addresses/address", locals: { address: @company.address, title: t('companies.company.address.heading'), edit: t('companies.company.address.edit') }
