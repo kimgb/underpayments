@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   # JSON lookup resources
   resources  :companies, only: [:index]
   resources  :addresses, only: [:edit, :update]
+  
+  get "/membership", to: "memberships#show", as: :memberships
 
   get "/pages/:page", to: "pages#show", as: :pages
 

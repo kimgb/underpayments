@@ -367,6 +367,7 @@ en:
         casual: Casual
         permanent: Permanent
       awards:
+        no_award: Not listed
         horticulture: Horticulture
         poultry: Poultry Processing
     addresses:

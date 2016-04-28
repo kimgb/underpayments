@@ -2,6 +2,8 @@ class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
   before_action :authorise_admin!, only: [:index, :destroy]
   before_action :authorise_owner!, only: [:show, :edit, :update]
+  before_action :confirm_unlocked!, only: [:edit, :update, :destroy]
+  
   # set_employer?
 
   # GET /claims
@@ -101,5 +103,9 @@ class ClaimsController < ApplicationController
 
   def authorise_owner!
     forbidden! unless current_user && current_user.owns?(@claim)
+  end
+  
+  def confirm_unlocked!
+    forbidden! if @claim.locked? && !(current_user && current_user.admin?)
   end
 end

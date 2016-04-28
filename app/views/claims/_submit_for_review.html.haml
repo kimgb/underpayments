@@ -1,10 +1,28 @@
-- if paid? || paying?
-  %p= t('views.claims.review.description')
-  = form_for(claim, html: { class: "form", multipart: true }) do |f|
-    = f.hidden_field :submitted_for_review, value: true  
-    .actions.text-center
-      %h4= "We've found membership records for you. You're ready to proceed."
-      = f.submit t('views.claims.review.commit'), class: "btn btn-lg btn-default"
-- else
-  %h4{ style: "color: #DAA520" }= "You're ready to proceed, but we can't find any membership records for you. We can only run claims for union members."
-  %p= join_form_link "Join the union", class: "btn btn-lg btn-default"
+.text-center
+  %p{ data: { load: "#{memberships_path(email: current_user.email)}" }}
+    = "You've supplied enough information to proceed. We're just asking our database if you have an existing membership."
+    %br
+    %br
+    %span.loading{ style: "color: #F5003D" }= "Checking"
+  
+:javascript
+  $("p[data-load]").filter(":visible").each(function(){
+    var path = $(this).attr('data-load');
+    $(this).load(path, function(response, status, xhr){
+      $(this).removeClass("loading");
+      if (status == "error"){
+        $(this).html("There was an error getting information from the database.")
+      }
+    });
+  })
+-# 
+-# - if paid? || paying?
+-#   %p= t('views.claims.review.description')
+-#   = form_for(claim, html: { class: "form", multipart: true }) do |f|
+-#     = f.hidden_field :submitted_for_review, value: true  
+-#     .actions.text-center
+-#       %h4= "We've found membership records for you. You're ready to proceed."
+-#       = f.submit t('views.claims.review.commit'), class: "btn btn-lg btn-default"
+-# - else
+-#   %h4{ style: "color: #DAA520" }= "You're ready to proceed, but we can't find any membership records for you. We can only run claims for union members."
+-#   %p= join_form_link "Join the union", class: "btn btn-lg btn-default"

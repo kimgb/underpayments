@@ -3,6 +3,7 @@ class DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :destroy, :edit, :update]
   before_action :authorise_owner!, only: [:show, :destroy, :edit, :update]
   before_action :set_claim, only: [:new, :create]
+  before_action :confirm_unlocked!, only: [:edit, :update, :destroy]
 
   # GET /documents
   # def index
@@ -80,5 +81,11 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(:evidence, :statement, :wage_evidence, :wages, :time_evidence, :hours, :coverage_start_date, :coverage_end_date)
+  end
+  
+  def confirm_unlocked!
+    claim = @document.claim
+    
+    forbidden! if (claim && claim.locked?) && !(current_user && current_user.admin?)
   end
 end
