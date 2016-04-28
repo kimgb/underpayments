@@ -144,28 +144,35 @@ class Claim < ActiveRecord::Base
   end
 
   # Claim#award_minimum()
-  # Deeply nested hash with award level 1 rates by year, award, employment type.
-  # 2015 and all horticulture rates are correct, poultry needs numbers for 2010-2014 f.y.'s
+  # Deeply nested hash with award level 1 rates by financial year, award, employment type.
+  # 2015 and all horticulture/awardless rates are correct.
+  # Poultry needs numbers for 2010-2014 f.y.'s
   def award_minimum(year = employment_began_on.year)
     {
       2015 => {
         "horticulture" => { "casual" => 21.61, "permanent" => 17.29 },
-        "poultry" => { "casual" => 22.34, "permanent" => 17.87 }
+        "poultry" => { "casual" => 22.34, "permanent" => 17.87 },
+        "no_award" => { "casual" => 21.61, "permanent" => 17.29 }
       }, 2014 => {
         "horticulture" => { "casual" => 21.09, "permanent" => 16.87 },
-        "poultry" => { "casual" => 21.09, "permanent" => 16.87 }
+        "poultry" => { "casual" => 21.09, "permanent" => 16.87 },
+        "no_award" => { "casual" => 21.09, "permanent" => 16.87 }
       }, 2013 => {
         "horticulture" => { "casual" => 20.46, "permanent" => 16.37 },
-        "poultry" => { "casual" => 20.46, "permanent" => 16.37 }
+        "poultry" => { "casual" => 20.46, "permanent" => 16.37 },
+        "no_award" => { "casual" => 20.46, "permanent" => 16.37 }
       }, 2012 => {
         "horticulture" => { "casual" => 19.95, "permanent" => 15.96 },
-        "poultry" => { "casual" => 19.95, "permanent" => 15.96 }
+        "poultry" => { "casual" => 19.95, "permanent" => 15.96 },
+        "no_award" => { "casual" => 19.95, "permanent" => 15.96 }
       }, 2011 => {
         "horticulture" => { "casual" => 19.39, "permanent" => 15.51 },
-        "poultry" => { "casual" => 19.39, "permanent" => 15.51 }
+        "poultry" => { "casual" => 19.39, "permanent" => 15.51 },
+        "no_award" => { "casual" => 19.39, "permanent" => 15.51 }
       }, 2010 => {
         "horticulture" => { "casual" => 18.75, "permanent" => 15.00 },
-        "poultry" => { "casual" => 18.75, "permanent" => 15.00 }
+        "poultry" => { "casual" => 18.75, "permanent" => 15.00 },
+        "no_award" => { "casual" => 18.75, "permanent" => 15.00 }
       }
     }.dig(year, award, employment_type)
   end

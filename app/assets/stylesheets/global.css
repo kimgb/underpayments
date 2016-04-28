@@ -108,12 +108,28 @@ footer { margin-top: 4rem; }
   color: #555;
 }
 
-/* Selectize fixes */
-.selectize-input {
-  min-height: 42px !important;
+/* Animated ellipsis for loading AJAX content */
+.loading:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4,end) 1200ms infinite;      
+  animation: ellipsis steps(4,end) 1200ms infinite;
+  content: "\2026"; /* ascii code for the ellipsis character */
+  width: 0px;
+  margin-right: 20px;
 }
 
-.selectize-dropdown, .selectize-input, .selectize-input input {
-  color: #555 !important;
-  line-height: 28.8px !important;
+@keyframes ellipsis {
+  to {
+    width: 20px;
+    margin-right: 0px;
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 20px;
+    margin-right: 0px;
+  }
 }

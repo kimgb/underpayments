@@ -36,6 +36,10 @@ class Document < ActiveRecord::Base
     end
   end
   
+  def locked?
+    claim && claim.locked?
+  end
+  
   private
   def presence_of_evidence_or_statement
     unless evidence.present? || statement.present?
