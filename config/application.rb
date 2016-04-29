@@ -49,5 +49,8 @@ module Underpaid
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
       html_tag
     }
+    
+    # Suckerpunch for background tasks
+    config.active_job.queue_adapter = :sucker_punch
   end
 end

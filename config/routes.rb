@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   resources  :users
   
   resource   :profile
+  # TODO nest singular address - split forms?
   
+  # TODO singular resource for basic namespace claim
   resources  :claims do
     resources :documents, only: [:index, :new, :create]
     resources :claim_companies, only: [:new, :create]
@@ -15,13 +17,14 @@ Rails.application.routes.draw do
   
   resources  :companies, only: [:show] do
     resources :claim_companies, only: [:new, :create]
+    # TODO singular resource for company_address?
     resources :company_addresses, only: [:new, :create]
   end
   
   resources  :claim_companies, except: [:index, :new, :create]
   resources  :company_addresses, except: [:index, :new, :create]
   
-  # JSON lookup resources
+  # JSON lookup routes
   resources  :companies, only: [:index]
   resources  :addresses, only: [:edit, :update]
   

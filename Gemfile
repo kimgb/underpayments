@@ -15,6 +15,8 @@ gem 'devise',           '~> 3.5.2'
 gem 'devise_invitable', '~> 1.5.2'
 # Mailgun for transactional email
 gem 'mailgun_rails'
+# Suckerpunch as the ActiveJob queue adapter
+gem 'sucker_punch'
 # Notify me about exceptions in the production environment, via email/Slack
 gem 'exception_notification'
 gem 'slack-notifier'

@@ -39,17 +39,17 @@ zh-TW:
         five: "5. 在我受雇於%{employer}(雇主名) 期間，我的總工作時數%{hours}小時"
         six: "6.在總%{hours}工作時數，我領到總薪資$%{dollars}元"
         seven: "7. 這份文件確認在%{award}(產業)法定最低薪資的規範下，欠薪為$%{dollars}元"
-      pieceworker:
-        agreement:
-          agreed: 我在受聘僱之後，有簽屬計件制工作的合約
-          not_agreed: 我在受聘僱之後，沒有簽屬任何計件制工作合約書
-        duration: 我的聘僱時間 %{duration}
-        warnings:
-          none: 在聘僱期間，我沒有收到任何的警告（威脅性字眼：主管或農主）
-          some: 我在工作期間有收到多次的警告（威脅性字眼：主管或農主 %{num_warnings}
-        one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
-        two: "9. I was employed for %{duration}."
-        three: "10. I received [no/specify number] warnings during my employment."
+        pieceworker:
+          agreement:
+            agreed: 我在受聘僱之後，有簽屬計件制工作的合約
+            not_agreed: 我在受聘僱之後，沒有簽屬任何計件制工作合約書
+          duration: 我的聘僱時間 %{duration}
+          warnings:
+            none: 在聘僱期間，我沒有收到任何的警告（威脅性字眼：主管或農主）
+            some: 我在工作期間有收到多次的警告（威脅性字眼：主管或農主 %{num_warnings}
+          one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
+          two: "9. I was employed for %{duration}."
+          three: "10. I received [no/specify number] warnings during my employment."
   layouts:
     application:
       title: 被欠薪?
@@ -117,6 +117,8 @@ zh-TW:
       award: 你在甚麼產業?
       weekly_hours: 平均一週工作時數?
       hourly_pay: 平均時薪為?
+      pieceworker: Were you a pieceworker?
+      pieceworker_hourly_pay: What was your approximate, average hourly rate from piecework?
       payslips_received: 雇主每周有固定給你薪資明細?
       employment_began_on: 聘僱關係是何時開始?
       employment_ended_on: 聘僱關係何時結束
@@ -124,6 +126,8 @@ zh-TW:
       calculate: 我被欠薪了嗎?
       commit: 我們一起來解決!
     claim:
+      status: Claim status
+      comment: Status explanation
       title: 你的欠薪追溯案
       edit: 修改欠薪個案資料
       employer:
@@ -153,14 +157,10 @@ zh-TW:
       employment_ended_on: 聘僱結束
       employment_type: Employment type
       lost_wages: 欠薪計算結果
-    review:
-      description: |
-        恭喜你，看來你已經填妥所有申訴的表格，如果你想新增更多的鄉館檔案資料，可以繼續上傳。
-        若無，你可以直接點選下列的送出選項。
-        在送出之後，我們會做深入的調查並且瀏覽你的資料。
-        如果有需要送交其他資料我們會與你做進一步的聯繫。
-        若進度順利，我們將會追回你所被積欠的薪資，將會與你作更進一步的聯繫。
-      commit: 送交
+    submit_for_review:
+      asking: You've supplied enough information to proceed. We're just asking our database if you have an existing membership.
+      loading: Checking
+      error: There was an error getting information from the database. Please try again in a few minutes.
       
   addresses:
     address:
@@ -178,10 +178,9 @@ zh-TW:
     new:
       title: 個人資料
       description: 現在我們已經替你建檔了，我們還需要其他的資料來完成下一步動作。
+    edit:
       title: 修改個人資料
       description: ""
-    edit:
-      title: 
     form:
       commit: 送出
       address: 地址
@@ -204,12 +203,13 @@ zh-TW:
       hours: 這是我所工作的總時數 %{hours}.
       evidence: "這份文件包含證據:"
       statement: "這份文件為聲明書:"
+      edit: Edit
       delete: 刪除
       back: 回上一頁
     documents:
       title: 有效證據
       empty: 你尚未上傳任何資料
-    form:
+    new:
       title: 新增文件
       evidence: 上傳文件或圖檔
       statement: 或，寫下你的聲明書
@@ -221,6 +221,15 @@ zh-TW:
       wages: "你所領取的總薪資?"
       hours: "此份文件所指的你工作總時數是?"
       commit: 新增文件
+    edit:
+      title: Edit document
+      coverage_start_date: "這份文件所指的時間為:"
+      coverage_end_date: "給:"
+      wage_evidence: 這份文件為我的薪資證明
+      time_evidence: 這份資料為我的總工作時數
+      wages: "你所領取的總薪資?"
+      hours: "此份文件所指的你工作總時數是?"
+      commit: Update document
 
   companies:
     edit:
@@ -261,17 +270,26 @@ zh-TW:
         remove: 刪除地址
         missing: "你還未提供公司地址喔!:"
 
+  memberships:
+    show:
+      ready: We've found membership records for you. You're ready to proceed!
+      found: We've found membership records for you, but we need to confirm/update your details.
+      not_found: You're ready to proceed, but we can't find any membership records for you. We can only run claims for union members.
+      submit: 送交
+      update: Update your membership
+      join: Join the union  
+
   admin:
     claims:
       form:
-        status: Status
-        comment: Explanation (optional)
-        commit: Update claim
+        status: Status #don't translate
+        comment: Explanation (optional) #don't translate
+        commit: Update claim #don't translate
         
     messages:
       new:
-        subject: Subject
-        body: Body
+        subject: Subject #don't translate
+        body: Body #don't translate
 
   activerecord:
     models:
@@ -349,6 +367,7 @@ zh-TW:
         casual: 非典型聘僱
         permanent: 全職固定工作
       awards:
+        no_award: Not listed
         horticulture: 農業
         poultry: 雞肉處理產業
     addresses:

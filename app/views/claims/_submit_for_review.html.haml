@@ -1,9 +1,9 @@
 .text-center
   %p{ data: { load: "#{memberships_path(email: current_user.email)}" }}
-    = "You've supplied enough information to proceed. We're just asking our database if you have an existing membership."
+    = t('.asking')
     %br
     %br
-    %span.loading{ style: "color: #F5003D" }= "Checking"
+    %span.loading{ style: "color: #F5003D" }= t('.loading')
   
 :javascript
   $("p[data-load]").filter(":visible").each(function(){
@@ -11,7 +11,7 @@
     $(this).load(path, function(response, status, xhr){
       $(this).removeClass("loading");
       if (status == "error"){
-        $(this).html("There was an error getting information from the database.")
+        $(this).html("#{t('.error')}");
       }
     });
   })

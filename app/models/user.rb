@@ -24,6 +24,11 @@ class User < ActiveRecord::Base
     [self]
   end
   
+  # override devise default to deliver in background.
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
+  
   # claim pass-through methods, very simple, excuse the meta-programming
   [:ready_to_submit?, :submitted?, :employer, :workplace, :locked?].each do |m|
     define_method(m) { claim && claim.send(m) }

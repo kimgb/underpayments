@@ -37,8 +37,9 @@ module ApplicationHelper
   def join_query_params
     if current_user
       query_params = current_user.join_form_params.merge({
-        "callback_url" => URI::encode("#{ENV['host']}/users/#{current_user.id}?refresh_membership_data=true", /\W/),
-        "auto_submit" => true        
+        "locale" => session[:locale],
+        "callback_url" => URI::encode("#{ENV['host'] + user_path(current_user)}", /\W/),
+        "auto_submit" => true
       })
       
       query_params.compact.map { |k, v| "#{k}=#{v}" }.join("&")
