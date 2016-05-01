@@ -1,4 +1,4 @@
-%h2 Log in
+%h2= t('devise.sessions.new.sign_in')
 
 = form_for(resource, as: resource_name, url: user_session_path) do |f|
   .form-group
@@ -12,7 +12,7 @@
     = f.label :password
     %br/
     .input-group
-      .input-group-addon 
+      .input-group-addon
         %i.glyphicon.glyphicon-lock
       = f.password_field :password, autocomplete: "off", class: "form-control"
 
@@ -22,6 +22,6 @@
       = f.label :remember_me
 
   .actions
-    = f.submit "Log in", class: "btn btn-sm btn-default"
+    = f.submit t('devise.sessions.new.sign_in'), class: "btn btn-sm btn-default"
 
 = render "users/shared/links"

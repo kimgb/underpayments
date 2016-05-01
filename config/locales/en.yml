@@ -51,13 +51,13 @@ en:
           one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
           two: "9. I was employed for %{duration}."
           three: "10. I received [no/specify number] warnings during my employment."
-          
+
   layouts:
     application:
       title: UNDERPAID?
       byline: (...or just overworked?)
       footer: |
-        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-03-18">18 March, 2016</time>.
+        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-05-01">1 May, 2016</time>.
     authentication:
       signed_in: Signed in as
       sign_out: Sign out
@@ -144,7 +144,7 @@ en:
         heading: Company
         missing: "You're still missing an employer and/or workplace:"
         complete: Company details
-      document: 
+      document:
         new: Add a supporting document
       no_evidence: If you have no documents (e.g. payslips, bank statements) to use as evidence, you will first need to complete all other sections of your claim before adding a statement.
       add_affidavit: Add a statement
@@ -163,7 +163,7 @@ en:
       asking: You've supplied enough information to proceed. We're just asking our database if you have an existing membership.
       loading: Checking
       error: There was an error getting information from the database. Please try again in a few minutes.
-      
+
   addresses:
     address:
       street_address: Address
@@ -255,11 +255,14 @@ en:
       contact: Name of contact person
       contact_desc: E.g. your supervisor
       abn: ABN, if known
-      abn_desc: Not sure? You can try looking it up 
+      abn_desc: Not sure? You can try looking it up
       abn_desc2: here
       phone: Contact phone
       email: Contact email
     company:
+      heading: Company
+      workplace: Workplace
+      employer: Employer
       name: Name
       contact: Name of contact person
       abn: ABN
@@ -273,7 +276,7 @@ en:
         complete: Add company address
         remove: Remove address
         missing: "You haven't provided an company address yet:"
-  
+
   memberships:
     show:
       ready: We've found membership records for you. You're ready to proceed!
@@ -289,7 +292,7 @@ en:
         status: Status
         comment: Explanation (optional)
         commit: Update claim
-        
+
     messages:
       new:
         subject: Subject
@@ -298,12 +301,12 @@ en:
   activerecord:
     models:
       claim_company: Company
-      
+
     attributes:
       user:
         email: Email
         password: Password
-        
+
       profile:
         family_name: Family name
         given_name: Given name(s)
@@ -314,7 +317,7 @@ en:
         nationality: Nationality
         visa: Australian visa status
         gender: Gender
-        
+
       claim:
         award: Award
         weekly_hours: Weekly hours
@@ -322,24 +325,24 @@ en:
         employment_began_on: Employment began on
         employment_ended_on: Employment ended on
         employment_type: Employment type
-        
+
       claim_company:
         claim_id: Company
-        
+
       company:
         name: Name of business or trading name
         contact: Name of contact person
         abn: ABN
         email: Contact email
         phone: Contact phone
-        
+
       address:
         street_address: Address
         town: Town
         province: Province
         postal_code: Postal code
         country: Country
-        
+
     errors:
       messages:
         blank: "is required"
@@ -352,11 +355,11 @@ en:
           attributes:
             email:
               taken: has already been taken
-          
+
   errors:
     format: "%{attribute} %{message}"
     messages:
-      not_saved: 
+      not_saved:
         one: "1 error prevented this %{resource} from being saved:"
         other: "%{count} errors prevented this %{resource} from being saved:"
     template:

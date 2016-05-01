@@ -1,6 +1,6 @@
-%h3 
-  Company
-  = home_title(company, claim) 
+%h3
+  =t('companies.company.heading')
+  = home_title(company, claim)
   %small= link_if_unlocked(company, "(#{t('companies.company.remove')})", claim_company_path(claim_company), data: { confirm: "Are you sure?" }, method: :delete)
   -# %small= link_if_unlocked(company, "(#{t('companies.company.edit')})", edit_claim_company_path(claim_company))
 :markdown

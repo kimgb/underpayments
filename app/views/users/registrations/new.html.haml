@@ -1,4 +1,4 @@
-%h2 Sign up
+%h2= t('devise.registrations.new.sign_up')
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
@@ -21,6 +21,6 @@
       = f.password_field :password, autocomplete: "off"
 
   .actions
-    = f.submit "Sign up"
+    = f.submit t('devise.registrations.new.sign_up')
 
 = render "users/shared/links"

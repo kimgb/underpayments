@@ -1,4 +1,4 @@
-%h2 Forgot your password?
+%h2= t('devise.passwords.new.forgot_your_password')
 
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form" }) do |f|
   = devise_error_messages!
@@ -9,6 +9,6 @@
     .input-group
       .input-group-addon @
       = f.email_field :email, autofocus: true, class: "form-control"
-    = f.submit "Send me password reset instructions", class: "btn btn-default"
+    = f.submit t('devise.passwords.new.send_me_reset_password_instructions'), class: "btn btn-default"
 
 = render "users/shared/links"

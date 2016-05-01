@@ -1,4 +1,4 @@
-%h2= "Edit #{resource_name.to_s.humanize}"
+%h2= t('devise.registrations.edit.title', resource: resource_name.to_s.humanize)
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = devise_error_messages!
@@ -11,11 +11,11 @@
       = f.email_field :email, autofocus: true
 
   - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    %div= "Currently waiting confirmation for: #{resource.unconfirmed_email}"
+    %div= t('devise.registrations.edit.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email)
 
   .field
     = f.label :password
-    %i (leave blank if you don't want to change it)
+    %i= "(#{t('devise.registrations.edit.leave_blank_if_you_don_t_want_to_change_it')})"
     %br/
     .input-group
       .input-group-addon
@@ -24,7 +24,7 @@
 
   .field
     = f.label :current_password
-    %i (we need your current password to confirm your changes)
+    %i= "(#{t('devise.registrations.edit.we_need_your_current_password_to_confirm_your_changes')})"
     %br/
     .input-group
       .input-group-addon
@@ -32,12 +32,12 @@
       = f.password_field :current_password, autocomplete: "off"
 
   .actions
-    = f.submit "Update"
+    = f.submit t('devise.registrations.edit.update')
 
-%h3 Cancel my account
+%h3= t('devise.registrations.edit.cancel_my_account')
 
-%p 
-  Unhappy? 
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
+%p
+  = t('devise.registrations.edit.unhappy')
+  = button_to t('devise.registrations.edit.cancel_my_account'), registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
 
-= link_to "Back", :back
+= link_to t('devise.shared.links.back'), :back

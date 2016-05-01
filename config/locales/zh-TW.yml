@@ -55,7 +55,7 @@ zh-TW:
       title: 被欠薪?
       byline: 超時工作
       footer: |
-        本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-03-18">2016年3月18日, </time>.
+        本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-05-01">2016年5月1日</time>.
     authentication:
       signed_in: 登入中
       sign_out: 登出
@@ -111,7 +111,7 @@ zh-TW:
 
         First, the basics: 以農場的非典型聘僱工人來說，每小時最低薪資稅前為澳幣,你覺得你被欠薪了嗎?我們一起來看看
 
-        
+
     form:
       title: 告訴我們你的工作
       award: 你在甚麼產業?
@@ -142,7 +142,7 @@ zh-TW:
         heading: 聘僱公司
         missing: 你尚未填入雇主資訊及工作地點喔!
         complete: 聘僱公司詳細資料
-      document: 
+      document:
         new: 提交文件
       no_evidence: "如果你無法提供任何的文件資料作為佐證，包括: 薪資明細 或是 銀行轉帳證明等，為了讓你的欠薪申訴案件能夠成立，你必須要至少提供其他必填的資料，接下來你方可使用聲明書來作為證明。"
       add_affidavit: 新增聲明書
@@ -161,7 +161,7 @@ zh-TW:
       asking: You've supplied enough information to proceed. We're just asking our database if you have an existing membership.
       loading: Checking
       error: There was an error getting information from the database. Please try again in a few minutes.
-      
+
   addresses:
     address:
       street_address: 地址
@@ -256,6 +256,9 @@ zh-TW:
       phone: 連絡電話
       email: 聯絡電子信箱
     company:
+      heading: Company
+      workplace: Workplace
+      employer: Employer
       name: 姓名
       contact: 聯絡人姓名
       abn: 澳洲商業登記號碼(ABN)
@@ -277,7 +280,7 @@ zh-TW:
       not_found: You're ready to proceed, but we can't find any membership records for you. We can only run claims for union members.
       submit: 送交
       update: Update your membership
-      join: Join the union  
+      join: Join the union
 
   admin:
     claims:
@@ -285,7 +288,7 @@ zh-TW:
         status: Status #don't translate
         comment: Explanation (optional) #don't translate
         commit: Update claim #don't translate
-        
+
     messages:
       new:
         subject: Subject #don't translate
@@ -294,12 +297,12 @@ zh-TW:
   activerecord:
     models:
       claim_company: 提出欠薪控訴公司
-      
+
     attributes:
       user:
         email: 電子信箱
         password: 密碼
-        
+
       profile:
         family_name: 姓氏
         given_name: 名字
@@ -310,7 +313,7 @@ zh-TW:
         nationality: 國籍
         visa: 在澳持有簽證
         gender: 性別
-        
+
       claim:
         award: 最低薪資標準
         weekly_hours: 一週工作時數
@@ -318,24 +321,24 @@ zh-TW:
         employment_began_on: 聘僱開始日
         employment_ended_on: 聘僱結束日
         employment_type: 聘僱類別
-        
+
       claim_company:
         claim_id: 公司名稱
-        
+
       company:
         name: 公司名稱或是商業名稱
         contact: 聯絡人姓名
         abn: 澳洲商業登記號碼(ABN)
         email: 聯絡電子信箱電子信箱
         phone: 聯絡電話
-        
+
       address:
         street_address: 地址
         town: 鎮
         province: 州
         postal_code: 郵遞區號
         country: 國家
-        
+
     errors:
       messages:
         blank: "必填"
@@ -348,11 +351,11 @@ zh-TW:
           attributes:
             email:
               taken: 已經有人使用了
-          
+
   errors:
     format: "%{提供} %{訊息}"
     messages:
-      not_saved: 
+      not_saved:
         one: "錯誤%{resource} 系統無法儲存:"
         other: "%{count} 錯誤 %{resource} 系統無法儲存:"
     template:
@@ -671,4 +674,3 @@ zh-TW:
         male: 男
         refused: 不願表明
         neither: 這很複雜
-     
