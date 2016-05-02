@@ -1,4 +1,4 @@
-- if current_user && current_user.claim
+- if current_user && current_user.claim && current_user.claim.persisted?
   %header
     #banner.text-center
       %h1{ style: "color: #F5003D; margin: 1rem 0;" }
