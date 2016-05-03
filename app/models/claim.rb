@@ -97,6 +97,10 @@ class Claim < ActiveRecord::Base
     end
   end
   
+  def has_statement?
+    documents.any? { |doc| doc.statement.present? }
+  end
+  
   # Claim#presentable_companies - more appropriate as a helper?
   def presentable_companies
     claim_companies.where("true in (is_workplace, is_employer)")

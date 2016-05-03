@@ -28,6 +28,6 @@ class Admin::MessagesController < Admin::BaseController
   end
   
   def unlock_claim?
-    params.require(:message).permit(:unlock)
+    params.dig(:message, :unlock)
   end
 end

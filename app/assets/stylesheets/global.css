@@ -35,6 +35,12 @@ output {
 
 .byline { font-weight: normal; }
 
+/* lrohde's fix for stacking date_field */
+.do-not-stack {
+  width: auto;
+  display: inline-block;
+}
+
 a.btn {
   color: white;
 }
@@ -46,7 +52,7 @@ main, #banner {
   display: block; 
   max-width: 1024px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem 0;
   background-color: #161616;
 }
 @media screen and (min-width: 640px) {

@@ -20,7 +20,7 @@
     .form-group.form-inline
       = f.label :date_of_birth, class: "control-label"
       %br/
-      = f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: upper_bound_birth_year, end_year: lower_bound_birth_year }, { class: "form-control" }
+      = f.date_select :date_of_birth, { order: [:day, :month, :year], start_year: upper_bound_birth_year, end_year: lower_bound_birth_year }, { class: "do-not-stack form-control" }
 
     .form-group
       = f.label :phone, class: "control-label"

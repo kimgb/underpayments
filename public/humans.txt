@@ -7,7 +7,7 @@
   Name: rubyonrails.org
 
 /* SITE */
-  Last update: 2015/10/06
+  Last update: 2016-05-03
   Standards: HTML5, CSS3, JavaScript
   Components: CoffeeScript, Less, Sass
-  Software: Sublime Text 3
+  Software: Atom

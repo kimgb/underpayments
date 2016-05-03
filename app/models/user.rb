@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_one :profile, dependent: :destroy
   has_one :address, through: :profile
   belongs_to :claim
+  delegate :persisted?, to: :claim, prefix: true, allow_nil: true
+  delegate :full_name, to: :profile, prefix: true, allow_nil: true
 
   validates_presence_of :email, :encrypted_password
 

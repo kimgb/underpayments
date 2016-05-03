@@ -6,7 +6,7 @@
 
 = render partial: "documents/documents", locals: { documents: claim.documents }
 - unless claim.payslips_received
-  %p.bold= t('.no_evidence')
+  %p.bold= t('.no_evidence') unless claim.has_statement?
 - if claim.coverage_gaps.any?
   = t('.wage_evidence')
   %br/
