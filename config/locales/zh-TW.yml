@@ -159,7 +159,7 @@ zh-TW:
       lost_wages: 欠薪計算結果
     submit_for_review:
       asking:你所提供的資料目前已經足夠。目前我們正在系統內查詢你是否為NUW工會會員
-      loading:查詢中....
+      loading:查詢中
       error: 系統查詢出錯，請過幾分鐘後再次登入該頁面。
 
   addresses:
