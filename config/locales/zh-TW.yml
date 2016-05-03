@@ -47,15 +47,15 @@ zh-TW:
           warnings:
             none: 在聘僱期間，我沒有收到任何的警告（威脅性字眼：主管或農主）
             some: 我在工作期間有收到多次的警告（威脅性字眼：主管或農主 %{num_warnings}
-          one: "8. I [agreed/did not agree], in writing, to be employed as a pieceworker."
-          two: "9. I was employed for %{duration}."
-          three: "10. I received [no/specify number] warnings during my employment."
+          one: "8. 我 同意/不同意], 在書面上, 表示我是計件制工人."
+          two: "9. 我的聘僱期間為 %{duration}."
+          three: "10. 我 [沒有/有收到雇主的惡意言語]在我聘僱期間."
   layouts:
     application:
       title: 被欠薪?
       byline: 超時工作
       footer: |
-        本系統由NUW工會開發 [National Union of Workers](https://www.nuw.org.au/), 上次更新 <time datetime="2016-05-01">2016年5月1日</time>.
+        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-05-01">2016年5月1日</time>.
     authentication:
       signed_in: 登入中
       sign_out: 登出
@@ -117,8 +117,8 @@ zh-TW:
       award: 你在甚麼產業?
       weekly_hours: 平均一週工作時數?
       hourly_pay: 平均時薪為?
-      pieceworker: Were you a pieceworker?
-      pieceworker_hourly_pay: What was your approximate, average hourly rate from piecework?
+      pieceworker: 你在這個工作是計件制的工人嗎?
+      pieceworker_hourly_pay: 以時薪來算的話，你的計件工作一小時大概是多少?
       payslips_received: 雇主每周有固定給你薪資明細?
       employment_began_on: 聘僱關係是何時開始?
       employment_ended_on: 聘僱關係何時結束
@@ -126,8 +126,8 @@ zh-TW:
       calculate: 我被欠薪了嗎?
       commit: 我們一起來解決!
     claim:
-      status: Claim status
-      comment: Status explanation
+      status: 申訴進度
+      comment: 進度說明
       title: 你的欠薪追溯案
       edit: 修改欠薪個案資料
       employer:
@@ -155,12 +155,12 @@ zh-TW:
       hourly_pay: 時薪
       employment_began_on: 聘僱開始
       employment_ended_on: 聘僱結束
-      employment_type: Employment type
+      employment_type: 聘用類別
       lost_wages: 欠薪計算結果
     submit_for_review:
-      asking: You've supplied enough information to proceed. We're just asking our database if you have an existing membership.
-      loading: Checking
-      error: There was an error getting information from the database. Please try again in a few minutes.
+      asking: 你所提供的資料目前已經足夠。目前我們正在系統內查詢你是否為NUW工會會員
+      loading: 查詢中
+      error: 系統查詢出錯，請過幾分鐘後再次登入該頁面。
 
   addresses:
     address:
@@ -256,9 +256,9 @@ zh-TW:
       phone: 連絡電話
       email: 聯絡電子信箱
     company:
-      heading: Company
-      workplace: Workplace
-      employer: Employer
+      heading: 公司(工廠)
+      workplace: 工作場所
+      employer: 雇主
       name: 姓名
       contact: 聯絡人姓名
       abn: 澳洲商業登記號碼(ABN)
@@ -275,12 +275,12 @@ zh-TW:
 
   memberships:
     show:
-      ready: We've found membership records for you. You're ready to proceed!
-      found: We've found membership records for you, but we need to confirm/update your details.
-      not_found: You're ready to proceed, but we can't find any membership records for you. We can only run claims for union members.
+      ready: 我們在系統上查詢到你的會員紀錄，系統開始處理中。
+      found: 我們在系統上查詢到你的會員紀錄， 但是我們必須要確認你的會員資格。
+      not_found: 你的資料已經開始處理了，但我們在系統上找不到你的資料，這個欠薪系統只提供給NUW會員，你可以按以下加入工會鍵，來申訴你的欠薪案件!
       submit: 送交
-      update: Update your membership
-      join: Join the union
+      update: 更新你的會員狀態
+      join: 加入工會
 
   admin:
     claims:
