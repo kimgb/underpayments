@@ -369,8 +369,9 @@ zh-TW:
       employment_types:
         casual: 非典型聘僱
         permanent: 全職固定工作
+        unknown: 我不知道
       awards:
-        no_award: Not listed
+        no_award: 以上皆非 / 我不知道
         horticulture: 農業
         poultry: 雞肉處理產業
     addresses:
