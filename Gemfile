@@ -30,6 +30,9 @@ gem 'redcarpet'
 gem 'i18n'
 gem 'devise-i18n'
 
+# Friendly_ID for nice slugs; semantically versioned - minor point changes are non-breaking.
+gem 'friendly_id', '~> 5.1'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

@@ -4,6 +4,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :authenticate_user!
+  before_action :set_group
+  
+  def set_group
+    if params[:group]
+      @group = Group.friendly.find(params[:group]) || Group.first
+    end
+  end
+  
+  def default_url_options(options={})
+    { group: @group }.merge options
+  end
 
   def after_sign_in_path_for(resource)
     resource.admin? ? admin_users_url : user_url(resource)

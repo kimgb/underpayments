@@ -1,0 +1,23 @@
+%h1 Organisations
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Short name
+      %th
+      %th
+      %th
+
+  %tbody
+    - @supergroups.each do |sg|
+      %tr
+        %td= link_to sg.name, sg.www
+        %td= sg.short_name
+        %td= link_to 'Show', admin_supergroup_path(sg), class: "btn btn-default btn-sm"
+        %td= link_to 'Edit', edit_admin_supergroup_path(sg), class: "btn btn-default btn-sm"
+        %td= link_to 'Delete', admin_supergroup_path(sg), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-default btn-sm"
+
+%br
+
+= link_to 'New Campaign', new_admin_supergroup_path, class: "btn btn-default btn-sm"
