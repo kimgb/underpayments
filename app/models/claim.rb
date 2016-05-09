@@ -152,7 +152,11 @@ class Claim < ActiveRecord::Base
   # 2015 and all horticulture/awardless rates are correct.
   # Poultry needs numbers for 2010-2014 f.y.'s
   def award_minimum(year = employment_began_on.year)
-    {
+    Hash.new({ # default to current year's rates. (2015-2016)
+      "horticulture" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 },
+      "poultry" => { "casual" => 22.34, "permanent" => 17.87, "unknown" => 22.34 },
+      "no_award" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 }
+    }).merge({
       2015 => {
         "horticulture" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 },
         "poultry" => { "casual" => 22.34, "permanent" => 17.87, "unknown" => 22.34 },
@@ -178,7 +182,7 @@ class Claim < ActiveRecord::Base
         "poultry" => { "casual" => 18.75, "permanent" => 15.00, "unknown" => 18.75 },
         "no_award" => { "casual" => 18.75, "permanent" => 15.00, "unknown" => 18.75 }
       }
-    }.dig(year, award, employment_type)
+    }).dig(year, award, employment_type)
   end
 
   # Better as a helper?
