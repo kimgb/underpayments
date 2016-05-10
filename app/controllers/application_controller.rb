@@ -2,18 +2,10 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :set_locale
-  before_action :authenticate_user!
-  before_action :set_group
-  
-  def set_group
-    if params[:group]
-      @group = Group.friendly.find(params[:group]) || Group.first
-    end
-  end
+  before_action :set_skin, :authenticate_user!, :set_locale
   
   def default_url_options(options={})
-    { group: @group }.merge options
+    { skin: @skin }.merge(options)
   end
 
   def after_sign_in_path_for(resource)
@@ -31,6 +23,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def set_skin
+    @skin = params[:skin] ? Group.friendly.find(params[:skin]) : Group.first
+  end
+  
   # locale precedence: params -> user prefs -> browser -> default
   def set_locale
     supported_locales = I18n.available_locales.map(&:to_s)

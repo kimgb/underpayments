@@ -1,15 +1,19 @@
-%p#notice= notice
-
+%p 
+  %strong Owner organisation:
+  = @group.owner_name
 %p
-  %b Name:
+  %strong Campaign name:
   = @group.name
 %p
-  %b Slug:
+  %strong Slug:
   = @group.slug
 %p
-  %b Skin:
-  = @group.skin
+  %strong Skin:
+  %ul
+    %li= "Link colour: #{@group.link_color}"
+    %li= "Text colour: #{@group.text_color}"
+    %li= "Headings colour: #{@group.headings_color}"
+    %li= "Background colour: #{@group.background_color}"
 
-= link_to 'Edit', edit_group_path(@group)
-\|
-= link_to 'Back', groups_path
+= link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
+= link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

@@ -4,7 +4,12 @@ class Admin::SupergroupsController < Admin::BaseController
   # GET /admin/supergroups
   # GET /admin/supergroups.json
   def index
-    @supergroups = Supergroup.all
+    @supergroups = params[:term] ? Supergroup.search(params[:term]) : Supergroup.all
+    
+    respond_to do |format|
+      format.json { render json: @supergroups.to_json }
+      format.html
+    end
   end
 
   # GET /admin/supergroups/1
@@ -28,7 +33,7 @@ class Admin::SupergroupsController < Admin::BaseController
 
     respond_to do |format|
       if @supergroup.save
-        format.html { redirect_to @supergroup, notice: 'Organisation was successfully created.' }
+        format.html { redirect_to [:admin, @supergroup], notice: 'Organisation was successfully created.' }
         format.json { render :show, status: :created, location: @supergroup }
       else
         format.html { render :new }
@@ -42,7 +47,7 @@ class Admin::SupergroupsController < Admin::BaseController
   def update
     respond_to do |format|
       if @supergroup.update(supergroup_params)
-        format.html { redirect_to @supergroup, notice: 'Organisation was successfully updated.' }
+        format.html { redirect_to [:admin, @supergroup], notice: 'Organisation was successfully updated.' }
         format.json { render :show, status: :ok, location: @supergroup }
       else
         format.html { render :edit }
@@ -56,7 +61,7 @@ class Admin::SupergroupsController < Admin::BaseController
   def destroy
     @supergroup.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Organisation was successfully destroyed.' }
+      format.html { redirect_to admin_supergroups_url, notice: 'Organisation was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

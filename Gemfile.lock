@@ -201,6 +201,10 @@ GEM
       rest-client (~> 1.8.0)
     orm_adapter (0.5.0)
     pg (0.18.4)
+    pg_search (1.0.5)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     poltergeist (1.9.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -352,6 +356,7 @@ DEPENDENCIES
   mocha
   nuw-api (~> 0.1)!
   pg
+  pg_search
   poltergeist
   pry
   pry-byebug

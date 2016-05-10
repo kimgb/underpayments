@@ -1,7 +1,6 @@
-%h1 Editing group
+%h2= "Editing #{@group.name}"
 
 = render 'form'
-
-= link_to 'Show', @group
-\|
-= link_to 'Back', groups_path
+%hr
+= link_to 'Show', admin_group_path(@group), class: "btn btn-default btn-sm"
+= link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

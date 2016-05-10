@@ -1,0 +1,19 @@
+= form_for([:admin, @supergroup], html: { class: "form", multipart: true }) do |f|
+  - if @supergroup.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@supergroup.errors.count, "error")} prohibited this organisation from being saved:"
+      %ul
+        - @supergroup.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :short_name
+    = f.text_field :short_name, class: "form-control"
+  .form-group
+    = f.label :www, "Website"
+    = f.text_field :www, class: "form-control"
+  .actions.align-right
+    = f.submit 'Save', class: "btn btn-default"

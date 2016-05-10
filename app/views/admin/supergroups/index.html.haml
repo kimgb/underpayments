@@ -1,4 +1,4 @@
-%h1 Organisations
+%h2 Organisations
 
 %table.table
   %thead
@@ -18,6 +18,6 @@
         %td= link_to 'Edit', edit_admin_supergroup_path(sg), class: "btn btn-default btn-sm"
         %td= link_to 'Delete', admin_supergroup_path(sg), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-default btn-sm"
 
-%br
-
-= link_to 'New Campaign', new_admin_supergroup_path, class: "btn btn-default btn-sm"
+%hr
+.actions.align-right
+  = link_to 'New Organisation', new_admin_supergroup_path, class: "btn btn-default btn-sm"

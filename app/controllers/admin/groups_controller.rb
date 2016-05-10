@@ -28,7 +28,10 @@ class Admin::GroupsController < Admin::BaseController
 
     respond_to do |format|
       if @group.save
-        format.html { redirect_to @group, notice: 'Group was successfully created.' }
+        # A new group means a new skin - update the routes file
+        Rails.application.reload_routes!
+        
+        format.html { redirect_to [:admin, @group], notice: 'Campaign was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
         format.html { render :new }
@@ -42,7 +45,7 @@ class Admin::GroupsController < Admin::BaseController
   def update
     respond_to do |format|
       if @group.update(group_params)
-        format.html { redirect_to @group, notice: 'Group was successfully updated.' }
+        format.html { redirect_to [:admin, @group], notice: 'Campaign was successfully updated.' }
         format.json { render :show, status: :ok, location: @group }
       else
         format.html { render :edit }
@@ -56,7 +59,7 @@ class Admin::GroupsController < Admin::BaseController
   def destroy
     @group.destroy
     respond_to do |format|
-      format.html { redirect_to groups_url, notice: 'Group was successfully destroyed.' }
+      format.html { redirect_to admin_groups_url, notice: 'Campaign was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,11 +67,13 @@ class Admin::GroupsController < Admin::BaseController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_group
-      @group = Group.find(params[:id])
+      @group = Group.friendly.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:name, :slug, :skin)
+      params.require(:group).permit(:supergroup_id, :name, :slug).tap do |whitelisted|
+        whitelisted[:skin] = params[:group][:skin]
+      end
     end
 end

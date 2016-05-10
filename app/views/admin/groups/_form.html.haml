@@ -1,19 +1,89 @@
-= form_for @group do |f|
+= form_for([:admin, @group], html: { class: "form", multipart: true }) do |f|
   - if @group.errors.any?
     #error_explanation
-      %h2= "#{pluralize(@group.errors.count, "error")} prohibited this group from being saved:"
+      %h2= "#{pluralize(@group.errors.count, "error")} prohibited this campaign from being saved:"
       %ul
         - @group.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :slug
-    = f.text_field :slug
-  .field
-    = f.label :skin
-    = f.text_field :skin
-  .actions
-    = f.submit 'Save'
+  .form-group
+    = f.label :supergroup_id, "Owner organisation"
+    = f.select :supergroup_id, options_for_select([["Search for organisations...", ""], [@group.owner_name, @group.supergroup_id]], @group.supergroup_id), {}, { class: "form-control" }
+  .form-group
+    = f.label :name, "Campaign name"
+    = f.text_field :name, class: "form-control"
+
+  %fieldset
+    %legend.h3= "Custom appearance"
+    = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|
+      .form-group
+        = s.label :text_color
+        = s.text_field :text_color, class: "form-control"
+      .form-group
+        = s.label :headings_color
+        = s.text_field :headings_color, class: "form-control"
+      .form-group
+        = s.label :link_color
+        = s.text_field :link_color, class: "form-control"
+      .form-group
+        = s.label :background_color
+        = s.text_field :background_color, class: "form-control"
+  
+  %fieldset
+    %legend.h3= "Preview"
+    .container-fluid#preview{ style: "border: dashed hotpink 5px; padding: 5px; margin-bottom: 10px;"}
+      %header
+        %nav.navbar.navbar-default
+          .container-fluid
+            %ul.nav.navbar-nav
+              %li
+                %p.navbar-text
+                  = "Signed in as "
+                  = link_to "Guest", "#", class: "navbar-link"
+            %ul.nav.navbar-nav.navbar-right
+              %li
+                = link_to "Sign out", "#"
+      #preview-main{ style: "display: block; margin: 0 auto; padding: 1rem;"}
+        .align-right
+          %hgroup
+            %h1.preview-heading MAIN HEADING
+            %h3.preview-heading Subheading
+        %p.text-center
+          %em An error has occurred!
+        %p 
+          Lorem ipsum dolor sic amet...
+          %a{ href: "#" } example hyperlink.
+        .btn.btn-default A button
+  
+  .actions.align-right
+    = f.submit 'Save', class: "btn btn-default"
+
+:coffeescript
+  $("#group_supergroup_id").select2
+    theme: "bootstrap"
+    minimumInputLength: 3
+    # how to do initial selection?
+    ajax:
+      url: "#{admin_supergroups_path}.json"
+      dataType: "json"
+      type: "GET"
+      quietMillis: 50
+      delay: 250
+      cache: true
+      data: (params) ->
+        term: params.term
+      processResults: (data, params) ->
+        results: $.map data, (item) ->
+          text: item.name + " (" + item.short_name + ")", id: item.id
+  
+  $("#group_skin_text_color").on "input", (e) ->
+    $("#preview").css("color", e.target.value)
+  $("#group_skin_link_color").on "input", (e) ->
+    $("#preview-main a").css("color", e.target.value)
+    $("#preview .btn-default").css("background-color", e.target.value)
+    $("#preview .btn-default").css("border-color", e.target.value)
+    $("#preview .navbar-default").css("background-color", e.target.value)
+  $("#group_skin_headings_color").on "input", (e) ->
+    $(".preview-heading").css("color", e.target.value)
+  $("#group_skin_background_color").on "input", (e) ->
+    $("#preview-main").css("background-color", e.target.value)

@@ -8,6 +8,8 @@ gem 'rails', '~> 4.2.5'
 gem 'puma'
 # Use postgresql as the database for Active Record
 gem 'pg'
+# + full text search on postgresql with pg_search
+gem 'pg_search'
 # Figaro for environment variables
 gem 'figaro'
 # Devise for login/auth, plus invitable module

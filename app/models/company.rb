@@ -1,14 +1,20 @@
 class Company < ActiveRecord::Base
   include Markdownable
+  include PgSearch
   
   has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :company
   has_many :claims, through: :claim_companies
+  has_one :company_address, -> { where(is_active: true) }
+  has_one :address, through: :company_address
   
   accepts_nested_attributes_for :claim_companies
   
-  has_one :company_address, -> { where(is_active: true) }
-  has_one :address, through: :company_address
-
+  pg_search_scope(
+    :search,
+    against: %i(name),
+    using: { tsearch: { dictionary: "english" } }
+  )
+  
   validates_presence_of :name, :contact
   validate :presence_of_phone_or_email
   validate :abn_well_formed

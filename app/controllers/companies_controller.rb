@@ -7,7 +7,7 @@ class CompaniesController < ApplicationController
 
   # GET /companies
   def index
-    @companies = Company.where("name ILIKE ?", "%#{params[:name]}%") || Company.all
+    @companies = params[:term] ? Company.search(params[:term]) : Company.all
     
     respond_to do |format|
       format.json { render json: @companies.to_json(include: [:address]) }
