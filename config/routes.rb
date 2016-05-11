@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       resources :companies, except: [:new, :create]
       
       resources :supergroups, :groups
+      
+      get "/preview", to: "previews#show"
     end
     
     root "claims#new"

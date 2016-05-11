@@ -1,12 +1,15 @@
 %p
-  %b Name:
+  %strong Name:
   = @supergroup.name
 %p
-  %b Short name:
+  %strong Short name:
   = @supergroup.short_name
+%p 
+  %strong Description:
+  = @supergroup.description
 %p
-  %b Website:
-  = @supergroup.www
+  %strong Website:
+  = link_to @supergroup.www, @supergroup.www
 
 = link_to 'Edit', edit_admin_supergroup_path(@supergroup), class: "btn btn-default btn-sm"
 = link_to 'Back', admin_supergroups_path, class: "btn btn-default btn-sm"

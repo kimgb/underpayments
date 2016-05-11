@@ -17,45 +17,22 @@
     %legend.h3= "Custom appearance"
     = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|
       .form-group
-        = s.label :text_color
-        = s.text_field :text_color, class: "form-control"
+        = s.label :link_color, "Primary colour"
+        = s.text_field :link_color, class: "form-control", value: (@group.link_color || "#F5003D")
       .form-group
-        = s.label :headings_color
-        = s.text_field :headings_color, class: "form-control"
+        = s.label :headings_color, "Secondary colour"
+        = s.text_field :headings_color, class: "form-control", value: (@group.headings_color || "#0B8842")
       .form-group
-        = s.label :link_color
-        = s.text_field :link_color, class: "form-control"
+        = s.label :text_color, "Base text colour"
+        = s.text_field :text_color, class: "form-control", value: (@group.text_color || "#DDDDDD")
       .form-group
-        = s.label :background_color
-        = s.text_field :background_color, class: "form-control"
+        = s.label :background_color, "Background colour"
+        = s.text_field :background_color, class: "form-control", value: (@group.background_color || "#161616")
   
-  %fieldset
-    %legend.h3= "Preview"
-    .container-fluid#preview{ style: "border: dashed hotpink 5px; padding: 5px; margin-bottom: 10px;"}
-      %header
-        %nav.navbar.navbar-default
-          .container-fluid
-            %ul.nav.navbar-nav
-              %li
-                %p.navbar-text
-                  = "Signed in as "
-                  = link_to "Guest", "#", class: "navbar-link"
-            %ul.nav.navbar-nav.navbar-right
-              %li
-                = link_to "Sign out", "#"
-      #preview-main{ style: "display: block; margin: 0 auto; padding: 1rem;"}
-        .align-right
-          %hgroup
-            %h1.preview-heading MAIN HEADING
-            %h3.preview-heading Subheading
-        %p.text-center
-          %em An error has occurred!
-        %p 
-          Lorem ipsum dolor sic amet...
-          %a{ href: "#" } example hyperlink.
-        .btn.btn-default A button
+  #preview
   
   .actions.align-right
+    %button#generate-preview.btn.btn-default= "Preview"
     = f.submit 'Save', class: "btn btn-default"
 
 :coffeescript
@@ -75,15 +52,15 @@
       processResults: (data, params) ->
         results: $.map data, (item) ->
           text: item.name + " (" + item.short_name + ")", id: item.id
-  
-  $("#group_skin_text_color").on "input", (e) ->
-    $("#preview").css("color", e.target.value)
-  $("#group_skin_link_color").on "input", (e) ->
-    $("#preview-main a").css("color", e.target.value)
-    $("#preview .btn-default").css("background-color", e.target.value)
-    $("#preview .btn-default").css("border-color", e.target.value)
-    $("#preview .navbar-default").css("background-color", e.target.value)
-  $("#group_skin_headings_color").on "input", (e) ->
-    $(".preview-heading").css("color", e.target.value)
-  $("#group_skin_background_color").on "input", (e) ->
-    $("#preview-main").css("background-color", e.target.value)
+          
+  $("#generate-preview").on "click", (e) ->
+    e.preventDefault();
+    
+    primary = $("#group_skin_link_color").val();
+    secondary = $("#group_skin_headings_color").val();
+    base_colour = $("#group_skin_text_color").val();
+    bg = $("#group_skin_background_color").val();
+    
+    $("#preview").load("/admin/preview?primary_colour=" + escape(primary) + 
+      "&secondary_colour=" + escape(secondary) + 
+      "&base_colour=" + escape(base_colour) + "&bg_colour=" + escape(bg))

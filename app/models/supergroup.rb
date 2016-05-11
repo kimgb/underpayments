@@ -4,9 +4,11 @@ class Supergroup < ActiveRecord::Base
   has_many :groups
   has_many :users
   
-  pg_search_scope(
-    :search,
-    against: %i(name short_name),
-    using: { tsearch: { dictionary: "english" } }
-  )
+  pg_search_scope :search, against: %i(name short_name), 
+    using: { 
+      tsearch: { 
+        prefix: true,
+        dictionary: "english"
+      } 
+    }
 end

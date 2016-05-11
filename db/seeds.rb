@@ -5,29 +5,65 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-user = User.new(email: "kbuckley@nuw.org.au", admin: true)
+sg = Supergroup.new(
+  name: "National Union of Workers", 
+  short_name: "NUW",
+  description: "The NUW is a progressive, private sector union covering a range of industries, pushing hard for a better working life in Australia.",
+  www: "https://www.nuw.org.au/"
+)
+sg.save!
+
+grp = Group.new(
+  name: "Fair Food",
+  skin: {
+    "link_color" => "#F5003D",
+    "text_color" => "#DDD",
+    "headings_color" => "#0B8842",
+    "background_color" => "#161616"
+  },
+  supergroup: sg
+)
+grp.save!
+
+user = User.new(
+  email: "kbuckley@nuw.org.au", 
+  admin: true, 
+  supergroup: sg
+)
 user.password = "ch3ng4M1chANGEmePrEtTYplz"
 user.save!
 
-home_address = Address.new(street_address: "106/7 Warrs Ave", town: "Preston", province: "VIC", postal_code: "3072", country: "Australia")
+home_address = Address.new(
+  street_address: "106/7 Warrs Ave", 
+  town: "Preston", 
+  province: "VIC", 
+  postal_code: "3072", 
+  country: "Australia"
+)
 home_address.save!
 
-profile = Profile.new(family_name: "Buckley", given_name: "Kim", phone: "0424897579", date_of_birth: "1985-07-23", preferred_language: "en-AU", nationality: "NZ", visa: "444")
-profile.user = user
-profile.address = home_address
+profile = Profile.new(
+  family_name: "Buckley", 
+  given_name: "Kim", 
+  preferred_name: "Kim",
+  gender: "M",
+  phone: "0400000000", 
+  date_of_birth: "1980-01-01", 
+  preferred_language: "en-AU", 
+  nationality: "NZ", 
+  visa: "v444",
+  user: user,
+  address: home_address
+)
 profile.save!
 
-cbechaz = User.new(email: "cbechaz@nuw.org.au", admin: true)
-cbechaz.password = "edgejtku"
-cbechaz.save!
-
-claim = Claim.new(award: "horticulture", weekly_hours: 35, hourly_pay: 11.23, employment_type: "casual", employment_began_on: Date.new(2015, 02, 01), employment_ended_on: Date.new(2015, 10, 01))
+claim = Claim.new(
+  award: "horticulture",
+  weekly_hours: 35, 
+  hourly_pay: 11.23, 
+  employment_type: "casual", 
+  employment_began_on: Date.new(2015, 02, 01), 
+  employment_ended_on: Date.new(2015, 10, 01)
+)
 claim.user = user
 claim.save!
-
-# start_page = Page.new(
-#   title: "Am I Underpaid?",
-#   slug: "start",
-#   content: File.read(Rails.root + "db" + "pages" + "start.html")
-# )
-# start_page.save!

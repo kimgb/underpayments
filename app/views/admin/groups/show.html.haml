@@ -10,9 +10,9 @@
 %p
   %strong Skin:
   %ul
-    %li= "Link colour: #{@group.link_color}"
-    %li= "Text colour: #{@group.text_color}"
-    %li= "Headings colour: #{@group.headings_color}"
+    %li= "Primary colour: #{@group.link_color}"
+    %li= "Secondary colour: #{@group.headings_color}"
+    %li= "Base text colour: #{@group.text_color}"
     %li= "Background colour: #{@group.background_color}"
 
 = link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
