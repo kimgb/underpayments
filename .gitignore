@@ -17,6 +17,9 @@
 /config/secrets.yml
 /config/application.yml
 
+# Ignore cached SASS
+/.sass-cache
+
 DESIGN.md
 RC.md
 i18n_report.rb
