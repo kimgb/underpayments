@@ -5,7 +5,7 @@
     %legend= t('.title')
 
     .form-group
-      = f.label :award, t('views.claims.form.award'), class: "control-label"
+      = f.label :award, t('.award'), class: "control-label"
       = f.select :award, options_for_select(awards_list, (@claim.award || "no_award")), {}, { class: "form-control" }
 
     .form-group

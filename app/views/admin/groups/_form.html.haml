@@ -17,10 +17,10 @@
     %legend.h3= "Custom appearance"
     = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|
       .form-group
-        = s.label :link_color, "Primary colour"
+        = s.label :link_color, "Primary colour - e.g. links, buttons, navigation"
         = s.text_field :link_color, class: "form-control", value: (@group.link_color || "#F5003D")
       .form-group
-        = s.label :headings_color, "Secondary colour"
+        = s.label :headings_color, "Secondary colour - e.g. headings"
         = s.text_field :headings_color, class: "form-control", value: (@group.headings_color || "#0B8842")
       .form-group
         = s.label :text_color, "Base text colour"

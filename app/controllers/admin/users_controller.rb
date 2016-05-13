@@ -4,9 +4,12 @@ class Admin::UsersController < Admin::BaseController
   # GET /admin/users
   # GET /admin/users.json
   def index
-    @submitted_users = User.select(&:submitted?)
-    @ready_users = User.select(&:ready_to_submit?).reject(&:submitted?)
-    @unready_users = User.select(&:not_submitted?).reject(&:ready_to_submit?)
+    @users = case params[:scope]
+      when "submitted" then User.select(&:submitted?)
+      when "completed" then User.select(&:ready_to_submit?).reject(&:submitted?)
+      when "incomplete" then User.select(&:not_submitted?).reject(&:ready_to_submit?)
+      else User.select(&:submitted?)
+    end
   end
 
   # GET /admin/users/1

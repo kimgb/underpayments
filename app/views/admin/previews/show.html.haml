@@ -15,14 +15,19 @@
     #preview-main{ style: "display: block; margin: 0 auto; padding: 1rem;"}
       .align-right
         %hgroup
-          %h1.preview-heading MAIN HEADING
-          %h3.preview-heading Subheading
-      %p.text-center.text-danger
-        %em An error has occurred!
+          %h1.preview-heading{ style: "margin-top: 0px" } MAIN HEADING
+          %h5.preview-heading.byline Subheading/byline
+      -# %p.text-center.text-danger
+      -#   %em An error has occurred!
       %p 
         Lorem ipsum dolor sic amet...
         %a{ href: "#" } example hyperlink.
-      .btn.btn-default A button
+      %form{ action: "#" }
+        .form-group
+          %label A form text field
+          %input.form-control{ type: "text" }
+      .align-right
+        .btn.btn-default A button
       
   :scss
     @mixin bg-border($color) {

@@ -27,6 +27,7 @@ gem 'pry'
 # Haml for markup, plus Redcarpet as our Markdown renderer for content
 gem 'haml-rails', '~> 0.9'
 gem 'redcarpet'
+gem 'tilt', '~> 2.0.2'
 
 # I18n - we need to support, e.g., Mandarin, Vietnamese
 gem 'i18n'
@@ -36,7 +37,7 @@ gem 'devise-i18n'
 gem 'friendly_id', '~> 5.1'
 
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0', require: 'tilt/sass'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -99,14 +100,14 @@ group :test do
   gem 'minitest'
   gem 'minitest-rails'
   gem 'minitest-reporters'
+  gem 'minitest-rails-capybara'
   gem 'connection_pool'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'mocha'
   gem 'poltergeist'
-  gem 'shoulda-context'
-  gem 'shoulda-matchers'
-  gem 'test_after_commit'
+  # gem 'launchy'
+  # gem 'mocha'
+  # gem 'shoulda-context'
+  # gem 'shoulda-matchers'
+  # gem 'test_after_commit'
 end
 
 group :development, :test do

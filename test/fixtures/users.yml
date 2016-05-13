@@ -2,15 +2,15 @@ owner:
   id: 1
   claim_id: 1
   email: kbuckley@nuw.org.au
-  encrypted_password: 123greetings
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'ch3ng4M1chANGEmePrEtTYplz') %>
 
 admin:
   id: 2
   email: admin@nuw.org.au
-  encrypted_password: bossAdmin
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'bossAdmin') %>
   admin: true
   
 non_owner:
   id: 3
   email: lrohde@nuw.org.au
-  encrypted_password: rudewords
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'rudewords') %>
