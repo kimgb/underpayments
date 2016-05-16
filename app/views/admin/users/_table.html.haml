@@ -1,6 +1,6 @@
-- if users.any?
-  - users.each do |user|
-    = render partial: 'admin/users/row', locals: { user: user }
+- if @users.any?
+  - @users.each do |user|
+    = render partial: "admin/users/#{@view_context}_row", locals: { user: user }
 - else
   %tr
     %td{ colspan: 7 }

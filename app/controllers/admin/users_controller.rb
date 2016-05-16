@@ -10,6 +10,11 @@ class Admin::UsersController < Admin::BaseController
       when "incomplete" then User.select(&:not_submitted?).reject(&:ready_to_submit?)
       else User.select(&:submitted?)
     end
+
+    @view_context = case params[:scope]
+      when "incomplete" then "incomplete_review"
+      else "complete_review"
+    end
   end
 
   # GET /admin/users/1
