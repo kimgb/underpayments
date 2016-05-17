@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # REMINDER shallow nests index, new, create actions
-  scope "(:skin)", group: Regexp.new(Group.all.map(&:slug).join("|")) do
+  scope "(:skin)" do
     namespace :admin do
       root "users#index"
 

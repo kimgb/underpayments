@@ -20,9 +20,9 @@
       %main
         #flash
           - if notice
-            %p.notice= notice
+            %p.notice.text-info= notice
           - if alert
-            %p.alert= alert
+            %p.alert.text-danger= alert
 
         = render partial: 'layouts/banner'
 

@@ -10,11 +10,14 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     resource.admin? ? admin_users_url : user_url(resource)
-    # stored_location_for(resource) || root_url
   end
 
   def forbidden!
     render file: "public/403.html", status: :forbidden, layout: false
+  end
+  
+  def not_found!
+    render file: "public/404.html", status: :not_found, layout: false
   end
   
   protected
@@ -24,7 +27,11 @@ class ApplicationController < ActionController::Base
 
   private
   def set_skin
-    @skin = params[:skin] ? Group.friendly.find(params[:skin]) : Group.first
+    @skin = Group.friendly.find(params[:skin]) 
+  rescue ActiveRecord::RecordNotFound => err
+    flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    
+    @skin = Group.first
   end
   
   # locale precedence: params -> user prefs -> browser -> default
