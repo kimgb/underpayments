@@ -66,7 +66,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 # Select2 for search to local API endpoints.
 gem 'select2-rails'
 
-# Note, secret token must be set via `bundle config https://gem.fury.io/kimgb/ <secret-token>`
+# Note, secret token must be set via `bundle config gem.fury.io <secret-token>`
 source "https://gem.fury.io/kimgb/" do
   gem 'nuw-api', '~> 0.1'
 end
