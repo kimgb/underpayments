@@ -3,13 +3,14 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :set_skin, :authenticate_user!, :set_locale
+  before_action :configure_permitted_parameters, if: :devise_controller?
   
   def default_url_options(options={})
     { skin: @skin }.merge(options)
   end
 
-  def after_sign_in_path_for(resource)
-    resource.admin? ? admin_users_url : user_url(resource)
+  def after_sign_in_path_for(user)
+    user.admin? ? admin_users_url : user_url(user)
   end
 
   def forbidden!
@@ -24,14 +25,21 @@ class ApplicationController < ActionController::Base
   def authenticate_inviter!
     authorise_admin!
   end
+  
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.for(:invite).concat [:group_id]
+  end
 
   private
   def set_skin
-    @skin = Group.friendly.find(params[:skin]) 
+    @skin ||= Group.friendly.find(params[:skin]) unless params[:skin].nil?
+    @skin ||= Group.find(current_user.group_id) if user_signed_in?
   rescue ActiveRecord::RecordNotFound => err
-    flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
-    
-    @skin = Group.first
+    unless params[:skin].nil?
+      flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    end
+  ensure
+    @skin ||= Group.first
   end
   
   # locale precedence: params -> user prefs -> browser -> default

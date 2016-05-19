@@ -6,6 +6,7 @@ class Users::InvitationsController < Devise::InvitationsController
     
     I18n.locale = email_locale
     
+    
     self.resource = invite_resource
     resource_invited = resource.errors.empty?
 

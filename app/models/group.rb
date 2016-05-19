@@ -2,6 +2,7 @@ class Group < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
   belongs_to :supergroup
+  has_many :users
   delegate :name, to: :supergroup, prefix: "owner", allow_nil: true
   store_accessor :skin, 
     :text_color, :headings_color, :link_color, :background_color

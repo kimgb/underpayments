@@ -20,7 +20,7 @@
     .form-group
       = fa.label :country, class: "control-label"
       %br/
-      = fa.select :country, options_for_select(full_country_list, address.country), {}, { class: "form-control", placeholder: "Type your country..." }
+      = fa.select :country, options_for_select(full_country_list, (address.country || "AU")), {}, { class: "form-control", placeholder: "Type your country..." }
       
 :javascript
   $('#profile_address_attributes_country').select2({theme: "bootstrap"});

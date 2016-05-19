@@ -170,16 +170,16 @@ ActiveRecord::Schema.define(version: 20160506044902) do
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
     t.integer  "invitations_count",      default: 0
-    t.integer  "supergroup_id"
+    t.integer  "group_id"
   end
 
   add_index "users", ["claim_id"], name: "index_users_on_claim_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["group_id"], name: "index_users_on_group_id", using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["invitations_count"], name: "index_users_on_invitations_count", using: :btree
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["supergroup_id"], name: "index_users_on_supergroup_id", using: :btree
 
   add_foreign_key "claim_companies", "claims"
   add_foreign_key "claim_companies", "companies"
@@ -190,5 +190,5 @@ ActiveRecord::Schema.define(version: 20160506044902) do
   add_foreign_key "profiles", "addresses"
   add_foreign_key "profiles", "users"
   add_foreign_key "users", "claims"
-  add_foreign_key "users", "supergroups"
+  add_foreign_key "users", "groups"
 end

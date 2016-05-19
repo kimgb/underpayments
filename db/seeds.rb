@@ -28,7 +28,7 @@ grp.save!
 user = User.new(
   email: "kbuckley@nuw.org.au", 
   admin: true, 
-  supergroup: sg
+  group: grp
 )
 user.password = "ch3ng4M1chANGEmePrEtTYplz"
 user.save!

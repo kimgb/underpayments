@@ -18,5 +18,7 @@
         .input-group-addon
           %i.glyphicon.glyphicon-lock
         = f.password_field :password, autocomplete: "off", class: "form-control"
+        
+    = f.hidden_field :group, value: @skin
 
   .actions.text-right= f.submit t('.commit'), class: "btn btn-sm btn-default"

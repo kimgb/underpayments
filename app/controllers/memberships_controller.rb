@@ -1,4 +1,7 @@
 class MembershipsController < ApplicationController
+  # Interface to an external API - no need to set appearance.
+  skip_before_action :set_skin
+  
   # GET /membership?email=some@guy.com&external_id=NA000000&mobile=0455555555
   def show
     @user = User.find_by_email(membership_params[:email])
