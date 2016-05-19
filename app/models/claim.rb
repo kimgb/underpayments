@@ -411,9 +411,10 @@ class Claim < ActiveRecord::Base
   # Claim#estimated_min_award_pay()
   # Returns the absolute legal minimum pay, based on estimated hours per year, 
   # user supplied award and employment type. 
+  # TODO: test this method's interaction with award_minimum
   def estimated_min_award_pay
     estimated_hours_worked_by_year.reduce(0.0) do |memo, (year, hours)|
-      memo += hours * award_minimum(year)
+      memo += hours * award_minimum({ year: year })
     end.round(2)
   end
   
