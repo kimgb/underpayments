@@ -20,9 +20,9 @@
       %main
         #flash
           - if notice
-            %p.notice= notice
+            %p.notice.text-info= notice
           - if alert
-            %p.alert= alert
+            %p.alert.text-danger= alert
 
         = render partial: 'layouts/banner'
 
@@ -33,6 +33,46 @@
 
           :markdown
             #{ t('.footer') }
+        
+    - if @skin
+      :scss
+        @mixin bg-border($color) {
+          background-color: $color;
+          border-color: $color;
+        }
+        @mixin button-colors($bg, $text, $active) {
+          color: $text;
+          @include bg-border($bg);
+          &:hover { @include bg-border($active); }
+        }
+        @mixin text-hover($passive, $active) {
+          color: $passive;
+          &:hover { color: $active; }
+        }
+        @mixin nav($bg, $text, $active) {
+          @include bg-border($bg);
+          .navbar-text { color: $text; }
+          .navbar-link { color: $text; }
+          .navbar-link:hover { color: $active; }
+        }
+        
+        $brand-primary: #{ @skin.link_color };
+        $active-primary: darken($brand-primary, 15%);
+        $btn-default: $active-primary;
+        $btn-active: darken($btn-default, 10%);
+        $nav-bg: darken($brand-primary, 24%);
+        $headings-color: #{ @skin.headings_color };
+        $background-color: #{ @skin.background_color };
+        $text-color: #{ @skin.text_color };
+        $nav-text: darken($text-color, 20%);
+        $active-nav: darken($nav-text, 15%);
+        
+        body { color: $text-color; }
+        main { background-color: $background-color; }
+        h1, h2, h3, h4, h5, h6, fieldset > legend { color: $headings-color; }
+        nav.navbar.navbar-default { @include nav($nav-bg, $nav-text, $active-nav); }
+        a { @include text-hover($brand-primary, $active-primary); }
+        .btn-default { @include button-colors($btn-default, $text-color, $btn-active) }
 
     :javascript
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

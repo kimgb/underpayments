@@ -1,0 +1,19 @@
+%p 
+  %strong Owner organisation:
+  = @group.owner_name
+%p
+  %strong Campaign name:
+  = @group.name
+%p
+  %strong Slug:
+  = @group.slug
+%p
+  %strong Skin:
+  %ul
+    %li= "Primary colour: #{@group.link_color}"
+    %li= "Secondary colour: #{@group.headings_color}"
+    %li= "Base text colour: #{@group.text_color}"
+    %li= "Background colour: #{@group.background_color}"
+
+= link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
+= link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

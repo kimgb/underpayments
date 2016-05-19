@@ -1,40 +1,18 @@
 %h1 Claims for review
-%table.table
-  %thead
-    %tr
-      %th Status
-      %th Name
-      %th{ class: "hidden-xs" } Employer
-      %th{ class: "hidden-xs" } Hourly rate
-      %th{ class: "hidden-xs" } Hours claimed
-      %th{ class: "hidden-xs" } Lost wages
-      %th
+.align-right
+  %select.form-control#user-selector
+    %option{ value: "submitted" } Submitted claims
+    %option{ value: "completed" } Completed claims
+    %option{ value: "incomplete" } Incomplete claims
 
-  %tbody
-    -# TODO make a partial here. It's already worth it but the pattern may see
-            yet more use!
-    %tr
-      %td{ colspan: 7 }
-        %em Submitted Claims
-    - if @submitted_users.any?
-      - @submitted_users.each do |user|
-        = render partial: 'admin/users/row', locals: { user: user }
-    - else
-      %tr
-        %td{ colspan: 7 }
-          No submitted claims
-    %tr
-      %td{ colspan: 7 }
-        %em Complete Claims
-    - if @ready_users.any?
-      - @ready_users.each do |user|
-        = render partial: 'admin/users/row', locals: { user: user }
-    - else
-      %tr
-        %td{ colspan: 7 }
-          No complete claims
-    -# %tr
-    -#   %td{ colspan: 7 }
-    -#     Incomplete Claims
-    -# - @unready_users.each do |user|
-    -#   = render partial: 'admin/users/row', locals: { user: user }
+= link_to "Submitted", url_for(params.merge(scope: "submitted")), class: "collapse", id: "submitted"
+= link_to "Completed", url_for(params.merge(scope: "completed")), class: "collapse", id: "completed"
+= link_to "Incomplete", url_for(params.merge(scope: "incomplete")), class: "collapse", id: "incomplete"
+
+= render "admin/users/#{@view_context}_table"#, locals: { users: @users, view_context: @view_context }
+
+:coffeescript
+  $(document).ready ->
+    $("#user-selector").val("#{params[:scope]}")
+  $("#user-selector").on "change", (e) ->
+    $("#" + $(e.target).val())[0].click();

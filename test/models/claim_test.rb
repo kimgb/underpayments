@@ -69,6 +69,7 @@ class ClaimTest < ActiveSupport::TestCase
   
   test "time estimation" do
     year_1_hours = (6.428571428571429 * 40.0)
+    
     assert_equal year_1_hours, claims(:tina_poy).send(:estimated_hours_worked_by_year).values.map(&:to_f)[0]
   end
 end

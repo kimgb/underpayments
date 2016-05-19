@@ -28,7 +28,7 @@
       
     .form-group
       = f.label :nationality
-      = f.select :nationality, options_for_select(full_country_list, @profile.nationality), {}, { class: "form-control" }
+      = f.select :nationality, options_for_select(full_country_list, (@profile.nationality || "AU")), {}, { class: "form-control" }
 
     .form-group
       = f.label :preferred_language, class: "control-label"

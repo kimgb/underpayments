@@ -1,0 +1,15 @@
+%table.table
+  %thead
+    %tr
+      %th Sections complete
+      %th Email
+      %th Mobile?
+
+  %tbody#user-list
+    - if @users.any?
+      - @users.each do |user|
+        = render partial: "admin/users/#{@view_context}_row", locals: { user: user }
+    - else
+      %tr
+        %td{ colspan: 7 }
+          No claims to display

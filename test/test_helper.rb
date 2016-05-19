@@ -1,7 +1,8 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
-require "mocha/mini_test"
+require "minitest/rails/capybara"
+# require "mocha/mini_test"
 
 # Improved Minitest output (colour and progress bar)
 Minitest::Reporters.use!(

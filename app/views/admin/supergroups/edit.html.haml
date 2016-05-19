@@ -1,0 +1,6 @@
+%h2= "Editing #{@supergroup.short_name}"
+
+= render 'form'
+
+= link_to 'Show', admin_supergroup_path(@supergroup), class: "btn btn-default btn-sm"
+= link_to 'Back', admin_supergroups_path, class: "btn btn-default btn-sm"

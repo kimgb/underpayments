@@ -10,12 +10,12 @@ class ProfilesController < ApplicationController
 
   # GET /profile/new
   def new
-    if current_user.profile
-      redirect_to current_user, notice: 'This account already has a profile.'
-    else
+    # if current_user.profile
+    #   redirect_to current_user, notice: 'This account already has a profile.'
+    # else
       @profile = Profile.new
       @address = @profile.build_address
-    end
+    # end
   end
 
   # POST /profile

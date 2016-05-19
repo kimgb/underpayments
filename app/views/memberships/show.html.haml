@@ -2,15 +2,15 @@
 
   - if @person.paid?(300) # exists and paid >$300 in past 12 months
     %h4= t('.ready')
-    = form_for(current_user.claim, html: { class: "form", multipart: true }) do |f|
+    = form_for(@user.claim, html: { class: "form", multipart: true }) do |f|
       = f.hidden_field :submitted_for_review, value: true  
       .actions
         = f.submit t('.submit'), class: "btn btn-lg btn-default"
         
   - else # exists, but less than $300 in dues from past 12 months
     %h4= t('.found')
-    %p= join_form_link t('.update'), class: "btn btn-lg btn-default"
+    %p= join_form_link @user, t('.update'), class: "btn btn-lg btn-default"
     
 - else # nothing returned from API
   %h4= t('.not_found')
-  %p= join_form_link t('.join'), class: "btn btn-lg btn-default"
+  %p= join_form_link @user, t('.join'), class: "btn btn-lg btn-default"

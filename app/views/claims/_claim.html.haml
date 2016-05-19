@@ -12,13 +12,13 @@
   %br/
   %ul
     - claim.coverage_gaps.each do |gap|
-      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, wage_evidence: true)
+      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, document: { coverage_start_date: gap.first, coverage_end_date: gap.last, wage_evidence: true })
 - if claim.coverage_gaps(:time_evidence).any?
   = t('.time_evidence')
   %br/
   %ul
     - claim.coverage_gaps(:time_evidence).each do |gap|
-      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, coverage_start_date: gap.first, coverage_end_date: gap.last, time_evidence: true)
+      %li= link_to "#{gap.first.to_s(:rfc822)} #{t('.to')} #{gap.last.to_s(:rfc822)}", new_claim_document_path(claim, document: { coverage_start_date: gap.first, coverage_end_date: gap.last, time_evidence: true })
 
 %p= link_if_unlocked(claim, t('.document.new'), new_claim_document_path(claim), class: "btn btn-sm btn-default")
 - if claim.display_affidavit?

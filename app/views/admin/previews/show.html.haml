@@ -1,0 +1,74 @@
+%fieldset
+  %legend.h3= "Preview"
+  .container-fluid#preview-container{ style: "border: dashed hotpink 5px; padding: 5px; margin-bottom: 10px;"}
+    %header
+      %nav.navbar.navbar-default#preview-nav
+        .container-fluid
+          %ul.nav.navbar-nav
+            %li
+              %p.navbar-text
+                = "Signed in as "
+                = link_to "Guest", "#", class: "navbar-link"
+          %ul.nav.navbar-nav.navbar-right
+            %li
+              = link_to "Sign out", "#", class: "navbar-link"
+    #preview-main{ style: "display: block; margin: 0 auto; padding: 1rem;"}
+      .align-right
+        %hgroup
+          %h1.preview-heading{ style: "margin-top: 0px" } MAIN HEADING
+          %h5.preview-heading.byline Subheading/byline
+      -# %p.text-center.text-danger
+      -#   %em An error has occurred!
+      %p 
+        Lorem ipsum dolor sic amet...
+        %a{ href: "#" } example hyperlink.
+      %form{ action: "#" }
+        .form-group
+          %label A form text field
+          %input.form-control{ type: "text" }
+      .align-right
+        .btn.btn-default A button
+      
+  :scss
+    @mixin bg-border($color) {
+      background-color: $color;
+      border-color: $color;
+    }
+    @mixin button-colors($bg, $text, $active) {
+      color: $text;
+      @include bg-border($bg);
+      &:hover { @include bg-border($active); }
+    }
+    @mixin text-hover($passive, $active) {
+      color: $passive;
+      &:hover { color: $active; }
+    }
+    @mixin nav($bg, $text, $active) {
+      @include bg-border($bg);
+      .navbar-text { color: $text; }
+      .navbar-link { color: $text; }
+      .navbar-link:hover { color: $active; }
+    }
+    
+    $brand-primary: #{ @preview["primary_colour"] };
+    $active-primary: darken($brand-primary, 15%);
+    $btn-default: $active-primary;
+    $btn-active: darken($btn-default, 10%);
+    $nav-bg: darken($brand-primary, 24%);
+    $headings-color: #{ @preview["secondary_colour"] };
+    $background-color: #{ @preview["bg_colour"] };
+    $text-color: #{ @preview["base_colour"] };
+    $nav-text: darken($text-color, 20%);
+    $active-nav: darken($nav-text, 15%);
+    
+    #preview-container { color: $text-color; }
+    #preview-main { background-color: $background-color; }
+    #preview-container h1,
+    #preview-container h2,
+    #preview-container h3,
+    #preview-container h4,
+    #preview-container h5,
+    #preview-container h6 { color: $headings-color; }
+    #preview-nav { @include nav($nav-bg, $nav-text, $active-nav); }
+    #preview-container a { @include text-hover($brand-primary, $active-primary); }
+    #preview-container .btn-default { @include button-colors($btn-default, $text-color, $btn-active) }

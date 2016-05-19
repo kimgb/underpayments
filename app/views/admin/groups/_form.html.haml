@@ -1,0 +1,66 @@
+= form_for([:admin, @group], html: { class: "form", multipart: true }) do |f|
+  - if @group.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@group.errors.count, "error")} prohibited this campaign from being saved:"
+      %ul
+        - @group.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :supergroup_id, "Owner organisation"
+    = f.select :supergroup_id, options_for_select([["Search for organisations...", ""], [@group.owner_name, @group.supergroup_id]], @group.supergroup_id), {}, { class: "form-control" }
+  .form-group
+    = f.label :name, "Campaign name"
+    = f.text_field :name, class: "form-control"
+
+  %fieldset
+    %legend.h3= "Custom appearance"
+    = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|
+      .form-group
+        = s.label :link_color, "Primary colour - e.g. links, buttons, navigation"
+        = s.text_field :link_color, class: "form-control", value: (@group.link_color || "#F5003D")
+      .form-group
+        = s.label :headings_color, "Secondary colour - e.g. headings"
+        = s.text_field :headings_color, class: "form-control", value: (@group.headings_color || "#0B8842")
+      .form-group
+        = s.label :text_color, "Base text colour"
+        = s.text_field :text_color, class: "form-control", value: (@group.text_color || "#DDDDDD")
+      .form-group
+        = s.label :background_color, "Background colour"
+        = s.text_field :background_color, class: "form-control", value: (@group.background_color || "#161616")
+  
+  #preview
+  
+  .actions.align-right
+    %button#generate-preview.btn.btn-default= "Preview"
+    = f.submit 'Save', class: "btn btn-default"
+
+:coffeescript
+  $("#group_supergroup_id").select2
+    theme: "bootstrap"
+    minimumInputLength: 3
+    # how to do initial selection?
+    ajax:
+      url: "#{admin_supergroups_path}.json"
+      dataType: "json"
+      type: "GET"
+      quietMillis: 50
+      delay: 250
+      cache: true
+      data: (params) ->
+        term: params.term
+      processResults: (data, params) ->
+        results: $.map data, (item) ->
+          text: item.name + " (" + item.short_name + ")", id: item.id
+          
+  $("#generate-preview").on "click", (e) ->
+    e.preventDefault();
+    
+    primary = $("#group_skin_link_color").val();
+    secondary = $("#group_skin_headings_color").val();
+    base_colour = $("#group_skin_text_color").val();
+    bg = $("#group_skin_background_color").val();
+    
+    $("#preview").load("/admin/preview?primary_colour=" + escape(primary) + 
+      "&secondary_colour=" + escape(secondary) + 
+      "&base_colour=" + escape(base_colour) + "&bg_colour=" + escape(bg))

@@ -20,12 +20,8 @@ class DocumentsController < ApplicationController
     if params[:affidavit]
       @document = Document.new(@claim.affidavit_generator)
     else
-      @document = Document.new
+      @document = params[:document] ? Document.new(document_params) : Document.new
     end
-    
-    # TODO this is hackish
-    params[:coverage_start_date] ||= Date.today.to_s
-    params[:coverage_end_date] ||= Date.today.to_s
   end
 
   # POST /claims/1/documents/new
@@ -51,8 +47,14 @@ class DocumentsController < ApplicationController
   
   # PATCH/PUT /documents/1
   def update
-    if @document.update(document_params)
-      redirect_to @document, notice: 'Document was updated.'
+    respond_to do |format|
+      if @document.update_attributes(document_params)
+        format.html { redirect_to @document, notice: 'Document was updated.' }
+        format.json { render :show, status: :ok, location: @document }
+      else
+        format.html { render :edit }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
     end
   end
 

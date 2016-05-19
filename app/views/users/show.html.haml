@@ -9,7 +9,7 @@
   %p= t('.add')
   
 - if @user.ready_to_submit? && !@user.submitted?
-  = render partial: "claims/submit_for_review", locals: { claim: @user.claim }
+  = render partial: "claims/submit_for_review", locals: { claim: @user.claim, user: @user }
   
 - if @user.locked?
   %p.bold= t('.locked')

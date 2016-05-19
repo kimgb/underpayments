@@ -1,17 +1,14 @@
 .text-center
-  %p{ data: { load: "#{memberships_path(email: current_user.email)}" }}
+  %p{ data: { load: "#{memberships_path(email: user.email)}" }}
     = t('.asking')
     %br
     %br
     %span.loading{ style: "color: #F5003D" }= t('.loading')
   
-:javascript
-  $("p[data-load]").filter(":visible").each(function(){
-    var path = $(this).attr('data-load');
-    $(this).load(path, function(response, status, xhr){
-      $(this).removeClass("loading");
-      if (status == "error"){
-        $(this).html("#{t('.error')}");
-      }
-    });
-  })
+:coffeescript
+  $("p[data-load]").filter(":visible").each ->
+    path = $(this).attr('data-load')
+    $(this).load path, (response, status, xhr) ->
+      $(this).removeClass("loading")
+      if status == "error"
+        $(this).html("#{t('.error')}")

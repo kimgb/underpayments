@@ -151,34 +151,48 @@ class Claim < ActiveRecord::Base
   # Deeply nested hash with award level 1 rates by financial year, award, employment type.
   # 2015 and all horticulture/awardless rates are correct.
   # Poultry needs numbers for 2010-2014 f.y.'s
-  def award_minimum(year = employment_began_on.year)
-    {
+  def award_minimum(opts = {})
+    opts = { year: employment_began_on.year, award: award, 
+      employment_type: employment_type }.merge(opts)
+
+    Hash.new({ # default to current year's rates. (2015-2016)
+      "horticulture" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 },
+      "poultry" => { "casual" => 22.34, "permanent" => 17.87, "unknown" => 22.34 },
+      "no_award" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 },
+      "storage" => { "casual" => 23.09, "permanent" => 18.47, "unknown" => 23.09 }
+    }).merge({
       2015 => {
-        "horticulture" => { "casual" => 21.61, "permanent" => 17.29 },
-        "poultry" => { "casual" => 22.34, "permanent" => 17.87 },
-        "no_award" => { "casual" => 21.61, "permanent" => 17.29 }
+        "horticulture" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 },
+        "poultry" => { "casual" => 22.34, "permanent" => 17.87, "unknown" => 22.34 },
+        "no_award" => { "casual" => 21.61, "permanent" => 17.29, "unknown" => 21.61 },
+        "storage" => { "casual" => 23.09, "permanent" => 18.47, "unknown" => 23.09 }
       }, 2014 => {
-        "horticulture" => { "casual" => 21.09, "permanent" => 16.87 },
-        "poultry" => { "casual" => 21.09, "permanent" => 16.87 },
-        "no_award" => { "casual" => 21.09, "permanent" => 16.87 }
+        "horticulture" => { "casual" => 21.09, "permanent" => 16.87, "unknown" => 21.09 },
+        "poultry" => { "casual" => 21.79, "permanent" => 17.43, "unknown" => 21.79 },
+        "no_award" => { "casual" => 21.09, "permanent" => 16.87, "unknown" => 21.09 },
+        "storage" => { "casual" => 22.52, "permanent" => 18.02, "unknown" => 22.52 }
       }, 2013 => {
-        "horticulture" => { "casual" => 20.46, "permanent" => 16.37 },
-        "poultry" => { "casual" => 20.46, "permanent" => 16.37 },
-        "no_award" => { "casual" => 20.46, "permanent" => 16.37 }
+        "horticulture" => { "casual" => 20.46, "permanent" => 16.37, "unknown" => 20.46 },
+        "poultry" => { "casual" => 21.15, "permanent" => 16.92, "unknown" => 21.15 },
+        "no_award" => { "casual" => 22.16, "permanent" => 17.73, "unknown" => 22.16 },
+        "storage" => { "casual" => 21.87, "permanent" => 17.49, "unknown" => 21.87 }
       }, 2012 => {
-        "horticulture" => { "casual" => 19.95, "permanent" => 15.96 },
-        "poultry" => { "casual" => 19.95, "permanent" => 15.96 },
-        "no_award" => { "casual" => 19.95, "permanent" => 15.96 }
+        "horticulture" => { "casual" => 19.95, "permanent" => 15.96, "unknown" => 19.95 },
+        "poultry" => { "casual" => 20.61, "permanent" => 16.49, "unknown" => 20.61 },
+        "no_award" => { "casual" => 19.95, "permanent" => 15.96, "unknown" => 19.95 },
+        "storage" => { "casual" => 21.32, "permanent" => 17.05, "unknown" => 21.32 }
       }, 2011 => {
-        "horticulture" => { "casual" => 19.39, "permanent" => 15.51 },
-        "poultry" => { "casual" => 19.39, "permanent" => 15.51 },
-        "no_award" => { "casual" => 19.39, "permanent" => 15.51 }
+        "horticulture" => { "casual" => 19.39, "permanent" => 15.51, "unknown" => 19.39 },
+        "poultry" => { "casual" => 20.04, "permanent" => 16.03, "unknown" => 20.04 },
+        "no_award" => { "casual" => 19.39, "permanent" => 15.51, "unknown" => 19.39 },
+        "storage" => { "casual" => 20.71, "permanent" => 16.57, "unknown" => 20.71 }
       }, 2010 => {
-        "horticulture" => { "casual" => 18.75, "permanent" => 15.00 },
-        "poultry" => { "casual" => 18.75, "permanent" => 15.00 },
-        "no_award" => { "casual" => 18.75, "permanent" => 15.00 }
+        "horticulture" => { "casual" => 18.75, "permanent" => 15.00, "unknown" => 18.75 },
+        "poultry" => { "casual" => 19.38, "permanent" => 15.50, "unknown" => 19.38 },
+        "no_award" => { "casual" => 18.75, "permanent" => 15.00, "unknown" => 18.75 },
+        "storage" => { "casual" => 20.03, "permanent" => 16.03, "unknown" => 20.03 }
       }
-    }.dig(year, award, employment_type)
+    }).dig(opts[:year], opts[:award], opts[:employment_type])
   end
 
   # Better as a helper?
@@ -186,6 +200,8 @@ class Claim < ActiveRecord::Base
     case award
     when "horticulture" then "Horticulture Award 2010"
     when "poultry" then "Poultry Processing Award 2010"
+    when "storage" then "Storage Services Award 2010"
+    when "no_award" then "National Employment Standards"
     end
   end
 
@@ -339,7 +355,9 @@ class Claim < ActiveRecord::Base
   # Uses Claim#hours_from_evidence_by_year and multiplies each year's hours by
   # the relevant historical award minimum rate.
   def min_award_pay_from_evidence
-    hours_from_evidence_by_year.reduce(0) { |sum, (yr, hrs)| sum += hrs * award_minimum(yr) }
+    hours_from_evidence_by_year.reduce(0) do |sum, (yr, hrs)| 
+      sum += hrs * award_minimum({ year: yr }) 
+    end
   end
   
   # Claim#estimated_wages_from_time_evidence()

@@ -2,16 +2,22 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :set_locale
-  before_action :authenticate_user!
+  before_action :set_skin, :authenticate_user!, :set_locale
+  
+  def default_url_options(options={})
+    { skin: @skin }.merge(options)
+  end
 
   def after_sign_in_path_for(resource)
     resource.admin? ? admin_users_url : user_url(resource)
-    # stored_location_for(resource) || root_url
   end
 
   def forbidden!
     render file: "public/403.html", status: :forbidden, layout: false
+  end
+  
+  def not_found!
+    render file: "public/404.html", status: :not_found, layout: false
   end
   
   protected
@@ -20,6 +26,14 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def set_skin
+    @skin = Group.friendly.find(params[:skin]) 
+  rescue ActiveRecord::RecordNotFound => err
+    flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    
+    @skin = Group.first
+  end
+  
   # locale precedence: params -> user prefs -> browser -> default
   def set_locale
     supported_locales = I18n.available_locales.map(&:to_s)

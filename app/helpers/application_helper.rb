@@ -26,24 +26,22 @@ module ApplicationHelper
     end
   end
   
-  def join_form_link(link_text, *args)
-    link_to(link_text, "#{join_url}?#{join_query_params}", *args)
+  def join_form_link(user, link_text, *args)
+    link_to(link_text, "#{join_url}?#{join_query_params(user)}", *args)
   end
   
   def join_url
     "https://www.joinaunion.org.au/nuw/backpay/join"
   end
   
-  def join_query_params
-    if current_user
-      query_params = current_user.join_form_params.merge({
-        "locale" => session[:locale],
-        "callback_url" => URI::encode("#{ENV['host'] + user_path(current_user)}", /\W/),
-        "auto_submit" => true
-      })
+  def join_query_params(user)
+    query_params = user.join_form_params.merge({
+      "locale" => session[:locale],
+      "callback_url" => URI::encode("#{ENV['host'] + user_path(current_user)}", /\W/),
+      "auto_submit" => true
+    })
       
-      query_params.compact.map { |k, v| "#{k}=#{v}" }.join("&")
-    end
+    query_params.compact.map { |k, v| "#{k}=#{v}" }.join("&")
   end
 
   # Requires #presentable_attributes to be defined on the receiving model

@@ -8,6 +8,8 @@ gem 'rails', '~> 4.2.5'
 gem 'puma'
 # Use postgresql as the database for Active Record
 gem 'pg'
+# + full text search on postgresql with pg_search
+gem 'pg_search'
 # Figaro for environment variables
 gem 'figaro'
 # Devise for login/auth, plus invitable module
@@ -25,13 +27,17 @@ gem 'pry'
 # Haml for markup, plus Redcarpet as our Markdown renderer for content
 gem 'haml-rails', '~> 0.9'
 gem 'redcarpet'
+gem 'tilt', '~> 2.0.2'
 
 # I18n - we need to support, e.g., Mandarin, Vietnamese
 gem 'i18n'
 gem 'devise-i18n'
 
+# Friendly_ID for nice slugs; semantically versioned - minor point changes are non-breaking.
+gem 'friendly_id', '~> 5.1'
+
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails', '~> 5.0', require: 'tilt/sass'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
@@ -60,7 +66,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 # Select2 for search to local API endpoints.
 gem 'select2-rails'
 
-# Note, secret token must be set via `bundle config https://gem.fury.io/kimgb/ <secret-token>`
+# Note, secret token must be set via `bundle config gem.fury.io <secret-token>`
 source "https://gem.fury.io/kimgb/" do
   gem 'nuw-api', '~> 0.1'
 end
@@ -94,14 +100,14 @@ group :test do
   gem 'minitest'
   gem 'minitest-rails'
   gem 'minitest-reporters'
+  gem 'minitest-rails-capybara'
   gem 'connection_pool'
-  gem 'capybara'
-  gem 'launchy'
-  gem 'mocha'
   gem 'poltergeist'
-  gem 'shoulda-context'
-  gem 'shoulda-matchers'
-  gem 'test_after_commit'
+  # gem 'launchy'
+  # gem 'mocha'
+  # gem 'shoulda-context'
+  # gem 'shoulda-matchers'
+  # gem 'test_after_commit'
 end
 
 group :development, :test do

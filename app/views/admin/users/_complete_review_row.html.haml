@@ -1,6 +1,6 @@
 %tr
   %td= user.claim.status || "None"
-  %td= user.profile.full_name
+  %td= user.full_name
   %td{ class: "hidden-xs" }= user.employer.name
   %td{ class: "hidden-xs" }= number_to_currency(user.claim.hourly_pay)
   %td{ class: "hidden-xs" }= user.claim.hours_worked.round

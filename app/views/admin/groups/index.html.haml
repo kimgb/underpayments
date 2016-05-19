@@ -1,0 +1,23 @@
+%h2 Campaigns
+
+%table.table
+  %thead
+    %tr
+      %th Name
+      %th Slug
+      %th
+      %th
+      %th
+
+  %tbody
+    - @groups.each do |group|
+      %tr
+        %td= group.name
+        %td= link_to group.slug, admin_groups_path(skin: group)
+        %td= link_to 'Show', admin_group_path(group), class: "btn btn-default btn-sm"
+        %td= link_to 'Edit', edit_admin_group_path(group), class: "btn btn-default btn-sm"
+        %td= link_to 'Delete', admin_group_path(group), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-default btn-sm"
+
+%hr
+.actions.align-right
+  = link_to 'New Campaign', new_admin_group_path, class: "btn btn-default"

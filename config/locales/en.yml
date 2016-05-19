@@ -381,10 +381,12 @@ en:
       employment_types:
         casual: Casual
         permanent: Permanent
+        unknown: I don't know
       awards:
-        no_award: Not listed
+        no_award: Not listed / I don't know
         horticulture: Horticulture
         poultry: Poultry Processing
+        storage: Storage Services
     addresses:
       states_list:
         ACT: Australian Capital Territory

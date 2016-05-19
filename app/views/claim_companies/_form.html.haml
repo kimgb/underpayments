@@ -66,77 +66,28 @@
 
   .actions.text-right= f.submit t('companies.form.commit'), class: "btn btn-default"
   
-:javascript
-  $("a.manipulator").on("click", function(e){
-    $(e.target.dataset.hide).slideUp(800);
-    $(e.target.dataset.show).delay(800).slideDown(800);
-  })
-
-  $("#claim_company_company_id").select2({
-    theme: "bootstrap",
-    ajax: {
-      url: "#{companies_path}.json",
-      dataType: "json",
-      type: "GET",
-      quietMillis: 50,
-      delay: 250,
-      data: function(params){
-        return { name: params.term };
-      },
-      processResults: function(data, params){
-        return {
-          results: $.map(data, function(item){
-            if (item.address){
-              var addr = item.address.town + ", " + item.address.province + " " + item.address.postal_code;
-            } else {
-              var addr = "no address";
-            }
-          
-            return { 
-              text: item.name + " (" + addr + ")",
-              id: item.id
-            }
-          })
-        };
-      },
+:coffeescript
+  $("#claim_company_company_id").select2
+    theme: "bootstrap"
+    ajax:
+      url: "#{companies_path}.json"
+      dataType: "json"
+      type: "GET"
+      quietMillis: 50
+      delay: 250
+      data: (params) ->
+        term: params.term
+      processResults: (data, params)->
+        results: $.map data, (item)->
+          addr = if item.address
+            item.address.town + ", " + item.address.province + " " + item.address.postal_code;
+          else
+            "no address";          
+          text: item.name + " (" + addr + ")", id: item.id
       cache: true
-    },
-    escapeMarkup: function(markup){ return markup; },
+    escapeMarkup: (markup)-> markup
     minimumInputLength: 3
-  });
-
-  //Selectize version, mostly functional
-  //$("#claim_company_company_id").selectize({
-  //  loadThrottle: 250,
-  //  valueField: 'id',
-  //  labelField: 'name',
-  //  searchField: 'name',
-  //  render: {
-  //    option: function(item, escape){
-  //      if (item.address){
-  //        var addr = item.address.town + ", " + item.address.province + " " + item.address.postal_code;
-  //      } else {
-  //        var addr = "no address";
-  //      }
-  //      
-  //      return '<div><span>' + escape(item.name) + ' (' + escape(addr) + ')' + '</span></div>';
-  //    }
-  //  },
-  //  load: function(query, callback){
-  //    if (query.length < 3) return callback();
-  //    $.ajax({
-  //      url: "#{companies_path}.json",
-  //      dataType: "json",
-  //      type: "GET",
-  //      data: {
-  //        name: query
-  //      },
-  //      error: function() {
-  //        callback();
-  //      },
-  //      success: function(res) {
-  //        callback(res);
-  //      }
-  //    })
-  //  }
-  //})
+    
+  $("a.manipulator").on "click", (e) ->
+    $(e.target.dataset.hide).slideUp(800)
+    $(e.target.dataset.show).delay(800).slideDown(800)

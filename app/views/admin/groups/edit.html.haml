@@ -1,0 +1,6 @@
+%h2= "Editing campaign - #{@group.name}"
+
+= render 'form'
+%hr
+= link_to 'Show', admin_group_path(@group), class: "btn btn-default btn-sm"
+= link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

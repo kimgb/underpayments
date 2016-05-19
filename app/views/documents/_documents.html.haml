@@ -7,7 +7,7 @@
       %li
         -# = link_to basename(doc), doc
         = link_to doc do
-          - if doc.evidence.present? && doc.evidence.image?
+          - if doc.evidence.present? && doc.evidence.is_image?
             = image_tag(doc.evidence.thumb.url)
           = basename(doc)
         - if current_user.owns?(doc) && !current_user.locked?

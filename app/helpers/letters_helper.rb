@@ -13,8 +13,9 @@ module LettersHelper
   
   def inbox_list
     [
-      ["poultry", "assistpoultry@nuw.org.au"],
-      ["horticulture", "assistfruitveg@nuw.org.au"]
+      ["assistpoultry@nuw.org.au", "assistpoultry@nuw.org.au"],
+      ["assistfruitveg@nuw.org.au", "assistfruitveg@nuw.org.au"],
+      ["nuwassist@nuw.org.au", "nuwassist@nuw.org.au"]
     ]
   end
   
