@@ -13,6 +13,6 @@
 
 :coffeescript
   $(document).ready ->
-    $("#user-selector").val("#{params[:scope]}")
+    $("#user-selector").val("#{(params[:scope] || 'submitted')}")
   $("#user-selector").on "change", (e) ->
     $("#" + $(e.target).val())[0].click();
