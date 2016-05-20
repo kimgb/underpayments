@@ -1,0 +1,26 @@
+%h3= basename(@document)
+%p= t('documents.show.duration', beginning: date_to_time_tag(@document.coverage_start_date), end: date_to_time_tag(@document.coverage_end_date)).html_safe
+
+%p 
+  - if @document.wage_evidence
+    = t('documents.show.wages', wages: number_to_currency(@document.wages))
+  %br/
+  - if @document.time_evidence
+    = t('documents.show.hours', hours: number_with_delimiter(@document.hours))
+
+- if @document.evidence.present?
+  %p= t('documents.show.evidence')
+  - if @document.evidence.is_image?
+    %p= link_to image_tag(@document.evidence.standard.url), @document.evidence.url, target: "_blank"
+  - else
+    %p= link_to basename(@document), @document.evidence.url, target: "_blank"
+  
+- if @document.statement.present?
+  %p= t('documents.show.statement')
+  %blockquote= html_escape(@document.statement).gsub("\r\n", "<br/>").html_safe
+
+%p
+  = link_to "Delete", admin_document_path(@document), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-default"
+  = link_to "Edit", edit_admin_document_path(@document), class: "btn btn-default"
+  = link_to "Back", admin_user_path(@document.owners.first), class: "btn btn-default"
+  

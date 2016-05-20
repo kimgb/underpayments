@@ -1,0 +1,19 @@
+%h3
+  = t('companies.company.heading')
+  = home_title(company, claim)
+  %small= link_to("(edit)", edit_admin_company_path(company))
+:markdown
+  #{markdown_model(company)}
+
+- if company.address
+  %h4
+    = t('companies.company.address.heading')
+    %small= link_to("(edit)", edit_admin_address_path(company.address))
+
+  :markdown
+    #{ markdown_model(company.address) }
+- else
+  %h4= t('companies.company.address.heading')
+  %p
+    = t('companies.company.address.missing')
+    = link_to t('companies.company.address.complete'), new_company_company_address_path(company), class: "btn btn-sm btn-default"

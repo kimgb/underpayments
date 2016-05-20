@@ -8,8 +8,11 @@ Rails.application.routes.draw do
         resources :messages, only: [:new, :create]
         resources :letters, only: [:new, :create, :show]
       end
-      resources :claims, only: [:update]
+      resources :claims, only: [:edit, :update]
+      resources :profiles, only: [:edit, :update]
       resources :companies, except: [:new, :create]
+      resources :addresses, only: [:edit, :update, :destroy]
+      resources :documents, only: [:show, :edit, :update, :destroy]
 
       resources :supergroups, :groups
 

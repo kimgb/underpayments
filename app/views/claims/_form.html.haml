@@ -47,7 +47,7 @@
     .form-group
       = f.label :employment_type, t('.employment_type'), class: "control-label"
       %br/
-      = f.select :employment_type, options_for_select(employment_type_list, "casual"), {}, { class: "form-control" }
+      = f.select :employment_type, options_for_select(employment_type_list, (@claim.employment_type || "casual")), {}, { class: "form-control" }
 
   %output#claim_output
 

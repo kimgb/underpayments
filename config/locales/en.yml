@@ -158,6 +158,7 @@ en:
       employment_began_on: Employment began on
       employment_ended_on: Employment ended on
       employment_type: Employment type
+      pieceworker: Pieceworker
       lost_wages: Calculated wages lost
     submit_for_review:
       asking: You've supplied enough information to proceed. We're just asking our database if you have an existing membership.

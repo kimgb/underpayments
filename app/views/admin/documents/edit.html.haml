@@ -1,0 +1,72 @@
+= form_for(@document, url: admin_document_path(@document), html: { multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @document }
+
+  %fieldset
+    %legend= "Editing document"
+
+    - if @document.evidence.present?
+      %p= t('documents.show.evidence')
+      - if @document.evidence.is_image?
+        %p= link_to image_tag(@document.evidence.standard.url), @document.evidence.url, target: "_blank"
+      - else
+        %p= link_to basename(@document), @document.evidence.url, target: "_blank"
+  
+    - if @document.statement.present?
+      .form-group
+        = f.label :statement, t('documents.edit.statement'), class: "control-label"
+        %br/
+        = f.text_area :statement, rows: 3, class: "form-control"
+
+    .form-group
+      .checkbox
+        = f.label :wage_evidence do
+          = f.check_box :wage_evidence, data: { target: "#wages" }
+          = t('documents.edit.wage_evidence')
+
+      .checkbox
+        = f.label :time_evidence do
+          = f.check_box :time_evidence, data: { target: "#hours" }
+          = t('documents.edit.time_evidence')
+        
+    .form-group.collapse#wages
+      = f.label :wages, t('documents.edit.wages'), class: "control-label"
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-usd
+        = f.number_field :wages, value: number_with_precision(f.object.wages, precision: 2), class: "form-control", min: "0", step: "0.01"
+      
+    .form-group.collapse#hours
+      = f.label :hours, t('documents.edit.hours'), class: "control-label"
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-time
+        = f.number_field :hours, value: number_with_precision(f.object.hours, precision: 2), class: "form-control", min: "0", step: "0.01"
+
+    .form-group.form-inline
+      = f.label :coverage_start_date, t('documents.edit.coverage_start_date'), class: "control-label"
+      %br/
+      = f.date_select :coverage_start_date, { selected: @document.coverage_start_date || date_from_params(:coverage_start_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+    .form-group.form-inline
+      = f.label :coverage_end_date, t('documents.edit.coverage_end_date'), class: "control-label"
+      %br/
+      = f.date_select :coverage_end_date, { selected: @document.coverage_end_date || date_from_params(:coverage_end_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+  .actions.text-right= f.submit "Submit", class: "btn btn-sm btn-default"
+  
+:coffeescript
+  boxChecked = (box) ->
+    boxdt = $(box.data().target)
+    if box.is(":checked")
+      boxdt.slideDown()
+    else
+      boxdt.slideUp()
+
+  $("input[type=checkbox]").on "click", (e) ->
+    box = $(e.target)
+    boxChecked(box)
+  
+  $(document).ready ->
+    $("input[type=checkbox]").each (index)->
+      box = $(this)
+      boxChecked(box)

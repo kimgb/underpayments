@@ -5,24 +5,27 @@
 -# = link_to "Letter of demand", pages_path(page: "letter", layout: "print", user_id: @user), class: "btn btn-default"
 &ensp;
 = render partial: "admin/claims/toggle_lock", locals: { claim: @user.claim }
-
 = render partial: "admin/claims/update_status", locals: { claim: @user.claim }
 
-%h3 User details
+%h3 
+  User details
+  %small= link_to("(edit)", edit_admin_profile_path(@user.profile))
 :markdown
   #{ markdown_model(@user) }  
   #{ markdown_model(@user.profile) }
 
 - if @user.address
-  = render partial: "addresses/address", locals: { address: @user.address, title: "User address", edit: "" }
+  = render partial: "admin/addresses/address", locals: { address: @user.address, title: "User address", edit: "edit" }
 
 - if @user.claim
-  %h3 Claim
+  %h3 
+    Claim
+    %small= link_to("(edit)", edit_admin_claim_path(@user.claim))
   :markdown
     #{ markdown_model(@user.claim) }
 
-  = render partial: "documents/documents", locals: { documents: @user.claim.documents }
+  = render partial: "admin/documents/documents", locals: { documents: @user.claim.documents }
 
 - if @user.claim.presentable_companies.any?
   - @user.claim.presentable_companies.each do |cc|
-    = render partial: "claim_companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
+    = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 

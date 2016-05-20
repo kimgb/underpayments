@@ -1,0 +1,7 @@
+%h4
+  = title
+  - unless edit.blank?
+    %small= link_to("(#{edit})", edit_admin_address_path(address))
+
+:markdown
+  #{ markdown_model(address) }

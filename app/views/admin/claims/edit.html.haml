@@ -1,0 +1,82 @@
+= form_for(@claim, url: admin_claim_url(@claim), html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @claim }
+
+  %fieldset
+    %legend= t('claims.form.title')
+
+    .form-group
+      = f.label :award, t('claims.form.award'), class: "control-label"
+      = f.select :award, options_for_select(awards_list, (@claim.award || "no_award")), {}, { class: "form-control" }
+
+    .form-group
+      = f.label :weekly_hours, t('claims.form.weekly_hours'), class: "control-label"
+      /%br/
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-time
+        = f.number_field :weekly_hours, class: "form-control"
+        
+    .checkbox
+      = f.label :pieceworker do
+        = f.check_box :pieceworker
+        = t('claims.form.pieceworker')
+
+    .form-group
+      = f.label :hourly_pay, t('claims.form.hourly_pay'), class: "control-label"
+      /%br/
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-usd
+        = f.number_field :hourly_pay, class: "form-control", min: "0", step: "0.01"
+        
+    .checkbox
+      = f.label :payslips_received do
+        = f.check_box :payslips_received
+        = t('claims.form.payslips_received')
+
+    .form-group.form-inline
+      = f.label :employment_began_on, t('claims.form.employment_began_on'), class: "control-label"
+      %br/
+      = f.date_select :employment_began_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
+
+    .form-group.form-inline
+      = f.label :employment_ended_on, t('claims.form.employment_ended_on'), class: "control-label"
+      %br/
+      = f.date_select :employment_ended_on, { order: [:day, :month, :year], start_year: Date.today.year, end_year: claims_lower_bound_year }, { class: "form-control" }
+
+    .form-group
+      = f.label :employment_type, t('claims.form.employment_type'), class: "control-label"
+      %br/
+      = f.select :employment_type, options_for_select(employment_type_list, "casual"), {}, { class: "form-control" }
+
+  %output#claim_output
+
+  .actions.text-right
+    = f.submit t('claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_submit"
+    
+:coffeescript
+  $(document).ready ->
+    if $("#claim_pieceworker").prop 'checked'
+      $("label[for=claim_hourly_pay]").text("#{t('claims.form.pieceworker_hourly_pay')}")
+    if $("#claim_award").val() != "horticulture"
+      $("label[for=claim_pieceworker]").parent().addClass('collapse')
+      $("#claim_pieceworker").prop 'checked', false
+
+  $("#claim_pieceworker").on 'click', (e) ->
+    if $(this).prop('checked')
+      $("label[for=claim_hourly_pay]").fadeOut(400).queue((n) ->
+        $(this).text("#{t('claims.form.pieceworker_hourly_pay')}")
+        n()
+      ).fadeIn(400)
+    else
+      $("label[for=claim_hourly_pay]").fadeOut(400).queue((n) ->
+        $(this).text("#{t('claims.form.hourly_pay')}")
+        n()
+      ).fadeIn(400)
+  
+  $("#claim_award").on 'change', (e) ->
+    if $(this).val() != "horticulture"
+      $("label[for=claim_pieceworker]").parent().slideUp(400)
+      $("#claim_pieceworker").prop 'checked', false
+    else
+      $("label[for=claim_pieceworker]").parent().slideDown(400)

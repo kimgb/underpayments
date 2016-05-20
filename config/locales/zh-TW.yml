@@ -156,6 +156,7 @@ zh-TW:
       employment_began_on: 聘僱開始
       employment_ended_on: 聘僱結束
       employment_type: 聘用類別
+      pieceworker: Pieceworker
       lost_wages: 欠薪計算結果
     submit_for_review:
       asking: 你所提供的資料目前已經足夠。目前我們正在系統內查詢你是否為NUW工會會員
@@ -223,6 +224,7 @@ zh-TW:
       commit: 新增文件
     edit:
       title: Edit document
+      statement: Edit your statement
       coverage_start_date: "這份文件所指的時間為:"
       coverage_end_date: "給:"
       wage_evidence: 這份文件為我的薪資證明
@@ -281,6 +283,14 @@ zh-TW:
       submit: 送交
       update: 更新你的會員狀態
       join: 加入工會
+      
+  pages:
+    estimate:
+      explanation: By the numbers, you were paid %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
+      underpaid: This means you were underpaid
+      recover: Want to get it back?
+      action: Let's fix this!
+      not_underpaid: You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member, <a href="https://www.nuw.org.au">contact us</a> and we may be able to look into your case.
 
   admin:
     claims:

@@ -1,0 +1,18 @@
+%h3= "Supporting documents"
+- if documents.empty?
+  %p= t('documents.documents.empty')
+- else
+  %ul
+    - documents.each do |doc|
+      %li
+        = link_to admin_document_path(doc) do
+          - if doc.evidence.present? && doc.evidence.is_image?
+            = image_tag(doc.evidence.thumb.url)
+          = basename(doc)
+        - if current_user.owns?(doc) && !current_user.locked?
+          %small
+            (
+            = link_to(t('documents.show.edit'), edit_admin_document_path(doc))
+            |
+            = link_to(t('documents.show.delete'), admin_document_path(doc), data: { confirm: "Are you sure?" }, method: :delete)
+            )
