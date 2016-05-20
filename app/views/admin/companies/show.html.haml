@@ -5,4 +5,4 @@
   #{markdown_model(@company)}
 
 - if @company.address
-  = render partial: "addresses/address", locals: { address: @company.address, title: t('companies.company.address.heading'), edit: t('companies.company.address.edit') }
+  = render partial: "admin/addresses/address", locals: { address: @company.address, title: t('companies.company.address.heading'), edit: t('companies.company.address.edit') }

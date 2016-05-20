@@ -1,5 +1,5 @@
-= form_for([@claim, @claim_company], html: { class: "form", multipart: true }) do |f|
-  = render partial: "layouts/errors", locals: { resource: @claim_company }
+= form_for(@company, url: claim_claim_companies_path(@company.claim_id), html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @company }
 
   %fieldset
     %legend= t('companies.form.title')
@@ -21,55 +21,54 @@
       %small.text-right
         = t('companies.form.search_desc')
         %a.manipulator{ data: { show: "#manual_entry", hide: "#search_company" } }= t('companies.form.search_desc2')
-    
+        
   %fieldset.collapse#manual_entry
     %legend.h4= t('companies.form.manual')
-    = f.fields_for(:company) do |fc|
-      .form-group
-        = fc.label :name, t('companies.form.name'), class: "control-label"
-        %br/
-        -# = fc.select :name, options_for_select([@claim_company.company.name]), {}, { class: "form-control" }
-        = fc.text_field :name, class: "form-control"
-        %small.text-right
-          %a.manipulator{ data: { show: "#search_company", hide: "#manual_entry" } }= t('companies.form.search_desc3')
-        
-      .form-group
-        = fc.label :contact, t('companies.form.contact'), class: "control-label"
-        %br/
-        = fc.text_field :contact, class: "form-control"
-        .text-right
-          %small= t('companies.form.contact_desc')
+    .form-group
+      = f.label :name, t('companies.form.name'), class: "control-label"
+      %br/
+      = f.text_field :name, class: "form-control"
+      %small.text-right
+        %a.manipulator{ data: { show: "#search_company", hide: "#manual_entry" } }= t('companies.form.search_desc3')
+      
+    .form-group
+      = f.label :contact, t('companies.form.contact'), class: "control-label"
+      %br/
+      = f.text_field :contact, class: "form-control"
+      .text-right
+        %small= t('companies.form.contact_desc')
 
-      .form-group
-        = fc.label :abn, t('companies.form.abn'), class: "control-label"
-        %br/
-        = fc.text_field :abn, class: "form-control"
-        .text-right
-          %small
-            = t('companies.form.abn_desc')
-            %a{ href: "http://abr.business.gov.au/", target: "_blank" }= t('companies.form.abn_desc2')
-            
-      .form-group
-        = fc.label :phone, t('companies.form.phone'), class: "control-label"
-        %br/
-        .input-group
-          .input-group-addon
-            %i.glyphicon.glyphicon-earphone
-          = fc.telephone_field :phone, class: "form-control"
+    .form-group
+      = f.label :abn, t('companies.form.abn'), class: "control-label"
+      %br/
+      = f.text_field :abn, class: "form-control"
+      .text-right
+        %small
+          = t('companies.form.abn_desc')
+          %a{ href: "http://abr.business.gov.au/", target: "_blank" }= t('companies.form.abn_desc2')
+          
+    .form-group
+      = f.label :phone, t('companies.form.phone'), class: "control-label"
+      %br/
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-earphone
+        = f.telephone_field :phone, class: "form-control"
 
-      .form-group
-        = fc.label :email, t('companies.form.email'), class: "control-label"
-        %br/
-        .input-group
-          .input-group-addon @
-          = fc.email_field :email, class: "form-control"
+    .form-group
+      = f.label :email, t('companies.form.email'), class: "control-label"
+      %br/
+      .input-group
+        .input-group-addon @
+        = f.email_field :email, class: "form-control"
 
   .actions.text-right= f.submit t('companies.form.commit'), class: "btn btn-default"
   
 :coffeescript
-  $("#claim_company_company_id").select2
+  $("#company_facade_company_id").select2
     theme: "bootstrap"
     ajax:
+      placeholder: "#{t('companies.form.search_placeholder')}"
       url: "#{companies_path}.json"
       dataType: "json"
       type: "GET"
@@ -90,4 +89,6 @@
     
   $("a.manipulator").on "click", (e) ->
     $(e.target.dataset.hide).slideUp(800)
+    $("#company_facade_company_id").delay(800).select2("val", "")
+    $(e.target.dataset.hide).delay(800).find('input').val('')
     $(e.target.dataset.show).delay(800).slideDown(800)

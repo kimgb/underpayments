@@ -1,7 +1,7 @@
 %h4
   = title
   - unless edit.blank?
-    %small= link_if_unlocked(address, "(#{edit})", edit_address_path(address))
+    %small= link_to "(#{edit})", edit_address_path(address)
 
 :markdown
   #{ markdown_model(address) }

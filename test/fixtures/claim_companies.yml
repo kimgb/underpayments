@@ -1,0 +1,7 @@
+acme_basic:
+  id: 1
+  is_active: true
+  is_workplace: true
+  is_employer: true
+  company_id: 1
+  claim_id: 1

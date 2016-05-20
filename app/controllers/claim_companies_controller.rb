@@ -1,19 +1,11 @@
 class ClaimCompaniesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_claim_company, only: [:show, :edit, :update, :destroy]
   before_action :set_claim, only: [:new, :create]
-  before_action :set_company, only: [:edit, :update]
-  # before_action :authorise_admin!, except: [:new, :create, :edit, :update]
-
-  # GET /claim_companies/1
-  def show
-    redirect_to current_user
-  end
+  before_action :set_company, only: [:edit, :update, :destroy]
 
   # GET /claims/1/claim_companies/new
   def new
-    @claim_company = ClaimCompany.new(claim_company_params)
-    @claim_company.build_company
+    @company = CompanyFacade.new(Company.new, @claim)
   end
 
   # GET /claim_companies/1/edit
@@ -23,18 +15,16 @@ class ClaimCompaniesController < ApplicationController
   # POST /claims/1/claim_companies
   # POST /claims/1/claim_companies.json
   def create
-     @claim_company = @claim.claim_companies.build(claim_company_params)
-     if @claim_company.company.blank?
-       @claim_company.build_company(company_params) if company_params.any?
-     end
+    @company = CompanyFacade.new(Company.new, @claim)
+    @company.attributes = company_params
 
     respond_to do |format|
-      if @claim_company.save
-        format.html { redirect_to @claim.user, notice: 'Company was successfully created.' }
-        format.json { render :show, status: :created, location: @claim_company }
+      if @company.save!
+        format.html { redirect_to @company.claim_user, notice: 'Company was successfully created.' }
+        format.json { render :show, status: :created, location: @company }
       else
         format.html { render :new }
-        format.json { render json: @claim_company.errors, status: :unprocessable_entity }
+        format.json { render json: @company.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -43,12 +33,12 @@ class ClaimCompaniesController < ApplicationController
   # PATCH/PUT /claim_companies/1.json
   def update
     respond_to do |format|
-      if @claim_company.update(claim_company_params) && @company.update(company_params)
-        format.html { redirect_to current_user, notice: 'Company was successfully updated.' }
-        format.json { render :show, status: :ok, location: @claim_company.claim.user }
+      if @company.update(company_params)
+        format.html { redirect_to @company.claim_user, notice: 'Company was successfully updated.' }
+        format.json { render :show, status: :ok, location: @company.claim_user }
       else
         format.html { render :edit }
-        format.json { render json: @claim_company.errors, status: :unprocessable_entity }
+        format.json { render json: @company.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,39 +47,30 @@ class ClaimCompaniesController < ApplicationController
   # DELETE /claim_companies/1.json
   def destroy
     respond_to do |format|
-      if @claim_company.update(is_active: false)
-        format.html { redirect_to current_user, notice: 'Company was successfully removed.' }
+      if @company.update(is_active: false)
+        format.html { redirect_to @company.claim_user, notice: 'Company was successfully removed.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to current_user, notice: 'Company could not be removed.' }
-        format.json { render json: @claim_company.errors, status: :unprocessable_entity }
+        format.html { redirect_to @company.claim_user, notice: 'Company could not be removed.' }
+        format.json { render json: @company.errors, status: :unprocessable_entity }
       end
     end
   end
 
   private
-  def set_claim_company
-    @claim_company = ClaimCompany.find(params[:id])
-  end
-
   def set_claim
     @claim = Claim.find(params[:claim_id])
   end
   
   def set_company
-    @company = @claim_company.company
+    @company = CompanyFacade.find(params[:id])
   end
 
-  def claim_company_params
-    params.fetch(:claim_company, {}).permit(:is_employer, :is_workplace, :is_active, :claim_id, :company_id)
-  end
-  
   def company_params
-    params.fetch(:claim_company, {}).require(:company_attributes).permit(:name, :contact, :abn, :email, :phone)
-    # claim_company_params[:company_attributes]
+    params.fetch(:company_facade, {}).permit(:is_employer, :is_workplace, :is_active, :claim_id, :company_id, :name, :contact, :abn, :email, :phone)
   end
 
   def authorise_owner!
-    forbidden unless @claim_company.users.include?(current_user)
+    forbidden unless @company.users.include?(current_user)
   end
 end
