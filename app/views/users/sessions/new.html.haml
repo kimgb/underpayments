@@ -1,7 +1,4 @@
-%h1.text-center= "— Coming Soon —"
-%p.text-center{ style: "margin-bottom: 8rem;" }= "If you've previously been invited to this system, you can log in below. Otherwise, stay tuned! We'll be opening our doors soon."
-
--# %h2= t('devise.sessions.new.sign_in')
+%h2= t('devise.sessions.new.sign_in')
 
 = form_for(resource, as: resource_name, url: user_session_path) do |f|
   .form-group
