@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  skip_before_action :authenticate_user!
+  
   def show
     if current_user && params[:page] == :start
       redirect_to show_user_path(current_user)
@@ -15,7 +17,7 @@ class PagesController < ApplicationController
   def test_exception_notification
     raise "Testing, 1 2 3"
   end
-  
+
   def find_entity
     params.each do |name, value|
       if name =~ /(.+)_id$/

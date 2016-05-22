@@ -3,7 +3,8 @@ class ClaimsController < ApplicationController
   before_action :authorise_admin!, only: [:index, :destroy]
   before_action :authorise_owner!, only: [:show, :edit, :update]
   before_action :confirm_unlocked!, only: [:edit, :update, :destroy]
-  
+  skip_before_action :authenticate_user!, only: [:new, :create]
+
   # set_employer?
 
   # GET /claims
@@ -56,7 +57,7 @@ class ClaimsController < ApplicationController
         if @claim.submitted_for_review
           set_submission_date
           UserMailer.submission_email.deliver_now
-          
+
           format.html { redirect_to @claim.user, notice: 'Your claim has been submitted for review and is now locked for editing.' }
           format.json { render :show, status: :ok, location: @claim.user }
         else
@@ -84,7 +85,7 @@ class ClaimsController < ApplicationController
   def set_submission_date
     @claim.update_attribute(:submitted_on, DateTime.now)
   end
-  
+
   def set_claim
     @claim = Claim.find(params[:id])
   end
@@ -104,7 +105,7 @@ class ClaimsController < ApplicationController
   def authorise_owner!
     forbidden! unless current_user && current_user.owns?(@claim)
   end
-  
+
   def confirm_unlocked!
     forbidden! if @claim.locked? && !(current_user && current_user.admin?)
   end
