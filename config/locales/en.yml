@@ -168,9 +168,9 @@ en:
   addresses:
     address:
       street_address: Address
-      town: Town
-      province: Province
-      postal_code: Postal code
+      town: Suburb
+      province: State
+      postal_code: Postcode
       country: Country
     form:
       title: Address
@@ -286,7 +286,7 @@ en:
       submit: Submit for review
       update: Update your membership
       join: Join the union
-      
+
   pages:
     estimate:
       explanation: By the numbers, you were paid %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
@@ -347,9 +347,9 @@ en:
 
       address:
         street_address: Address
-        town: Town
-        province: Province
-        postal_code: Postal code
+        town: Suburb
+        province: State
+        postal_code: Postcode
         country: Country
 
     errors:

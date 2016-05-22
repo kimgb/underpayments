@@ -54,7 +54,7 @@ class ProfilesController < ApplicationController
       end
     end
   end
-  
+
   # DELETE /profile
   # DELETE /profile.json
   def destroy
@@ -78,20 +78,20 @@ class ProfilesController < ApplicationController
   def set_profile
     @profile = current_user.profile
   end
-  
+
   def set_address
     @address = @profile.address || @profile.build_address
   end
 
   def profile_params
-    params.require(:profile).permit(:date_of_birth, :family_name, :given_name, 
-      :preferred_name, :phone, :preferred_language, :nationality, :visa, 
-      :gender, :address_id, address_attributes: [:street_address, 
+    params.require(:profile).permit(:date_of_birth, :family_name, :given_name,
+      :preferred_name, :phone, :preferred_language, :nationality, :visa,
+      :gender, :address_id, address_attributes: [:street_address,
       :town, :province, :postal_code, :country])
   end
-  
+
   def address_params
-    params.fetch(:profile).fetch(:address_attributes).permit(:street_address, 
+    params.fetch(:profile).fetch(:address_attributes).permit(:street_address,
       :town, :province, :postal_code, :country)
   end
 end
