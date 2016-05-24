@@ -6,9 +6,9 @@
     - documents.sort_by(&:coverage_midpoint).each do |doc|
       %li
         - if doc.evidence.present? && doc.evidence.is_image?
-          = link_to image_tag(doc.evidence.thumb.url), doc
+          = link_to image_tag(doc.evidence.thumb.url), admin_document_path(doc)
         = succeed ":" do
-          = link_to basename(doc), doc
+          = link_to basename(doc), admin_document_path(doc)
         = doc.coverage_start_date.iso8601 + " – " + doc.coverage_end_date.iso8601
         - if current_user.owns?(doc) && !current_user.locked?
           %small
