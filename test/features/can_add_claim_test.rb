@@ -21,6 +21,6 @@ class CanAddClaimTest < Capybara::Rails::TestCase
     click_button 'Am I underpaid?'
 
     # Integration tests pose an interesting puzzle: testing i18n content
-    assert_equal current_path, pages_path(page: "estimate")
+    assert_includes current_path, pages_path(page: "estimate")
   end
 end

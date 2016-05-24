@@ -3,12 +3,13 @@
   %p= t('documents.documents.empty')
 - else
   %ul
-    - documents.each do |doc|
+    - documents.sort_by(&:coverage_midpoint).each do |doc|
       %li
-        = link_to admin_document_path(doc) do
-          - if doc.evidence.present? && doc.evidence.is_image?
-            = image_tag(doc.evidence.thumb.url)
-          = basename(doc)
+        - if doc.evidence.present? && doc.evidence.is_image?
+          = link_to image_tag(doc.evidence.thumb.url), doc
+        = succeed ":" do
+          = link_to basename(doc), doc
+        = doc.coverage_start_date.iso8601 + " – " + doc.coverage_end_date.iso8601
         - if current_user.owns?(doc) && !current_user.locked?
           %small
             (

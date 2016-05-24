@@ -20,6 +20,12 @@ class Document < ActiveRecord::Base
     Array(coverage_start_date..coverage_end_date)
   end
   
+  def coverage_midpoint
+    diff_bisect = (coverage_end_date - coverage_start_date).to_i / 2
+    
+    coverage_start_date + diff_bisect
+  end
+  
   # Document#fy
   # Returns the financial year in which the document has more days, or the
   # earlier year if equal.
