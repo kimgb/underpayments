@@ -12,22 +12,57 @@
   .form-group
     = f.label :name, "Campaign name"
     = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :intro, "Introduction text"
+    = f.text_area :intro, class: "form-control", rows: 4
 
   %fieldset
     %legend.h3= "Custom appearance"
     = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|
+      -# headings; links; nav bg; nav text; nav btn bg/text; btn bg; btn text; body bg; body text
       .form-group
-        = s.label :link_color, "Primary colour - e.g. links, buttons, navigation"
-        = s.text_field :link_color, class: "form-control", value: (@group.link_color || "#F5003D")
+        = s.label :headings_color, "Headings colour"
+        = s.text_field :headings_color, class: "form-control", value: (@group.headings_color || "#0b8842")
       .form-group
-        = s.label :headings_color, "Secondary colour - e.g. headings"
-        = s.text_field :headings_color, class: "form-control", value: (@group.headings_color || "#0B8842")
+        = s.label :link_color, "Link colour"
+        = s.text_field :link_color, class: "form-control", value: (@group.link_color || "#f5003d")
       .form-group
-        = s.label :text_color, "Base text colour"
-        = s.text_field :text_color, class: "form-control", value: (@group.text_color || "#DDDDDD")
+        = s.label :nav_bg_color, "Nav background colour"
+        = s.text_field :nav_bg_color, class: "form-control", value: (@group.nav_bg_color || "#7b001f")
       .form-group
-        = s.label :background_color, "Background colour"
-        = s.text_field :background_color, class: "form-control", value: (@group.background_color || "#161616")
+        = s.label :nav_text_color, "Nav text colour"
+        = s.text_field :nav_text_color, class: "form-control", value: (@group.nav_text_color || "#ddd")
+      -# .form-group
+      -#   = s.label :nav_btn_bg, "Nav button background"
+      -#   = s.text_field :nav_btn_bg, class: "form-control", value: (@group.nav_btn_bg || "")
+      -# .form-group
+      -#   = s.label :nav_btn_text, "Nav button text"
+      -#   = s.text_field :nav_btn_text, class: "form-control", value: (@group.nav_btn_text || "")
+      .form-group
+        = s.label :btn_bg_color, "Button background colour"
+        = s.text_field :btn_bg_color, class: "form-control", value: (@group.btn_bg_color || "#a9002a")
+      .form-group
+        = s.label :btn_text_color, "Button text colour"
+        = s.text_field :btn_text_color, class: "form-control", value: (@group.btn_text_color || "#ddd")
+      .form-group
+        = s.label :body_bg_color, "Base background colour"
+        = s.text_field :body_bg_color, class: "form-control", value: (@group.body_bg_color || "#161616")
+      .form-group
+        = s.label :body_text_color, "Base text colour"
+        = s.text_field :body_text_color, class: "form-control", value: (@group.body_text_color || "#ddd")
+      
+      -# .form-group
+      -#   = s.label :link_color, "Primary colour - e.g. links, buttons, navigation"
+      -#   = s.text_field :link_color, class: "form-control", value: (@group.link_color || "#F5003D")
+      -# .form-group
+      -#   = s.label :headings_color, "Secondary colour - e.g. headings"
+      -#   = s.text_field :headings_color, class: "form-control", value: (@group.headings_color || "#0B8842")
+      -# .form-group
+      -#   = s.label :text_color, "Base text colour"
+      -#   = s.text_field :text_color, class: "form-control", value: (@group.text_color || "#DDDDDD")
+      -# .form-group
+      -#   = s.label :background_color, "Background colour"
+      -#   = s.text_field :background_color, class: "form-control", value: (@group.background_color || "#161616")
   
   #preview
   

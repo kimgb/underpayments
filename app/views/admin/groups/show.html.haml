@@ -12,8 +12,12 @@
   %ul
     %li= "Primary colour: #{@group.link_color}"
     %li= "Secondary colour: #{@group.headings_color}"
-    %li= "Base text colour: #{@group.text_color}"
-    %li= "Background colour: #{@group.background_color}"
+    %li= "Base text colour: #{@group.body_text_color}"
+    %li= "Background colour: #{@group.body_bg_color}"
+    %li= "Button background: #{@group.btn_bg_color}"
+    %li= "Button text: #{@group.btn_text_color}"
+    %li= "Nav background: #{@group.nav_bg_color}"
+    %li= "Nav text: #{@group.nav_text_color}"
 
 = link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
 = link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

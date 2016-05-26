@@ -363,7 +363,7 @@ zh-TW:
               taken: 已經有人使用了
 
   errors:
-    format: "%{提供} %{訊息}"
+    format: "%{attribute} %{message}"
     messages:
       not_saved:
         one: "錯誤%{resource} 系統無法儲存:"

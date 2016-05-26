@@ -72,7 +72,7 @@ class Admin::GroupsController < Admin::BaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:supergroup_id, :name, :slug).tap do |whitelisted|
+      params.require(:group).permit(:supergroup_id, :name, :slug, :intro).tap do |whitelisted|
         whitelisted[:skin] = params[:group][:skin]
       end
     end
