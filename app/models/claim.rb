@@ -221,7 +221,9 @@ class Claim < ActiveRecord::Base
   # Returns a set of days that are covered by documents of a certain evidence 
   # type, default :wage_evidence.
   def document_coverage(evidence = :wage_evidence)
-    Set.new(documents.where(evidence => true).inject([]) { |memo, doc| memo + doc.days }.sort)
+    documents.where(evidence => true)
+      .sort_by(&:coverage_start_date)
+      .map(&:days).reduce(:+) || Set.new
   end
 
   # Claim#coverage_gaps()
@@ -377,7 +379,7 @@ class Claim < ActiveRecord::Base
   # Returns number of weeks between two Date objects. Inputs are Date objects
   # because days are the unit for arithmetic ops.
   def weeks_worked(period_start = employment_began_on, period_end = employment_ended_on)
-    (period_end - period_start) / 7.0
+    Set.new(period_start..period_end).size / 7.0
   end
   
   # Claim#estimated_hours_worked()

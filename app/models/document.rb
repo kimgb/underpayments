@@ -17,7 +17,7 @@ class Document < ActiveRecord::Base
   # calculating gaps - get an array of days of employment and an array of days of documents
   # subtract the unique document days from the employment days, any zones left are gaps
   def days
-    Array(coverage_start_date..coverage_end_date)
+    Set.new(coverage_start_date..coverage_end_date)
   end
   
   def coverage_midpoint
@@ -31,15 +31,17 @@ class Document < ActiveRecord::Base
   # earlier year if equal.
   # Alternative behaviour: pro rated hours when split over two fy's.
   def fy
-    if coverage_start_date.fy == coverage_end_date.fy
-      coverage_start_date.fy
-    else
-      # (coverage_start_date..coverage_end_date).to_a.group_by(&:fy) ...
-      days_before = (coverage_start_date - coverage_start_date.end_of_fy).to_i.abs
-      days_after = (coverage_end_date - coverage_end_date.beginning_of_fy).to_i.abs
-      
-      days_before < days_after ? coverage_end_date.fy : coverage_start_date.fy
-    end
+    return coverage_start_date.fy if coverage_start_date.fy == coverage_end_date.fy
+
+    # if we got past the above line, find the dominant financial year
+    dominant_fy
+  end
+  
+  def dominant_fy
+    days_by_year = (coverage_start_date..coverage_end_date).to_a.group_by(&:fy)
+    
+    # this should return the earlier year in the event of a tie
+    days_by_year.values.max_by(&:size).first.fy
   end
   
   def locked?
