@@ -37,6 +37,11 @@ class ClaimTest < ActiveSupport::TestCase
     assert claims(:basic_proper).stolen_wages.zero?
   end
   
+  test "wages from evidence should only consider wage documents" do
+    assert_equal "3000.0", claims(:underpaid_w_multi_docs).send(:wages_from_evidence).to_s
+    refute_equal "7000.0", claims(:underpaid_w_multi_docs).send(:wages_from_evidence).to_s
+  end
+  
   test "employment duration" do
     b_under = claims(:basic_underpaid)
     employment_days_int = b_under.days.size

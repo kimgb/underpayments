@@ -245,7 +245,7 @@ class Claim < ActiveRecord::Base
     end.to_a
   end
 
-  # Claim#coverage_complete?()
+  # Claim#plete?()
   # If there are no gaps for the evidence type, we have complete coverage.
   def coverage_complete?(evidence = :wage_evidence)
     coverage_gaps(evidence).empty?
@@ -350,7 +350,7 @@ class Claim < ActiveRecord::Base
   # Claim#wages_from_evidence()
   # Simply sums the values of associated documents' wages attribute.
   def wages_from_evidence
-    documents.sum(:wages)
+    documents.where(wage_evidence: true).sum(:wages)
   end
   
   # Claim#min_award_pay_from_evidence()

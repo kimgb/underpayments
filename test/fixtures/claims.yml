@@ -32,3 +32,9 @@ poultry_underpaid:
   <<: *underpaid
   id: 4
   award: poultry
+  
+underpaid_w_multi_docs:
+  <<: *underpaid
+  id: 5
+  employment_began_on: 2015-06-01
+  employment_ended_on: 2016-07-30

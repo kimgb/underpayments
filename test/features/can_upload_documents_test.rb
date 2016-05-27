@@ -6,7 +6,7 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
 
   def setup
     user = users(:owner)
-    claim = claims(:basic)
+    claim = claims(:basic_underpaid)
     profile = profiles(:basic)
     user.claim = claim
     user.profile = profile
