@@ -2,7 +2,8 @@ require_relative '../test_helper'
 
 class ClaimTest < ActiveSupport::TestCase  
   test "Claim::presentable_attributes" do
-    skip "best way to test a whitelist function?"
+    assert_includes Claim.presentable_attributes, "lost_wages"
+    refute_includes Claim.presentable_attributes, "id"
   end
   
   test "#display_affidavit?" do
@@ -25,21 +26,24 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "ownership" do
-    assert_equal claims(:basic_underpaid).owner, claims(:basic_underpaid).user
-    assert_equal nil, Claim.new.owner
+    under = claims(:basic_underpaid)
     
-    assert_includes claims(:basic_underpaid).owners, claims(:basic_underpaid).user
+    assert_equal under.owner, under.user
+    assert_equal nil, Claim.new.owner
+    assert_includes under.owners, under.user
     assert_empty Claim.new.owners
   end
   
   test "#stolen_wages" do
     assert claims(:basic_underpaid).stolen_wages > 0
+    assert claims(:underpaid_w_multi_docs).stolen_wages > 0
     assert claims(:basic_proper).stolen_wages.zero?
   end
   
   test "wages from evidence should only consider wage documents" do
-    assert_equal "3000.0", claims(:underpaid_w_multi_docs).send(:wages_from_evidence).to_s
-    refute_equal "7000.0", claims(:underpaid_w_multi_docs).send(:wages_from_evidence).to_s
+    wfe = claims(:underpaid_w_multi_docs).send(:wages_from_evidence)
+    
+    assert_equal "3000.0", wfe.to_s
   end
   
   test "employment duration" do
@@ -51,8 +55,10 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "proper award names" do
-    assert_equal claims(:hort_underpaid).proper_award, "Horticulture Award 2010"
-    assert_equal claims(:poultry_underpaid).proper_award, "Poultry Processing Award 2010"
+    assert_equal "Horticulture Award 2010", Claim.new(award: "horticulture").proper_award
+    assert_equal "Poultry Processing Award 2010", Claim.new(award: "poultry").proper_award
+    assert_equal "Storage Services Award 2010", Claim.new(award: "storage").proper_award
+    assert_equal "National Employment Standards", Claim.new(award: "no_award").proper_award
   end
   
   test "award minimums" do
@@ -61,25 +67,23 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "#document_coverage should be a set" do
-    assert_instance_of Set, claims(:basic_underpaid).document_coverage
   end
   
-  test "#coverage_gaps" do
-    basic, proper = claims(:basic_underpaid), claims(:basic_proper)
-    employment_days_arr = [Array(basic.employment_began_on..basic.employment_ended_on)]
+  test "coverage testing" do
+    under, proper = claims(:basic_underpaid), claims(:basic_proper)
+    employment_days_arr = [Array(under.employment_began_on..under.employment_ended_on)]
     
+    assert_instance_of Set, under.document_coverage
     assert_equal employment_days_arr, proper.coverage_gaps
-    assert_empty basic.coverage_gaps
-  end
-  
-  test "#coverage_complete?" do
-    refute claims(:basic_proper).coverage_complete?
-    assert claims(:basic_underpaid).coverage_complete?
+    refute proper.coverage_complete?
+    assert_empty under.coverage_gaps
+    assert under.coverage_complete?
   end
   
   test "time estimation" do
     b_under = claims(:basic_underpaid)
-    year_1_weeks = b_under.send(:weeks_worked, b_under.employment_began_on, b_under.employment_began_on.end_of_fy)
+    ebo = b_under.employment_began_on
+    year_1_weeks = b_under.send(:weeks_worked, ebo, ebo.end_of_fy)
     year_1_hours = year_1_weeks * b_under.weekly_hours
     
     assert_equal year_1_hours, b_under.send(:estimated_hours_worked_by_year).values[0]

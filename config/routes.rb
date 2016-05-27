@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post "/emailin", to: "incoming_messages#create"
+  get "/emailin", to: "incoming_messages#create"
+  
   # REMINDER shallow nests index, new, create actions
   scope "(:skin)" do
     namespace :admin do
@@ -51,5 +54,4 @@ Rails.application.routes.draw do
     get "/pages/:page", to: "pages#show", as: :pages
 
   end
-
 end

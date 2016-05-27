@@ -23,14 +23,8 @@ basic_proper:
   <<: *proper
   id: 2
   
-hort_underpaid:
-  <<: *underpaid
-  id: 3
-  award: horticulture
-  
 poultry_underpaid: 
   <<: *underpaid
-  id: 4
   award: poultry
   
 underpaid_w_multi_docs:
