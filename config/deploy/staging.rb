@@ -1,6 +1,9 @@
+server '188.166.237.32', port: 22, roles: [:web, :app, :db]
+
 set :branch,      'staging'
 set :application, 'underpaid_staging'
 set :stage,       :staging
+set :deploy_to,   "/home/#{fetch(:user)}/apps/#{fetch(:application)}"
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."

@@ -1,5 +1,8 @@
 server 'robbed.nuw.org.au', port: 22, roles: [:web, :app, :db], primary: true
 
+set :stages, ["staging", "production"]
+set :default_stage, "staging"
+
 set :repo_url,    'git@github.com:kimgb/underpayments.git'
 set :user,        'deploy'
 set :puma_threads, [4, 16]
@@ -62,7 +65,6 @@ namespace :deploy do
     invoke 'deploy:assets:precompile_local'
     invoke 'deploy:assets:backup_manifest'
   end
-
 
   namespace :assets do
     desc "Precompile assets locally and then rsync to web servers" 
