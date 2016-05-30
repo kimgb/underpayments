@@ -1,5 +1,5 @@
-set :application, 'underpaid_staging'
 set :branch,      'staging'
+set :application, 'underpaid_staging'
 set :stage,       :staging
 
 # server-based syntax
