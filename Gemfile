@@ -4,6 +4,9 @@ ruby '2.3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.5'
+# this gem causes me no end of trouble
+gem 'unf_ext', '~> 0.0.7'
+
 # Use Puma as the web server
 gem 'puma'
 # Use postgresql as the database for Active Record
