@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resource :incoming_message, only: [:create]
   
   # REMINDER shallow nests index, new, create actions
-  scope "(:skin)" do
+  scope "(:skin)", skin: /[a-z-]+/ do
     namespace :admin do
       root "users#index"
 

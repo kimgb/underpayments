@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
     @skin ||= Group.friendly.find(params[:skin]) unless params[:skin].nil?
     @skin ||= Group.find(current_user.group_id) if user_signed_in?
   rescue ActiveRecord::RecordNotFound => err
-    unless params[:skin].nil?
+    unless params[:skin].blank?
       flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
     end
   ensure

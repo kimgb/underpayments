@@ -1,3 +1,7 @@
+set :application, 'underpaid_staging'
+set :branch,      'staging'
+set :stage,       :staging
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
