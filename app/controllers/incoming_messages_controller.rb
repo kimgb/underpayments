@@ -1,6 +1,7 @@
 class IncomingMessagesController < ApplicationController
-  skip_before_action :verify_authenticity_token
-  # POST /emailin
+  skip_before_action :verify_authenticity_token, :set_locale, :authenticate_user!
+  
+  # POST /incoming_messages
   def create
     notifier = Slack::Notifier.new ENV["slack_webhook_url"], 
       channel: '#development'

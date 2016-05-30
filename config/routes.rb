@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  post "/emailin", to: "incoming_messages#create"
-  get "/emailin", to: "incoming_messages#create"
+  resource :incoming_message, only: [:create]
   
   # REMINDER shallow nests index, new, create actions
   scope "(:skin)" do
