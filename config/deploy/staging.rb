@@ -1,4 +1,4 @@
-server '188.166.237.32', port: 22, roles: [:web, :app, :db]
+server '188.166.237.32', port: 22, roles: [:web, :app, :db], primary: true
 
 set :branch,      'staging'
 set :application, 'underpaid_staging'

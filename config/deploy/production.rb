@@ -1,3 +1,5 @@
+server 'robbed.nuw.org.au', port: 22, roles: [:web, :app, :db], primary: true
+
 set :branch,      'master'
 set :application, 'underpaid'
 set :stage,       :production

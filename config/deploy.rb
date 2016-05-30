@@ -1,5 +1,3 @@
-server 'robbed.nuw.org.au', port: 22, roles: [:web, :app, :db], primary: true
-
 set :stages, ["staging", "production"]
 set :default_stage, "staging"
 
