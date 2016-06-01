@@ -17,7 +17,7 @@
         = render partial: 'layouts/authentication'
 
 
-      %main
+      %main{ style: "padding-bottom: 60px;" }
         #flash
           - if notice
             %p.notice.text-info= notice
@@ -33,6 +33,10 @@
 
           :markdown
             #{ t('.footer') }
+            
+      .language-picker.text-right{ style: "position: fixed; width: 100%; bottom: 0; height: 50px; padding: 1rem; z-index: 10; background-color: black;" }
+        - t('helpers.profiles.languages_list').except(session[:locale]).each do |key, locale|
+          = link_to locale, params.merge(locale: key), class: "btn btn-default btn-sm"
         
     - if @skin
       :scss

@@ -385,9 +385,10 @@ en:
         unknown: I don't know
       awards:
         no_award: Not listed / I don't know
-        horticulture: Horticulture
-        poultry: Poultry Processing
-        storage: Storage Services
+        horticulture: Horticulture, e.g. fruit picking
+        poultry: Poultry processing
+        storage: Storage services
+        meat: Meat industry
     addresses:
       states_list:
         ACT: Australian Capital Territory
@@ -662,7 +663,8 @@ en:
     profiles:
       languages_list:
         en-AU: English (Australian)
-        zh-TW: Chinese (Taiwanese)
+        zh-TW: 中文 (繁體中文)
+        # zh-TW: Chinese (Taiwanese)
       visas_list:
         citizen: Australian citizen
         resident: Australian permanent resident

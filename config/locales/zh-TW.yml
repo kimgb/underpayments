@@ -286,11 +286,11 @@ zh-TW:
       
   pages:
     estimate:
-      explanation: By the numbers, you were paid %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
-      underpaid: This means you were underpaid
-      recover: Want to get it back?
-      action: Let's fix this!
-      not_underpaid: You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member, <a href="https://www.nuw.org.au">contact us</a> and we may be able to look into your case.
+      explanation: 根據你提供的數據, 你實際收到的基本薪資是%{actual_pay}. 按全澳法定最低時薪計算, 你應該獲得的基本薪資應該是%{award_pay}.
+      underpaid: 這意味著你有被欠薪資
+      recover: 想追回被欠的薪資嗎?
+      action: 行動吧!
+      not_underpaid: 也許你曾經工作過的職業符合比全澳法定最低時薪更高的某行業薪資標準. 如果你是NUW工會會員, <a href="https://www.nuw.org.au">請和我們聯繫</a> 我們可以更詳細地評估你的欠薪案.
 
   admin:
     claims:
@@ -384,7 +384,8 @@ zh-TW:
         no_award: 以上皆非 / 我不知道
         horticulture: 農業
         poultry: 雞肉處理產業
-        storage: Storage Services
+        storage: Storage services
+        meat: Meat industry
     addresses:
       states_list:
         ACT: 澳大利亞首都地區
@@ -658,7 +659,8 @@ zh-TW:
         ZZ: 未知地區
     profiles:
       languages_list:
-        en-AU: 英語 (澳式英語)
+        en-AU: English (Australian)
+        # en-AU: 英語 (澳式英語)
         # zh: 中文 (簡體中文)
         zh-TW: 中文 (繁體中文)
         # vi: 越南語
