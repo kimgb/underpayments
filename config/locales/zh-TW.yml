@@ -143,7 +143,7 @@ zh-TW:
         missing: 你尚未填入雇主資訊及工作地點喔!
         complete: 聘僱公司詳細資料
       document:
-        new: 提交文件
+        new: 新增更多證據
       no_evidence: "如果你無法提供任何的文件資料作為佐證，包括: 薪資明細 或是 銀行轉帳證明等，為了讓你的欠薪申訴案件能夠成立，你必須要至少提供其他必填的資料，接下來你方可使用聲明書來作為證明。"
       add_affidavit: 新增聲明書
       affidavit_locked: "(你需要填妥所有系統所需資料才能送出聲明書.)"
@@ -211,12 +211,12 @@ zh-TW:
       title: 有效證據
       empty: 你尚未上傳任何資料
     new:
-      title: 新增文件
+      title: 新增證據文件
       evidence: 上傳文件或圖檔
       statement: 或，寫下你的聲明書
       affidavit: 自動產出聲明書
       coverage_start_date: "這份文件所指的時間為:"
-      coverage_end_date: "給:"
+      coverage_end_date: "至日期:"
       wage_evidence: 這份文件為我的薪資證明
       time_evidence: 這份資料為我的總工作時數
       wages: "你所領取的總薪資?"
@@ -226,7 +226,7 @@ zh-TW:
       title: Edit document
       statement: Edit your statement
       coverage_start_date: "這份文件所指的時間為:"
-      coverage_end_date: "給:"
+      coverage_end_date: "至日期:"
       wage_evidence: 這份文件為我的薪資證明
       time_evidence: 這份資料為我的總工作時數
       wages: "你所領取的總薪資?"
@@ -384,8 +384,8 @@ zh-TW:
         no_award: 以上皆非 / 我不知道
         horticulture: 農業
         poultry: 雞肉處理產業
-        storage: Storage services
-        meat: Meat industry
+        storage: 倉儲服務業
+        meat: 肉類加工業
     addresses:
       states_list:
         ACT: 澳大利亞首都地區

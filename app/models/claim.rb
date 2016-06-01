@@ -215,6 +215,7 @@ class Claim < ActiveRecord::Base
     when "horticulture" then "Horticulture Award 2010"
     when "poultry" then "Poultry Processing Award 2010"
     when "storage" then "Storage Services Award 2010"
+    when "meat" then "Meat Industry Award 2010"
     when "no_award" then "National Employment Standards"
     end
   end

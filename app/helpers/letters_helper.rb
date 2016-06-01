@@ -15,6 +15,7 @@ module LettersHelper
     [
       ["assistpoultry@nuw.org.au", "assistpoultry@nuw.org.au"],
       ["assistfruitveg@nuw.org.au", "assistfruitveg@nuw.org.au"],
+      ["assistmeat@nuw.org.au", "assistmeat@nuw.org.au"],
       ["nuwassist@nuw.org.au", "nuwassist@nuw.org.au"]
     ]
   end

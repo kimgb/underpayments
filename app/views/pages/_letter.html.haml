@@ -6,7 +6,7 @@
 :markdown
   Dear #{ @entity.employer.name },
 
-  We write on behalf of National Union of Workers (**the NUW**) member #{ @entity.profile.full_name }, who was formerly employed by #{ @entity.employer.name }, as a #{ @entity.claim.employment_type.downcase } employee at #{ @entity.employer.name }.
+  We write on behalf of National Union of Workers (**the NUW**) member #{ @entity.profile.full_name }, who was formerly employed by #{ @entity.employer.name }, as a #{ @entity.claim.employment_type.downcase } employee at #{ @entity.workplace.name }.
 
   #{ @entity.profile.full_name } has advised us that during their employment with #{ @entity.employer.name }, they were paid a flat rate of #{ number_to_currency(@entity.claim.hourly_pay) } per hour.
 
