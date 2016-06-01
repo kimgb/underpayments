@@ -12,10 +12,10 @@ class UserMailer < ActionMailer::Base
     mail(to: @user.email, subject: "You're on your way to getting your lost wages back")
   end
 
-  def generic_email_with_token(recipient, sender, message)
-    mail to:      recipient.email,
-         from:    sender.email,
-         subject: message.subject,
-         body:    message.body
+  def generic_email_with_token(recipient, sender, subject, body)
+    mail to:      recipient,
+         from:    sender,
+         subject: subject,
+         body:    body
   end
 end

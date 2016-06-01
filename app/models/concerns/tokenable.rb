@@ -2,7 +2,7 @@ module Tokenable
   extend ActiveSupport::Concern
 
   included do
-    before_create :generate_token
+    after_initialize :generate_token
   end
 
   protected

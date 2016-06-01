@@ -8,8 +8,12 @@ class IncomingMessagesController < ApplicationController
     @message = Message.new(transform_message_params)
     @message.parent_message = Message.find_by_token(@message.responder_token)
     @message.claim = @message.parent_message.claim if @message.parent_message
+    @message.tokenize_sender!
     
-    notifier.ping "Underpayments: A message was received from #{@message.sender}, sent to #{@message.recipient} with the subject #{@message.subject}."
+    notifier.ping "Underpayments: A message was received from #{@message.sender}, for #{final_recipient} with the subject #{@message.subject}."
+    
+    UserMailer.generic_email_with_token(@message.intended_recipient, @message.sender, 
+      @message.subject, @message.full_plain).deliver_now
     
     respond_to do |format|
       if @message.save
@@ -31,6 +35,7 @@ class IncomingMessagesController < ApplicationController
     lookup = { full_plain: :"body-plain", full_html: :"body-html", sent_at: :timestamp,
       stripped_plain: :"stripped-text", stripped_html: :"stripped-html" }
     lookup.each { |key, p_key| t_params[key] = t_params.delete(p_key) }
+    t_params[:sent_at] = DateTime.strptime("#{t_params[:sent_at]}", '%s')
     
     t_params
   end

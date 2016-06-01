@@ -8,9 +8,22 @@ class Message < ActiveRecord::Base
 
   attr_accessor :unlock  
   
+  def tokenize_sender!
+    sender_with_token = sender.split("@")
+    sender_with_token[0] += "+#{token}"
+    
+    sender = sender_with_token.join("=") + "@mg.nuw.org.au"    
+    
+    self.save
+  end
+  
+  def intended_recipient
+    recipient.split("@")[0].gsub("=", "@")
+  end
+  
   def responder_token
     if token_idx = recipient =~ /\+/
-      token_end_idx = recipient =~ /@/
+      token_end_idx = recipient =~ /[@=]/
       recipient[token_idx+1..token_end_idx-1]
     end
   end

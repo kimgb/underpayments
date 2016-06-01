@@ -9,11 +9,23 @@ class Admin::MessagesController < Admin::BaseController
   # POST /admin/users/1/messages
   def create
     @message = Message.new(message_params)
-    UserMailer.generic_email_with_token(@user, current_user, @message).deliver_now
-    
-    @claim.update_attributes(submitted_for_review: false) if unlock_claim?
+    @message.sender = current_user.email
+    @message.tokenize_sender!
 
-    redirect_to admin_user_path(@user), notice: "Message sent."
+    @message.recipient = @user.email
+    @message.claim = @claim
+    
+    if @message.save
+      UserMailer.generic_email_with_token(@message.recipient, @message.sender, 
+        @message.subject, @message.full_plain).deliver_now
+      
+      @message.update_attributes(sent_at: Time.now.to_i)
+      @claim.update_attributes(submitted_for_review: false) if unlock_claim?
+      
+      redirect_to admin_user_path(@user), notice: "Message sent."
+    else
+      render :new
+    end
   end
 
   private
@@ -24,7 +36,7 @@ class Admin::MessagesController < Admin::BaseController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :body)
+    params.require(:message).permit(:subject, :full_plain)
   end
   
   def unlock_claim?
