@@ -57,7 +57,7 @@ en:
       title: UNDERPAID?
       byline: (...or just overworked?)
       footer: |
-        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-05-20">20 May, 2016</time>.
+        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-06-01">1 June, 2016</time>.
     authentication:
       signed_in: Signed in as
       sign_out: Sign out
