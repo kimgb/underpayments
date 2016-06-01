@@ -12,7 +12,8 @@
     .form-group
       = fa.label :province, class: "control-label"
       %br/
-      = fa.select :province, options_for_select(states_list, address.province), {}, { class: "form-control", placeholder: "Type your state..." }
+      -# = fa.select :province, options_for_select(states_list, address.province), {}, { class: "form-control", placeholder: "Type your state..." }
+      = fa.text_field :province, class: "form-control"
     .form-group
       = fa.label :postal_code, class: "control-label"
       %br/
