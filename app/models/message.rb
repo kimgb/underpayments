@@ -9,12 +9,10 @@ class Message < ActiveRecord::Base
   attr_accessor :unlock  
   
   def tokenize_sender!
-    sender_with_token = sender.split("@")
+    sender_with_token = self.sender.split("@")
     sender_with_token[0] += "+#{token}"
     
-    sender = sender_with_token.join("=") + "@mg.nuw.org.au"    
-    
-    self.save
+    self.update_attributes(sender: (sender_with_token.join("=") + "@mg.nuw.org.au"))
   end
   
   def intended_recipient

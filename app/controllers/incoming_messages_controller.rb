@@ -35,7 +35,7 @@ class IncomingMessagesController < ApplicationController
     lookup = { full_plain: :"body-plain", full_html: :"body-html", sent_at: :timestamp,
       stripped_plain: :"stripped-text", stripped_html: :"stripped-html" }
     lookup.each { |key, p_key| t_params[key] = t_params.delete(p_key) }
-    t_params[:sent_at] = DateTime.strptime("#{t_params[:sent_at]}", '%s')
+    t_params[:sent_at] = DateTime.strptime("#{t_params[:sent_at]}", '%s') rescue DateTime.now
     
     t_params
   end
