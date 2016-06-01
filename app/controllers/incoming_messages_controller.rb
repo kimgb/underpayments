@@ -9,7 +9,7 @@ class IncomingMessagesController < ApplicationController
     @message.parent_message = Message.find_by_token(@message.responder_token)
     @message.claim = @message.parent_message.claim if @message.parent_message
     
-    notifier.ping @message.to_json
+    notifier.ping "Underpayments: A message was received from #{@message.sender}, sent to #{@message.recipient} with the subject #{@message.subject}."
     
     respond_to do |format|
       if @message.save
@@ -22,13 +22,13 @@ class IncomingMessagesController < ApplicationController
   
   private
   def message_params
-    params.permit(:recipient, :sender, :subject, :from, :timestamp, 
+    params.permit(:recipient, :sender, :subject, :from, :sent_at, 
       :"stripped-text", :"body-plain", :"body-html", :"stripped-html")
   end
   
   def transform_message_params
     t_params = message_params.dup
-    lookup = { full_plain: :"body-plain", full_html: :"body-html", 
+    lookup = { full_plain: :"body-plain", full_html: :"body-html", sent_at: :timestamp,
       stripped_plain: :"stripped-text", stripped_html: :"stripped-html" }
     lookup.each { |key, p_key| t_params[key] = t_params.delete(p_key) }
     
