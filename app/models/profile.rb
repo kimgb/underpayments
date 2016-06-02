@@ -42,6 +42,7 @@ class Profile < ActiveRecord::Base
     { 
       "first_name" => given_name,
       "last_name" => family_name,
+      "preferred_name" => preferred_name,
       "mobile" => phone,
       "dob" => date_of_birth.strftime("%Y/%m/%d"),
       "gender" => gender

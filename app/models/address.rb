@@ -26,11 +26,12 @@ class Address < ActiveRecord::Base
   alias_method :done?, :valid?
   
   def join_form_params
-    { 
+    {
       "address1" => street_address,
       "suburb" => town,
       "state" => province,
-      "postcode" => postal_code
+      "postcode" => postal_code,
+      "country" => country
     }
   end
 end

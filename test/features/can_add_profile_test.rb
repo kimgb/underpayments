@@ -22,7 +22,7 @@ class CanAddProfileTest < Capybara::Rails::TestCase
 
     fill_in 'Address', with: "833 Bourke St"
     fill_in 'Suburb', with: "Docklands"
-    select "Victoria", from: "State"
+    fill_in 'State', with: "Victoria"
     fill_in 'Postcode', with: "3008"
     select "Australia", from: "Country"
 
