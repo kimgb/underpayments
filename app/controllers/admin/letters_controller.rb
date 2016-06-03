@@ -9,7 +9,7 @@ class Admin::LettersController < Admin::BaseController
   # POST /admin/users/1/letters
   def create
     @letter = Letter.new(letter_params)
-    @addressee = Company.find_by_name(letter_params[:addressee])
+    @addressee = Company.find_by_name(@letter.addressee)
     
     render :show, layout: false
   end
