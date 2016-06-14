@@ -20,7 +20,9 @@ class Admin::MessagesController < Admin::BaseController
         @message.subject, @message.full_plain).deliver_now
       
       @message.update_attributes(sent_at: Time.now.to_i)
-      @claim.update_attributes(submitted_for_review: false) if unlock_claim?
+      if unlock_claim? && @claim.present?
+        @claim.update_attributes(submitted_for_review: false)
+      end
       
       redirect_to admin_user_path(@user), notice: "Message sent."
     else
