@@ -27,6 +27,6 @@
 
   = render partial: "admin/documents/documents", locals: { documents: @user.claim.documents }
 
-- if @user.claim.presentable_companies.any?
-  - @user.claim.presentable_companies.each do |cc|
-    = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
+  - if @user.claim.presentable_companies.any?
+    - @user.claim.presentable_companies.each do |cc|
+      = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
