@@ -11,4 +11,6 @@
           = "<li>Workplace</li>".html_safe if user.claim.workplace
   %td= user.email
   %td= user.profile_phone
-  %td= link_to '', admin_user_path(user), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
+  %td 
+    - if user.profile.present?
+      = link_to '', admin_user_path(user), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
