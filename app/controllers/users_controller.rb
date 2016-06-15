@@ -25,6 +25,7 @@ class UsersController < ApplicationController
   # POST /users.json
   def create
     @user = User.new(user_params)
+    @user.group = @skin
     @user.claim = Claim.find(session[:claim_id]) if session[:claim_id].present?
 
     respond_to do |format|
