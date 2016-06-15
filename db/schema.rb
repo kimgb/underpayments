@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 20160628035609) do
   create_table "claims", force: :cascade do |t|
     t.string   "status"
     t.string   "comment"
-    t.string   "award"
     t.decimal  "weekly_hours",         precision: 10, scale: 2
     t.decimal  "hourly_pay",           precision: 10, scale: 2
     t.date     "employment_began_on"
@@ -72,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160628035609) do
     t.boolean  "pieceworker",                                   default: false
     t.integer  "point_person_id"
     t.date     "review_date"
+    t.string   "award"
   end
 
   add_index "claims", ["point_person_id"], name: "index_claims_on_point_person_id", using: :btree

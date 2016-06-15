@@ -4,9 +4,12 @@
   %fieldset
     %legend= t('.title')
 
-    .form-group
-      = f.label :award, t('.award'), class: "control-label"
-      = f.select :award, options_for_select(awards_list, (@claim.award || "no_award")), {}, { class: "form-control" }
+    - if @skin.awards_blank_or_singleton?
+      = f.hidden_field :award_id
+    - else
+      .form-group
+        = f.label :award_id, t('.award'), class: "control-label"
+        = f.select :award_id, options_for_select(@skin.awards_for_select, @claim.award), {}, { class: "form-control" }
 
     .form-group
       = f.label :weekly_hours, t('.weekly_hours'), class: "control-label"

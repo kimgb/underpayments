@@ -152,7 +152,7 @@ en:
       wage_evidence: "We need evidence of wages paid for:"
       time_evidence: "We need evidence of hours worked for:"
       to: until
-      award: Industry
+      award_short_name: Industry
       weekly_hours: Avg. hours per week
       hourly_pay: Hourly wage
       employment_began_on: Employment began on

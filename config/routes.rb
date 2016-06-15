@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       resources :addresses, only: [:edit, :update, :destroy]
       resources :documents, only: [:show, :edit, :update, :destroy]
 
-      resources :supergroups, :groups
+      resources :supergroups, :groups, :awards
 
       get "/preview", to: "previews#show"
     end

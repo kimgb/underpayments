@@ -16,4 +16,16 @@ class Group < ActiveRecord::Base
   #     raise(NoMethodError, "undefined method `#{method}' for #{self.to_s}")
   #   end
   # end
+  
+  def awards_for_select
+    awards.to_a.map(&:reverse).map { |str, k| [str, Award.friendly.find(k).id] }
+  end
+  
+  def awards_blank_or_singleton?
+    awards.blank? || awards.size == 1
+  end
+  
+  def singleton_award
+    awards.keys.first || "nes" #National Employment Standards
+  end
 end

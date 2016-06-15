@@ -14,11 +14,13 @@ class Admin::GroupsController < Admin::BaseController
 
   # GET /admin/groups/new
   def new
+    @awards = Award.all
     @group = Group.new
   end
 
   # GET /admin/groups/1/edit
   def edit
+    @awards = Award.all
   end
 
   # POST /admin/groups
@@ -74,6 +76,7 @@ class Admin::GroupsController < Admin::BaseController
     def group_params
       params.require(:group).permit(:supergroup_id, :name, :slug, :intro).tap do |whitelisted|
         whitelisted[:skin] = params[:group][:skin]
+        whitelisted[:awards] = params[:group][:awards].reject { |k,v| v.blank? }
       end
     end
 end

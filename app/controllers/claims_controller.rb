@@ -5,13 +5,6 @@ class ClaimsController < ApplicationController
   before_action :confirm_unlocked!, only: [:edit, :update, :destroy]
   skip_before_action :authenticate_user!, only: [:new, :create]
 
-  # set_employer?
-
-  # GET /claims
-  def index
-    @claims = Claim.select(&:ready_to_submit?)
-  end
-
   # GET /claims/1
   def show
     redirect_to @claim.user
@@ -22,6 +15,9 @@ class ClaimsController < ApplicationController
     redirect_to current_user if current_user && current_user.claim.present?
 
     @claim = Claim.new
+    if @skin.awards_blank_or_singleton?
+      @claim.award = Award.friendly.find(@skin.singleton_award)
+    end
   end
 
   # GET /claims/1/edit
@@ -99,7 +95,7 @@ class ClaimsController < ApplicationController
   end
 
   def claim_params
-    params.require(:claim).permit(:award, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+    params.require(:claim).permit(:award_id, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
   end
 
   def authorise_owner!

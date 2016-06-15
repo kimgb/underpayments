@@ -1,0 +1,30 @@
+= form_for([:admin, @award], html: { class: "form", multipart: true }) do |f|
+  - if @award.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@award.errors.count, "error")} prohibited this award from being saved:"
+      %ul
+        - @award.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label :name, "Full name of award, e.g. 'Poultry Processing Award 2010'"
+    = f.text_field :name, class: "form-control"
+  .form-group
+    = f.label :short_name, "Short name of award, e.g. 'poultry' or 'poultry processing'"
+    = f.text_field :short_name, class: "form-control"
+  .form-group
+    = f.label :default_minimum
+    = f.number_field :default_minimum, class: "form-control",  min: "0", step: "0.01"
+  .row
+    .col-sm-6
+      = f.fields_for :min_permanent_rates, OpenStruct.new(f.object.min_permanent_rates) do |pr|
+        - Array(2010..Time.now.year).reverse.each do |yr|
+          = pr.label :"#{yr}", "Level 1 permanent rate for #{yr}-#{yr+1}"
+          = pr.number_field :"#{yr}", class: "form-control", min: "0", step: "0.01"
+    .col-sm-6
+      = f.fields_for :min_casual_rates, OpenStruct.new(f.object.min_casual_rates) do |cr|
+        - Array(2010..Time.now.year).reverse.each do |yr|
+          = cr.label :"#{yr}", "Level 1 casual rate for #{yr}-#{yr+1}"
+          = cr.number_field :"#{yr}", class: "form-control",  min: "0", step: "0.01"
+  .actions.align-right
+    = f.submit 'Submit', class: "btn btn-default"

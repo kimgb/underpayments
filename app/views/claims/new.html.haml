@@ -4,6 +4,6 @@
   %h3{ role: "presentation" }
     = t('.title')
   :markdown
-    #{ t('.intro') }
+    #{ @skin.intro.blank? ? t('.intro') : @skin.intro }
 
 = render 'form', locals: { remote: true }

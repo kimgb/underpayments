@@ -1,0 +1,7 @@
+%h3 Listing awards
+- @awards.each do |award|
+  %p
+    = link_to "#{award.name}", admin_award_path(award)
+    = link_to 'Delete', admin_award_path(award), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-default btn-sm"
+  
+= link_to "New award", new_admin_award_path, class: "btn btn-default"

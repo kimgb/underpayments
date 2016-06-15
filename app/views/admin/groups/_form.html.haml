@@ -15,6 +15,19 @@
   .form-group
     = f.label :intro, "Introduction text"
     = f.text_area :intro, class: "form-control", rows: 4
+    
+  %fieldset
+    %legend.h3= "Awards"
+    = f.fields_for :awards, OpenStruct.new(f.object.awards) do |a|
+      %p= "Select each award you want to be available for your campaign, and then enter the text you want to be shown for users for that award."
+      - @awards.each do |award|
+        .checkbox
+          = label_tag award.slug + "-check" do
+            = check_box_tag award.slug + "-check", "", false, { class: "award-checkbox", data: { target: "##{award.slug}-text"} }
+            = award.name
+        .form-group.collapse{ id: "#{award.slug}-text" }
+          = a.label award.slug.to_sym, "What text should users see when selecting this award?"
+          = a.text_field award.slug.to_sym, class: "form-control"
 
   %fieldset
     %legend.h3= "Custom appearance"
@@ -87,6 +100,14 @@
       processResults: (data, params) ->
         results: $.map data, (item) ->
           text: item.name + " (" + item.short_name + ")", id: item.id
+          
+  $(".award-checkbox").on "click", (e) ->
+    tg = $(e.target).data('target')
+    
+    if e.target.checked
+      $(tg).show()
+    else
+      $(tg).hide()
           
   $("#generate-preview").on "click", (e) ->
     e.preventDefault();
