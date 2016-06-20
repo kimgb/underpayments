@@ -38,10 +38,10 @@ user.password = "ch3ng4M1chANGEmePrEtTYplz"
 user.save!
 
 home_address = Address.new(
-  street_address: "106/7 Warrs Ave", 
-  town: "Preston", 
-  province: "VIC", 
-  postal_code: "3072", 
+  street_address: "833 Bourke St",
+  town: "Docklands",
+  province: "VIC",
+  postal_code: "3008",
   country: "Australia"
 )
 home_address.save!

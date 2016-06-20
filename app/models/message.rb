@@ -4,7 +4,7 @@ class Message < ActiveRecord::Base
   
   belongs_to :claim
   belongs_to :parent_message, class_name: "Message", foreign_key: "parent_message_id"
-  has_many :replies, class_name: "Message" 
+  has_many :replies, class_name: "Message" , foreign_key: "parent_message_id"
 
   attr_accessor :unlock  
   
@@ -16,7 +16,11 @@ class Message < ActiveRecord::Base
   end
   
   def intended_recipient
-    recipient.split("@")[0].gsub("=", "@")
+    detokenize(recipient)
+  end
+  
+  def original_sender
+    detokenize(sender)
   end
   
   def responder_token
@@ -24,5 +28,11 @@ class Message < ActiveRecord::Base
       token_end_idx = recipient =~ /[@=]/
       recipient[token_idx+1..token_end_idx-1]
     end
+  end
+  
+  private
+  def detokenize(tokenized_email)
+    # Last gsub intended to remove token, may need testing
+    tokenized_email.split("@")[0].gsub("=", "@").gsub(/(\+[^@]*)/, "")
   end
 end

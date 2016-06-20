@@ -1,0 +1,11 @@
+%h4= "#{message.subject} (ID: ##{message.id})"
+%p= "From: #{message.original_sender}"
+%p= "To: #{message.recipient}"
+%p= message.full_plain
+.align-right
+  - if message.parent_message_id?
+    %small= "In reply to message ##{message.parent_message_id}"
+  - else
+    %small= "This message is the first in its chain."
+    %small= "It has #{pluralize(message.replies.size, 'reply')}."
+%hr

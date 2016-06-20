@@ -1,11 +1,13 @@
 %h3= "Claim: #{@user.email}"
-= link_to "Send a message", new_admin_user_message_path(@user), class: "btn btn-default btn-sm"
+= link_to "Send a message", new_admin_claim_message_path(@user.claim), class: "btn btn-default btn-sm"
 - if @user.claim.present?
   &ensp;
   = link_to "Letter of demand", new_admin_user_letter_path(@user), class: "btn btn-default btn-sm"
   -# = link_to "Letter of demand", pages_path(page: "letter", layout: "print", user_id: @user), class: "btn btn-default"
   &ensp;
   = render partial: "admin/claims/toggle_lock", locals: { claim: @user.claim }
+  &ensp;
+  = link_to "#{pluralize(@user.claim.messages.size, 'message')}", admin_claim_messages_path(@user.claim), class: "btn btn-default btn-sm"
   = render partial: "admin/claims/update_status", locals: { claim: @user.claim }
 
 %h3 

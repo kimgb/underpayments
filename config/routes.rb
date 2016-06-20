@@ -2,15 +2,18 @@ Rails.application.routes.draw do
   resource :incoming_message, only: [:create]
   
   # REMINDER shallow nests index, new, create actions
+  # This scope will cause complaints for `bundle exec` commands if you've not yet
+  # loaded the schema for the relevant environment.
   scope "(:skin)", skin: Regexp.new(Group.all.map(&:slug).join("|")), defaults: { skin: Group.first } do
     namespace :admin do
       root "users#index"
 
       resources :users, only: [:show, :index] do
-        resources :messages, only: [:new, :create]
         resources :letters, only: [:new, :create, :show]
       end
-      resources :claims, only: [:edit, :update]
+      resources :claims, only: [:edit, :update] do
+        resources :messages, only: [:index, :new, :create]
+      end
       resources :profiles, only: [:edit, :update]
       resources :companies, except: [:new, :create]
       resources :addresses, only: [:edit, :update, :destroy]
