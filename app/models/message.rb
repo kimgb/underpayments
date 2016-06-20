@@ -1,6 +1,7 @@
 # not persisted to database (does not inherit from ActiveRecord).
 class Message < ActiveRecord::Base
   include Tokenable
+  after_create :fill_bodies!
   
   belongs_to :claim
   belongs_to :parent_message, class_name: "Message", foreign_key: "parent_message_id"
@@ -16,11 +17,11 @@ class Message < ActiveRecord::Base
   end
   
   def intended_recipient
-    detokenize(recipient)
+    email_has_token?(recipient) ? detokenize(recipient) : recipient
   end
   
   def original_sender
-    detokenize(sender)
+    email_has_token?(sender) ? detokenize(sender) : sender
   end
   
   def responder_token
@@ -31,8 +32,20 @@ class Message < ActiveRecord::Base
   end
   
   private
+  def email_has_token?(email)
+    email.end_with?("@mg.nuw.org.au")
+  end
+  
   def detokenize(tokenized_email)
     # Last gsub intended to remove token, may need testing
     tokenized_email.split("@")[0].gsub("=", "@").gsub(/(\+[^@]*)/, "")
+  end
+  
+  def fill_bodies!
+    update_attributes(
+      stripped_plain: (stripped_plain || full_plain),
+      full_html: (full_html || full_plain.gsub(/\r?\n/, "<br/>")),
+      stripped_html: (stripped_html || full_plain.gsub(/\r?\n/, "<br/>"))
+    )
   end
 end
