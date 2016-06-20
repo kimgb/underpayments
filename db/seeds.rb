@@ -1,19 +1,15 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
 # Examples:
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-sg = Supergroup.new(
+sg = Supergroup.create(
   name: "National Union of Workers", 
   short_name: "NUW",
   description: "The NUW is a progressive, private sector union covering a range of industries, pushing hard for a better working life in Australia.",
   www: "https://www.nuw.org.au/"
 )
-sg.save!
 
-grp = Group.new(
+grp = Group.create(
   name: "Fair Food",
   skin: {
     "link_color" => "#F5003D",
@@ -27,7 +23,6 @@ grp = Group.new(
   },
   supergroup: sg
 )
-grp.save!
 
 user = User.new(
   email: "kbuckley@nuw.org.au", 
@@ -44,9 +39,8 @@ home_address = Address.new(
   postal_code: "3008",
   country: "Australia"
 )
-home_address.save!
 
-profile = Profile.new(
+profile = Profile.create(
   family_name: "Buckley", 
   given_name: "Kim", 
   preferred_name: "Kim",
@@ -59,15 +53,13 @@ profile = Profile.new(
   user: user,
   address: home_address
 )
-profile.save!
 
-claim = Claim.new(
+claim = Claim.create(
   award: "horticulture",
   weekly_hours: 35, 
   hourly_pay: 11.23, 
   employment_type: "casual", 
   employment_began_on: Date.new(2015, 02, 01), 
-  employment_ended_on: Date.new(2015, 10, 01)
+  employment_ended_on: Date.new(2015, 10, 01),
+  user: user
 )
-claim.user = user
-claim.save!

@@ -14,17 +14,34 @@ class Admin::ClaimsController < Admin::BaseController
   # GET /admin/claims/1/edit
   def edit
   end
-
+  
   # PATCH/PUT /admin/claims/1
   def update
-    @claim.update_attributes(claim_params)
-
-    redirect_to admin_user_path(@claim.user), notice: "Updated."
+    @claim.assign_attributes(claim_params)
+    @user = @claim.user
+    locking = @claim.submitted_for_review && @claim.submitted_for_review_changed?
+    new_note = @claim.status_changed? || @claim.explanation_changed?
+    
+    respond_to do |format|
+      if @claim.save
+        set_submission_date if locking
+        @note = Note.create(summary: @claim.status, explanation: @claim.explanation, annotatable: @claim, author: current_user) if new_note
+        
+        format.html { redirect_to admin_user_path(@claim.user), notice: "Updated." }
+      else
+        format.html { render "admin/users/show" } #test this?
+        format.json { render json: @claim.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
   def set_claim
     @claim = Claim.find(params[:id])
+  end
+  
+  def set_submission_date
+    @claim.update_attribute(:submitted_on, DateTime.now)
   end
 
   def claim_params

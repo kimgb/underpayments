@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160601043838) do
+ActiveRecord::Schema.define(version: 20160615212924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,19 @@ ActiveRecord::Schema.define(version: 20160601043838) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
+
+  create_table "awards", force: :cascade do |t|
+    t.string   "name"
+    t.string   "short_name"
+    t.string   "slug"
+    t.decimal  "default_minimum"
+    t.hstore   "min_casual_rates"
+    t.hstore   "min_permanent_rates"
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  add_index "awards", ["slug"], name: "index_awards_on_slug", unique: true, using: :btree
 
   create_table "claim_companies", force: :cascade do |t|
     t.integer  "claim_id"
@@ -142,6 +155,19 @@ ActiveRecord::Schema.define(version: 20160601043838) do
   add_index "messages", ["claim_id"], name: "index_messages_on_claim_id", using: :btree
   add_index "messages", ["parent_message_id"], name: "index_messages_on_parent_message_id", using: :btree
 
+  create_table "notes", force: :cascade do |t|
+    t.string   "summary"
+    t.text     "explanation"
+    t.integer  "author_id"
+    t.string   "annotatable_type"
+    t.integer  "annotatable_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "notes", ["annotatable_id", "annotatable_type"], name: "index_notes_on_annotatable_id_and_annotatable_type", using: :btree
+  add_index "notes", ["author_id"], name: "index_notes_on_author_id", using: :btree
+
   create_table "profiles", force: :cascade do |t|
     t.string   "family_name"
     t.string   "given_name"
@@ -209,6 +235,7 @@ ActiveRecord::Schema.define(version: 20160601043838) do
   add_foreign_key "documents", "claims"
   add_foreign_key "groups", "supergroups"
   add_foreign_key "messages", "claims"
+  add_foreign_key "notes", "users", column: "author_id"
   add_foreign_key "profiles", "addresses"
   add_foreign_key "profiles", "users"
   add_foreign_key "users", "claims"

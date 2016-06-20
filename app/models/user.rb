@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   has_one :profile, dependent: :destroy
   has_one :address, through: :profile
+  has_many :notes, foreign_key: "author_id"
   belongs_to :claim
   belongs_to :group
   

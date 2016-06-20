@@ -6,6 +6,7 @@ class Claim < ActiveRecord::Base
   has_many :messages
   has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
   has_many :companies, through: :claim_companies
+  has_many :notes, as: :annotatable
 
   validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
     :employment_began_on, :employment_ended_on
