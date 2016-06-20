@@ -10,6 +10,6 @@ class Admin::PreviewsController < Admin::BaseController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def preview_params
-      params.permit(:primary_colour, :secondary_colour, :base_colour, :bg_colour)
+      params.permit(:links, :headings, :body_text, :body_bg, :btn_text, :btn_bg, :nav_text, :nav_bg, :intro)
     end
 end

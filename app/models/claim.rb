@@ -10,8 +10,8 @@ class Claim < ActiveRecord::Base
   belongs_to :award
   belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
 
-  validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
-    :employment_began_on, :employment_ended_on
+  validates_presence_of :hourly_pay, :weekly_hours, :employment_type,
+    :employment_began_on, :employment_ended_on#, :award
   validate :employment_begins_before_employment_ends
   
   delegate :short_name, to: :award, prefix: true, allow_nil: true

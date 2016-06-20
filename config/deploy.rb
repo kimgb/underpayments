@@ -66,7 +66,6 @@ namespace :deploy do
     invoke 'deploy:assets:backup_manifest'
   end
 
-
   namespace :assets do
     desc "Precompile assets locally and then rsync to web servers" 
     task :precompile_local do 
@@ -88,6 +87,13 @@ namespace :deploy do
       # clean up
       # run_locally { execute "rm -rf #{local_dir}" }
       run_locally { execute :bundle, "exec rake assets:clobber" }
+    end
+  end
+  
+  namespace :with_migration do
+    desc "Migrates claims from legacy award:string column to award:references replacement."
+    task :claims_awards do
+      
     end
   end
   
@@ -121,6 +127,36 @@ namespace :deploy do
   after  :finishing,   :compile_assets
   after  :finishing,   :cleanup
   after  :finishing,   :restart
+end
+
+namespace :setup do
+  desc "Upload Figaro application.yml file."
+  task :upload_app_config do
+    on roles(:app) do
+      execute "mkdir -p #{shared_path}/config"
+      upload! StringIO.new(File.read("config/application.yml")), "#{shared_path}/config/application.yml"
+    end
+  end
+  
+  desc "Seed the database."
+  task :seed_db do
+    on roles(:app) do
+      within "#{current_path}" do
+        with rails_env: :production do
+          execute :rake, "db:seed"
+        end
+      end
+    end
+  end
+  
+  desc "Symlinks config files for Nginx."
+  task :symlink_nginx do
+    on roles(:app) do
+      execute "rm -f /etc/nginx/sites-enabled/default"
+      
+      execute "ln -nfs #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/#{fetch(:application)}"
+    end
+  end
 end
 
 # ps aux | grep puma   # Get puma pid

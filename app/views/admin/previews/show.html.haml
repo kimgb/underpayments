@@ -20,7 +20,8 @@
       -# %p.text-center.text-danger
       -#   %em An error has occurred!
       %p 
-        Lorem ipsum dolor sic amet...
+        :markdown
+          #{ @preview["intro"] }
         %a{ href: "#" } example hyperlink.
       %form{ action: "#" }
         .form-group
@@ -37,7 +38,8 @@
     @mixin button-colors($bg, $text, $active) {
       color: $text;
       @include bg-border($bg);
-      &:hover { @include bg-border($active); }
+      &:hover, &:active:hover,
+      &:active, &:active:focus { @include bg-border($active); }
     }
     @mixin text-hover($passive, $active) {
       color: $passive;
@@ -50,17 +52,19 @@
       .navbar-link:hover { color: $active; }
     }
     
-    $brand-primary: #{ @preview["primary_colour"] };
+    $brand-primary: #{ @preview["links"] };
     $active-primary: darken($brand-primary, 15%);
-    $btn-default: $active-primary;
-    $btn-active: darken($btn-default, 10%);
-    $nav-bg: darken($brand-primary, 24%);
-    $headings-color: #{ @preview["secondary_colour"] };
-    $background-color: #{ @preview["bg_colour"] };
-    $text-color: #{ @preview["base_colour"] };
-    $nav-text: darken($text-color, 20%);
+    $btn-bg-color: #{ @preview["btn_bg"] };
+    $btn-active: darken($btn-bg-color, 10%);
+    $btn-text-color: #{ @preview["btn_text"] };
+    $nav-bg: #{ @preview["nav_bg"] };
+    $nav-text: #{ @preview["nav_text"] };
+    $headings-color: #{ @preview["headings"] };
+    $background-color: #{ @preview["body_bg"] };
+    $text-color: #{ @preview["body_text"] };
+    $text-color-inverse: invert($text-color);
     $active-nav: darken($nav-text, 15%);
-    
+
     #preview-container { color: $text-color; }
     #preview-main { background-color: $background-color; }
     #preview-container h1,
@@ -71,4 +75,4 @@
     #preview-container h6 { color: $headings-color; }
     #preview-nav { @include nav($nav-bg, $nav-text, $active-nav); }
     #preview-container a { @include text-hover($brand-primary, $active-primary); }
-    #preview-container .btn-default { @include button-colors($btn-default, $text-color, $btn-active) }
+    #preview-container .btn-default { @include button-colors($btn-bg-color, $btn-text-color, $btn-active) }

@@ -9,7 +9,9 @@
   = @group.slug
 %p 
   %strong Awards:
-  = @group.awards
+  %ul
+    - @group.awards.each do |award_slug, desc|
+      %li= "#{award_slug}: #{desc}"
 %p
   %strong Skin:
   %ul
@@ -21,6 +23,10 @@
     %li= "Button text: #{@group.btn_text_color}"
     %li= "Nav background: #{@group.nav_bg_color}"
     %li= "Nav text: #{@group.nav_text_color}"
+%p
+  %strong Intro text:
+  :markdown
+    #{ @group.intro }
 
 = link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
 = link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

@@ -12,9 +12,6 @@
   .form-group
     = f.label :name, "Campaign name"
     = f.text_field :name, class: "form-control"
-  .form-group
-    = f.label :intro, "Introduction text"
-    = f.text_area :intro, class: "form-control", rows: 4
     
   %fieldset
     %legend.h3= "Awards"
@@ -23,7 +20,7 @@
       - @awards.each do |award|
         .checkbox
           = label_tag award.slug + "-check" do
-            = check_box_tag award.slug + "-check", "", false, { class: "award-checkbox", data: { target: "##{award.slug}-text"} }
+            = check_box_tag award.slug + "-check", "", false, { class: "award-checkbox", checked: @group.awards[award.slug].present?, data: { target: "##{award.slug}-text"} }
             = award.name
         .form-group.collapse{ id: "#{award.slug}-text" }
           = a.label award.slug.to_sym, "What text should users see when selecting this award?"
@@ -31,6 +28,9 @@
 
   %fieldset
     %legend.h3= "Custom appearance"
+    .form-group
+      = f.label :intro, "Introduction text"
+      = f.text_area :intro, class: "form-control", rows: 4
     = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|
       -# headings; links; nav bg; nav text; nav btn bg/text; btn bg; btn text; body bg; body text
       .form-group
@@ -84,6 +84,10 @@
     = f.submit 'Save', class: "btn btn-default"
 
 :coffeescript
+  $(document).ready ->
+    $(".award-checkbox").each (index, element) ->
+      checkAwardCheckbox(element)
+
   $("#group_supergroup_id").select2
     theme: "bootstrap"
     minimumInputLength: 3
@@ -100,23 +104,34 @@
       processResults: (data, params) ->
         results: $.map data, (item) ->
           text: item.name + " (" + item.short_name + ")", id: item.id
-          
-  $(".award-checkbox").on "click", (e) ->
-    tg = $(e.target).data('target')
+  
+  checkAwardCheckbox = (el) ->
+    tg = $(el).data('target')
     
-    if e.target.checked
+    if el.checked
       $(tg).show()
     else
       $(tg).hide()
+      
+  $(".award-checkbox").on "click", (e) -> checkAwardCheckbox(e.target)
           
   $("#generate-preview").on "click", (e) ->
     e.preventDefault();
     
-    primary = $("#group_skin_link_color").val();
-    secondary = $("#group_skin_headings_color").val();
-    base_colour = $("#group_skin_text_color").val();
-    bg = $("#group_skin_background_color").val();
+    links = $("#group_skin_link_color").val();
+    headings = $("#group_skin_headings_color").val();
+    body_text = $("#group_skin_body_text_color").val();
+    body_bg = $("#group_skin_body_bg_color").val();
+    btn_text = $("#group_skin_btn_text_color").val();
+    btn_bg = $("#group_skin_btn_bg_color").val();
+    nav_text = $("#group_skin_nav_text_color").val();
+    nav_bg = $("#group_skin_nav_bg_color").val();
+    intro = $("#group_intro").val();
     
-    $("#preview").load("/admin/preview?primary_colour=" + escape(primary) + 
-      "&secondary_colour=" + escape(secondary) + 
-      "&base_colour=" + escape(base_colour) + "&bg_colour=" + escape(bg))
+    $("#preview").load("/admin/preview" + 
+      "?links=" + escape(links) + "&headings=" + escape(headings) + 
+      "&body_text=" + escape(body_text) + "&body_bg=" + escape(body_bg) +
+      "&btn_text=" + escape(btn_text) + "&btn_bg=" + escape(btn_bg) +
+      "&nav_text=" + escape(nav_text) + "&nav_bg=" + escape(nav_bg) +
+      "&intro=" + escape(intro)
+    )
