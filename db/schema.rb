@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160628035609) do
   create_table "claims", force: :cascade do |t|
     t.string   "status"
     t.string   "comment"
+    t.string   "award_legacy"
     t.decimal  "weekly_hours",         precision: 10, scale: 2
     t.decimal  "hourly_pay",           precision: 10, scale: 2
     t.date     "employment_began_on"
@@ -69,11 +70,12 @@ ActiveRecord::Schema.define(version: 20160628035609) do
     t.datetime "submitted_on"
     t.boolean  "payslips_received",                             default: false
     t.boolean  "pieceworker",                                   default: false
+    t.integer  "award_id"
     t.integer  "point_person_id"
     t.date     "review_date"
-    t.string   "award"
   end
 
+  add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree
   add_index "claims", ["point_person_id"], name: "index_claims_on_point_person_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
@@ -134,6 +136,7 @@ ActiveRecord::Schema.define(version: 20160628035609) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.text     "intro"
+    t.hstore   "awards"
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree
@@ -234,6 +237,7 @@ ActiveRecord::Schema.define(version: 20160628035609) do
 
   add_foreign_key "claim_companies", "claims"
   add_foreign_key "claim_companies", "companies"
+  add_foreign_key "claims", "awards"
   add_foreign_key "claims", "users", column: "point_person_id"
   add_foreign_key "company_addresses", "addresses"
   add_foreign_key "company_addresses", "companies"

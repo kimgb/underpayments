@@ -90,10 +90,12 @@ namespace :deploy do
     end
   end
   
-  namespace :with_migration do
+  namespace :migrations do
     desc "Migrates claims from legacy award:string column to award:references replacement."
     task :claims_awards do
-      
+      before :publishing do
+        execute :rake, "claims:migrate_award_column"
+      end
     end
   end
   
