@@ -20,6 +20,10 @@ class Profile < ActiveRecord::Base
   def full_name
     [given_name, family_name].join(" ")
   end
+  
+  def present_name
+    "#{preferred_name || given_name} #{family_name}"
+  end
 
   def owners
     [user]

@@ -17,9 +17,13 @@ grp = Group.new(
   name: "Fair Food",
   skin: {
     "link_color" => "#F5003D",
-    "text_color" => "#DDD",
     "headings_color" => "#0B8842",
-    "background_color" => "#161616"
+    "body_text_color" => "#DDD",
+    "body_bg_color" => "#161616",
+    "btn_bg_color" => "#A9002A",
+    "btn_text_color" => "#DDD",
+    "nav_bg_color" => "#7B001F",
+    "nav_text_color" => "#DDD"
   },
   supergroup: sg
 )

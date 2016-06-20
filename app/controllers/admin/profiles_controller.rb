@@ -21,7 +21,7 @@ class Admin::ProfilesController < Admin::BaseController
 
   private
   def set_profile
-    @profile = current_user.profile
+    @profile = Profile.find(params[:id])
   end
 
   def profile_params

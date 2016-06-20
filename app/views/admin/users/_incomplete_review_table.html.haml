@@ -2,6 +2,7 @@
   %thead
     %tr
       %th Sections complete
+      %th Name
       %th Email
       %th Mobile?
       %th
@@ -9,7 +10,8 @@
   %tbody#user-list
     - if @users.any?
       - @users.each do |user|
-        = render partial: "admin/users/#{@view_context}_row", locals: { user: user }
+        - if user.profile.present?
+          = render partial: "admin/users/#{@view_context}_row", locals: { user: user }
     - else
       %tr
         %td{ colspan: 7 }

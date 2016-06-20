@@ -1,3 +1,4 @@
+-# won't be displayed if they didn't complete the profile step
 %tr
   %td.sections-complete
     -# "#{[user.profile, user.claim, user.employer, user.workplace].compact.size}"
@@ -9,8 +10,8 @@
           = "<li>#{user.claim.documents.size} documents</li>".html_safe
           = "<li>Employer</li>".html_safe if user.claim.employer
           = "<li>Workplace</li>".html_safe if user.claim.workplace
+  %td= user.profile.present_name
   %td= user.email
   %td= user.profile_phone
   %td 
-    - if user.profile.present?
-      = link_to '', admin_user_path(user), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
+    = link_to '', admin_user_path(user), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
