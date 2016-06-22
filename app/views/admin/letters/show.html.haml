@@ -11,10 +11,10 @@
 %p= Date.today.strftime("%e %B %Y")
 %address
   :markdown
-    #{ markdown_postal_format(@addressee.name, @addressee.address) }
+    #{ markdown_postal_format(@letter.addressee, @address.address) }
 
 :markdown
-  Dear #{ @addressee.name },
+  Dear #{ @letter.addressee },
 
   We write on behalf of National Union of Workers (**the NUW**) member #{ @user.profile.full_name }, who formerly worked at #{ @user.employer.name }#{ @user.employer != @user.workplace ? ", as a " + @user.claim.employment_type.downcase + " employee at " + @user.workplace.name : "" }.
 

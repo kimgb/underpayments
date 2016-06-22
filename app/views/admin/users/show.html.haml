@@ -3,7 +3,6 @@
   = link_to "Send a message", new_admin_claim_message_path(@user.claim), class: "btn btn-default btn-sm"
   &ensp;
   = link_to "Letter of demand", new_admin_user_letter_path(@user), class: "btn btn-default btn-sm"
-  -# = link_to "Letter of demand", pages_path(page: "letter", layout: "print", user_id: @user), class: "btn btn-default"
   &ensp;
   = render partial: "admin/claims/toggle_lock", locals: { claim: @user.claim }
   &ensp;
