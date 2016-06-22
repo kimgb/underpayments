@@ -3,7 +3,7 @@ class Admin::MessagesController < Admin::BaseController
   
   # GET /admin/claims/1/messages
   def index
-    @messages = @claim.messages
+    @messages = @claim.messages.sort_by(&:created_at)
   end
 
   # GET /admin/claims/1/messages/new

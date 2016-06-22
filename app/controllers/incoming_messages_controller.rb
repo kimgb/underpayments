@@ -9,7 +9,7 @@ class IncomingMessagesController < ApplicationController
     @message.parent_message = Message.find_by_token(@message.responder_token)
     @message.claim = @message.parent_message.claim if @message.parent_message
     
-    notifier.ping "Underpayments: A message was received from #{@message.sender}, for #{@message.intended_recipient} with the subject #{@message.subject}."
+    notifier.ping "Underpayments: A message was received from #{@message.original_sender}, for #{@message.intended_recipient} with the subject #{@message.subject}."
     
     @message.tokenize_sender!
     UserMailer.generic_email_with_token(@message.intended_recipient, @message.sender, 

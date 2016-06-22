@@ -22,10 +22,17 @@
     = t('.profile.missing')
     = link_to t('.profile.complete'), new_profile_path, class: "btn btn-sm btn-default"
 
-- if @user.claim
-  = render partial: "claims/claim", locals: { claim: @user.claim }
+- if @user.claim.present?
+  - if @user.claim.valid?
+    = render partial: "claims/claim", locals: { claim: @user.claim }
+  - else
+    %h3= t('.claim.heading')
+    %p
+      = t('.claim.missing')
+      = link_to t('.claim.complete'), edit_claim_path(@user.claim), class: "btn btn-sm btn-default"
 - else
   %h3= t('.claim.heading')
   %p
     = t('.claim.missing')
     = link_to t('.claim.complete'), new_claim_path, class: "btn btn-sm btn-default"
+    

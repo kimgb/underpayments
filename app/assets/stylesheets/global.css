@@ -66,7 +66,7 @@ main, #banner {
   }
 }
 main {
-  padding-bottom: 50px;
+  padding-bottom: 55px;
 }
 
 .bold {
@@ -86,10 +86,16 @@ footer { margin-top: 4rem; }
   position: fixed;
   width: 100%;
   bottom: 0;
-  height: 50px;
-  padding: 1rem;
+  height: 55px;
+  padding: 0.6rem;
   z-index: 10;
   background-color: black;
+  max-width: 1024px;
+}
+@media screen and (min-width: 1024px) {
+  .language-picker {
+    left: calc((100% - 1024px) / 2);
+  }
 }
 
 .checkbox {

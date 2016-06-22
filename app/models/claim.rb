@@ -330,8 +330,10 @@ class Claim < ActiveRecord::Base
   private
   ### CUSTOM VALIDATIONS
   def employment_begins_before_employment_ends
-    if employment_began_on > employment_ended_on
-      errors.add(:employment_began_on, "must be before employment end date")
+    if employment_began_on? && employment_ended_on?
+      if employment_began_on > employment_ended_on
+        errors.add(:employment_began_on, "must be before employment end date")
+      end
     end
   end
   
