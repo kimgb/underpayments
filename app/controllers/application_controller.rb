@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
   private
   def set_skin
     @skin ||= Group.friendly.find(params[:skin]) if user_signed_in? && current_user.admin? && !params[:skin].is_a?(Group)
-    @skin ||= Group.find(current_user.group_id) if user_signed_in?
+    @skin ||= Group.find(current_user.group_id) if user_signed_in? && current_user.group_id?
     @skin ||= Group.friendly.find(params[:skin]) if params[:skin].present? && !params[:skin].is_a?(Group)
   rescue ActiveRecord::RecordNotFound => err
     flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."

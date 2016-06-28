@@ -12,10 +12,9 @@
     = stylesheet_link_tag href='https://fonts.googleapis.com/css?family=Open+Sans:400,700'
 
   %body
-    .container-fluid
+    .container-fluid{ style: "height: 100%;" }
       %header#top-header
         = render partial: 'layouts/authentication'
-
 
       %main
         #flash
@@ -28,18 +27,15 @@
 
         = yield
 
-        %footer.align-right
-          %hr/
-
+      %footer.fixed-bottom
+        .flex-order-1
           :markdown
             #{ t('.footer') }
-      
-      .language-picker.text-right
-        .dropup
-          %button.btn.btn-default.dropdown-toggle#languagePickerDropdown{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: true } }
+        .dropup.flex-order-2
+          %button.btn.btn-default.dropdown-toggle#languagePickerDropup{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: true } }
             %span.glyphicon.glyphicon-globe
             %span.caret
-          %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: "languagePickerDropdown" } }
+          %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: "languagePickerDropup" } }
             - t('helpers.profiles.languages_list').except(session[:locale]).each do |key, locale|
               %li= link_to locale, params.merge(locale: key)
         

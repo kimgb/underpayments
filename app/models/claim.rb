@@ -231,14 +231,18 @@ class Claim < ActiveRecord::Base
   def days
     Set.new(employment_began_on..employment_ended_on)
   end
+  
+  def documents_days(evidence = :wage_evidence)
+    documents.select(&evidence)
+      .sort_by(&:coverage_start_date)
+      .map(&:days)
+  end
 
   # Claim#document_coverage()
   # Returns a set of days that are covered by documents of a certain evidence 
   # type, default :wage_evidence.
   def document_coverage(evidence = :wage_evidence)
-    documents.where(evidence => true)
-      .sort_by(&:coverage_start_date)
-      .map(&:days).reduce(:+) || Set.new
+    documents_days(evidence).reduce(:+) || Set.new
   end
 
   # Claim#coverage_gaps()
@@ -260,10 +264,53 @@ class Claim < ActiveRecord::Base
     end.to_a
   end
 
-  # Claim#plete?()
+  # Claim#coverage_complete?()
   # If there are no gaps for the evidence type, we have complete coverage.
   def coverage_complete?(evidence = :wage_evidence)
     coverage_gaps(evidence).empty?
+  end
+  
+  # Alternative overlaps method - start or end date between another doc's start and end dates?
+  # Faster, but doesn't catch the case where the document under analysis includes the entirety
+  # of another document's coverage.
+  # def coverage_overlaps_v2(evidence = :wage_evidence)
+  #   docs_dates = documents.select(&evidence)
+  #     .map{ |d| [d.coverage_start_date, d.coverage_end_date] }
+  #     
+  #   overlaps = []
+  #   
+  #   until docs_dates.empty?
+  #     cs, ce = docs_dates.shift
+  #     return overlaps if docs_dates.empty?
+  #     
+  #     overlaps += docs_dates.map { |s, e| Set.new([cs, s].max..[ce, e].min) if cs.between?(s, e) || ce.between?(s, e) }.compact
+  #   end
+  # end
+  
+  # Claim#coverage_overlaps?()
+  # Returns true if there are any overlapping dates for a given evidence type.
+  def coverage_overlaps?(evidence = :wage_evidence)
+    dd = documents_days(evidence)
+    
+    until dd.empty?
+      comparison_doc = dd.shift
+      dd.each { |doc| return true unless (comparison_doc & doc).empty? }
+    end
+  end
+  
+  # Claim#coverage_overlaps()
+  # Reports an array of overlaps in document coverage for a given evidence type.
+  def coverage_overlaps(evidence = :wage_evidence)
+    check_sets_for_overlaps(documents_days(evidence))
+  end
+  
+  def check_sets_for_overlaps(sets, overlaps = [])
+    comp_set = sets.shift
+    return overlaps if sets.empty?
+    
+    overlaps += sets.map(&comp_set.method(:intersection)).reject(&:empty?)
+      
+    check_sets_for_overlaps(sets, overlaps)
   end
   
   #############################################################################

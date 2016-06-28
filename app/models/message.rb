@@ -10,10 +10,9 @@ class Message < ActiveRecord::Base
   attr_accessor :unlock  
   
   def tokenize_sender!
-    sender_with_token = self.sender.split("@")
-    sender_with_token[0] += "+#{token}"
+    sender_with_token = route_to_mailgun(tokenize(self.sender))
     
-    self.update_attributes(sender: (sender_with_token.join("=") + "@mg.nuw.org.au"))
+    self.update_attributes(sender: sender_with_token)
   end
   
   def intended_recipient
@@ -33,7 +32,18 @@ class Message < ActiveRecord::Base
   
   private
   def email_has_token?(email)
-    email.end_with?("@mg.nuw.org.au")
+    email.end_with?("@mg.nuw.org.au") && email =~ /\+/ && email =~ /[=]/
+  end
+  
+  def tokenize(email)
+    localpart, domain = email.split("@")
+    localpart += "+#{self.token}"
+    
+    [localpart, domain].join("@")
+  end
+  
+  def route_to_mailgun(email)
+    email.gsub("@", "=") + "@mg.nuw.org.au"
   end
   
   def detokenize(tokenized_email)
