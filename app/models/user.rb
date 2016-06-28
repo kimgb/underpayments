@@ -9,12 +9,17 @@ class User < ActiveRecord::Base
   has_one :profile, dependent: :destroy
   has_one :address, through: :profile
   has_many :notes, foreign_key: "author_id"
+  has_many :point_person_on, class_name: "Claim", foreign_key: "point_person_id"
   belongs_to :claim
   belongs_to :group
   
-  delegate :persisted?, to: :claim, prefix: true, allow_nil: true
-  delegate :full_name, to: :profile, prefix: true, allow_nil: true
   delegate :phone, to: :profile, prefix: true, allow_nil: true
+  delegate :full_name, :proper_full_name, :preferred_language,
+    to: :profile, prefix: false, allow_nil: true
+  
+  delegate :persisted?, to: :claim, prefix: true, allow_nil: true
+  delegate :ready_to_submit?, :submitted?, :not_submitted?, :employer, :workplace, :locked?, 
+    to: :claim, prefix: false, allow_nil: true
 
   validates_presence_of :email, :encrypted_password
 
@@ -33,20 +38,6 @@ class User < ActiveRecord::Base
   # override devise default to deliver in background.
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
-  end
-  
-  # claim pass-through methods, very simple, excuse the meta-programming
-  [:ready_to_submit?, :submitted?, :employer, :workplace, :locked?].each do |m|
-    define_method(m) { claim && claim.send(m) }
-  end
-  
-  # ditto for profile pass-through methods
-  [:full_name, :preferred_language].each do |m|
-    define_method(m) { profile && profile.send(m) }
-  end
-
-  def not_submitted?
-    !submitted?
   end
 
   def owns?(resource)

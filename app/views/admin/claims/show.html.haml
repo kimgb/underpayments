@@ -1,0 +1,36 @@
+= link_to "Send a message", new_admin_claim_message_path(@claim), class: "btn btn-default btn-sm"
+&ensp;
+= link_to "Letter of demand", new_admin_claim_letter_path(@claim), class: "btn btn-default btn-sm"
+&ensp;
+= render partial: "admin/claims/toggle_lock", locals: { claim: @claim }
+&ensp;
+= link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim), class: "btn btn-default btn-sm"
+&ensp;
+= link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim), class: "btn btn-default btn-sm"
+= render partial: "admin/claims/update_status", locals: { claim: @claim }
+
+%h3 
+  User details
+  %small= link_to("(edit)", edit_admin_profile_path(@claim.user.profile))
+:markdown
+  #{ markdown_model(@claim.user) }  
+  #{ markdown_model(@claim.user.profile) }
+
+- if @claim.user.address
+  = render partial: "admin/addresses/address", locals: { address: @claim.user.address, title: "User address", edit: "edit" }
+
+- if @claim.valid?
+  %h3 
+    Claim
+    %small= link_to("(edit)", edit_admin_claim_path(@claim))
+  :markdown
+    #{ markdown_model(@claim) }
+  = render partial: "admin/documents/documents", locals: { documents: @claim.documents }
+  - if @claim.presentable_companies.any?
+    - @claim.presentable_companies.each do |cc|
+      = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
+- else
+  %h3 Claim
+  %p 
+    This claim is empty!
+    = link_to "Edit it?", edit_admin_claim_path(@claim)

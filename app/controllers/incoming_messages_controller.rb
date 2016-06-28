@@ -13,6 +13,7 @@ class IncomingMessagesController < ApplicationController
     
     @message.tokenize_sender!
     UserMailer.generic_email_with_token(@message.intended_recipient, @message.sender, 
+      @message.subject, @message.full_plain).deliver_now
     
     respond_to do |format|
       if @message.save

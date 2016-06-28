@@ -1,0 +1,7 @@
+%h5
+  = "#{note.author.full_name || note.author.email} updated this claim at #{note.created_at.strftime("%T on %a, %d %b %Y")}:"
+:markdown
+  **Summary:** #{note.summary}
+  
+  **Full explanation:** #{note.explanation}
+%hr

@@ -1,4 +1,4 @@
-%h3 Send a message to #{ @claim.user.profile.present_name }
+%h3 Send a message to #{ @claim.user.full_name }
 
 = form_for [@claim, @message], url: admin_claim_messages_path(@claim), html: { multipart: true, class: "form" } do |f|
   .form-group
@@ -13,7 +13,7 @@
     .input-group
       .input-group-addon
         %i.glyphicon.glyphicon-pencil
-      = f.text_area :full_plain, class: "form-control", rows: 10, value: "Hello #{@claim.user.profile.given_name},\n\n\n\nRegards,\n\n#{current_user.profile_full_name}\nNational Union of Workers"
+      = f.text_area :full_plain, class: "form-control", rows: 10, value: "Hello #{@claim.user.profile.given_name},\n\n\n\nRegards,\n\n#{current_user.full_name}\nNational Union of Workers"
       
   .checkbox
     = f.label :unlock do

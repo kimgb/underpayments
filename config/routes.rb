@@ -6,13 +6,12 @@ Rails.application.routes.draw do
   # loaded the schema for the relevant environment.
   scope "(:skin)", skin: Regexp.new(Group.all.map(&:slug).join("|")), defaults: { skin: Group.first } do
     namespace :admin do
-      root "users#index"
+      root "claims#index"
 
-      resources :users, only: [:show, :index] do
+      resources :claims, only: [:index, :show, :edit, :update, :create] do
         resources :letters, only: [:new, :create, :show]
-      end
-      resources :claims, only: [:edit, :update, :create] do
         resources :messages, only: [:index, :new, :create]
+        resources :notes, only: [:index]
       end
       resources :profiles, only: [:edit, :update]
       resources :companies, except: [:new, :create]

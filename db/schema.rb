@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615212924) do
+ActiveRecord::Schema.define(version: 20160628035609) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,7 +70,11 @@ ActiveRecord::Schema.define(version: 20160615212924) do
     t.datetime "submitted_on"
     t.boolean  "payslips_received",                             default: false
     t.boolean  "pieceworker",                                   default: false
+    t.integer  "point_person_id"
+    t.date     "review_date"
   end
+
+  add_index "claims", ["point_person_id"], name: "index_claims_on_point_person_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
     t.string   "name"
@@ -230,6 +234,7 @@ ActiveRecord::Schema.define(version: 20160615212924) do
 
   add_foreign_key "claim_companies", "claims"
   add_foreign_key "claim_companies", "companies"
+  add_foreign_key "claims", "users", column: "point_person_id"
   add_foreign_key "company_addresses", "addresses"
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "documents", "claims"

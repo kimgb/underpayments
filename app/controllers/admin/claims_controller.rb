@@ -1,5 +1,24 @@
 class Admin::ClaimsController < Admin::BaseController
-  before_action :set_claim, except: [:create]
+  before_action :set_claim, except: [:index, :create]
+  
+  # GET /admin/claims
+  def index
+    @claims = case params[:scope]
+      when "submitted" then Claim.includes(:documents, :user).select(&:submitted?)
+      when "completed" then Claim.includes(:documents, :user).select(&:ready_to_submit?).reject(&:submitted?)
+      when "incomplete" then Claim.includes(:documents, :user).select(&:not_submitted?).reject(&:ready_to_submit?)
+      else Claim.includes(:documents, :user).select(&:submitted?)
+    end
+    
+    @view_context = case params[:scope]
+      when "incomplete" then "incomplete_review"
+      else "complete_review"
+    end
+  end
+  
+  # GET /admin/claims/1
+  def show    
+  end
   
   # POST /admin/claims
   def create
@@ -8,7 +27,7 @@ class Admin::ClaimsController < Admin::BaseController
     
     @claim.save(validate: false)
     
-    redirect_to admin_user_path(@claim.user), notice: "Added."
+    redirect_to [:admin, @claim], notice: "Added."
   end
   
   # GET /admin/claims/1/edit
@@ -17,19 +36,20 @@ class Admin::ClaimsController < Admin::BaseController
   
   # PATCH/PUT /admin/claims/1
   def update
+    new_note = claim_params[:status].present? && claim_params[:comment].present? && 
+      (claim_params[:status] != @claim.status || claim_params[:comment] != @claim.comment)
     @claim.assign_attributes(claim_params)
     @user = @claim.user
     locking = @claim.submitted_for_review && @claim.submitted_for_review_changed?
-    new_note = @claim.status_changed? || @claim.explanation_changed?
     
     respond_to do |format|
       if @claim.save
         set_submission_date if locking
-        @note = Note.create(summary: @claim.status, explanation: @claim.explanation, annotatable: @claim, author: current_user) if new_note
+        @claim.notes.create(summary: @claim.status, explanation: @claim.comment, author: current_user) if new_note
         
-        format.html { redirect_to admin_user_path(@claim.user), notice: "Updated." }
+        format.html { redirect_to [:admin, @claim], notice: "Updated." }
       else
-        format.html { render "admin/users/show" } #test this?
+        format.html { render "admin/claims/show" } #test this?
         format.json { render json: @claim.errors, status: :unprocessable_entity }
       end
     end

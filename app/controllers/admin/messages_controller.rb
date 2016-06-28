@@ -29,7 +29,7 @@ class Admin::MessagesController < Admin::BaseController
         @claim.update_attributes(submitted_for_review: false)
       end
       
-      redirect_to admin_user_path(@claim.user), notice: "Message sent."
+      redirect_to [:admin, @claim], notice: "Message sent."
     else
       render :new
     end

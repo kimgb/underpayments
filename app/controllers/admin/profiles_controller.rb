@@ -10,7 +10,7 @@ class Admin::ProfilesController < Admin::BaseController
   def update
     respond_to do |format|
       if @profile.update_attributes(profile_params)
-        format.html { redirect_to admin_user_path(@profile.user), notice: 'Details successfully updated.' }
+        format.html { redirect_to [:admin, @profile.user.claim], notice: 'Details successfully updated.' }
         format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }

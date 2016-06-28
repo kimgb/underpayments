@@ -7,7 +7,8 @@ class Claim < ActiveRecord::Base
   has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
-
+  belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
+  
   validates_presence_of :award, :hourly_pay, :weekly_hours, :employment_type,
     :employment_began_on, :employment_ended_on
   validate :employment_begins_before_employment_ends
@@ -374,6 +375,10 @@ class Claim < ActiveRecord::Base
     submitted_for_review
   end
   alias_method :locked?, :submitted?
+  
+  def not_submitted?
+    !submitted_for_review    
+  end
   
   private
   ### CUSTOM VALIDATIONS

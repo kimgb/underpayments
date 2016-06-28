@@ -1,0 +1,15 @@
+-# won't be displayed if they didn't complete the profile step
+%tr
+  %td.sections-complete
+    -# "#{[user.profile, user.claim, user.employer, user.workplace].compact.size}"
+    %ul
+      = "<li>Profile</li>".html_safe if claim.user.profile
+      = "<li>Claim</li>".html_safe
+      %ul
+        = "<li>#{claim.documents.size} documents</li>".html_safe
+        = "<li>Employer</li>".html_safe if claim.employer
+        = "<li>Workplace</li>".html_safe if claim.workplace
+  %td= claim.user.full_name
+  %td= claim.user.email
+  %td= claim.user.profile_phone
+  %td= link_to '', admin_claim_path(claim), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"

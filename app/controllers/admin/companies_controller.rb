@@ -13,7 +13,7 @@ class Admin::CompaniesController < Admin::BaseController
   
   def update
     @company.update_attributes(company_params)
-    redirect_to admin_company_path(@company), notice: "Updated."
+    redirect_to [:admin, @company], notice: "Updated."
   end
   
   def destroy

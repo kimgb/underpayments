@@ -1,5 +1,5 @@
 class Admin::LettersController < Admin::BaseController
-  before_action :set_user
+  before_action :set_claim
 
   # GET /admin/users/1/letters/new
   def new
@@ -18,9 +18,9 @@ class Admin::LettersController < Admin::BaseController
   end
 
   private
-  def set_user
-    @user = User.find(params[:user_id])
-    @claim = @user.claim if @user
+  def set_claim
+    @claim = Claim.find(params[:claim_id])
+    @user = @claim.user
   end
 
   def letter_params

@@ -1,6 +1,6 @@
 %h3 Compose a letter of demand
 
-= form_for [@user, @letter], url: admin_user_letters_path(@user), html: { multipart: true, class: "form" } do |f|
+= form_for [@claim, @letter], url: admin_claim_letters_path(@claim), html: { multipart: true, class: "form" } do |f|
   .form-group
     = f.label :addressee, "Addressee", class: "control-label"
     = f.select :addressee, options_for_select(addressee_list(@claim), "casual"), {}, { class: "form-control" }

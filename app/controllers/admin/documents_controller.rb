@@ -12,7 +12,7 @@ class Admin::DocumentsController < Admin::BaseController
   def update
     respond_to do |format|
       if @document.update_attributes(document_params)
-        format.html { redirect_to admin_user_path(@document.owners.first), notice: 'Document was updated.' }
+        format.html { redirect_to [:admin, @document.claim], notice: 'Document was updated.' }
         format.json { render :show, status: :ok, location: @document }
       else
         format.html { render :edit }
@@ -26,7 +26,7 @@ class Admin::DocumentsController < Admin::BaseController
   def destroy
     @document.destroy
     respond_to do |format|
-      format.html { redirect_to admin_user_path(@document.owners.first), notice: 'Document was successfully removed.' }
+      format.html { redirect_to [:admin, @document.claim], notice: 'Document was successfully removed.' }
       format.json { head :no_content }
     end
   end

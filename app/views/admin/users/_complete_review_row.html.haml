@@ -1,8 +1,0 @@
-%tr
-  %td= user.claim.status || "None"
-  %td= user.full_name
-  %td{ class: "hidden-xs" }= user.employer.name
-  %td{ class: "hidden-xs" }= number_to_currency(user.claim.hourly_pay)
-  %td{ class: "hidden-xs" }= user.claim.hours_worked.round
-  %td{ class: "hidden-xs" }= number_to_currency(user.claim.lost_wages)
-  %td= link_to '', admin_user_path(user), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
