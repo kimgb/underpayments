@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(user)
-    user.admin? ? admin_users_url : user_url(user)
+    user.admin? ? admin_claims_url : user_url(user)
   end
 
   def forbidden!
