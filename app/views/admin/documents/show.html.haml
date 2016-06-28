@@ -22,5 +22,5 @@
 %p
   = link_to "Delete", admin_document_path(@document), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-default"
   = link_to "Edit", edit_admin_document_path(@document), class: "btn btn-default"
-  = link_to "Back", admin_user_path(@document.owners.first), class: "btn btn-default"
+  = link_to "Back", admin_claim_path(@document.claim), class: "btn btn-default"
   
