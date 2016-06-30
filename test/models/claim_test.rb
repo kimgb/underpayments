@@ -54,13 +54,6 @@ class ClaimTest < ActiveSupport::TestCase
     assert_instance_of Set, b_under.days
   end
   
-  test "proper award names" do
-    assert_equal "Horticulture Award 2010", Claim.new(award: "horticulture").proper_award
-    assert_equal "Poultry Processing Award 2010", Claim.new(award: "poultry").proper_award
-    assert_equal "Storage Services Award 2010", Claim.new(award: "storage").proper_award
-    assert_equal "National Employment Standards", Claim.new(award: "no_award").proper_award
-  end
-  
   test "award minimums" do
     assert_equal 21.61, claims(:basic_underpaid).award_minimum #horticulture, NES casual
     assert_equal 22.34, claims(:poultry_underpaid).award_minimum #poultry casual

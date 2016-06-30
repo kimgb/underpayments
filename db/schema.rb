@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160628035609) do
+ActiveRecord::Schema.define(version: 20160630041549) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 20160628035609) do
   create_table "claims", force: :cascade do |t|
     t.string   "status"
     t.string   "comment"
-    t.string   "award_legacy"
     t.decimal  "weekly_hours",         precision: 10, scale: 2
     t.decimal  "hourly_pay",           precision: 10, scale: 2
     t.date     "employment_began_on"
@@ -70,9 +69,9 @@ ActiveRecord::Schema.define(version: 20160628035609) do
     t.datetime "submitted_on"
     t.boolean  "payslips_received",                             default: false
     t.boolean  "pieceworker",                                   default: false
-    t.integer  "award_id"
     t.integer  "point_person_id"
     t.date     "review_date"
+    t.integer  "award_id"
   end
 
   add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree

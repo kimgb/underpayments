@@ -26,6 +26,6 @@ class Group < ActiveRecord::Base
   end
   
   def singleton_award
-    awards.keys.first || "nes" #National Employment Standards
+    awards.keys.first || "no_award" #National Employment Standards
   end
 end

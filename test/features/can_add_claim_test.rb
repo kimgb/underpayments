@@ -4,7 +4,7 @@ class CanAddClaimTest < Capybara::Rails::TestCase
   test "add claim" do
     visit new_claim_path
 
-    select "Storage services", from: "What industry did you work in?"
+    select "Storage services, e.g. fruit packing", from: "What industry did you work in?"
     fill_in "How many hours per week did you work, on average?", with: "32"
     fill_in "How much were you paid per hour?", with: "18"
 

@@ -131,6 +131,16 @@ namespace :deploy do
   after  :finishing,   :restart
 end
 
+namespace :db do
+  desc "Mirror production db to local development"
+  task :mirror do
+    on roles(:app) do
+      # deploy user needs corresponding psql user with .pgpass based access
+      run_locally { execute "ssh robbed.nuw.org.au \"pg_dump underpaid\" >> 'underpaid-db-'$(date '+%Y%m%d%H%M%S')" }
+    end
+  end
+end
+
 namespace :setup do
   desc "Upload Figaro application.yml file."
   task :upload_app_config do

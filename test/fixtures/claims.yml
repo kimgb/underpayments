@@ -2,7 +2,7 @@ boilerplate: &boilerplate
   weekly_hours: 32.00
   payslips_received: true
   pieceworker: false
-  award: no_award
+  award_id: 1
   employment_type: casual
   employment_began_on: 2015-05-16
   employment_ended_on: 2015-08-14
@@ -25,7 +25,7 @@ basic_proper:
   
 poultry_underpaid: 
   <<: *underpaid
-  award: poultry
+  award_id: 3
   
 underpaid_w_multi_docs:
   <<: *underpaid
