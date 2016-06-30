@@ -19,18 +19,37 @@
 - if @claim.user.address
   = render partial: "admin/addresses/address", locals: { address: @claim.user.address, title: "User address", edit: "edit" }
 
+-# Claim
 - if @claim.valid?
   %h3 
     Claim
     %small= link_to("(edit)", edit_admin_claim_path(@claim))
   :markdown
     #{ markdown_model(@claim) }
+
+  -# Claim documents
+  - if @claim.coverage_overlaps?
+    :markdown
+      **_WARNING!_** This claim has overlapping evidence of wages paid. This will skew the value of the claim!
+    %ul
+      - @claim.coverage_overlaps.each do |overlap|
+        %li= "#{overlap.first.to_s(:rfc822)} to #{overlap.last.to_s(:rfc822)}"
+  - if @claim.coverage_overlaps?(:time_evidence)
+    :markdown
+      **_WARNING!_** This claim has overlapping evidence of hours worked. This will skew the value of the claim!
+    %ul
+      - @claim.coverage_overlaps(:time_evidence).each do |overlap|
+        %li= "#{overlap.first.to_s(:rfc822)} to #{overlap.last.to_s(:rfc822)}"
+  
   = render partial: "admin/documents/documents", locals: { documents: @claim.documents }
+  
+  -# Claim companies
   - if @claim.presentable_companies.any?
     - @claim.presentable_companies.each do |cc|
       = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
+
 - else
   %h3 Claim
   %p 
-    This claim is empty!
+    This claim is empty?
     = link_to "Edit it?", edit_admin_claim_path(@claim)

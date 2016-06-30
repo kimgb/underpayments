@@ -311,6 +311,7 @@ class Claim < ActiveRecord::Base
     return overlaps if sets.empty?
     
     overlaps += sets.map(&comp_set.method(:intersection)).reject(&:empty?)
+      .map(&:to_a).map(&:sort)
       
     check_sets_for_overlaps(sets, overlaps)
   end

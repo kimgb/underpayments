@@ -49,7 +49,8 @@ class Profile < ActiveRecord::Base
       "preferred_name" => preferred_name,
       "mobile" => phone,
       "dob" => date_of_birth.strftime("%Y/%m/%d"),
-      "gender" => gender
+      "gender" => gender,
+      "locale" => preferred_language
     }.merge(address && address.join_form_params || {})
   end
 end

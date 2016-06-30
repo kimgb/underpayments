@@ -47,6 +47,8 @@ class User < ActiveRecord::Base
   end
   
   def join_form_params
-    { "email" => email }.merge(profile && profile.join_form_params || {})
+    path_to_self = Rails.application.routes.url_helpers.user_path(self)
+    { "callback_url" => URI::encode("#{ENV['host'] + path_to_self}", /\W/), 
+      "email" => email }.merge(profile && profile.join_form_params || {})
   end
 end

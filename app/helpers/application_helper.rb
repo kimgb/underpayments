@@ -36,8 +36,6 @@ module ApplicationHelper
   
   def join_query_params(user)
     query_params = user.join_form_params.merge({
-      "locale" => session[:locale],
-      "callback_url" => URI::encode("#{ENV['host'] + user_path(current_user)}", /\W/),
       "auto_submit" => true
     })
       
