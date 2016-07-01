@@ -1,4 +1,4 @@
-%p 
+%p
   %strong Owner organisation:
   = @group.owner_name
 %p
@@ -7,11 +7,16 @@
 %p
   %strong Slug:
   = @group.slug
-%p 
+%p
   %strong Awards:
   %ul
-    - @group.awards.each do |award_slug, desc|
-      %li= "#{award_slug}: #{desc}"
+    - if @group.awards.blank?
+      None set! Please
+      = link_to "edit this campaign", edit_admin_group_path(@group)
+      to add at least one award.
+    - else
+      - @group.awards.each do |award_slug, desc|
+        %li= "#{award_slug}: #{desc}"
 %p
   %strong Skin:
   %ul
@@ -25,8 +30,9 @@
     %li= "Nav text: #{@group.nav_text_color}"
 %p
   %strong Intro text:
-  :markdown
-    #{ @group.intro }
+  %blockquote
+    :markdown
+      #{ @group.intro }
 
 = link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
 = link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"

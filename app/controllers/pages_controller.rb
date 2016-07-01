@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
   skip_before_action :authenticate_user!
-  
+
   def show
     if current_user && params[:page] == :start
       redirect_to show_user_path(current_user)

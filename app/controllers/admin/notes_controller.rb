@@ -1,14 +1,19 @@
 class Admin::NotesController < Admin::BaseController
-  before_action :set_claim
-  
+  before_action :set_annotatable
+
   # GET /admin/claims/1/notes
   def index
-    @notes = @claim.notes.sort_by(&:created_at)
+    @notes = @annotatable.notes.sort_by(&:created_at)
   end
 
   private
-  def set_claim
-    @claim = Claim.find(params[:claim_id])
+  def set_annotatable
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return @annotatable = $1.classify.constantize.find(value)
+      end
+    end
+    # @claim = Claim.find(params[:claim_id])
   end
 
   def note_params
