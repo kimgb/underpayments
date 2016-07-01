@@ -57,15 +57,15 @@ ActiveRecord::Schema.define(version: 20160706065023) do
     t.string   "status"
     t.string   "comment"
     t.string   "award_legacy"
-    t.decimal  "weekly_hours",         precision: 10, scale: 2
-    t.decimal  "hourly_pay",           precision: 10, scale: 2
+    t.decimal  "hours_per_period",     precision: 10, scale: 2
+    t.decimal  "pay_per_period",       precision: 10, scale: 2
     t.date     "employment_began_on"
     t.date     "employment_ended_on"
     t.string   "employment_type"
     t.boolean  "regular_hours"
     t.hstore   "exemplary_week"
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.boolean  "submitted_for_review"
     t.datetime "submitted_on"
     t.boolean  "payslips_received",                             default: false
@@ -73,6 +73,8 @@ ActiveRecord::Schema.define(version: 20160706065023) do
     t.integer  "point_person_id"
     t.date     "review_date"
     t.integer  "award_id"
+    t.string   "pay_period",                                    default: "hour"
+    t.string   "time_period",                                   default: "week"
     t.boolean  "ready_to_submit"
   end
 
@@ -138,6 +140,8 @@ ActiveRecord::Schema.define(version: 20160706065023) do
     t.datetime "updated_at",                 null: false
     t.text     "intro"
     t.hstore   "awards",        default: {}, null: false
+    t.text     "pay_periods",   default: [],              array: true
+    t.text     "time_periods",  default: [],              array: true
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree

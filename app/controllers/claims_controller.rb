@@ -15,8 +15,9 @@ class ClaimsController < ApplicationController
     redirect_to current_user if current_user && current_user.claim.present?
 
     @claim = Claim.new
-    if @skin.awards_blank_or_singleton?
-      @claim.award = Award.friendly.find(@skin.singleton_award)
+    @skin.blank_or_singleton?(:awards, :time_periods, :pay_periods).each do |c|
+      attr = c.to_s.singularize
+      @claim.send("#{attr}=", @skin.send("singleton_#{attr}"))
     end
   end
 

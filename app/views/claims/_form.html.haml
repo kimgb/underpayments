@@ -11,27 +11,43 @@
         = f.label :award_id, t('.award'), class: "control-label"
         = f.select :award_id, options_for_select(@skin.awards_for_select, @claim.award), {}, { class: "form-control" }
 
+    - if @skin.pay_periods_blank_or_singleton?
+      = f.hidden_field :pay_period
+    - else
+      .form-group
+        = f.label :pay_period, "Pay period", class: "control-label"
+        = f.select :pay_period, options_for_select(@skin.pay_periods_for_select, @claim.pay_period), {}, { class: "form-control" }
+
+    - if @skin.time_periods_blank_or_singleton?
+      = f.hidden_field :time_period
+    - else
+      .form-group
+        = f.label :time_period, "Time period", class: "control-label"
+        = f.select :time_period, options_for_select(@skin.time_periods_for_select, @claim.time_period), {}, { class: "form-control" }
+
     .form-group
-      = f.label :weekly_hours, t('.weekly_hours'), class: "control-label"
+      -# = f.label :hours_per_period, t('.hours_per_period'), class: "control-label"
+      = f.label :hours_per_period, "How many hours per #{@claim.time_period} did you work?", class: "control-label"
       /%br/
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-time
-        = f.number_field :weekly_hours, class: "form-control"
-        
+        = f.number_field :hours_per_period, class: "form-control"
+
     .checkbox
       = f.label :pieceworker do
         = f.check_box :pieceworker
         = t('.pieceworker')
 
     .form-group
-      = f.label :hourly_pay, t('.hourly_pay'), class: "control-label"
+      -# = f.label :pay_per_period, t('.pay_per_period'), class: "control-label"
+      = f.label :pay_per_period, "How much were you paid per #{@claim.pay_period}?", class: "control-label"
       /%br/
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-usd
-        = f.number_field :hourly_pay, class: "form-control", min: "0", step: "0.01"
-        
+        = f.number_field :pay_per_period, class: "form-control", min: "0", step: "0.01"
+
     .checkbox
       = f.label :payslips_received do
         = f.check_box :payslips_received
@@ -57,7 +73,7 @@
   .actions.text-right
     -# = f.button t('.calculate'), class: "btn btn-sm btn-default", id: "claim_calculate"
     = f.submit t('.calculate'), class: "btn btn-sm btn-default", id: "claim_submit"
-    
+
 :coffeescript
   $(document).ready ->
     if $("#claim_pieceworker").prop 'checked'
@@ -68,16 +84,16 @@
 
   $("#claim_pieceworker").on 'click', (e) ->
     if $(this).prop('checked')
-      $("label[for=claim_hourly_pay]").fadeOut(400).queue((n) ->
+      $("label[for=claim_pay_per_period]").fadeOut(400).queue((n) ->
         $(this).text("#{t('.pieceworker_hourly_pay')}")
         n()
       ).fadeIn(400)
     else
-      $("label[for=claim_hourly_pay]").fadeOut(400).queue((n) ->
-        $(this).text("#{t('.hourly_pay')}")
+      $("label[for=claim_pay_per_period]").fadeOut(400).queue((n) ->
+        $(this).text("#{t('.pay_per_period')}")
         n()
       ).fadeIn(400)
-  
+
   $("#claim_award").on 'change', (e) ->
     if $(this).val() != "horticulture"
       $("label[for=claim_pieceworker]").parent().slideUp(400)

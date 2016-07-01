@@ -14,12 +14,39 @@ class Group < ActiveRecord::Base
   def awards_for_select
     awards.to_a.map(&:reverse).map { |str, k| [str, Award.friendly.find(k).id] }
   end
-  
-  def awards_blank_or_singleton?
-    awards.blank? || awards.size == 1
+
+  def pay_periods_for_select
+    pay_periods.map(&:capitalize).zip(pay_periods)
   end
-  
+
+  def time_periods_for_select
+    time_periods.map(&:capitalize).zip(time_periods)
+  end
+
+  def blank_or_singleton?(*attrs)
+    attrs.select! { |attr| self.send(attr).blank? || self.send(attr).size == 1 }
+
+    attrs.empty? ? false : attrs
+  end
+
+  def singleton_attr(attribute, default)
+    self.send(attribute).first || default
+  end
+
+  [:awards, :pay_periods, :time_periods].each do |attr|
+    define_method("#{attr}_blank_or_singleton?") { blank_or_singleton?(attr) }
+    #define_method("singleton_#{attr}") { singleton_attr(attr) }
+  end
+
   def singleton_award
-    awards.keys.first || "no_award" #National Employment Standards
+    singleton_attr(:awards, Award.friendly.find("no_award"))
+  end
+
+  def singleton_pay_period
+    singleton_attr(:pay_periods, "hour")
+  end
+
+  def singleton_time_period
+    singleton_attr(:time_periods, "week")
   end
 end

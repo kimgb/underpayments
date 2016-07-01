@@ -8,6 +8,25 @@
   %strong Slug:
   = @group.slug
 %p
+  %strong Time periods:
+  %ul
+    - if @group.time_periods.blank?
+      None set! Please
+      = link_to "edit this campaign", edit_admin_group_path(@group)
+      to add at least one time period.
+    - else
+      - @group.time_periods.each do |period|
+        %li= period
+  %strong Pay periods:
+  %ul
+    - if @group.pay_periods.blank?
+      None set! Please
+      = link_to "edit this campaign", edit_admin_group_path(@group)
+      to add at least one pay period.
+    - else
+      - @group.pay_periods.each do |period|
+        %li= period
+%p
   %strong Awards:
   %ul
     - if @group.awards.blank?

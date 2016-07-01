@@ -28,7 +28,8 @@ class Claim < ActiveRecord::Base
       [
         "submitted_for_review", "submitted_on",
         "hours_self_witnessed", "payslips_received",
-        "award_legacy", "ready_to_submit"
+        "award_legacy", "ready_to_submit",
+        "pay_period", "time_period"
       ].include? attr
     end
   end
@@ -120,6 +121,22 @@ class Claim < ActiveRecord::Base
   def presentable_companies
     claim_companies.where("true in (is_workplace, is_employer)")
     # companies.all { |co| co.presentable_against?(self) }
+  end
+
+  # Claim#hourly_pay()
+  # Legacy method to sidestep issues from schema migration.
+  def hourly_pay
+    return pay_per_period if pay_period == "hour"
+
+    (pay_per_period / avg_worked_hours_per_pay_period).round(2)
+  end
+
+  # Claim#weekly_hours()
+  # Legacy method to sidestep issues from schema migration.
+  def weekly_hours
+    return hours_per_period if time_period == "week"
+
+    hours_per_period * (168.0 / total_hours_per(time_period))
   end
 
   # Claim#stolen_wages()
@@ -445,5 +462,21 @@ class Claim < ActiveRecord::Base
   # TODO figure a way to allow changes in pay rate to be reported.
   def estimated_wages_paid
     hourly_pay * estimated_hours_worked
+  end
+
+  def avg_worked_hours_per_pay_period
+    return 1.0 if pay_period == "hour"
+
+    hours_per_period * (total_hours_per(pay_period) / total_hours_per(time_period))
+  end
+
+  def total_hours_per(period)
+    case period
+    when "hour" then 1.0
+    when "day" then 24.0
+    when "week" then 168.0
+    when "fortnight" then 336.0
+    when "month" then 728.0
+    end
   end
 end

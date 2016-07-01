@@ -117,8 +117,8 @@ ko:
     form:
       title: Tell us about your work
       award: "What industry did you work in?"
-      weekly_hours: "How many hours per week did you work, on average?"
-      hourly_pay: "How much were you paid per hour?"
+      hours_per_period: "How many hours per week did you work, on average?"
+      pay_per_period: "How much were you paid per hour?"
       pieceworker: "Were you a pieceworker?"
       pieceworker_hourly_pay: What was your approximate, average hourly rate from piecework?
       payslips_received: "Were you given any payslips?"
@@ -153,8 +153,8 @@ ko:
       time_evidence: "We need evidence of hours worked for:"
       to: until
       award: Industry
-      weekly_hours: Avg. hours per week
-      hourly_pay: Hourly wage
+      hours_per_period: Avg. hours per week
+      pay_per_period: Hourly wage
       employment_began_on: Employment began on
       employment_ended_on: Employment ended on
       employment_type: Employment type
@@ -329,8 +329,8 @@ ko:
 
       claim:
         award: Award
-        weekly_hours: Weekly hours
-        hourly_pay: Hourly pay
+        hours_per_period: Weekly hours
+        pay_per_period: Hourly pay
         employment_began_on: Employment began on
         employment_ended_on: Employment ended on
         employment_type: Employment type
