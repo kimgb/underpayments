@@ -4,28 +4,46 @@ class Group < ActiveRecord::Base
   belongs_to :supergroup
   has_many :users
   delegate :name, to: :supergroup, prefix: "owner", allow_nil: true
-  store_accessor :skin, 
+  store_accessor :skin,
     :body_bg_color, :body_text_color, :headings_color, :link_color,
     :nav_bg_color, :nav_text_color, :btn_bg_color, :btn_text_color
-  
-  # Simplify changes to customisation with method_missing.
-  # def method_missing(method, *args, &block)
-  #   if value = skin[method.to_s]
-  #     return value
-  #   else
-  #     raise(NoMethodError, "undefined method `#{method}' for #{self.to_s}")
-  #   end
-  # end
-  
+
   def awards_for_select
     awards.to_a.map(&:reverse).map { |str, k| [str, Award.friendly.find(k).id] }
   end
-  
-  def awards_blank_or_singleton?
-    awards.blank? || awards.size == 1
+
+  def pay_periods_for_select
+    pay_periods.map(&:capitalize).zip(pay_periods)
   end
-  
+
+  def time_periods_for_select
+    time_periods.map(&:capitalize).zip(time_periods)
+  end
+
+  def blank_or_singleton?(*attrs)
+    attrs.select! { |attr| self.send(attr).blank? || self.send(attr).size == 1 }
+
+    attrs.empty? ? false : attrs
+  end
+
+  def singleton_attr(attribute, default)
+    self.send(attribute).first || default
+  end
+
+  [:awards, :pay_periods, :time_periods].each do |attr|
+    define_method("#{attr}_blank_or_singleton?") { blank_or_singleton?(attr) }
+    #define_method("singleton_#{attr}") { singleton_attr(attr) }
+  end
+
   def singleton_award
-    awards.keys.first || "no_award" #National Employment Standards
+    singleton_attr(:awards, Award.friendly.find("no_award"))
+  end
+
+  def singleton_pay_period
+    singleton_attr(:pay_periods, "hour")
+  end
+
+  def singleton_time_period
+    singleton_attr(:time_periods, "week")
   end
 end

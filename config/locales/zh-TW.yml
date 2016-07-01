@@ -115,8 +115,8 @@ zh-TW:
     form:
       title: 告訴我們你的工作
       award: 你在甚麼產業?
-      weekly_hours: 平均一週工作時數?
-      hourly_pay: 平均時薪為?
+      hours_per_period: 平均一週工作時數?
+      pay_per_period: 平均時薪為?
       pieceworker: 你在這個工作是計件制的工人嗎?
       pieceworker_hourly_pay: 以時薪來算的話，你的計件工作一小時大概是多少?
       payslips_received: 雇主每周有固定給你薪資明細?
@@ -151,8 +151,8 @@ zh-TW:
       time_evidence: 我們需要你提供工作時數的證明
       to: 迄
       award: 產業
-      weekly_hours: 平均 每周工作時數
-      hourly_pay: 時薪
+      hours_per_period: 平均 每周工作時數
+      pay_per_period: 時薪
       employment_began_on: 聘僱開始
       employment_ended_on: 聘僱結束
       employment_type: 聘用類別
@@ -283,7 +283,7 @@ zh-TW:
       submit: 送交
       update: 更新你的會員狀態
       join: 加入工會
-      
+
   pages:
     estimate:
       explanation: 根據你提供的數據, 你實際收到的基本薪資是%{actual_pay}. 按全澳法定最低時薪計算, 你應該獲得的基本薪資應該是%{award_pay}.
@@ -326,8 +326,8 @@ zh-TW:
 
       claim:
         award: 最低薪資標準
-        weekly_hours: 一週工作時數
-        hourly_pay: 時薪
+        hours_per_period: 一週工作時數
+        pay_per_period: 時薪
         employment_began_on: 聘僱開始日
         employment_ended_on: 聘僱結束日
         employment_type: 聘僱類別
