@@ -3,12 +3,11 @@
 = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: "form" }) do |f|
   = devise_error_messages!
 
-  .form-group.form-inline
+  .form-group
     = f.label :email
     %br/
     .input-group
       .input-group-addon @
       = f.email_field :email, autofocus: true, class: "form-control"
+  .actions.align-right
     = f.submit t('devise.passwords.new.send_me_reset_password_instructions'), class: "btn btn-default"
-
-= render "users/shared/links"
