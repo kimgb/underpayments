@@ -5,8 +5,8 @@
     %legend= t('claims.form.title')
 
     .form-group
-      = f.label :award, t('claims.form.award'), class: "control-label"
-      = f.select :award, options_for_select(awards_list, (@claim.award || "no_award")), {}, { class: "form-control" }
+      = f.label :award_id, t('claims.form.award'), class: "control-label"
+      = f.select :award_id, options_for_select(@claim.user.group.awards_for_select, @claim.award.id), {}, { class: "form-control" }
 
     .form-group
       = f.label :weekly_hours, t('claims.form.weekly_hours'), class: "control-label"

@@ -14,11 +14,16 @@
   - if @claim.user.profile.present?
     %small= link_to("(edit)", edit_admin_profile_path(@claim.user.profile))
 :markdown
-  #{ markdown_model(@claim.user) }  
-  #{ markdown_model(@claim.user.profile) if @claim.user.profile.present? }
-
-- if @claim.user.address
-  = render partial: "admin/addresses/address", locals: { address: @claim.user.address, title: "User address", edit: "edit" }
+  #{ markdown_model(@claim.user) } 
+- if @claim.user.profile.present?
+  :markdown
+    #{ markdown_model(@claim.user.profile) }
+  - if @claim.user.address
+    = render partial: "admin/addresses/address", locals: { address: @claim.user.address, title: "User address", edit: "edit" }
+  - else
+    = "No address."
+    = link_to "Add one?", new_admin_profile_address_path(profile_id: @claim.user.profile)
+  
 
 -# Claim
 - if @claim.valid?

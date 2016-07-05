@@ -13,7 +13,9 @@ Rails.application.routes.draw do
         resources :messages, only: [:index, :new, :create]
         resources :notes, only: [:index]
       end
-      resources :profiles, only: [:edit, :update]
+      resources :profiles, only: [:edit, :update] do
+        resource :address, only: [:new, :create]
+      end
       resources :companies, except: [:new, :create]
       resources :addresses, only: [:edit, :update, :destroy]
       resources :documents, only: [:show, :edit, :update, :destroy]

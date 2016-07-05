@@ -1,0 +1,29 @@
+= form_for([@profile, @address], url: admin_profile_address_path([@profile, @address]), html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @address }
+
+  %fieldset
+    %legend= "New address"
+    = f.hidden_field :country, value: "AU"
+
+    .form-group
+      = f.label :street_address, class: "control-label"
+      %br/
+      = f.text_area :street_address, class: "form-control", rows: 2
+    .form-group
+      = f.label :town, class: "control-label"
+      %br/
+      = f.text_field :town, class: "form-control"
+    .form-group
+      = f.label :province, class: "control-label"
+      %br/
+      = f.text_field :province, class: "form-control"
+    .form-group
+      = f.label :postal_code, class: "control-label"
+      %br/
+      = f.text_field :postal_code, class: "form-control"
+    .form-group
+      = f.label :country, class: "control-label"
+      %br/
+      = f.select :country, options_for_select(country_list, "AU"), {}, { class: "form-control", placeholder: "Type your country..." }
+
+  .actions.text-right= f.submit "Submit", class: "btn btn-default"

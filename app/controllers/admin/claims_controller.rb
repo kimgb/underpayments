@@ -65,6 +65,6 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def claim_params
-    params.require(:claim).permit(:user_id, :award, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+    params.require(:claim).permit(:user_id, :award_id, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
   end
 end
