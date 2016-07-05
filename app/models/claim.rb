@@ -27,7 +27,7 @@ class Claim < ActiveRecord::Base
       [
         "submitted_for_review", "submitted_on",
         "hours_self_witnessed", "payslips_received",
-        "award_legacy"
+        "award_legacy", "ready_to_submit"
       ].include? attr
     end
   end

@@ -11,10 +11,11 @@
 
 %h3 
   User details
-  %small= link_to("(edit)", edit_admin_profile_path(@claim.user.profile))
+  - if @claim.user.profile.present?
+    %small= link_to("(edit)", edit_admin_profile_path(@claim.user.profile))
 :markdown
   #{ markdown_model(@claim.user) }  
-  #{ markdown_model(@claim.user.profile) }
+  #{ markdown_model(@claim.user.profile) if @claim.user.profile.present? }
 
 - if @claim.user.address
   = render partial: "admin/addresses/address", locals: { address: @claim.user.address, title: "User address", edit: "edit" }
