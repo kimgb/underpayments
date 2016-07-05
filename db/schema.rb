@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630041549) do
+ActiveRecord::Schema.define(version: 20160705051904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema.define(version: 20160630041549) do
     t.integer  "point_person_id"
     t.date     "review_date"
     t.integer  "award_id"
+    t.boolean  "ready_to_submit"
   end
 
   add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree

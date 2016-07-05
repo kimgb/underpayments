@@ -14,10 +14,12 @@ class Claim < ActiveRecord::Base
     :employment_began_on, :employment_ended_on#, :award
   validate :employment_begins_before_employment_ends
 
-  delegate :short_name, to: :award, prefix: true, allow_nil: true
+  delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
 
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
+  
+  before_save :set_ready_to_submit
 
   ### MARKDOWNABLE CONFIG - class methods
   def self.presentable_attributes
@@ -45,6 +47,10 @@ class Claim < ActiveRecord::Base
   ### INSTANCE METHODS
   def duration_of_employment_in_days
     "#{(employment_ended_on - employment_began_on).to_i} days"
+  end
+  
+  def proper_award
+    award_name
   end
 
   #############################################################################
@@ -300,10 +306,9 @@ class Claim < ActiveRecord::Base
   # => Claim is associated to a validated workplace with a validated address
   # => Claim is associated to a validated employer with a validated address
   def ready_to_submit?
-    required_resources.all?(&:present?) && required_resources.all?(&:valid?) &&
-      coverage_complete? && coverage_complete?(:time_evidence)
+    ready_to_submit
   end
-
+  
   def done?
     valid? && coverage_complete? && coverage_complete?(:time_evidence)
   end
@@ -328,6 +333,12 @@ class Claim < ActiveRecord::Base
   end
 
   def set_total_hours_by_year
+  end
+  
+  # For before_save callback
+  def set_ready_to_submit
+    assign_attributes(ready_to_submit: (required_resources.all?(&:present?) && required_resources.all?(&:valid?) &&
+      coverage_complete? && coverage_complete?(:time_evidence)))
   end
 
 

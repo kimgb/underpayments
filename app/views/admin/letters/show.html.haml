@@ -20,7 +20,7 @@
 
   #{ @user.proper_full_name } has advised us that during their employment with #{ @claim.employer.name }, they were paid a flat rate of #{ number_to_currency(@claim.hourly_pay) } per hour.
 
-  #{ @user.proper_full_name }'s employment was covered by the _#{ @claim.proper_award }_ (**the Award**). This provides for a person engaged in Award duties to be paid a minimum of #{ number_to_currency(@claim.award_minimum({ employment_type: "permanent" })) } plus a loading of 25% for casual employees. This means that #{ @user.proper_full_name } should have been entitled to a minimum hourly rate of #{ number_to_currency(@claim.award_minimum) }. This is a clear breach of s. 45 of the _Fair Work Act 2009_ (Cth).
+  #{ @user.proper_full_name }'s employment was covered by the _#{ @claim.award_name }_ (**the Award**). This provides for a person engaged in Award duties to be paid a minimum of #{ number_to_currency(@claim.award_minimum({ employment_type: "permanent" })) } plus a loading of 25% for casual employees. This means that #{ @user.proper_full_name } should have been entitled to a minimum hourly rate of #{ number_to_currency(@claim.award_minimum) }. This is a clear breach of s. 45 of the _Fair Work Act 2009_ (Cth).
 
   The NUW has reviewed evidence provided by #{ @user.proper_full_name }, and estimates that during their employment at #{ @claim.employer.name }, #{ @user.proper_full_name } was underpaid #{ number_to_currency(@claim.lost_wages) }.
 
