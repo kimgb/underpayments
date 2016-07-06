@@ -1,15 +1,14 @@
 class Admin::AddressesController < Admin::BaseController
   before_action :set_address, except: [:new, :create]
+  before_action :set_profile, only: [:new, :create]
   
   # GET /admin/profiles/1/address/new
   def new
-    @profile = Profile.find(params[:profile_id])
     @address = Address.new
   end
   
   # POST /admin/profiles/1/address
   def create
-    @profile = Profile.find(params[:profile_id])
     @address = @profile.build_address(address_params)
     
     respond_to do |format|
@@ -55,6 +54,10 @@ class Admin::AddressesController < Admin::BaseController
   # Use callbacks to share common setup or constraints between actions.  
   def set_address
     @address = Address.find(params[:id])
+  end
+  
+  def set_profile
+    @profile = Profile.find(params[:profile_id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

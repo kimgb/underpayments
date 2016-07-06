@@ -3,6 +3,7 @@ class Award < ActiveRecord::Base
   friendly_id :short_name, use: :slugged
   
   has_many :claims
+  
   validates_presence_of :name, :short_name, :min_casual_rates, :min_permanent_rates
   validates_uniqueness_of :name, :short_name
   

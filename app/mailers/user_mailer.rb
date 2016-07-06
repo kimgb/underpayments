@@ -1,21 +1,33 @@
 class UserMailer < ActionMailer::Base
   default from: 'no-reply@mg.nuw.org.au'
   
-  def submission_email
-    mail to:      "kbuckley@nuw.org.au",
-         subject: "New underpayments submission",
-         body:    "Please check the underpayments review queue for details."
+  def submission_email(claim)
+    @claim = claim
+    
+    mail  to:       (@claim.point_person_email || "kbuckley@nuw.org.au"),
+          subject:  "An underpayment claim has been submitted by #{@claim.user.email}"
+  end
+  
+  def notify_point_person(claim, changes)
+    @claim, @changes = claim, changes
+    
+    if @claim.point_person.present?
+      mail  to:       (@claim.point_person_email || "kbuckley@nuw.org.au"),
+            subject:  "Breaking news about #{@claim.user.email}'s underpayment claim!"
+    end
   end
   
   def welcome_email(user)
     @user = user
-    mail(to: @user.email, subject: "You're on your way to getting your lost wages back")
+    
+    mail  to:       @user.email, 
+          subject:  "You're on your way to getting your lost wages back"
   end
 
   def generic_email_with_token(recipient, sender, subject, body)
-    mail to:      recipient,
-         from:    sender,
-         subject: subject,
-         body:    body
+    mail  to:      recipient,
+          from:    sender,
+          subject: subject,
+          body:    body
   end
 end

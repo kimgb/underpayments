@@ -2,14 +2,16 @@
 &ensp;
 = link_to "Letter of demand", new_admin_claim_letter_path(@claim), class: "btn btn-default btn-sm"
 &ensp;
-= render partial: "admin/claims/toggle_lock", locals: { claim: @claim }
+= render "toggle_lock"
 &ensp;
 = link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim), class: "btn btn-default btn-sm"
 &ensp;
 = link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim), class: "btn btn-default btn-sm"
-= render partial: "admin/claims/update_status", locals: { claim: @claim }
 
-%h3 
+= render "update_status"
+= render "assign_point_person"
+
+%h3
   User details
   - if @claim.user.profile.present?
     %small= link_to("(edit)", edit_admin_profile_path(@claim.user.profile))
@@ -24,7 +26,6 @@
     = "No address."
     = link_to "Add one?", new_admin_profile_address_path(profile_id: @claim.user.profile)
   
-
 -# Claim
 - if @claim.valid?
   %h3 
@@ -59,3 +60,9 @@
   %p 
     This claim is empty?
     = link_to "Edit it?", edit_admin_claim_path(@claim)
+    
+    
+:coffeescript
+  $("#claim_point_person_id").on "change", (e)->
+    $("#claim_point_person").submit()
+    

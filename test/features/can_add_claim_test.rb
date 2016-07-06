@@ -4,7 +4,7 @@ class CanAddClaimTest < Capybara::Rails::TestCase
   test "add claim" do
     visit new_claim_path
 
-    select "Storage services, e.g. fruit packing", from: "What industry did you work in?"
+    select "Storage, e.g. fruit packing", from: "What industry did you work in?"
     fill_in "How many hours per week did you work, on average?", with: "32"
     fill_in "How much were you paid per hour?", with: "18"
 
@@ -20,7 +20,8 @@ class CanAddClaimTest < Capybara::Rails::TestCase
 
     click_button 'Am I underpaid?'
 
-    # Integration tests pose an interesting puzzle: testing i18n content
-    assert_includes current_path, pages_path(page: "estimate")
+    # Integration tests pose an interesting puzzle: testing i18n content?
+    # Just test English - or break the whole application on missing translation.
+    assert_content "This means you were underpaid"
   end
 end

@@ -6,6 +6,7 @@ class ProfilesController < ApplicationController
 
   # GET /profile
   def show
+    redirect_to new_profile_path if @profile.nil?
   end
 
   # GET /profile/new

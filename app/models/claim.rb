@@ -1,23 +1,24 @@
 class Claim < ActiveRecord::Base
   include Markdownable
 
+  belongs_to :award
+  belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
   has_one :user
   has_many :documents
   has_many :messages
   has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
-  belongs_to :award
-  belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
+  
+  scope :submitted?, -> { where(submitted_for_review: true) }
+  scope :not_submitted?, -> { where(submitted_for_review: false) }
 
+  delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
+  delegate :email, to: :point_person, prefix: true, allow_nil: true
+  
   validates_presence_of :hourly_pay, :weekly_hours, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
   validate :employment_begins_before_employment_ends
-
-  delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
-
-  scope :submitted?, -> { where(submitted_for_review: true) }
-  scope :not_submitted?, -> { where(submitted_for_review: false) }
   
   before_save :set_ready_to_submit
 
@@ -51,6 +52,10 @@ class Claim < ActiveRecord::Base
   
   def proper_award
     award_name
+  end
+  
+  def point_people_for_select
+    user.supergroup.users.admin.map { |u| [(u.full_name || u.email), u.id] }
   end
 
   #############################################################################
@@ -305,10 +310,6 @@ class Claim < ActiveRecord::Base
   # => Claim is associated to a validated user with a validated address
   # => Claim is associated to a validated workplace with a validated address
   # => Claim is associated to a validated employer with a validated address
-  def ready_to_submit?
-    ready_to_submit
-  end
-  
   def done?
     valid? && coverage_complete? && coverage_complete?(:time_evidence)
   end

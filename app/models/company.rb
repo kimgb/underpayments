@@ -2,10 +2,10 @@ class Company < ActiveRecord::Base
   include Markdownable
   include PgSearch
   
-  has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :company
-  has_many :claims, through: :claim_companies
   has_one :company_address, -> { where(is_active: true) }
   has_one :address, through: :company_address
+  has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :company
+  has_many :claims, through: :claim_companies
   
   accepts_nested_attributes_for :claim_companies
   

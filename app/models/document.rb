@@ -1,7 +1,7 @@
 class Document < ActiveRecord::Base
-  belongs_to :claim
-
   mount_uploader :evidence, DocumentUploader
+
+  belongs_to :claim
   
   scope :hours, -> { where(time_evidence: true) }
   scope :wages, -> { where(wage_evidence: true) }

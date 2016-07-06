@@ -1,13 +1,14 @@
 # not persisted to database (does not inherit from ActiveRecord).
 class Message < ActiveRecord::Base
   include Tokenable
-  after_create :fill_bodies!
   
+  attr_accessor :unlock  
   belongs_to :claim
+  
   belongs_to :parent_message, class_name: "Message", foreign_key: "parent_message_id"
   has_many :replies, class_name: "Message" , foreign_key: "parent_message_id"
 
-  attr_accessor :unlock  
+  after_create :fill_bodies!
   
   def tokenize_sender!
     sender_with_token = route_to_mailgun(tokenize(self.sender))

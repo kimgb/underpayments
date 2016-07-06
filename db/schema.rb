@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160705051904) do
+ActiveRecord::Schema.define(version: 20160706065023) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20160705051904) do
   create_table "claims", force: :cascade do |t|
     t.string   "status"
     t.string   "comment"
+    t.string   "award_legacy"
     t.decimal  "weekly_hours",         precision: 10, scale: 2
     t.decimal  "hourly_pay",           precision: 10, scale: 2
     t.date     "employment_began_on"
@@ -133,10 +134,10 @@ ActiveRecord::Schema.define(version: 20160705051904) do
     t.string   "slug"
     t.hstore   "skin"
     t.integer  "supergroup_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.text     "intro"
-    t.hstore   "awards"
+    t.hstore   "awards",        default: {}, null: false
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree
