@@ -1,12 +1,22 @@
-= link_to "Send a message", new_admin_claim_message_path(@claim), class: "btn btn-default btn-sm"
-&ensp;
-= link_to "Letter of demand", new_admin_claim_letter_path(@claim), class: "btn btn-default btn-sm"
-&ensp;
-= render "toggle_lock"
-&ensp;
-= link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim), class: "btn btn-default btn-sm"
-&ensp;
-= link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim), class: "btn btn-default btn-sm"
+.flex.flex-row-reverse.flex-center.flex-justify
+  .flex-order-1
+    .visible-xs
+      .btn-group
+        %button.btn.btn-default.btn-sm.dropdown-toggle{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } }
+          %span.glyphicon.glyphicon-tasks
+        %ul.dropdown-menu.dropdown-menu-right
+          %li= link_to "Send a message", new_admin_claim_message_path(@claim)
+          %li= link_to "Letter of demand", new_admin_claim_letter_path(@claim)
+          %li= render partial: "admin/claims/toggle_lock", locals: { link_class: "" }
+          %li= link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim)
+          %li= link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim)
+      
+  .btn-group.hidden-xs
+    = link_to "Send a message", new_admin_claim_message_path(@claim), class: "btn btn-default btn-sm"
+    = link_to "Letter of demand", new_admin_claim_letter_path(@claim), class: "btn btn-default btn-sm"
+    = render partial: "admin/claims/toggle_lock", locals: { link_class: "btn btn-default btn-sm" }
+    = link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim), class: "btn btn-default btn-sm"
+    = link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim), class: "btn btn-default btn-sm"
 
 = render "update_status"
 = render "assign_point_person"

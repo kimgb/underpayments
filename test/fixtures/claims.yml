@@ -1,5 +1,5 @@
 boilerplate: &boilerplate
-  weekly_hours: 32.00
+  hours_per_period: 32.00
   payslips_received: true
   pieceworker: false
   award_id: 1
@@ -9,11 +9,11 @@ boilerplate: &boilerplate
   
 underpaid: &underpaid
   <<: *boilerplate
-  hourly_pay: 16.00
+  pay_per_period: 16.00
   
 proper: &proper
   <<: *boilerplate
-  hourly_pay: 24.00
+  pay_per_period: 24.00
   
 basic_underpaid:
   <<: *underpaid

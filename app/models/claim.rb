@@ -16,7 +16,7 @@ class Claim < ActiveRecord::Base
   delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
   delegate :email, to: :point_person, prefix: true, allow_nil: true
   
-  validates_presence_of :hourly_pay, :weekly_hours, :employment_type,
+  validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
   validate :employment_begins_before_employment_ends
   

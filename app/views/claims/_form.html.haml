@@ -3,6 +3,8 @@
 
   %fieldset
     %legend= t('.title')
+    
+    = hidden_field_tag 'pay_question', (@skin.pay_question || t('.pay_per_period'))
 
     - if @skin.awards_blank_or_singleton?
       = f.hidden_field :award_id
@@ -15,7 +17,7 @@
       = f.hidden_field :pay_period
     - else
       .form-group
-        = f.label :pay_period, "Pay period", class: "control-label"
+        = f.label :pay_period, "How often were you paid?", class: "control-label"
         = f.select :pay_period, options_for_select(@skin.pay_periods_for_select, @claim.pay_period), {}, { class: "form-control" }
 
     - if @skin.time_periods_blank_or_singleton?
@@ -27,7 +29,7 @@
 
     .form-group
       -# = f.label :hours_per_period, t('.hours_per_period'), class: "control-label"
-      = f.label :hours_per_period, "How many hours per #{@claim.time_period} did you work?", class: "control-label"
+      = f.label :hours_per_period, "How many hours per #{@claim.time_period} did you work, on average?", class: "control-label"
       /%br/
       .input-group
         .input-group-addon
@@ -41,7 +43,7 @@
 
     .form-group
       -# = f.label :pay_per_period, t('.pay_per_period'), class: "control-label"
-      = f.label :pay_per_period, "How much were you paid per #{@claim.pay_period}?", class: "control-label"
+      = f.label :pay_per_period, (@skin.pay_question ? @skin.pay_question_label(@claim.pay_period) : t('.pay_per_period', period: @claim.pay_period)), class: "control-label"
       /%br/
       .input-group
         .input-group-addon
@@ -81,6 +83,7 @@
     if $("#claim_award").val() != "horticulture"
       $("label[for=claim_pieceworker]").parent().addClass('collapse')
       $("#claim_pieceworker").prop 'checked', false
+    $("label[for=claim_pay_per_period]").text($("#pay_question").val() + " " + $("#claim_pay_period").val() + "?")
 
   $("#claim_pieceworker").on 'click', (e) ->
     if $(this).prop('checked')
@@ -100,3 +103,6 @@
       $("#claim_pieceworker").prop 'checked', false
     else
       $("label[for=claim_pieceworker]").parent().slideDown(400)
+      
+  $("#claim_pay_period").on 'change', (e) ->
+    $("label[for=claim_pay_per_period]").text($("#pay_question").val() + " " + $(this).val() + "?")

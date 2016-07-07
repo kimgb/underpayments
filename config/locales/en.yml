@@ -117,8 +117,8 @@ en:
     form:
       title: Tell us about your work
       award: "What industry did you work in?"
-      hours_per_period: "How many hours per week did you work, on average?"
-      pay_per_period: "How much were you paid per hour?"
+      hours_per_period: "How many hours per %{period} did you work, on average?"
+      pay_per_period: "How much were you paid per"
       pieceworker: "Were you a pieceworker?"
       pieceworker_hourly_pay: What was your approximate, average hourly rate from piecework?
       payslips_received: "Were you given any payslips?"

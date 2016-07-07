@@ -13,9 +13,11 @@ html, body {
   max-width: 1024px;
   margin: 0 auto;
 }
-nav {
-  padding: 0 1rem;
-}
+nav, .flex { padding: 0 2rem; }
+/*nav li { font-size: 1.4rem }*/
+.navbar-default .navbar-toggle { border-color: #AAA; }
+.navbar-toggle { border-radius: 0; }
+.dropdown-menu { font-size: inherit !important; }
 
 #flash {
   font-style: italic;
@@ -82,15 +84,16 @@ img {
 }
 .align-right { text-align: right; }
 footer, aside {
-  font-size: 14px; /* fallback for <MSIE9 */
-  font-size: 1.4rem;
+  font-size: 12px; /* fallback for <MSIE9 */
+  font-size: 1.2rem;
+}
+@media screen and (min-width: 768px) {
+  footer, aside { font-size: 1.4rem; }
+  nav { padding: 0; }
+  .flex { padding: 0; margin: 0; }
 }
 footer.fixed-bottom {
-  display: flex;
-  flex-direction: row;
   position: fixed;
-  align-items: center;
-  justify-content: space-between;
   
   width: 100%;
   bottom: 0;
@@ -110,12 +113,13 @@ footer.fixed-bottom {
 footer.fixed-bottom p {
   margin: 0;
 }
-.flex-order-1 {
-  order: 1;
-}
-.flex-order-2 {
-  order: 2;
-}
+.flex { display: flex; }
+.flex-row { flex-direction: row; }
+.flex-row-reverse { flex-direction: row-reverse; }
+.flex-justify { justify-content: space-between; }
+.flex-center { align-items: center; }
+.flex-order-1 { order: 1; }
+.flex-order-2 { order: 2; }
 
 .checkbox {
   border-radius: 12px;

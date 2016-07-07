@@ -1,23 +1,23 @@
 %nav.navbar.navbar-default
   .container-fluid
-    %ul.nav.navbar-nav
-      - if current_user
-        %li
-          %p.navbar-text
-            = t('.signed_in')
-            = link_to (current_user.full_name || current_user.email), current_user, class: "navbar-link"
-
-    %ul.nav.navbar-nav.navbar-right
-      - if current_user
-        %li
-          = link_to t('.sign_out'), destroy_user_session_path, method: :delete, class: "navbar-link"
-
-        - if current_user.admin?
-          %li
-            = link_to t('.administrate'), admin_claims_path, class: "navbar-link"
-
-      - else
-        %li
-          %p.navbar-text
-            = t('.returning')
+    .navbar-header
+      %button.navbar-toggle.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
+        %span.sr-only Toggle navigation
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      - if user_signed_in?
+        %p.navbar-text
+          = t('.signed_in')
+          = link_to (current_user.full_name || current_user.email), current_user, class: "navbar-link"
+    
+    .collapse.navbar-collapse#nav-items
+      %ul.nav.navbar-nav.navbar-right
+        - if user_signed_in?
+          - if current_user.admin?
+            %li= link_to t('.administrate'), admin_claims_path
+          %li= link_to t('.sign_out'), destroy_user_session_path, method: :delete
+        - else
+          %p.navbar-text 
+            Returning user?
             = link_to t('.sign_in'), new_user_session_path, class: "navbar-link"

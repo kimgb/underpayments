@@ -32,7 +32,7 @@
     - ["week", "fortnight", "month"].each do |time_period|
       .checkbox
         = label_tag "group_time_periods_#{time_period}" do
-          = check_box_tag "group[time_periods][]", time_period, @group.time_periods.include?(time_period), id: "group_time_periods_#{time_period}"
+          = radio_button_tag "group[time_periods][]", time_period, @group.time_periods.include?(time_period), id: "group_time_periods_#{time_period}"
           = time_period
   %fieldset
     %legend.h3= "Pay periods"
@@ -42,6 +42,13 @@
         = label_tag "group_pay_periods_#{pay_period}" do
           = check_box_tag "group[pay_periods][]", pay_period, @group.pay_periods.include?(pay_period), id: "group_pay_periods_#{pay_period}"
           = pay_period
+        
+  %fieldset
+    %legend.h3= "Pay question"
+    %p= "The phrasing of the question around how they were paid. Do not specify the pay period here."
+    .form-group
+      = f.label :pay_question
+      = f.text_field :pay_question, class: "form-control"
 
   %fieldset
     %legend.h3= "Custom appearance"

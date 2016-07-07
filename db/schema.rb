@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706065023) do
+ActiveRecord::Schema.define(version: 20160707074459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,9 +73,9 @@ ActiveRecord::Schema.define(version: 20160706065023) do
     t.integer  "point_person_id"
     t.date     "review_date"
     t.integer  "award_id"
+    t.boolean  "ready_to_submit"
     t.string   "pay_period",                                    default: "hour"
     t.string   "time_period",                                   default: "week"
-    t.boolean  "ready_to_submit"
   end
 
   add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree
@@ -142,6 +142,7 @@ ActiveRecord::Schema.define(version: 20160706065023) do
     t.hstore   "awards",        default: {}, null: false
     t.text     "pay_periods",   default: [],              array: true
     t.text     "time_periods",  default: [],              array: true
+    t.string   "pay_question"
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree

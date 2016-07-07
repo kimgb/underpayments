@@ -11,12 +11,16 @@ class Group < ActiveRecord::Base
   
   delegate :name, to: :supergroup, prefix: "owner", allow_nil: true
   
+  def pay_question_label(period)
+    "#{pay_question} #{period}?"
+  end
+  
   def awards_for_select
     awards.to_a.map(&:reverse).map { |str, k| [str, Award.friendly.find(k).id] }
   end
 
   def pay_periods_for_select
-    pay_periods.map(&:capitalize).zip(pay_periods)
+    pay_periods.map(&:capitalize).zip(Array.new(pay_periods.size, "ly")).map(&:join).zip(pay_periods)
   end
 
   def time_periods_for_select
@@ -39,7 +43,8 @@ class Group < ActiveRecord::Base
   end
 
   def singleton_award
-    singleton_attr(:awards, Award.friendly.find("no_award"))
+    awards? ? Award.friendly.find(awards.keys.first) : Award.friendly.find("no_award")
+    # singleton_attr(:awards, Award.friendly.find("no_award"))
   end
 
   def singleton_pay_period
