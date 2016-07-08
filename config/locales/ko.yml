@@ -57,7 +57,7 @@ ko:
       title: UNDERPAID?
       byline: (...or just overworked?)
       footer: |
-        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-06-28">28 June, 2016</time>.
+        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-07-08">8 July, 2016</time>.
     authentication:
       signed_in: Signed in as
       sign_out: Sign out
@@ -111,14 +111,14 @@ ko:
       intro: |
         Hello there. If you've done **work lately on a farm**, I'm here to help you find out if you've been ripped off—and help you get your money, if you want.
 
-        First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$21.61 per hour** before tax.
+        First, the basics: The minimum wage, with certain exceptions, for a casual farm worker is **$22.13 per hour** before tax.
 
         So, you think you've been underpaid? Let's find out.
     form:
       title: Tell us about your work
       award: "What industry did you work in?"
       hours_per_period: "How many hours per week did you work, on average?"
-      pay_per_period: "How much were you paid per hour?"
+      pay_per_period: "How much were you paid per %{period}?"
       pieceworker: "Were you a pieceworker?"
       pieceworker_hourly_pay: What was your approximate, average hourly rate from piecework?
       payslips_received: "Were you given any payslips?"

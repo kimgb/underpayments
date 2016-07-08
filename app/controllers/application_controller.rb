@@ -6,11 +6,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def default_url_options(options={})
-    { skin: @skin }.merge(options)
+    { skin: @skin.slug }.merge(options)
   end
 
   def after_sign_in_path_for(user)
-    user.admin? ? admin_claims_url : user_url(user)
+    user.admin? ? admin_claims_url(skin: user.group) : user_url(user, skin: user.group)
   end
 
   def forbidden!

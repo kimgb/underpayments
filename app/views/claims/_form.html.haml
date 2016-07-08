@@ -4,7 +4,8 @@
   %fieldset
     %legend= t('.title')
     
-    = hidden_field_tag 'pay_question', (@skin.pay_question || t('.pay_per_period'))
+    = hidden_field_tag 'pay_question', (@skin.pay_question || t('.pay_per_period', period: t('datetime.prompts.hour').downcase)), 
+      data: { hour: t('datetime.prompts.hour').downcase, day: t('datetime.prompts.day').downcase, week: "week", fortnight: "fortnight", month: t('datetime.prompts.month').downcase }
 
     - if @skin.awards_blank_or_singleton?
       = f.hidden_field :award_id
@@ -43,7 +44,10 @@
 
     .form-group
       -# = f.label :pay_per_period, t('.pay_per_period'), class: "control-label"
-      = f.label :pay_per_period, (@skin.pay_question ? @skin.pay_question_label(@claim.pay_period) : t('.pay_per_period', period: @claim.pay_period)), class: "control-label"
+      = f.label :pay_per_period, (@skin.pay_question_label(@claim.pay_period)), class: "control-label",
+        data: { hour: @skin.pay_question_label('hour'), day: @skin.pay_question_label('day'),
+                week: @skin.pay_question_label('week'), fortnight: @skin.pay_question_label('fortnight'),
+                month: @skin.pay_question_label('month') }
       /%br/
       .input-group
         .input-group-addon
@@ -83,7 +87,7 @@
     if $("#claim_award").val() != "horticulture"
       $("label[for=claim_pieceworker]").parent().addClass('collapse')
       $("#claim_pieceworker").prop 'checked', false
-    $("label[for=claim_pay_per_period]").text($("#pay_question").val() + " " + $("#claim_pay_period").val() + "?")
+    $("label[for=claim_pay_per_period]").text($("label[for=claim_pay_per_period]").data($("#claim_pay_period").val())) # + " " + $("#claim_pay_period").val() + "?"
 
   $("#claim_pieceworker").on 'click', (e) ->
     if $(this).prop('checked')
@@ -105,4 +109,5 @@
       $("label[for=claim_pieceworker]").parent().slideDown(400)
       
   $("#claim_pay_period").on 'change', (e) ->
-    $("label[for=claim_pay_per_period]").text($("#pay_question").val() + " " + $(this).val() + "?")
+    $("label[for=claim_pay_per_period]").text($("label[for=claim_pay_per_period]").data($(this).val()))
+    #$("#pay_question").val() + " " + $("#pay_question").data($(this).val()) + "?")

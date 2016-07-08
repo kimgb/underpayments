@@ -12,7 +12,11 @@ class Group < ActiveRecord::Base
   delegate :name, to: :supergroup, prefix: "owner", allow_nil: true
   
   def pay_question_label(period)
-    "#{pay_question} #{period}?"
+    if self.pay_question?
+      "#{pay_question} #{period}?"
+    else
+      I18n.t('claims.form.pay_per_period', period: I18n.t('datetime.prompts.' + period).downcase)
+    end
   end
   
   def awards_for_select

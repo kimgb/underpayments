@@ -55,7 +55,7 @@ zh-TW:
       title: 被欠薪?
       byline: 超時工作
       footer: |
-        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-06-28">2016年6月28日</time>.
+        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-07-08">2016年7月8日</time>.
     authentication:
       signed_in: 登入中
       sign_out: 登出
@@ -116,7 +116,7 @@ zh-TW:
       title: 告訴我們你的工作
       award: 你在甚麼產業?
       hours_per_period: 平均一週工作時數?
-      pay_per_period: 平均時薪為?
+      pay_per_period: 平均%{period}薪為? #平均時薪為?
       pieceworker: 你在這個工作是計件制的工人嗎?
       pieceworker_hourly_pay: 以時薪來算的話，你的計件工作一小時大概是多少?
       payslips_received: 雇主每周有固定給你薪資明細?
