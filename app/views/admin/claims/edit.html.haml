@@ -8,7 +8,7 @@
 
     .form-group
       = f.label :award_id, t('claims.form.award'), class: "control-label"
-      = f.select :award_id, options_for_select(@claim.user.group.awards_for_select, @claim.award.id), {}, { class: "form-control" }
+      = f.select :award_id, options_for_select(@claim.user.group.awards_for_select, @claim.award_id), {}, { class: "form-control" }
 
     .form-group
       = f.label :hours_per_period, t('claims.form.hours_per_period', period: @claim.time_period), class: "control-label"

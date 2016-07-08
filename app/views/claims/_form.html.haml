@@ -12,7 +12,7 @@
     - else
       .form-group
         = f.label :award_id, t('.award'), class: "control-label"
-        = f.select :award_id, options_for_select(@skin.awards_for_select, @claim.award), {}, { class: "form-control" }
+        = f.select :award_id, options_for_select(@skin.awards_for_select, @claim.award_id), {}, { class: "form-control" }
 
     - if @skin.pay_periods_blank_or_singleton?
       = f.hidden_field :pay_period

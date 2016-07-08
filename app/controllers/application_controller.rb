@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def default_url_options(options={})
-    { skin: @skin.slug }.merge(options)
+    @skin.present? ? { skin: @skin.slug }.merge(options) : options
   end
 
   def after_sign_in_path_for(user)
