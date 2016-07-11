@@ -23,7 +23,7 @@ class ClaimCompaniesController < ApplicationController
   # POST /claims/1/claim_companies
   # POST /claims/1/claim_companies.json
   def create
-     @claim.claim_companies.build(claim_company_params) do |cc|
+     @claim_company = @claim.claim_companies.build(claim_company_params) do |cc|
        cc.build_company(company_params) if cc.company.blank? && company_params.any?
      end
 

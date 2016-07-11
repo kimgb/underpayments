@@ -1,0 +1,20 @@
+fair_food:
+  id: 1
+  name: Fair Food
+  slug: fair-food
+  skin:
+    link_color: "#F5003D"
+    btn_bg_color: "#a9002a"
+    nav_bg_color: "#7b001f"
+    body_bg_color: "#161616"
+    btn_text_color: "#ddd"
+    headings_color: "#0B8842"
+    nav_text_color: "#ddd"
+    body_text_color: "#ddd"
+  supergroup_id: 1
+  awards:
+    meat: "Meat industry"
+    poultry: "Poultry processing"
+    storage: "Storage, e.g. fruit packing"
+    no_award: "Not listed / I don't know"
+    horticulture: "Horticulture, e.g. fruit picking"
