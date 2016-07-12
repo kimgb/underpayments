@@ -1,2 +1,2 @@
 :markdown
-  Please #{ link_to "click here", admin_claim_url(@claim) } to see it.
+  Please #{ link_to "click here", admin_claim_url(@claim, skin: @claim.user.group.slug) } to see it.
