@@ -32,7 +32,7 @@ class Admin::GroupsController < Admin::BaseController
       if @group.save
         # A new group means a new skin - update the routes file
         Rails.application.reload_routes!
-        
+
         format.html { redirect_to [:admin, @group], notice: 'Campaign was successfully created.' }
         format.json { render :show, status: :created, location: @group }
       else
@@ -74,7 +74,7 @@ class Admin::GroupsController < Admin::BaseController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def group_params
-      params.require(:group).permit(:supergroup_id, :name, :slug, :intro).tap do |whitelisted|
+      params.require(:group).permit(:supergroup_id, :name, :slug, :intro, :pay_question, time_periods: [], pay_periods: []).tap do |whitelisted|
         whitelisted[:skin] = params[:group][:skin]
         whitelisted[:awards] = params[:group][:awards].reject { |k,v| v.blank? }
       end

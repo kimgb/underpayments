@@ -1,23 +1,26 @@
 class Claim < ActiveRecord::Base
   include Markdownable
 
+  belongs_to :award
+  belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
   has_one :user
   has_many :documents
   has_many :messages
   has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
-  belongs_to :award
-  belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
-
-  validates_presence_of :hourly_pay, :weekly_hours, :employment_type,
-    :employment_began_on, :employment_ended_on#, :award
-  validate :employment_begins_before_employment_ends
-
-  delegate :short_name, to: :award, prefix: true, allow_nil: true
-
+  
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
+
+  delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
+  delegate :email, to: :point_person, prefix: true, allow_nil: true
+  
+  validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
+    :employment_began_on, :employment_ended_on#, :award
+  validate :employment_begins_before_employment_ends
+  
+  before_save :set_ready_to_submit
 
   ### MARKDOWNABLE CONFIG - class methods
   def self.presentable_attributes
@@ -25,7 +28,8 @@ class Claim < ActiveRecord::Base
       [
         "submitted_for_review", "submitted_on",
         "hours_self_witnessed", "payslips_received",
-        "award_legacy"
+        "award_legacy", "ready_to_submit",
+        "pay_period", "time_period"
       ].include? attr
     end
   end
@@ -45,6 +49,14 @@ class Claim < ActiveRecord::Base
   ### INSTANCE METHODS
   def duration_of_employment_in_days
     "#{(employment_ended_on - employment_began_on).to_i} days"
+  end
+  
+  def proper_award
+    award_name
+  end
+  
+  def point_people_for_select
+    user.supergroup.users.admin.map { |u| [(u.full_name || u.email), u.id] }
   end
 
   #############################################################################
@@ -109,6 +121,22 @@ class Claim < ActiveRecord::Base
   def presentable_companies
     claim_companies.where("true in (is_workplace, is_employer)")
     # companies.all { |co| co.presentable_against?(self) }
+  end
+
+  # Claim#hourly_pay()
+  # Legacy method to sidestep issues from schema migration.
+  def hourly_pay
+    return pay_per_period if pay_period == "hour"
+
+    (pay_per_period / avg_worked_hours_per_pay_period).round(2)
+  end
+
+  # Claim#weekly_hours()
+  # Legacy method to sidestep issues from schema migration.
+  def weekly_hours
+    return hours_per_period if time_period == "week"
+
+    hours_per_period * (168.0 / total_hours_per(time_period))
   end
 
   # Claim#stolen_wages()
@@ -299,11 +327,6 @@ class Claim < ActiveRecord::Base
   # => Claim is associated to a validated user with a validated address
   # => Claim is associated to a validated workplace with a validated address
   # => Claim is associated to a validated employer with a validated address
-  def ready_to_submit?
-    required_resources.all?(&:present?) && required_resources.all?(&:valid?) &&
-      coverage_complete? && coverage_complete?(:time_evidence)
-  end
-
   def done?
     valid? && coverage_complete? && coverage_complete?(:time_evidence)
   end
@@ -328,6 +351,12 @@ class Claim < ActiveRecord::Base
   end
 
   def set_total_hours_by_year
+  end
+  
+  # For before_save callback
+  def set_ready_to_submit
+    assign_attributes(ready_to_submit: (required_resources.all?(&:present?) && required_resources.all?(&:valid?) &&
+      coverage_complete? && coverage_complete?(:time_evidence)))
   end
 
 
@@ -433,5 +462,21 @@ class Claim < ActiveRecord::Base
   # TODO figure a way to allow changes in pay rate to be reported.
   def estimated_wages_paid
     hourly_pay * estimated_hours_worked
+  end
+
+  def avg_worked_hours_per_pay_period
+    return 1.0 if pay_period == "hour"
+
+    hours_per_period * (total_hours_per(pay_period) / total_hours_per(time_period))
+  end
+
+  def total_hours_per(period)
+    case period
+    when "hour" then 1.0
+    when "day" then 24.0
+    when "week" then 168.0
+    when "fortnight" then 336.0
+    when "month" then 728.0
+    end
   end
 end

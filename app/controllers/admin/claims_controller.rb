@@ -36,16 +36,15 @@ class Admin::ClaimsController < Admin::BaseController
   
   # PATCH/PUT /admin/claims/1
   def update
-    new_note = claim_params[:status].present? && claim_params[:comment].present? && 
-      (claim_params[:status] != @claim.status || claim_params[:comment] != @claim.comment)
+    new_note?
     @claim.assign_attributes(claim_params)
     @user = @claim.user
-    locking = @claim.submitted_for_review && @claim.submitted_for_review_changed?
+    locking?
     
     respond_to do |format|
       if @claim.save
-        set_submission_date if locking
-        @claim.notes.create(summary: @claim.status, explanation: @claim.comment, author: current_user) if new_note
+        set_submission_date if locking?
+        create_note if new_note?
         
         format.html { redirect_to [:admin, @claim], notice: "Updated." }
       else
@@ -56,6 +55,19 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   private
+  def new_note?
+    @new_note ||= (claim_params[:status].present? && claim_params[:status] != @claim.status) ||
+      (claim_params[:comment].present? && claim_params[:comment] != @claim.comment)
+  end
+  
+  def create_note
+    @claim.notes.create(summary: @claim.status, explanation: @claim.comment, author: current_user)
+  end
+  
+  def locking?
+    @locking ||= @claim.submitted_for_review && @claim.submitted_for_review_changed?
+  end
+  
   def set_claim
     @claim = Claim.find(params[:id])
   end
@@ -65,6 +77,6 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def claim_params
-    params.require(:claim).permit(:user_id, :award, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+    params.require(:claim).permit(:user_id, :point_person_id, :award_id, :time_period, :hours_per_period, :pay_period, :pay_per_period, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
   end
 end

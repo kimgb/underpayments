@@ -6,6 +6,7 @@ class ProfilesController < ApplicationController
 
   # GET /profile
   def show
+    redirect_to new_profile_path, notice: "Profile missing - please add one below!" if @profile.nil?
   end
 
   # GET /profile/new

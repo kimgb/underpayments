@@ -1,10 +1,10 @@
 class Address < ActiveRecord::Base
   include Markdownable
 
-  validates_presence_of :street_address, :town, :province, :postal_code, :country
-
   has_many :profiles
   has_many :company_addresses
+
+  validates_presence_of :street_address, :town, :province, :postal_code, :country
   
   def self.attr_transform
     {

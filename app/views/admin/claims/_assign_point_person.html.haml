@@ -1,0 +1,7 @@
+= form_for(@claim, url: admin_claim_path(@claim), html: { id: "claim_point_person", class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @claim }
+
+  %fieldset
+    .form-group
+      = f.label :point_person_id, "Point person on this claim:", class: "control-label"
+      = f.select :point_person_id, options_for_select(@claim.point_people_for_select, @claim.point_person_id), { prompt: "None set yet" }, { class: "form-control" }

@@ -27,6 +27,33 @@
           = a.text_field award.slug.to_sym, class: "form-control"
 
   %fieldset
+    %legend.h3= "Time periods"
+    %p= "Select each hours period you want to be available for your campaign. If you choose more than one, the user will be presented a dropdown. Users will be asked to enter the amount of hours they worked per selected period."
+    - ["week", "fortnight", "month"].each do |time_period|
+      .checkbox
+        = label_tag "group_time_periods_#{time_period}" do
+          = radio_button_tag "group[time_periods][]", time_period, @group.time_periods.include?(time_period), id: "group_time_periods_#{time_period}"
+          = time_period
+  %fieldset
+    %legend.h3= "Pay periods"
+    %p= "Select each pay period you want to be available for your campaign. If you choose more than one, the user will be presented a dropdown. Users will be asked to enter how much they were paid per selected pay period."
+    - ["hour", "day", "week", "fortnight", "month"].each do |pay_period|
+      .checkbox
+        = label_tag "group_pay_periods_#{pay_period}" do
+          = check_box_tag "group[pay_periods][]", pay_period, @group.pay_periods.include?(pay_period), id: "group_pay_periods_#{pay_period}"
+          = pay_period
+        
+  %fieldset
+    %legend.h3= "Pay question"
+    %p= "The phrasing of the question around how much they were paid. Do not specify the pay period here. It will be set (or chosen by the user) based on pay periods selected above. An example is provided."
+    %p= "Leave this blank for the default - 'How much were you paid per ___?'"
+    .form-group
+      = f.label :pay_question
+      .input-group
+        = f.text_field :pay_question, class: "form-control align-right", placeholder: "How much were you paid per", aria: { describedby: "pay-question-suffix" }
+        %span.input-group-addon#pay-question-suffix fortnight?
+
+  %fieldset
     %legend.h3= "Custom appearance"
     .form-group
       = f.label :intro, "Introduction text"

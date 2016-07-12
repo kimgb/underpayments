@@ -15,8 +15,9 @@ class ClaimsController < ApplicationController
     redirect_to current_user if current_user && current_user.claim.present?
 
     @claim = Claim.new
-    if @skin.awards_blank_or_singleton?
-      @claim.award = Award.friendly.find(@skin.singleton_award)
+    @skin.blank_or_singleton?(:awards, :time_periods, :pay_periods).each do |c|
+      attr = c.to_s.singularize
+      @claim.send("#{attr}=", @skin.send("singleton_#{attr}"))
     end
   end
 
@@ -52,7 +53,7 @@ class ClaimsController < ApplicationController
       if @claim.update(claim_params)
         if @claim.submitted_for_review
           set_submission_date
-          UserMailer.submission_email.deliver_now
+          UserMailer.submission_email(@claim).deliver_now
 
           format.html { redirect_to @claim.user, notice: 'Your claim has been submitted for review and is now locked for editing.' }
           format.json { render :show, status: :ok, location: @claim.user }
@@ -95,7 +96,12 @@ class ClaimsController < ApplicationController
   end
 
   def claim_params
-    params.require(:claim).permit(:award_id, :weekly_hours, :hourly_pay, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+    params.require(:claim).permit(
+      :award_id, :time_period, :hours_per_period, :pay_period, :pay_per_period, 
+      :payslips_received, :employment_began_on, :employment_ended_on, 
+      :employment_type, :regular_hours, :exemplary_week, 
+      :submitted_for_review, :pieceworker
+    )
   end
 
   def authorise_owner!

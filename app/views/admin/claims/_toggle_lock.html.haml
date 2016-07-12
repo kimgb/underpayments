@@ -1,3 +1,4 @@
-= form_for(claim, url: admin_claim_path(claim), html: { style: "display: inline;", multipart: true }) do |f|
-  = f.hidden_field :submitted_for_review, value: !claim.locked?
-  = button_tag "#{claim.locked? ? "Unlock" : "Lock"} claim", type: "submit", class: "btn btn-default btn-sm"
+= link_to "#{@claim.locked? ? "Unlock" : "Lock"} claim", 
+  admin_claim_path(@claim, claim: { submitted_for_review: !@claim.locked? }), 
+  method: :patch,
+  class: link_class

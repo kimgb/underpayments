@@ -31,7 +31,7 @@ class DocumentsController < ApplicationController
     @document.evidence = document_params[:evidence]
 
     respond_to do |format|
-      if @document.save
+      if @claim.save
         format.html { redirect_to @claim.user, notice: 'Document was successfully uploaded.' }
         format.json { render :show, status: :created, location: @claim.user }
       else
@@ -49,6 +49,8 @@ class DocumentsController < ApplicationController
   def update
     respond_to do |format|
       if @document.update_attributes(document_params)
+        @document.claim.save
+        
         format.html { redirect_to @document, notice: 'Document was updated.' }
         format.json { render :show, status: :ok, location: @document }
       else
@@ -61,10 +63,16 @@ class DocumentsController < ApplicationController
   # DELETE /documents/1
   # DELETE /documents/1.json
   def destroy
-    @document.destroy
     respond_to do |format|
-      format.html { redirect_to @document.claim.user, notice: 'Document was successfully removed.' }
-      format.json { head :no_content }
+      if @document.destroy
+        @document.claim.save
+        
+        format.html { redirect_to @document.claim.user, notice: 'Document was successfully removed.' }
+        format.json { head :no_content }
+      else
+        format.html { render :show }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
     end
   end
 

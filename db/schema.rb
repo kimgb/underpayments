@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160630041549) do
+ActiveRecord::Schema.define(version: 20160707074459) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,15 +56,16 @@ ActiveRecord::Schema.define(version: 20160630041549) do
   create_table "claims", force: :cascade do |t|
     t.string   "status"
     t.string   "comment"
-    t.decimal  "weekly_hours",         precision: 10, scale: 2
-    t.decimal  "hourly_pay",           precision: 10, scale: 2
+    t.string   "award_legacy"
+    t.decimal  "hours_per_period",     precision: 10, scale: 2
+    t.decimal  "pay_per_period",       precision: 10, scale: 2
     t.date     "employment_began_on"
     t.date     "employment_ended_on"
     t.string   "employment_type"
     t.boolean  "regular_hours"
     t.hstore   "exemplary_week"
-    t.datetime "created_at",                                                    null: false
-    t.datetime "updated_at",                                                    null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.boolean  "submitted_for_review"
     t.datetime "submitted_on"
     t.boolean  "payslips_received",                             default: false
@@ -72,6 +73,9 @@ ActiveRecord::Schema.define(version: 20160630041549) do
     t.integer  "point_person_id"
     t.date     "review_date"
     t.integer  "award_id"
+    t.boolean  "ready_to_submit"
+    t.string   "pay_period",                                    default: "hour"
+    t.string   "time_period",                                   default: "week"
   end
 
   add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree
@@ -132,10 +136,13 @@ ActiveRecord::Schema.define(version: 20160630041549) do
     t.string   "slug"
     t.hstore   "skin"
     t.integer  "supergroup_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.text     "intro"
-    t.hstore   "awards"
+    t.hstore   "awards",        default: {}, null: false
+    t.text     "pay_periods",   default: [],              array: true
+    t.text     "time_periods",  default: [],              array: true
+    t.string   "pay_question"
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree

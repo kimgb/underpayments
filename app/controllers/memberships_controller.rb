@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   # Interface to an external API - no need to set appearance.
-  skip_before_action :set_skin
+  # skip_before_action :set_skin
   
   # GET /membership?email=some@guy.com&external_id=NA000000&mobile=0455555555
   def show
@@ -12,6 +12,6 @@ class MembershipsController < ApplicationController
   
   private
   def membership_params
-    params.permit(:external_id, :email, :mobile)
+    params.permit(:external_id, :email, :mobile, :skin)
   end
 end

@@ -3,13 +3,15 @@
 
   %fieldset
     %legend= t('claims.form.title')
+    = f.hidden_field :pay_period
+    = f.hidden_field :time_period
 
     .form-group
       = f.label :award_id, t('claims.form.award'), class: "control-label"
-      = f.select :award_id, options_for_select(@claim.group.awards_for_select, @claim.award), {}, { class: "form-control" }
+      = f.select :award_id, options_for_select(@claim.user.group.awards_for_select, @claim.award_id), {}, { class: "form-control" }
 
     .form-group
-      = f.label :weekly_hours, t('claims.form.weekly_hours'), class: "control-label"
+      = f.label :hours_per_period, t('claims.form.hours_per_period', period: @claim.time_period), class: "control-label"
       /%br/
       .input-group
         .input-group-addon
@@ -22,12 +24,15 @@
         = t('claims.form.pieceworker')
 
     .form-group
-      = f.label :hourly_pay, t('claims.form.hourly_pay'), class: "control-label"
+      = f.label :pay_per_period, (@skin.pay_question_label(@claim.pay_period)), class: "control-label",
+        data: { hour: @skin.pay_question_label('hour'), day: @skin.pay_question_label('day'),
+                week: @skin.pay_question_label('week'), fortnight: @skin.pay_question_label('fortnight'),
+                month: @skin.pay_question_label('month') }
       /%br/
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-usd
-        = f.number_field :hourly_pay, class: "form-control", min: "0", step: "0.01"
+        = f.number_field :pay_per_period, class: "form-control", min: "0", step: "0.01"
 
     .checkbox
       = f.label :payslips_received do
@@ -52,7 +57,7 @@
   %output#claim_output
 
   .actions.text-right
-    = f.submit t('claims.form.calculate'), class: "btn btn-sm btn-default", id: "claim_submit"
+    = f.submit "Update", class: "btn btn-sm btn-default", id: "claim_submit"
 
 :coffeescript
   $(document).ready ->
@@ -61,6 +66,8 @@
     if $("#claim_award").val() != "horticulture"
       $("label[for=claim_pieceworker]").parent().addClass('collapse')
       $("#claim_pieceworker").prop 'checked', false
+    pay_label = $("label[for=claim_pay_per_period]")
+    pay_label.text(pay_label.data($("#claim_pay_period").val()))
 
   $("#claim_pieceworker").on 'click', (e) ->
     if $(this).prop('checked')
@@ -70,7 +77,7 @@
       ).fadeIn(400)
     else
       $("label[for=claim_hourly_pay]").fadeOut(400).queue((n) ->
-        $(this).text("#{t('claims.form.hourly_pay')}")
+        $(this).text("#{t('claims.form.pay_per_period')}")
         n()
       ).fadeIn(400)
 
@@ -80,3 +87,7 @@
       $("#claim_pieceworker").prop 'checked', false
     else
       $("label[for=claim_pieceworker]").parent().slideDown(400)
+
+  $("#claim_pay_period").on 'change', (e) ->
+    pay_label = $("label[for=claim_pay_per_period]")
+    pay_label.text(pay_label.data($(this).val()))

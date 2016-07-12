@@ -23,13 +23,12 @@ class ClaimCompaniesController < ApplicationController
   # POST /claims/1/claim_companies
   # POST /claims/1/claim_companies.json
   def create
-     @claim_company = @claim.claim_companies.build(claim_company_params)
-     if @claim_company.company.blank?
-       @claim_company.build_company(company_params) if company_params.any?
+     @claim_company = @claim.claim_companies.build(claim_company_params) do |cc|
+       cc.build_company(company_params) if cc.company.blank? && company_params.any?
      end
 
     respond_to do |format|
-      if @claim_company.save
+      if @claim.save
         format.html { redirect_to @claim.user, notice: 'Company was successfully created.' }
         format.json { render :show, status: :created, location: @claim_company }
       else
@@ -44,6 +43,8 @@ class ClaimCompaniesController < ApplicationController
   def update
     respond_to do |format|
       if @claim_company.update(claim_company_params) && @company.update(company_params)
+        @claim_company.claim.save
+        
         format.html { redirect_to current_user, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @claim_company.claim.user }
       else
@@ -58,6 +59,8 @@ class ClaimCompaniesController < ApplicationController
   def destroy
     respond_to do |format|
       if @claim_company.update(is_active: false)
+        @claim_company.claim.save
+        
         format.html { redirect_to current_user, notice: 'Company was successfully removed.' }
         format.json { head :no_content }
       else

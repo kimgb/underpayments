@@ -1,5 +1,5 @@
 - if @person
-  - if @person.paying? # exists and paying
+  - if @person.member? # exists and paying
     %h4= t('.ready')
     = form_for(@user.claim, html: { class: "form", multipart: true }) do |f|
       = f.hidden_field :submitted_for_review, value: true  

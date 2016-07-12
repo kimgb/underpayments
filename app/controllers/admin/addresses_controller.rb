@@ -1,5 +1,26 @@
 class Admin::AddressesController < Admin::BaseController
-  before_action :set_address
+  before_action :set_address, except: [:new, :create]
+  before_action :set_profile, only: [:new, :create]
+  
+  # GET /admin/profiles/1/address/new
+  def new
+    @address = Address.new
+  end
+  
+  # POST /admin/profiles/1/address
+  def create
+    @address = @profile.build_address(address_params)
+    
+    respond_to do |format|
+      if @profile.save
+        format.html { redirect_to admin_claim_path(@profile.user.claim), notice: "Address added." }
+        format.json { render :show, status: :ok, location: @address }
+      else
+        format.html { render :new }
+        format.json { render json: @address.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   # GET /addresses/1/edit
   def edit
@@ -33,6 +54,10 @@ class Admin::AddressesController < Admin::BaseController
   # Use callbacks to share common setup or constraints between actions.  
   def set_address
     @address = Address.find(params[:id])
+  end
+  
+  def set_profile
+    @profile = Profile.find(params[:profile_id])
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
