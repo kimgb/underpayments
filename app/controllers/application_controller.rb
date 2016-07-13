@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  rescue_from ActionController::InvalidAuthenticityToken, with: :token_invalid!
   before_action :set_skin, :set_locale, :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -21,6 +22,10 @@ class ApplicationController < ActionController::Base
     render file: "public/404.html", status: :not_found, layout: false
   end
 
+  def token_invalid!
+    render file: "public/401_timeout.html", status: :unauthorized, layout: false
+  end
+
   protected
   def authenticate_inviter!
     authorise_admin!
@@ -36,7 +41,9 @@ class ApplicationController < ActionController::Base
     @skin ||= Group.find(current_user.group_id) if user_signed_in? && current_user.group_id?
     @skin ||= Group.friendly.find(params[:skin]) if params[:skin].present? && !params[:skin].is_a?(Group)
   rescue ActiveRecord::RecordNotFound => err
-    flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    unless params[:skin].blank?
+      flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    end
   ensure #always runs
     @skin ||= Group.first
   end

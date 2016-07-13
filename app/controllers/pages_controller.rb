@@ -14,10 +14,6 @@ class PagesController < ApplicationController
     # render inline: @page.content.html_safe, layout: :default
   end
 
-  def test_exception_notification
-    raise "Testing, 1 2 3"
-  end
-
   def find_entity
     params.each do |name, value|
       if name =~ /(.+)_id$/
