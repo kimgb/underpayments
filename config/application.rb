@@ -37,7 +37,7 @@ module Underpaid
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
-    config.active_record.observers = :claim_observer
+    config.active_record.observers = :claim_observer, :document_observer
 
     # Since we're using PostgreSQL's HStore, the schema dump may need to be in SQL, not Ruby
     # config.active_record.schema_format = :sql

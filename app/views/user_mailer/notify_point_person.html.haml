@@ -1,8 +1,6 @@
 %p There's been an update to one of your claims!
 
-%p
-  - @changes.each do |attr, (attr_from, attr_to)|
-    = "#{attr} changed from #{attr_from} to #{attr_to}"
-    %br
+:markdown
+  #{@changes}
 
 %p= link_to "View the claim", admin_claim_url(@claim, skin: @claim.user.group.slug)

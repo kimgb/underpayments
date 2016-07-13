@@ -1,7 +1,5 @@
 There's been an update to one of your claims!
 
-<% @changes.each do |attr, (attr_from, attr_to)| %>
-  <%= "#{attr} changed from #{attr_from} to #{attr_to}" %>
-<% end %>
+<%= @changes %>
 
 View the claim: <%= admin_claim_url(@claim, skin: @claim.user.group.slug) %>
