@@ -36,20 +36,22 @@ module Underpaid
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    
+
+    config.active_record.observers = :claim_observer
+
     # Since we're using PostgreSQL's HStore, the schema dump may need to be in SQL, not Ruby
     # config.active_record.schema_format = :sql
 
     # Set the application secret key through Figaro
     config.secret_key_base = Figaro.env.secret_key_base
-    
+
     # config.autoload_paths << Rails.root.join('lib')
-    config.eager_load_paths += ["#{Rails.root}/lib"]
-    
-    config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
+    config.eager_load_paths += ["#{Rails.root}/lib", "#{Rails.root}/app/models/observers"]
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
       html_tag
     }
-    
+
     # Suckerpunch for background tasks
     config.active_job.queue_adapter = :sucker_punch
   end

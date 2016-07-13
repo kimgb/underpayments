@@ -4,6 +4,7 @@ ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.5'
+gem 'rails-observers'
 # Use Puma as the web server
 gem 'puma'
 # Use postgresql as the database for Active Record
@@ -89,7 +90,7 @@ group :development do
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
-  
+
   gem 'guard', :require => false
   gem 'guard-minitest', :require => false
   gem 'rb-fsevent', :require => false

@@ -16,7 +16,7 @@
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-time
-        = f.number_field :weekly_hours, class: "form-control"
+        = f.number_field :hours_per_period, class: "form-control"
 
     .checkbox
       = f.label :pieceworker do
@@ -52,7 +52,7 @@
     .form-group
       = f.label :employment_type, t('claims.form.employment_type'), class: "control-label"
       %br/
-      = f.select :employment_type, options_for_select(employment_type_list, "casual"), {}, { class: "form-control" }
+      = f.select :employment_type, options_for_select(employment_type_list, @claim.employment_type), {}, { class: "form-control" }
 
   %output#claim_output
 
