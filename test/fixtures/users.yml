@@ -14,3 +14,9 @@ non_owner:
   id: 3
   email: lrohde@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'rudewords') %>
+  
+claimant:
+  id: 4
+  email: claimaint@nuw.org.au
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'cl41m4nt') %>
+  claim_id: 5

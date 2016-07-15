@@ -8,3 +8,16 @@ basic:
   phone: "0423456789"
   preferred_language: :"en-AU"
   gender: N
+  
+claimant:
+  user_id: 4
+  address_id: 1
+  family_name: Doe
+  given_name: Jane
+  preferred_name: Jane
+  date_of_birth: 1990-01-01
+  nationality: AU
+  visa: v417
+  phone: "0423456789"
+  preferred_language: :"en-AU"
+  gender: N

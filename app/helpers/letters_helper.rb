@@ -11,15 +11,6 @@ module LettersHelper
     end
   end
   
-  def inbox_list
-    [
-      ["assistpoultry@nuw.org.au", "assistpoultry@nuw.org.au"],
-      ["assistfruitveg@nuw.org.au", "assistfruitveg@nuw.org.au"],
-      ["assistmeat@nuw.org.au", "assistmeat@nuw.org.au"],
-      ["nuwassist@nuw.org.au", "nuwassist@nuw.org.au"]
-    ]
-  end
-  
   # Currently using Markdown for formatting - two spaces + newline formats as <br>
   def signature_list
     [

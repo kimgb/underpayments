@@ -36,6 +36,7 @@ module ApplicationHelper
   
   def join_query_params(user)
     query_params = user.join_form_params.merge({
+      "authorizor_id" => current_user.email,
       "auto_submit" => true
     })
       

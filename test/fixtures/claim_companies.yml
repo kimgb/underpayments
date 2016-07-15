@@ -1,0 +1,7 @@
+basic_w_multi_doc_claim:
+  id: 1
+  is_active: true
+  is_employer: true
+  is_workplace: true
+  claim_id: 5
+  company_id: 1

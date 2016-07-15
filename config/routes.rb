@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [:edit, :update] do
         resource :address, only: [:new, :create]
       end
-      resources :companies, except: [:new, :create]
+      resources :companies
       resources :addresses, only: [:edit, :update, :destroy]
       resources :documents, only: [:show, :edit, :update, :destroy]
 

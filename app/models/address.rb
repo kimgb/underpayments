@@ -31,7 +31,7 @@ class Address < ActiveRecord::Base
       "suburb" => town,
       "state" => province,
       "postcode" => postal_code,
-      "country" => country
+      "country_code" => country
     }
   end
 end

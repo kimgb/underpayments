@@ -1,0 +1,32 @@
+= form_for([:admin, @company], html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @company }
+
+  %fieldset
+    %legend= "Edit company"
+
+    .form-group
+      = f.label :name, "Name", class: "control-label"
+      %br/
+      = f.text_field :name, class: "form-control"
+      
+    .form-group
+      = f.label :contact, "Contact", class: "control-label"
+      %br/
+      = f.text_field :contact, class: "form-control"
+
+    .form-group
+      = f.label :abn, class: "control-label"
+      %br/
+      = f.text_field :abn, class: "form-control"
+
+    .form-group
+      = f.label :phone, "Phone", class: "control-label"
+      %br/
+      = f.telephone_field :phone, class: "form-control"
+
+    .form-group
+      = f.label :email, "Email", class: "control-label"
+      %br/
+      = f.email_field :email, class: "form-control"
+
+  .actions.text-right= f.submit t('companies.form.commit'), class: "btn btn-default"
