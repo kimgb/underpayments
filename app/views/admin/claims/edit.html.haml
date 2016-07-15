@@ -16,8 +16,8 @@
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-time
-        = f.number_field :weekly_hours, class: "form-control"
-        
+        = f.number_field :hours_per_period, class: "form-control"
+
     .checkbox
       = f.label :pieceworker do
         = f.check_box :pieceworker
@@ -33,7 +33,7 @@
         .input-group-addon
           %i.glyphicon.glyphicon-usd
         = f.number_field :pay_per_period, class: "form-control", min: "0", step: "0.01"
-        
+
     .checkbox
       = f.label :payslips_received do
         = f.check_box :payslips_received
@@ -52,13 +52,13 @@
     .form-group
       = f.label :employment_type, t('claims.form.employment_type'), class: "control-label"
       %br/
-      = f.select :employment_type, options_for_select(employment_type_list, "casual"), {}, { class: "form-control" }
+      = f.select :employment_type, options_for_select(employment_type_list, @claim.employment_type), {}, { class: "form-control" }
 
   %output#claim_output
 
   .actions.text-right
     = f.submit "Update", class: "btn btn-sm btn-default", id: "claim_submit"
-    
+
 :coffeescript
   $(document).ready ->
     if $("#claim_pieceworker").prop 'checked'
@@ -80,14 +80,14 @@
         $(this).text("#{t('claims.form.pay_per_period')}")
         n()
       ).fadeIn(400)
-  
+
   $("#claim_award").on 'change', (e) ->
     if $(this).val() != "horticulture"
       $("label[for=claim_pieceworker]").parent().slideUp(400)
       $("#claim_pieceworker").prop 'checked', false
     else
       $("label[for=claim_pieceworker]").parent().slideDown(400)
-    
+
   $("#claim_pay_period").on 'change', (e) ->
     pay_label = $("label[for=claim_pay_per_period]")
     pay_label.text(pay_label.data($(this).val()))

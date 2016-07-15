@@ -1,7 +1,8 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  rescue_from ActionController::InvalidAuthenticityToken, with: :token_invalid!
+  
   before_action :set_skin, :set_locale, :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
@@ -19,6 +20,10 @@ class ApplicationController < ActionController::Base
 
   def not_found!
     render file: "public/404.html", status: :not_found, layout: false
+  end
+  
+  def token_invalid!
+    render file: "public/401_timeout.html", status: :unauthorized, layout: false
   end
 
   protected
