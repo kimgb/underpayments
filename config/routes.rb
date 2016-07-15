@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # REMINDER shallow nests index, new, create actions
   # This scope will cause complaints for `bundle exec` commands if you've not yet
   # loaded the schema for the relevant environment.
-  scope "(:skin)" do
+  scope "(:skin)", constraints: { format: 'html' } do
     namespace :admin do
       root "claims#index"
 
@@ -48,8 +48,8 @@ Rails.application.routes.draw do
     end
 
     # JSON lookup routes
-    resources  :companies, only: [:index]
-    resources  :addresses, only: [:edit, :update]
+    resources  :companies, only: [:index], constraints: { format: 'json' }
+    resources  :addresses, only: [:edit, :update], constraints: { format: 'json' }
 
     # Membership API
     get "/membership", to: "memberships#show", as: :memberships
