@@ -34,6 +34,8 @@ module Underpaid
       :"zh-TW" => :zh,
     }
 
+    config.active_record.observers = :claim_observer, :document_observer
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
     
@@ -44,11 +46,9 @@ module Underpaid
     config.secret_key_base = Figaro.env.secret_key_base
     
     # config.autoload_paths << Rails.root.join('lib')
-    config.eager_load_paths += ["#{Rails.root}/lib"]
+    config.eager_load_paths += ["#{Rails.root}/lib", "#{Rails.root}/app/models/observers"]
     
-    config.action_view.field_error_proc = Proc.new { |html_tag, instance| 
-      html_tag
-    }
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
     
     # Suckerpunch for background tasks
     config.active_job.queue_adapter = :sucker_punch

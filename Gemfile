@@ -4,26 +4,37 @@ ruby '2.3.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.2.5'
+gem 'rails-observers'
+
 # Use Puma as the web server
 gem 'puma'
+
 # Use postgresql as the database for Active Record
 gem 'pg'
+
 # + full text search on postgresql with pg_search
 gem 'pg_search'
+
 # Figaro for environment variables
 gem 'figaro'
+
 # Devise for login/auth, plus invitable module
 gem 'devise',           '~> 3.5.2'
 gem 'devise_invitable', '~> 1.5.2'
+
 # Mailgun for transactional email
 gem 'mailgun_rails'
+
 # Suckerpunch as the ActiveJob queue adapter
 gem 'sucker_punch'
+
 # Notify me about exceptions in the production environment, via email/Slack
 gem 'exception_notification'
 gem 'slack-notifier'
+
 # Pry for a nicer interpreter
 gem 'pry'
+
 # Haml for markup, plus Redcarpet as our Markdown renderer for content
 gem 'haml-rails', '~> 0.9'
 gem 'redcarpet'
@@ -38,10 +49,13 @@ gem 'friendly_id', '~> 5.1'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0', require: 'tilt/sass'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
+
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 
@@ -52,6 +66,7 @@ gem 'mini_magick'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 

@@ -30,7 +30,7 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
     attach_file("Upload an image or document", Rails.root + "test/fixtures/blank.pdf")
     click_button "Add document"
 
-    assert_content "Document was successfully uploaded."
+    assert_content "blank.pdf"
     refute_content "errors"
   end
 
@@ -38,7 +38,7 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
     attach_file("Upload an image or document", Rails.root + "test/fixtures/blank.doc")
     click_button "Add document"
 
-    assert_content "Document was successfully uploaded."
+    assert_content "blank.doc"
     refute_content "errors"
   end
 end

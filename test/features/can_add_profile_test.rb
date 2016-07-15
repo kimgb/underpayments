@@ -28,7 +28,7 @@ class CanAddProfileTest < Capybara::Rails::TestCase
 
     click_button 'Submit'
 
-    assert_content page, "Profile created."
+    assert_content page, "Your personal details DONE Your address DONE"
     refute_content page, "errors"
   end
 end

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # REMINDER shallow nests index, new, create actions
   # This scope will cause complaints for `bundle exec` commands if you've not yet
   # loaded the schema for the relevant environment.
-  scope "(:skin)", skin: Regexp.new(Group.all.map(&:slug).join("|")) do
+  scope "(:skin)" do
     namespace :admin do
       root "claims#index"
 

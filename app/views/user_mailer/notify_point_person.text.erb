@@ -2,4 +2,4 @@ There's been an update to one of your claims!
 
 <%= @changes %>
 
-<%= admin_claim_url(@claim) %>
+View the claim: <%= admin_claim_url(@claim, skin: @claim.user.group.slug) %>

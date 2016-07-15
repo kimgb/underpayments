@@ -32,11 +32,12 @@ class ApplicationController < ActionController::Base
 
   private
   def set_skin
-    @skin ||= Group.friendly.find(params[:skin]) if user_signed_in? && current_user.admin? && !params[:skin].is_a?(Group)
-    @skin ||= Group.find(current_user.group_id) if user_signed_in? && current_user.group_id?
-    @skin ||= Group.friendly.find(params[:skin]) if params[:skin].present? && !params[:skin].is_a?(Group)
+    search_slug = (params[:skin] || "").match(Regexp.new(Group.all.map(&:slug).join("|"))).to_s
+    @skin = ltd_user_signed_in? ? Group.find(current_user.group_id) : Group.friendly.find(search_slug)
   rescue ActiveRecord::RecordNotFound => err
-    flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    unless search_slug.blank?
+      flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
+    end
   ensure #always runs
     @skin ||= Group.first
   end
@@ -95,5 +96,13 @@ class ApplicationController < ActionController::Base
     else
       forbidden!
     end
+  end
+  
+  def admin_signed_in?
+    user_signed_in? && current_user.admin?
+  end
+  
+  def ltd_user_signed_in?
+    user_signed_in? && !current_user.admin?
   end
 end

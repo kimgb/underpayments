@@ -25,7 +25,7 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
       fill_in "Contact phone", with: "05-555-5555"
     end
 
-    test "add a workplace" do
+    test "check workplace" do
       check "This company is my workplace"
       click_button "Save company details"
 
@@ -34,7 +34,7 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
       refute_content "errors"
     end
 
-    test "add an employer" do
+    test "check employer" do
       check "This company is my employer"
       click_button "Save company details"
 
@@ -43,7 +43,7 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
       refute_content "errors"
     end
 
-    test "add both" do
+    test "check both" do
       check "This company is my workplace"
       check "This company is my employer"
       click_button "Save company details"
@@ -51,6 +51,12 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
       assert_content "Company (Workplace & Employer)"
       assert_content "Name: Acme Corp"
       refute_content "errors"
+    end
+    
+    test "check neither" do
+      click_button "Save company details"
+      
+      assert_content "prohibited this company"
     end
   end
 end

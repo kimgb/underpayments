@@ -1,5 +1,6 @@
 %p There's been an update to one of your claims!
 
-%p= @changes
+:markdown
+  #{@changes}
 
-%p= link_to "See them here", admin_claim_url(@claim)
+%p= link_to "View the claim", admin_claim_url(@claim, skin: @claim.user.group.slug)

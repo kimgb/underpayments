@@ -1,7 +1,7 @@
 - if resource.errors.any?
   #error_explanation
     %h4
-      #{ pluralize(resource.errors.count, "error") } prohibited this #{ resource.class.to_s.downcase } from being saved:
+      #{ pluralize(resource.errors.count, "error") } prohibited this #{ t('activerecord.models.' + resource.class.to_s.underscore) } from being saved:
 
     %ul
       - resource.errors.full_messages.each do |message|

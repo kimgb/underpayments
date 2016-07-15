@@ -2,7 +2,7 @@ require "test_helper"
 
 class CanAddClaimTest < Capybara::Rails::TestCase
   test "add claim" do
-    visit new_claim_path(skin: groups(:fair_food))
+    visit new_claim_path
 
     select "Storage, e.g. fruit packing", from: "What industry did you work in?"
     page.find("#claim_hours_per_period").set "32"
