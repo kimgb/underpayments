@@ -1,6 +1,5 @@
 statement:
-  id: 1
-  claim_id: 1
+  claim: underpaid
   wage_evidence: true
   time_evidence: true
   coverage_start_date: 2015-05-16
@@ -14,16 +13,14 @@ even_fy_split:
   coverage_end_date: 2015-07-30
 
 wages_without_wage_evidence:
-  id: 2
-  claim_id: 5
+  claim: underpaid_w_multi_docs
   wage_evidence: false
   wages: 4000.00
   coverage_start_date: 2015-06-01
   coverage_end_date: 2015-07-30
   
 multi_doc_evidence_1:
-  id: 3
-  claim_id: 5
+  claim: underpaid_w_multi_docs
   wage_evidence: true
   time_evidence: true
   wages: 1500
@@ -32,8 +29,7 @@ multi_doc_evidence_1:
   coverage_end_date: 2015-06-30
   
 multi_doc_evidence_2:
-  id: 4
-  claim_id: 5
+  claim: underpaid_w_multi_docs
   wage_evidence: true
   time_evidence: true
   wages: 1500

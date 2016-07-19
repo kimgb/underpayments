@@ -8,8 +8,8 @@ class ClaimTest < ActiveSupport::TestCase
   
   test "#display_affidavit?" do
     # turn on when fixtures complete.
-    # assert claims(:basic_underpaid).display_affidavit?
-    refute claims(:basic_proper).display_affidavit?
+    # assert claims(:underpaid).display_affidavit?
+    refute claims(:proper).display_affidavit?
   end
   
   test "#enable_affidavit?" do
@@ -26,18 +26,18 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "ownership" do
-    under = claims(:basic_underpaid)
+    claim = claims(:underpaid_w_multi_docs)
     
-    assert_equal under.owner, under.user
+    assert_equal claim.owner, claim.user
     assert_equal nil, Claim.new.owner
-    assert_includes under.owners, under.user
+    assert_includes claim.owners, claim.user
     assert_empty Claim.new.owners
   end
   
   test "#stolen_wages" do
-    assert claims(:basic_underpaid).stolen_wages > 0
+    assert claims(:underpaid).stolen_wages > 0
     assert claims(:underpaid_w_multi_docs).stolen_wages > 0
-    assert claims(:basic_proper).stolen_wages.zero?
+    assert claims(:proper).stolen_wages.zero?
   end
   
   test "wages from evidence should only consider wage documents" do
@@ -47,7 +47,7 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "employment duration" do
-    b_under = claims(:basic_underpaid)
+    b_under = claims(:underpaid)
     employment_days_int = b_under.days.size
     
     assert_equal b_under.send(:weeks_worked), employment_days_int / 7.0
@@ -55,15 +55,15 @@ class ClaimTest < ActiveSupport::TestCase
   end
   
   test "award minimums" do
-    assert_equal 21.61, claims(:basic_underpaid).award_minimum #horticulture, NES casual
+    assert_equal 21.61, claims(:underpaid).award_minimum #horticulture, NES casual
     assert_equal 22.34, claims(:poultry_underpaid).award_minimum #poultry casual
   end
   
   test "#document_coverage should be a set" do
   end
   
-  test "coverage testing" do
-    under, proper = claims(:basic_underpaid), claims(:basic_proper)
+  test "coverage gaps" do
+    under, proper = claims(:underpaid), claims(:proper)
     employment_days_arr = [Array(under.employment_began_on..under.employment_ended_on)]
     
     assert_instance_of Set, under.document_coverage
@@ -73,8 +73,12 @@ class ClaimTest < ActiveSupport::TestCase
     assert under.coverage_complete?
   end
   
+  test "coverage overlaps" do
+    skip "not implemented yet"
+  end
+  
   test "time estimation" do
-    b_under = claims(:basic_underpaid)
+    b_under = claims(:underpaid)
     ebo = b_under.employment_began_on
     year_1_weeks = b_under.send(:weeks_worked, ebo, ebo.end_of_fy)
     year_1_hours = year_1_weeks * b_under.weekly_hours

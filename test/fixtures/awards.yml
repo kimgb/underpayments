@@ -1,8 +1,4 @@
-no_award:
-  id: 1
-  name: National Employment Standards
-  short_name: no_award
-  slug: no_award
+DEFAULTS: &DEFAULTS
   default_minimum: 21.61
   min_casual_rates: 
     2016: 22.13
@@ -21,54 +17,25 @@ no_award:
     2011: 15.51
     2010: 15.00
 
+no_award:
+  <<: *DEFAULTS
+  name: National Employment Standards
+  short_name: no_award
+  slug: no_award
+
 horticulture:
-  id: 2
+  <<: *DEFAULTS
   name: Horticulture Award 2010
   short_name: horticulture
   slug: horticulture
-  default_minimum: 21.61
-  min_casual_rates: 
-    2016: 22.13
-    2015: 21.61
-    2014: 21.09
-    2013: 20.46
-    2012: 19.95
-    2011: 19.39
-    2010: 18.75
-  min_permanent_rates:
-    2016: 17.70
-    2015: 17.29
-    2014: 16.87
-    2013: 16.37
-    2012: 15.96
-    2011: 15.51
-    2010: 15.00
   
 meat:
-  id: 5
+  <<: *DEFAULTS
   name: Meat Industry Award 2010
   short_name: meat
   slug: meat
-  default_minimum: 21.61
-  min_casual_rates:
-    2016: 22.13
-    2015: 21.61
-    2014: 21.09
-    2013: 20.46
-    2012: 19.95
-    2011: 19.39
-    2010: 18.75
-  min_permanent_rates:
-    2016: 17.70
-    2015: 17.29
-    2014: 16.87
-    2013: 16.37
-    2012: 15.96
-    2011: 15.51
-    2010: 15.00
   
 poultry:
-  id: 3
   name: Poultry Processing Award 2010
   short_name: poultry
   slug: poultry
@@ -91,7 +58,6 @@ poultry:
     2010: 15.50
   
 storage:
-  id: 4
   name: Storage Services Award 2010
   short_name: storage
   slug: storage

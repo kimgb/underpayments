@@ -1,5 +1,5 @@
 class Admin::CompaniesController < Admin::BaseController
-  before_action :set_company, only: [:show, :edit, :update, :destroy]
+  before_action :set_company, only: [:edit, :update, :destroy]
   
   def new
     @company = Company.new
@@ -22,6 +22,7 @@ class Admin::CompaniesController < Admin::BaseController
   end
   
   def show
+    @company = Company.includes(:claims).find(params[:id])
   end
   
   def edit

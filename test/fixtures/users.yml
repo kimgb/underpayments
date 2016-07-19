@@ -1,22 +1,18 @@
 owner:
-  id: 1
-  claim_id: 1
+  claim: underpaid
   email: kbuckley@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'ch3ng4M1chANGEmePrEtTYplz') %>
 
 admin:
-  id: 2
   email: admin@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'bossAdmin') %>
   admin: true
   
 non_owner:
-  id: 3
   email: lrohde@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'rudewords') %>
   
 claimant:
-  id: 4
   email: claimaint@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'cl41m4nt') %>
-  claim_id: 5
+  claim: underpaid_w_multi_docs

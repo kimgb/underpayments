@@ -1,5 +1,4 @@
 fair_food:
-  id: 1
   name: Fair Food
   slug: fair-food
   skin:
@@ -11,7 +10,7 @@ fair_food:
     headings_color: "#0B8842"
     nav_text_color: "#ddd"
     body_text_color: "#ddd"
-  supergroup_id: 1
+  supergroup: nuw
   awards:
     meat: "Meat industry"
     poultry: "Poultry processing"

@@ -23,12 +23,19 @@ class ClaimCompaniesController < ApplicationController
   # POST /claims/1/claim_companies
   # POST /claims/1/claim_companies.json
   def create
-     @claim_company = @claim.claim_companies.build(claim_company_params) do |cc|
-       cc.build_company(company_params) if cc.company.blank? && company_params.any?
-     end
-
+    @claim_company = @claim.claim_companies.find_or_initialize_by(company_id: claim_company_params[:company_id])
+    
+    @claim_company.assign_attributes(claim_company_params.except(:is_employer, :is_workplace))
+    @claim_company.is_employer = !!(@claim_company.is_employer? || claim_company_params[:is_employer] == "1")
+    @claim_company.is_workplace = !!(@claim_company.is_workplace? || claim_company_params[:is_workplace] == "1")
+    @claim_company.build_company(company_params) if @claim_company.company.blank? && company_params.any?
+    
+    # @claim_company = @claim.claim_companies.build(claim_company_params) do |cc|
+    #  cc.build_company(company_params) if cc.company.blank? && company_params.any?
+    # end
+    
     respond_to do |format|
-      if @claim.save
+      if @claim.save && @claim_company.save
         format.html { redirect_to @claim.user, notice: 'Company was successfully created.' }
         format.json { render :show, status: :created, location: @claim_company }
       else

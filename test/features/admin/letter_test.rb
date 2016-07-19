@@ -5,11 +5,11 @@ class Admin::LetterTest < Capybara::Rails::TestCase
   Warden.test_mode!
   
   def setup
-    user = users(:admin)
+    admin = users(:admin)
     claim = claims(:underpaid_w_multi_docs)
 
-    login_as user, scope: :user
-    visit new_admin_claim_letter_path(claim_id: claim.id)
+    login_as admin, scope: :user
+    visit new_admin_claim_letter_path(claim, skin: "fair-food")
   end
   
   test "generate letter" do

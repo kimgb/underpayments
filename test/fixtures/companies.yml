@@ -1,5 +1,4 @@
-basic:
-  id: 1
+acme:
   name: Acme Ltd
   contact: Elmer Fudd
   phone: "055555555"

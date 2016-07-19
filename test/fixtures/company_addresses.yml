@@ -1,4 +1,4 @@
 acme_w_nuw:
   is_active: true
-  company_id: 1
-  address_id: 1
+  company: acme
+  address: nuw

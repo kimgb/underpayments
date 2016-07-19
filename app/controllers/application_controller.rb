@@ -37,9 +37,12 @@ class ApplicationController < ActionController::Base
 
   private
   def set_skin
+    return @skin = current_user.group if ltd_user_signed_in?
+    
     search_slug = (params[:skin] || "").match(Regexp.new(Group.all.map(&:slug).join("|"))).to_s
-    @skin = ltd_user_signed_in? ? Group.find(current_user.group_id) : Group.friendly.find(search_slug)
-  rescue ActiveRecord::RecordNotFound => err
+    @skin = Group.friendly.find(search_slug)
+  rescue ActiveRecord::RecordNotFound => err # 404?
+    # params[:skin].blank? ? @skin = Group.first : not_found!
     unless params[:skin].blank?
       flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
     end

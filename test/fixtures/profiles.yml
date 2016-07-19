@@ -10,8 +10,8 @@ basic:
   gender: N
   
 claimant:
-  user_id: 4
-  address_id: 1
+  user: claimant
+  address: nuw
   family_name: Doe
   given_name: Jane
   preferred_name: Jane

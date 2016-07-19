@@ -2,7 +2,7 @@ boilerplate: &boilerplate
   hours_per_period: 32.00
   payslips_received: true
   pieceworker: false
-  award_id: 1
+  award: no_award
   employment_type: casual
   employment_began_on: 2015-05-16
   employment_ended_on: 2015-08-14
@@ -17,18 +17,15 @@ proper: &proper
   
 basic_underpaid:
   <<: *underpaid
-  id: 1
   
 basic_proper:
   <<: *proper
-  id: 2
   
 poultry_underpaid: 
   <<: *underpaid
-  award_id: 3
+  award: poultry
   
 underpaid_w_multi_docs:
   <<: *underpaid
-  id: 5
   employment_began_on: 2015-06-01
   employment_ended_on: 2016-07-30
