@@ -152,7 +152,7 @@ ko:
       wage_evidence: "We need evidence of wages paid for:"
       time_evidence: "We need evidence of hours worked for:"
       to: until
-      award: Industry
+      award_short_name: Industry
       hours_per_period: Avg. hours per week
       pay_per_period: Hourly wage
       employment_began_on: Employment began on
@@ -309,7 +309,20 @@ ko:
 
   activerecord:
     models:
-      claim_company: Company
+      address: address
+      award: award
+      claim_company: company
+      claim: claim
+      company_address: address
+      company: company
+      document: document
+      group: campaign
+      letter: letter
+      message: message
+      note: note
+      profile: profile
+      supergroup: organisation
+      user: user
 
     attributes:
       user:

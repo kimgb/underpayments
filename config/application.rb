@@ -34,7 +34,7 @@ module Underpaid
       :"zh-TW" => :zh,
     }
 
-    config.active_record.observers = :claim_observer, :document_observer
+    config.active_record.observers = :claim_observer, :document_observer, :user_observer
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true

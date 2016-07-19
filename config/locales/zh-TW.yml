@@ -39,6 +39,7 @@ zh-TW:
         five: "5. 在我受雇於%{employer}(雇主名) 期間，我的總工作時數%{hours}小時"
         six: "6.在總%{hours}工作時數，我領到總薪資$%{dollars}元"
         seven: "7. 這份文件確認在%{award}(產業)法定最低薪資的規範下，欠薪為$%{dollars}元"
+        ########## PIECERATES - WIP ############
         pieceworker:
           agreement:
             agreed: 我在受聘僱之後，有簽屬計件制工作的合約
@@ -50,6 +51,7 @@ zh-TW:
           one: "8. 我 同意/不同意], 在書面上, 表示我是計件制工人."
           two: "9. 我的聘僱期間為 %{duration}."
           three: "10. 我 [沒有/有收到雇主的惡意言語]在我聘僱期間."
+
   layouts:
     application:
       title: 被欠薪?
@@ -150,7 +152,7 @@ zh-TW:
       wage_evidence: 我們需要你提供雇主給付薪資的證明
       time_evidence: 我們需要你提供工作時數的證明
       to: 迄
-      award: 產業
+      award_short_name: 產業
       hours_per_period: 平均 每周工作時數
       pay_per_period: 時薪
       employment_began_on: 聘僱開始
@@ -306,7 +308,20 @@ zh-TW:
 
   activerecord:
     models:
+      address: address
+      award: award
       claim_company: 提出欠薪控訴公司
+      claim: claim
+      company_address: address
+      company: 提出欠薪控訴公司
+      document: document
+      group: campaign
+      letter: letter
+      message: message
+      note: note
+      profile: profile
+      supergroup: organisation
+      user: user
 
     attributes:
       user:

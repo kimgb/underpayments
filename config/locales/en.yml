@@ -289,8 +289,8 @@ en:
 
   pages:
     estimate:
-      explanation: By the numbers, you were paid %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
-      underpaid: This means you were underpaid
+      explanation: By the numbers, you may have been paid as little as %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
+      underpaid: This means you were underpaid as much as 
       recover: Want to get it back?
       action: Let's fix this!
       not_underpaid: You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member, <a href="https://www.nuw.org.au">contact us</a> and we may be able to look into your case.

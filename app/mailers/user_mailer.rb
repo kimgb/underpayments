@@ -8,6 +8,13 @@ class UserMailer < ActionMailer::Base
           subject:  "An underpayment claim has been submitted by #{@claim.user.email}"
   end
   
+  def new_claim(claim, recipients)
+    @claim = claim
+    
+    mail  to:       recipients,
+          subject:  "A new underpayment claim!"
+  end
+  
   def notify_point_person(claim, changes)
     @claim, @changes = claim, changes
     
