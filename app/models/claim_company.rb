@@ -8,12 +8,27 @@ class ClaimCompany < ActiveRecord::Base
   scope :workplace, -> { where(is_workplace: true) }
   scope :employer, -> { where(is_employer: true) }
   
-  validate :unique_claim_id_when_employer_and_active
-  validate :unique_claim_id_when_workplace_and_active
-  validate :workplace_or_employer
+  validate :workplace_or_employer, :unique_claim_id_when_employer_and_active, 
+    :unique_claim_id_when_workplace_and_active#, :unique_claim_and_company_when_active
   
   def owners
     company ? company.owners : []
+  end
+  
+  def is_employer!
+    self.update(is_employer: true)
+  end
+  
+  def is_workplace!
+    self.update(is_workplace: true)
+  end
+  
+  def deactivate!
+    self.update(is_active: false)
+  end
+  
+  def activate!
+    self.update(is_active: true)
   end
   
   private
@@ -32,6 +47,12 @@ class ClaimCompany < ActiveRecord::Base
   def unique_claim_id_when_workplace_and_active
     if is_active && is_workplace && ClaimCompany.exists?(["claim_id = ? AND is_active = true AND is_workplace = true AND id != ?", claim_id, id.to_i])
       errors.add(:claim_id, "already has an active workplace")
+    end
+  end
+  
+  def unique_claim_and_company_when_active
+    if is_active && ClaimCompany.exists?(["is_active = true AND claim_id = ? AND company_id = ? AND id != ?", claim_id, company_id, id.to_i])
+      errors.add(:claim_id, "has already been added to this claim as a workplace or employer")
     end
   end
 end

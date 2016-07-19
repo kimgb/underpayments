@@ -6,3 +6,8 @@
 
 - if @company.address
   = render partial: "addresses/address", locals: { address: @company.address, title: t('companies.company.address.heading'), edit: t('companies.company.address.edit') }
+  
+- if @company.claims.any?
+  %h4 Claims against this company
+= render @company.claims
+  

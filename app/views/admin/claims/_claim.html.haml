@@ -1,0 +1,6 @@
+- if claim.user
+  %p
+    = claim.user.full_name
+    = surround '<', '>' do
+      = claim.user.email
+    = link_to '', admin_claim_path(claim), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
