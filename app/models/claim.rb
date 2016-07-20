@@ -370,7 +370,7 @@ class Claim < ActiveRecord::Base
   # Claim#hours_from_evidence()
   # Simply sums the values of associated documents' hours attribute.
   def hours_from_evidence
-    documents.sum(:hours)
+    documents.where(time_evidence: true).sum(:hours)
   end
 
   # Claim#hours_from_evidence_by_year()
