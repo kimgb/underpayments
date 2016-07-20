@@ -32,7 +32,8 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'select2-rails' # Select2 for search to local API endpoints.
 
-gem 'carrierwave' # CarrierWave for file uploads (evidence upload)
+gem 'carrierwave', '~> 0.11.2' # CarrierWave for file uploads (evidence upload)
+gem 'fog' # CarrierWave needs this to use Amazon S3
 gem 'mini_magick' # MiniMagick for image manipulation (avoid serving up multi-MB images)
 
 gem 'jbuilder', '~> 2.0' # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
