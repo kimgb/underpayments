@@ -38,7 +38,7 @@ class Document < ActiveRecord::Base
   end
 
   def span_multiple_fys?
-    coverage_start_date != coverage_end_date
+    coverage_start_date.fy != coverage_end_date.fy
   end
 
   def dominant_fy
