@@ -10,7 +10,7 @@
           %li= render partial: "admin/claims/toggle_lock", locals: { link_class: "" }
           %li= link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim)
           %li= link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim)
-      
+
   .btn-group.hidden-xs
     = link_to "Send a message", new_admin_claim_message_path(@claim), class: "btn btn-default btn-sm"
     = link_to "Letter of demand", new_admin_claim_letter_path(@claim), class: "btn btn-default btn-sm"
@@ -26,7 +26,7 @@
   - if @claim.user.profile.present?
     %small= link_to("(edit)", edit_admin_profile_path(@claim.user.profile))
 :markdown
-  #{ markdown_model(@claim.user) } 
+  #{ markdown_model(@claim.user) }
 - if @claim.user.profile.present?
   :markdown
     #{ markdown_model(@claim.user.profile) }
@@ -35,10 +35,10 @@
   - else
     = "No address."
     = link_to "Add one?", new_admin_profile_address_path(profile_id: @claim.user.profile)
-  
+
 -# Claim
 - if @claim.valid?
-  %h3 
+  %h3
     Claim
     %small= link_to("(edit)", edit_admin_claim_path(@claim))
   :markdown
@@ -57,22 +57,23 @@
     %ul
       - @claim.coverage_overlaps(:time_evidence).each do |overlap|
         %li= "#{overlap.first.to_s(:rfc822)} to #{overlap.last.to_s(:rfc822)}"
-  
+
   = render partial: "admin/documents/documents", locals: { documents: @claim.documents }
-  
+  - if @claim.coverage_complete? && @claim.coverage_complete?(:time_evidence)
+    = render "summary"
+
   -# Claim companies
   - if @claim.presentable_companies.any?
     - @claim.presentable_companies.each do |cc|
-      = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim } 
+      = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim }
 
 - else
   %h3 Claim
-  %p 
+  %p
     This claim is empty?
     = link_to "Edit it?", edit_admin_claim_path(@claim)
-    
-    
+
+
 :coffeescript
   $("#claim_point_person_id").on "change", (e)->
     $("#claim_point_person").submit()
-    

@@ -9,17 +9,17 @@ class Claim < ActiveRecord::Base
   has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
-  
+
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
 
   delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
   delegate :email, to: :point_person, prefix: true, allow_nil: true
-  
+
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
   validate :employment_begins_before_employment_ends
-  
+
   before_save :set_ready_to_submit
 
   ### MARKDOWNABLE CONFIG - class methods
@@ -50,11 +50,11 @@ class Claim < ActiveRecord::Base
   def duration_of_employment_in_days
     "#{(employment_ended_on - employment_began_on).to_i} days"
   end
-  
+
   def proper_award
     award_name
   end
-  
+
   def point_people_for_select
     user.supergroup.users.admin.map { |u| [(u.full_name || u.email), u.id] }
   end
@@ -352,7 +352,7 @@ class Claim < ActiveRecord::Base
 
   def set_total_hours_by_year
   end
-  
+
   # For before_save callback
   def set_ready_to_submit
     assign_attributes(ready_to_submit: (required_resources.all?(&:present?) && required_resources.all?(&:valid?) &&
@@ -383,6 +383,18 @@ class Claim < ActiveRecord::Base
       .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
   end
 
+  def award_pay_from_evidence_by_year
+    documents.where(time_evidence: true).group_by(&:fy).map do |yr, docs|
+      [yr, docs.map(&:hours).compact.sum * award.minimum(employment_type, yr)]
+    end.to_h
+  end
+
+  def award_pay_from_evidence_by_year
+    hours_from_evidence_by_year.map do |year, hours|
+      [year, [ hours, hours * award.minimum(employment_type, year)]]
+    end.to_h
+  end
+
   # Claim#wages_from_evidence()
   # Simply sums the values of associated documents' wages attribute.
   def wages_from_evidence
@@ -395,6 +407,39 @@ class Claim < ActiveRecord::Base
   def min_award_pay_from_evidence
     hours_from_evidence_by_year.reduce(0) do |sum, (yr, hrs)|
       sum += hrs * award.minimum(employment_type, yr)
+    end
+  end
+  public :hours_from_evidence_by_year, :award_pay_from_evidence_by_year, :min_award_pay_from_evidence
+
+  def income_after_deductions(amount)
+    amount - medicare_levy_on_income(amount) - tax_on_income(amount)
+  end
+
+  # This valid for 2015-2016 only. Find historical thresholds and rates at:
+  # https://atotaxrates.info/individual-tax-rates-resident/medicare-levy/
+  def medicare_levy_on_income(amount)
+    if amount <= 21335
+      0
+    elsif amount >= 26668
+      amount * 0.02
+    else
+      (amount - 21335) * 0.1
+    end
+  end
+
+  # These brackets and rates correct from 1 July 2012 through, as of writing,
+  # the 2016-2017 financial year.
+  def tax_on_income(amount)
+    if amount <= 18200
+      0
+    elsif amount <= 37000 # between 18,200 and 37,000
+      (amount - 18200) * 0.19
+    elsif amount <= 80000
+      3572 + (amount - 37000) * 0.325
+    elsif amount <= 180000
+      17547 + (amount - 80000) * 0.37
+    elsif amount > 180000
+      54547 + (amount - 180000) * 0.45
     end
   end
 
