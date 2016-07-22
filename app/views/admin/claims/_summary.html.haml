@@ -3,18 +3,11 @@
   %p
     %em Proceed with caution, as some documents relating to this claim span over multiple financial years.
 %p
-  - @claim.award_pay_from_evidence_by_year.each do |year, (hours, pay)|
-    = "In the #{year}-#{year+1} financial year, #{@claim.user.full_name} worked #{hours} hours."
-    %br
-    = "The minimum award rate for a #{@claim.employment_type} on the #{@claim.award.name} during the #{year}-#{year+1} financial year was #{number_to_currency(@claim.award_minimum(@claim.employment_type, year))}."
-    %br
-    = "Award pay, before tax, for #{year}-#{year+1} financial year: #{hours} * #{@claim.award_minimum(@claim.employment_type, year)}, or #{number_to_currency(hours * @claim.award_minimum(@claim.employment_type, year))}."
-    %br
-
-%p
-  = "In total, then, #{@claim.user.full_name} should have been paid a bare minimum, before tax, of #{number_to_currency(@claim.min_award_pay_from_evidence)}."
-  -# = "This means after tax pay of #{number_to_currency(@claim.send(:income_after_deductions, @claim.min_award_pay_from_evidence))}, assuming no tax deductions and that they are an Australian resident for tax purposes."
-  %br
-  = "Per available evidence, #{@claim.user.full_name} was paid a total of #{number_to_currency(@claim.send(:wages_from_evidence))}."
-  %br
-  = "If tax was not deducted: #{number_to_currency(@claim.min_award_pay_from_evidence)} - #{number_to_currency(@claim.send(:wages_from_evidence))} gives #{number_to_currency(@claim.stolen_wages)}."
+  %strong= "#{@claim.user.full_name} worked #{@claim.employment_type == "unknown" ? "in an unknown employment relation (the system will assume casual)" : "as a " + @claim.employment_type} under the #{@claim.award.name}."
+- @claim.award_pay_from_evidence_by_year.each do |year, (hours, pay)|
+  :markdown
+    **In the #{year}-#{year+1} financial year**, #{@claim.user.full_name} worked **#{hours} hours**, and the relevant level 1 hourly rate was **#{number_to_currency(@claim.award_minimum(@claim.employment_type, year))}**.  
+    Minimum award pay for the #{year}-#{year+1} financial year: #{hours} * #{@claim.award_minimum(@claim.employment_type, year)}, or **#{number_to_currency(hours * @claim.award_minimum(@claim.employment_type, year))}**.
+:markdown
+  **In total**, #{@claim.user.full_name} should have been paid a bare minimum, before tax, of **#{number_to_currency(@claim.min_award_pay_from_evidence)}**. Per available evidence, #{@claim.user.full_name} was paid a total of **#{number_to_currency(@claim.send(:wages_from_evidence))}**.  
+  If tax was not deducted: #{number_to_currency(@claim.min_award_pay_from_evidence)} - #{number_to_currency(@claim.send(:wages_from_evidence))} gives **#{number_to_currency(@claim.stolen_wages)} in stolen wages**.
