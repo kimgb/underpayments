@@ -1,4 +1,4 @@
-%table.table
+%table.table.review-table
   %thead
     %tr
       %th Status
@@ -12,7 +12,7 @@
   %tbody#user-list
     - if @claims.any?
       - @claims.each do |claim|
-        = render partial: "admin/claims/#{@view_context}_row", locals: { claim: claim }
+        = render partial: "admin/claims/review_row", locals: { claim: claim }
     - else
       %tr
         %td{ colspan: 7 }

@@ -138,6 +138,10 @@ footer.fixed-bottom p {
   padding: 1rem;
   margin: 1rem 0;
 }
+.review-table {
+  font-size: 14px;
+  font-size: 1.4rem;
+}
 
 /* Select2 style fixes */
 .select2-results {

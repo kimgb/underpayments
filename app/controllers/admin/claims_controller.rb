@@ -4,15 +4,11 @@ class Admin::ClaimsController < Admin::BaseController
   # GET /admin/claims
   def index
     @claims = case params[:scope]
+      when "point_person" then current_user.point_person_on.includes(:documents, :user)
       when "submitted" then Claim.includes(:documents, :user).select(&:submitted?)
       when "completed" then Claim.includes(:documents, :user).select(&:ready_to_submit?).reject(&:submitted?)
       when "incomplete" then Claim.includes(:documents, :user).select(&:not_submitted?).reject(&:ready_to_submit?)
-      else Claim.includes(:documents, :user).select(&:submitted?)
-    end
-    
-    @view_context = case params[:scope]
-      when "incomplete" then "incomplete_review"
-      else "complete_review"
+      else current_user.point_person_on.includes(:documents, :user)
     end
   end
   

@@ -1,18 +1,20 @@
 %h1 Claims for review
 .align-right
   %select.form-control#user-selector
+    %option{ value: "point_person" } Your claims
     %option{ value: "submitted" } Submitted claims
     %option{ value: "completed" } Completed claims
     %option{ value: "incomplete" } Incomplete claims
 
+= link_to "Your claims", url_for(params.merge(scope: "point_person")), class: "collapse", id: "point_person"
 = link_to "Submitted", url_for(params.merge(scope: "submitted")), class: "collapse", id: "submitted"
 = link_to "Completed", url_for(params.merge(scope: "completed")), class: "collapse", id: "completed"
 = link_to "Incomplete", url_for(params.merge(scope: "incomplete")), class: "collapse", id: "incomplete"
 
-= render "#{@view_context}_table"#, locals: { users: @users, view_context: @view_context }
+= render "review_table"#, locals: { users: @users, view_context: @view_context }
 
 :coffeescript
   $(document).ready ->
-    $("#user-selector").val("#{(params[:scope] || 'submitted')}")
+    $("#user-selector").val("#{(params[:scope] || 'point_person')}")
   $("#user-selector").on "change", (e) ->
     $("#" + $(e.target).val())[0].click();

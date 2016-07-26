@@ -15,6 +15,8 @@ class Claim < ActiveRecord::Base
 
   delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
   delegate :email, to: :point_person, prefix: true, allow_nil: true
+  delegate :name, to: :employer, prefix: true, allow_nil: true
+  delegate :name, to: :workplace, prefix: true, allow_nil: true
 
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
@@ -431,6 +433,7 @@ class Claim < ActiveRecord::Base
   # the 2016-2017 financial year.
   def tax_on_income(amount)
     if amount <= 18200
+    # if amount <= ATO.tax_free_threshold(2014)
       0
     elsif amount <= 37000 # between 18,200 and 37,000
       (amount - 18200) * 0.19
