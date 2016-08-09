@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resources :claims, only: [:index, :show, :edit, :update, :create] do
         resources :letters, only: [:new, :create, :show]
         resources :messages, only: [:index, :new, :create]
+        resources :documents, only: [:new, :create]
         resources :notes, only: [:index]
       end
       resources :profiles, only: [:edit, :update] do

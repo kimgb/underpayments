@@ -1,7 +1,29 @@
 class Admin::DocumentsController < Admin::BaseController
-  before_action :set_document
+  before_action :set_document, except: [:new, :create]
+  before_action :set_claim, only: [:new, :create]
   # GET /documents/1
   def show
+  end
+  
+  # GET /admin/claims/1/documents/new
+  def new
+    @document = Document.new
+  end
+  
+  # POST /admin/claims/1/documents
+  def create
+    @document = @claim.documents.build(document_params)
+    @document.evidence = document_params[:evidence]
+
+    respond_to do |format|
+      if @claim.save
+        format.html { redirect_to [:admin, @claim], notice: 'Document was successfully uploaded.' }
+        format.json { render :show, status: :created, location: @claim.user }
+      else
+        format.html { render :new }
+        format.json { render json: @document.errors, status: :unprocessable_entity }
+      end
+    end
   end
   
   # GET /documents/1/edit
@@ -32,6 +54,9 @@ class Admin::DocumentsController < Admin::BaseController
   end
 
   private
+  def set_claim
+    @claim = Claim.find(params[:claim_id])
+  end
 
   def set_document
     @document = Document.find(params[:id])

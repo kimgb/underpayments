@@ -59,6 +59,7 @@
         %li= "#{overlap.first.to_s(:rfc822)} to #{overlap.last.to_s(:rfc822)}"
 
   = render partial: "admin/documents/documents", locals: { documents: @claim.documents }
+  = link_to "Add new document", new_admin_claim_document_path(@claim), class: "btn btn-sm btn-default"
   - if @claim.coverage_complete? && @claim.coverage_complete?(:time_evidence)
     = render "summary"
 

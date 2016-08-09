@@ -1,0 +1,67 @@
+= form_for([:admin, @claim, @document], html: { multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @document }
+
+  %fieldset
+    %legend= "Add a document"
+
+    .form-group
+      = f.label :evidence, "Upload an image or document", class: "control-label"
+      = f.file_field :evidence, style: "color: #BBB", class: "btn btn-default", disabled: params[:affidavit]
+    
+    .form-group
+      .checkbox
+        = f.label :wage_evidence do
+          = f.check_box :wage_evidence, data: { target: "#wages" }
+          = "This document is evidence of wages paid"
+
+      .checkbox
+        = f.label :time_evidence do
+          = f.check_box :time_evidence, data: { target: "#hours" }
+          = "This document is evidence of hours worked"
+        
+    .form-group.collapse#wages
+      = f.label :wages, "How much does this document indicate was paid?", class: "control-label"
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-usd
+        = f.number_field :wages, value: number_with_precision(f.object.wages, precision: 2), class: "form-control", min: "0", step: "0.01"
+      
+    .form-group.collapse#hours
+      = f.label :hours, "How many hours does this document indicate were worked?", class: "control-label"
+      .input-group
+        .input-group-addon
+          %i.glyphicon.glyphicon-time
+        = f.number_field :hours, value: number_with_precision(f.object.hours, precision: 2), class: "form-control", min: "0", step: "0.01"
+
+    .form-group.form-inline
+      = f.label :coverage_start_date, "This document covers the period from:", class: "control-label"
+      %br/
+      = f.date_select :coverage_start_date, { selected: @document.coverage_start_date || date_from_params(:coverage_start_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+    .form-group.form-inline
+      = f.label :coverage_end_date, "To:", class: "control-label"
+      %br/
+      = f.date_select :coverage_end_date, { selected: @document.coverage_end_date || date_from_params(:coverage_end_date), order: [:day, :month, :year], start_year: Date.today.year, end_year: Date.today.year - 7 }, { class: "form-control" }
+
+  .actions.text-right= f.submit "Add document", class: "btn btn-sm btn-default"
+  
+:javascript
+  function boxChecked(box){
+    if (box.is(":checked")){
+      $(box.data().target).slideDown();
+    } else {
+      $(box.data().target).slideUp();
+    }
+  }
+
+  $("input[type=checkbox]").on("click", function(e){
+    var box = $(e.target);
+    boxChecked(box);
+  })
+  
+  $(document).ready(function(){
+    $("input[type=checkbox]").each(function(index){
+      var box = $(this);
+      boxChecked(box);
+    })
+  })
