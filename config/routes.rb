@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resource :incoming_message, only: [:create]
-  
+
   # REMINDER shallow nests index, new, create actions
   # This scope will cause complaints for `bundle exec` commands if you've not yet
   # loaded the schema for the relevant environment.
@@ -47,6 +47,8 @@ Rails.application.routes.draw do
       resources :company_addresses, shallow: true
       resources :claim_companies, shallow: true
     end
+
+    resource   :feedback, only: [:new, :create], controller: 'feedback'
 
     # JSON lookup routes
     resources  :companies, only: [:index], constraints: { format: 'json' }

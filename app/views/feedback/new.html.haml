@@ -1,0 +1,14 @@
+= form_for :feedback, url: feedback_path, method: "post", class: "form" do |f|
+  .form-group
+    - if current_user
+      = f.hidden_field :sender, current_user.email
+    - else
+      = f.label :sender, "Your email address", class: "control-label"
+      = f.email_field :sender, class: "form-control"
+
+  .form-group
+    = f.label :body, "Your message", class: "control-label"
+    = f.text_area :body, class: "form-control"
+
+  .form-group.actions.align-right
+    = f.submit "Send feedback", class: "btn btn-sm btn-default"

@@ -30,7 +30,7 @@
       %footer.fixed-bottom.flex.flex-row.flex-justify.flex-center
         .flex-order-1
           :markdown
-            #{ t('.footer') }
+            #{ t('.footer') } #{ link_to "Send feedback?", new_feedback_path }
         .dropup.flex-order-2
           %button.btn.btn-default.dropdown-toggle#languagePickerDropup{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: true } }
             %span.glyphicon.glyphicon-globe
@@ -38,7 +38,7 @@
           %ul.dropdown-menu.dropdown-menu-right{ aria: { labelledby: "languagePickerDropup" } }
             - t('helpers.profiles.languages_list').except(session[:locale]).each do |key, locale|
               %li= link_to locale, params.merge(locale: key)
-        
+
     - if @skin
       :scss
         @mixin bg-border($color) {
@@ -61,7 +61,7 @@
           .navbar-link { color: $text; }
           .navbar-link:hover { color: $active; }
         }
-        
+
         $brand-primary: #{ @skin.link_color };
         $active-primary: darken($brand-primary, 15%);
         $btn-bg-color: #{ @skin.btn_bg_color };
@@ -74,10 +74,10 @@
         $text-color: #{ @skin.body_text_color };
         $text-color-inverse: invert($text-color);
         $active-nav: darken($nav-text, 15%);
-        
+
         body { color: $text-color; }
         main { background-color: $background-color; }
-        h1, .h1, h2, .h2, h3, .h3, 
+        h1, .h1, h2, .h2, h3, .h3,
         h4, .h4, h5, .h5, h6, .h6, fieldset > legend { color: $headings-color; }
         nav.navbar.navbar-default { @include nav($nav-bg, $nav-text, $active-nav); }
         a { @include text-hover($brand-primary, $active-primary); }
