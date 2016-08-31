@@ -1,19 +1,22 @@
 class FeedbackController < ApplicationController
   skip_before_action :authenticate_user!
+  before_action :set_checkpoint, only: [:new]
 
   # GET /feedback/new
   def new
+    @feedback = Feedback.new(sender: current_user.try(:email))
   end
 
   # POST /feedback
   def create
-    sender = feedback_params[:sender] || current_user.try(:email)
-
-    if sender
-      UserMailer.feedback_email(sender, feedback_params[:body]).deliver_later
+    @feedback = Feedback.new(feedback_params)
+    
+    if @feedback.valid?
+      UserMailer.feedback_email(@feedback.attributes).deliver_later
+      redirect_to checkpoint, notice: "Feedback is on its way!"
+    else
+      render :new
     end
-
-    redirect_to "/", notice: "Feedback is on its way!"
   end
 
   private

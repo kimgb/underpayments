@@ -24,11 +24,11 @@ class UserMailer < ActionMailer::Base
     end
   end
 
-  def feedback_email(sender, body)
+  def feedback_email(feedback)
     mail  to:         "kbuckley@nuw.org.au",
-          subject:    "Feedback received from #{sender}",
-          from:       "#{sender}",
-          body:       body
+          subject:    "Feedback received from #{feedback['sender']}",
+          from:       "#{feedback['sender']}",
+          body:       feedback['body']
   end
 
   def welcome_email(user)
