@@ -1,0 +1,15 @@
+= form_for [:admin, @claim_stage], html: { class: "form" } do |f|
+  .form-group
+    = f.label :name, "Name"
+    = f.text_field :name, class: "form-control"
+    
+  .form-group
+    = f.label :display_name, "Name displayed to user"
+    = f.text_field :display_name, class: "form-control"
+    
+  .form-group
+    = f.label :notification_text, "Update given to user when they are advanced to this stage"
+    = f.text_area :notification_text, class: "form-control"
+    
+  .actions.text-right
+    = f.submit "Submit", class: "btn btn-default"

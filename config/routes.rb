@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :admin do
       root "claims#index"
 
+      resources :claim_stages
       resources :claims, only: [:index, :show, :edit, :update, :create] do
         resources :letters, only: [:new, :create, :show]
         resources :messages, only: [:index, :new, :create]

@@ -1,0 +1,6 @@
+success:
+  locale: en
+  display_name: Resolved - successful
+  notification_text: |
+    It looks like your backpay claim has been paid! Let us know if you haven't received the money within a few days.
+  globalized_model: success

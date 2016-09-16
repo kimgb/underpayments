@@ -1,0 +1,8 @@
+%h4
+  Stage - 
+  %tt
+    = claim_stage.name
+:markdown
+  *Display name (#{I18n.locale}):* #{claim_stage.display_name}
+%h4= "Notification text (#{I18n.locale})"
+%p= claim_stage.notification_text

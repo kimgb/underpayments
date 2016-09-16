@@ -9,14 +9,15 @@ class Admin::ClaimTest < Capybara::Rails::TestCase
     claim = claims(:underpaid_w_multi_docs)
 
     login_as user, scope: :user
-    visit admin_claims_path(claim)
+    visit admin_claim_path(claim, skin: Group.first)
   end
   
   test "update the claim stage" do
     select "Resolved - successful", from: "Set new stage"
     fill_in "Detail", with: "Finalised terms of settlement with company's lawyers."
     
-    click_button "Update claim"
+    find(".glyphicon-ok[type=submit]").click
+    # click_button("", class: "glyphicon-ok", match: :first)
     # click_link "Create new company", match: :first
     # 
     # fill_in "Name", with: "Acme Co. Ltd"

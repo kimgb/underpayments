@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707074459) do
+ActiveRecord::Schema.define(version: 20160902043547) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,26 @@ ActiveRecord::Schema.define(version: 20160707074459) do
   add_index "claim_companies", ["claim_id"], name: "index_claim_companies_on_claim_id", using: :btree
   add_index "claim_companies", ["company_id"], name: "index_claim_companies_on_company_id", using: :btree
 
+  create_table "claim_stage_translations", force: :cascade do |t|
+    t.integer  "claim_stage_id",    null: false
+    t.string   "locale",            null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "display_name"
+    t.text     "notification_text"
+  end
+
+  add_index "claim_stage_translations", ["claim_stage_id"], name: "index_claim_stage_translations_on_claim_stage_id", using: :btree
+  add_index "claim_stage_translations", ["locale"], name: "index_claim_stage_translations_on_locale", using: :btree
+
+  create_table "claim_stages", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "claims", force: :cascade do |t|
-    t.string   "status"
+    t.string   "legacy_status"
     t.string   "comment"
     t.string   "award_legacy"
     t.decimal  "hours_per_period",     precision: 10, scale: 2
@@ -76,9 +94,11 @@ ActiveRecord::Schema.define(version: 20160707074459) do
     t.boolean  "ready_to_submit"
     t.string   "pay_period",                                    default: "hour"
     t.string   "time_period",                                   default: "week"
+    t.integer  "claim_stage_id"
   end
 
   add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree
+  add_index "claims", ["claim_stage_id"], name: "index_claims_on_claim_stage_id", using: :btree
   add_index "claims", ["point_person_id"], name: "index_claims_on_point_person_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
@@ -244,6 +264,7 @@ ActiveRecord::Schema.define(version: 20160707074459) do
   add_foreign_key "claim_companies", "claims"
   add_foreign_key "claim_companies", "companies"
   add_foreign_key "claims", "awards"
+  add_foreign_key "claims", "claim_stages"
   add_foreign_key "claims", "users", column: "point_person_id"
   add_foreign_key "company_addresses", "addresses"
   add_foreign_key "company_addresses", "companies"
