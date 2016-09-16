@@ -6,9 +6,8 @@ class Feedback
   attr_accessor :sender, :body
   validates_presence_of :sender, :body
 
-  def initialize(attrs = {})
-    @sender = attrs[:sender]
-    @body = attrs[:body]
+  def initialize(attributes = {})
+    attributes.each { |name, value| send("#{name}=", value) }
   end
   
   def attributes
