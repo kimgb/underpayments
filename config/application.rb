@@ -45,7 +45,10 @@ module Underpaid
     # Set the application secret key through Figaro
     config.secret_key_base = Figaro.env.secret_key_base
     
+    # Trouble with autoload_paths? Have you tried MURDERING SPRING??
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{*/}')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'services', '*')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'services', '{*/}')]
     config.eager_load_paths += ["#{Rails.root}/lib"]
     
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
