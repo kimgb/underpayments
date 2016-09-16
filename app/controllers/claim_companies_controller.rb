@@ -95,7 +95,7 @@ class ClaimCompaniesController < ApplicationController
   end
   
   def company_params
-    params.fetch(:claim_company, {}).require(:company_attributes).permit(:name, :contact, :abn, :email, :phone)
+    params.fetch(:claim_company, {}).require(:company_attributes).permit(:name, :abn, :email, :phone)
     # claim_company_params[:company_attributes]
   end
 

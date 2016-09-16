@@ -1,0 +1,19 @@
+= form_for [@company, @contact], html: { class: "form" } do |f|
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: "form-control"
+    
+  .form-group
+    = f.label :title, "Job title/position"
+    = f.text_field :title, class: "form-control"
+    
+  .form-group
+    = f.label :email, "Email"
+    = f.email_field :email, class: "form-control"
+    
+  .form-group
+    = f.label :phone, "Phone no."
+    = f.telephone_field :phone, class: "form-control"
+          
+  .actions.align-right
+    = f.submit "Submit", class: "btn btn-default"

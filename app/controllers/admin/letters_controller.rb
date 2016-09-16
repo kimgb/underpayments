@@ -8,8 +8,20 @@ class Admin::LettersController < Admin::BaseController
 
   # POST /admin/users/1/letters
   def create
+    @user = @claim.user
     @letter = Letter.new(letter_params)
-    @address = (Company.find_by_name(@letter.addressee) || Company.find_by_contact(@letter.addressee))
+    @letter.address = (
+      Company.find_by_name(@letter.addressee).try(:address) || 
+      CompanyContact.find_by_name(@letter.addressee).company.try(:address)
+    )
+    
+    # If the admin wants to file a letter... (this approach renders an HTML string)
+    # letter_content = render_to_string(template: "admin/letters/show", layout: false)
+    # @claim.documents.create(
+    #   coverage_start_date: @claim.employment_began_on, 
+    #   coverage_end_date: @claim.employment_ended_on,
+    #   statement: letter_content
+    # )
     
     render :show, layout: false
   end
@@ -20,7 +32,6 @@ class Admin::LettersController < Admin::BaseController
   private
   def set_claim
     @claim = Claim.find(params[:claim_id])
-    @user = @claim.user
   end
 
   def letter_params

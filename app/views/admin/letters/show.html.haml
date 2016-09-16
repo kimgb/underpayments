@@ -11,7 +11,7 @@
 %p= Date.today.strftime("%e %B %Y")
 %address
   :markdown
-    #{ markdown_postal_format(@letter.addressee, @address.address) }
+    #{ markdown_postal_format(@letter.addressee, @letter.address) }
 
 :markdown
   Dear #{ @letter.addressee },

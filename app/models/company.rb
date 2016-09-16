@@ -2,10 +2,13 @@ class Company < ActiveRecord::Base
   include Markdownable
   include PgSearch
   
-  has_one :company_address, -> { where(is_active: true) }
+  has_one :company_address, -> { active }
   has_one :address, through: :company_address
-  has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :company
+  has_many :claim_companies, -> { active }, inverse_of: :company
   has_many :claims, through: :claim_companies
+  has_many :contacts, class_name: "CompanyContact", dependent: :destroy
+  # has_many :child_companies, class_name: "Company", foreign_key: "parent_company_id"
+  # belongs_to :parent_company, class_name: "Company"
   
   accepts_nested_attributes_for :claim_companies
   
@@ -17,20 +20,26 @@ class Company < ActiveRecord::Base
       } 
     }
   
-  validates_presence_of :name, :contact
+  validates_presence_of :name
   validate :presence_of_phone_or_email
   validate :abn_well_formed
+  
+  def contact
+    # Deprecated. How to warn?
+    contacts.first.try(:name)
+  end
   
   def done?
     valid? && address.present? && address.valid? && (phone || email)
   end
   
   def owners
-    claims ? claims.collect(&:user) : []
+    claims.collect(&:user)
   end
   
   def presentable_against?(claim)
-    claim_companies.where(claim: claim).any? { |cc| cc.is_employer || cc.is_workplace }
+    # Note: claim_companies fail validation unless they're a workplace/employer.
+    claim_companies.where(claim: claim).any?
   end
   
   private
