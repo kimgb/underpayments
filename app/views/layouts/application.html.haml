@@ -26,12 +26,23 @@
         = render partial: 'layouts/banner'
 
         = yield
+        
+        -# Rocket.Chat Livechat Script
+        -# :javascript
+          (function(w, d, s, u) {
+            w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+            var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+            j.async = true; j.src = 'https://chat.nuw.org.au/packages/rocketchat_livechat/assets/rocket-livechat.js';
+            h.parentNode.insertBefore(j, h);
+          })(window, document, 'script', 'https://chat.nuw.org.au/livechat');
 
       %footer.fixed-bottom.flex.flex-row.flex-justify.flex-center
-        .flex-order-1
+        .flex-order-1.hidden-xs
           :markdown
-            #{ t('.footer') } #{ link_to "Send feedback?", new_feedback_path }
-        .dropup.flex-order-2
+            #{ t('.footer') } 
+        .flex-order-2{ style: "margin-left: auto; margin-right: 1rem;"}
+          = link_to "Send feedback?", new_feedback_path, class: "btn btn-default"
+        .dropup.flex-order-3
           %button.btn.btn-default.dropdown-toggle#languagePickerDropup{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: true } }
             %span.glyphicon.glyphicon-globe
             %span.caret
