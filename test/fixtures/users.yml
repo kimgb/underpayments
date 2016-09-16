@@ -1,6 +1,6 @@
 owner:
   claim: underpaid
-  email: kbuckley@nuw.org.au
+  email: sysadmin@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'ch3ng4M1chANGEmePrEtTYplz') %>
 
 admin:
@@ -13,6 +13,6 @@ non_owner:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'rudewords') %>
   
 claimant:
-  email: claimaint@nuw.org.au
+  email: kbuckley@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'cl41m4nt') %>
   claim: underpaid_w_multi_docs

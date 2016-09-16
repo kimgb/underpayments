@@ -33,6 +33,7 @@ class Admin::ClaimsController < Admin::BaseController
   # PATCH/PUT /admin/claims/1
   def update
     new_note?
+    
     @claim.assign_attributes(claim_params)
     @user = @claim.user
     locking?
@@ -52,7 +53,8 @@ class Admin::ClaimsController < Admin::BaseController
 
   private
   def new_note?
-    @new_note ||= (claim_params[:status].present? && claim_params[:status] != @claim.status) ||
+    @new_note ||= (claim_params[:claim_status_id].present? && 
+      claim_params[:claim_status_id] != @claim.claim_status_id) ||
       (claim_params[:comment].present? && claim_params[:comment] != @claim.comment)
   end
   
@@ -73,6 +75,10 @@ class Admin::ClaimsController < Admin::BaseController
   end
 
   def claim_params
-    params.require(:claim).permit(:user_id, :point_person_id, :award_id, :time_period, :hours_per_period, :pay_period, :pay_per_period, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+    params.require(:claim).permit(:user_id, :point_person_id, :award_id, 
+      :time_period, :hours_per_period, :pay_period, :pay_per_period, 
+      :payslips_received, :employment_began_on, :employment_ended_on, 
+      :employment_type, :regular_hours, :exemplary_week, :claim_status_id, 
+      :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
   end
 end

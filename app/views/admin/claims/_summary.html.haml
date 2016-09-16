@@ -1,7 +1,7 @@
 %h4 Summary of calculations
-- if @claim.documents.any?(&:span_multiple_fys?)
+- if @claim.evidence_documents.any?(&:span_multiple_fys?)
   %p
-    %em Proceed with caution, as some documents relating to this claim span over multiple financial years.
+    %em Proceed with caution, as some evidence relating to this claim spans over multiple financial years.
 %p
   %strong= "#{@claim.user.full_name} worked #{@claim.employment_type == "unknown" ? "in an unknown employment relation (the system will assume casual)" : "as a " + @claim.employment_type} under the #{@claim.award.name}."
 - @claim.award_pay_from_evidence_by_year.each do |year, (hours, pay)|

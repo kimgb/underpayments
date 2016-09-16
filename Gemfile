@@ -5,6 +5,7 @@ ruby '2.3.1'
 gem 'rails', '~> 4.2.5'
 gem 'rails-observers'
 gem 'i18n' # I18n - we need to support, e.g., Mandarin, Vietnamese
+gem 'globalize', '~> 5.0.0' # some things in the database need to be translated, too
 gem 'puma' # Use Puma as the web server
 gem 'pg' # Use postgresql as the database for Active Record
 gem 'pg_search' # full text search on postgresql with pg_search

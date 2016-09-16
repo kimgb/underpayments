@@ -3,10 +3,11 @@ class Claim < ActiveRecord::Base
 
   belongs_to :award
   belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
+  belongs_to :stage, class_name: "ClaimStage", foreign_key: "claim_stage_id"
   has_one :user
   has_many :documents
   has_many :messages
-  has_many :claim_companies, -> { where(is_active: true) }, inverse_of: :claim
+  has_many :claim_companies, -> { active }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
 
@@ -26,14 +27,10 @@ class Claim < ActiveRecord::Base
 
   ### MARKDOWNABLE CONFIG - class methods
   def self.presentable_attributes
-    ["award_short_name", "lost_wages"].concat(super).reject do |attr|
-      [
-        "submitted_for_review", "submitted_on",
-        "hours_self_witnessed", "payslips_received",
-        "award_legacy", "ready_to_submit",
-        "pay_period", "time_period"
-      ].include? attr
-    end
+    ["award_short_name", "lost_wages", "status"].concat(super) -
+      ["submitted_for_review", "submitted_on", "hours_self_witnessed", 
+      "payslips_received", "award_legacy", "legacy_status", "ready_to_submit",
+      "pay_period", "time_period"]
   end
 
   def self.attr_transform
@@ -49,6 +46,14 @@ class Claim < ActiveRecord::Base
   end
 
   ### INSTANCE METHODS
+  def status
+    stage.try(:display_name) || legacy_status
+  end
+  
+  def evidence_documents
+    documents.wages | documents.hours
+  end
+  
   def duration_of_employment_in_days
     "#{(employment_ended_on - employment_began_on).to_i} days"
   end
