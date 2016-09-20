@@ -97,6 +97,18 @@ class ApplicationController < ActionController::Base
   def root_path_without_locale
     root_path.gsub(/en$|en-AU$|vi$|zh$|zh-TW$/, "")
   end
+  
+  def checkpoint
+    session[:checkpoint] ||= URI(request.referrer).path
+  end
+  
+  def set_checkpoint
+    session[:checkpoint] = URI(request.referrer).path
+  end
+  
+  def clear_checkpoint
+    session.delete :checkpoint
+  end
 
   def authorise_admin!
     if current_user && current_user.admin?

@@ -18,7 +18,7 @@
     = link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim), class: "btn btn-default btn-sm"
     = link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim), class: "btn btn-default btn-sm"
 
-= render "update_status"
+= render "update_stage"
 = render "assign_point_person"
 
 %h3

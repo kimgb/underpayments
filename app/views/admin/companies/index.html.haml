@@ -1,10 +1,26 @@
+.flex.flex-row-reverse.flex-center.flex-justify
+  .flex-order-1
+    .visible-xs
+      .btn-group
+        %button.btn.btn-default.btn-sm.dropdown-toggle{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } }
+          %span.glyphicon.glyphicon-tasks
+        %ul.dropdown-menu.dropdown-menu-right
+          %li= link_to "Create new company", new_admin_company_path
+          %li= link_to "Merge companies", "#", disabled: true
+
+  .btn-group.hidden-xs
+    = link_to "Create new company", new_admin_company_path, class: "btn btn-default btn-sm"
+    = link_to "Merge companies", "#", class: "btn btn-default btn-sm", id: "merge_selected", disabled: true
+    
 %h1 
   Companies
-  = link_to "Create new company", new_admin_company_path, class: "btn btn-default pull-right"
+  
+#random_box
 
 %table.table
   %thead
     %tr
+      %th
       %th Name
       %th{ class: "hidden-xs" } ABN
       %th Contact
@@ -18,9 +34,26 @@
     
     - @companies.each do |co|
       %tr
+        %td= check_box_tag "co_#{co.id}", "selected", false, class: "check-company", disabled: true
         %td= link_to co.name, admin_company_path(co)
         %td{ class: "hidden-xs" }= mdash_or_value(co.abn)
         %td= mdash_or_value(co.contact)
         -# %td{ class: "hidden-xs" }= mdash_or_value(co.email)
         -# %td{ class: "hidden-xs" }= mdash_or_value(co.phone)
         %td= link_to "Edit", edit_admin_company_path(co), class: "btn btn-default btn-sm"
+
+  :javascript
+    var checked_companies;
+    
+    $(".check-company").on("click", function(e){
+      // if (e.target.checked) {
+        checked_companies = $(".check-company:checked").size();
+        $("#random_box").text(checked_companies + " selected");
+        
+        if (checked_companies > 1) {
+          $("#merge_selected").attr("disabled", false)
+        } else {
+          $("#merge_selected").attr("disabled", true)
+        }
+      //}
+    })

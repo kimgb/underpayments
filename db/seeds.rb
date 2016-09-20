@@ -97,8 +97,10 @@ profile = Profile.create(
 
 claim = Claim.new(
   award: Award.first,
-  weekly_hours: 35,
-  hourly_pay: 11.23,
+  hours_per_period: 35,
+  time_period: "week",
+  pay_per_period: 11.23,
+  pay_period: "hour",
   employment_type: "casual",
   employment_began_on: Date.new(2015, 02, 01),
   employment_ended_on: Date.new(2015, 10, 01),

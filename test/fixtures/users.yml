@@ -1,18 +1,25 @@
+DEFAULTS: &DEFAULTS
+  group: fair_food
+
 owner:
+  <<: *DEFAULTS
   claim: underpaid
-  email: kbuckley@nuw.org.au
+  email: sysadmin@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'ch3ng4M1chANGEmePrEtTYplz') %>
 
 admin:
+  <<: *DEFAULTS
   email: admin@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'bossAdmin') %>
   admin: true
   
 non_owner:
+  <<: *DEFAULTS
   email: lrohde@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'rudewords') %>
   
 claimant:
-  email: claimaint@nuw.org.au
+  <<: *DEFAULTS
+  email: kbuckley@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'cl41m4nt') %>
   claim: underpaid_w_multi_docs

@@ -252,6 +252,9 @@ GEM
       activerecord (>= 4.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    globalize (5.0.1)
+      activemodel (>= 4.2.0, < 4.3)
+      activerecord (>= 4.2.0, < 4.3)
     guard (2.14.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -492,6 +495,7 @@ DEPENDENCIES
   figaro
   fog
   friendly_id (~> 5.1)
+  globalize (~> 5.0.0)
   guard
   guard-minitest
   haml-rails (~> 0.9)

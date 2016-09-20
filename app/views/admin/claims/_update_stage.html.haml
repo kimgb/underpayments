@@ -1,16 +1,17 @@
-= form_for(@claim, url: admin_claim_path(@claim), html: { id: "claim_update_status", class: "form", multipart: true }) do |f|
+= form_for(@claim, url: admin_claim_path(@claim), html: { id: "claim_update_stage", class: "form", multipart: true }) do |f|
   = render partial: "layouts/errors", locals: { resource: @claim }
 
   %fieldset
     .form-group
-      = f.label :status, t('views.admin.claims.form.status'), class: "control-label"
+      = f.label :claim_stage_id, "Set new stage", class: "control-label"
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-tag
-        = f.text_field :status, class: "form-control"
+        = f.select :claim_stage_id, 
+          options_for_select(ClaimStage.all.map{ |cs| [cs.display_name, cs.id] }, @claim.claim_stage_id), { prompt: @claim.legacy_status.to_s }, { class: "form-control" }
 
     .form-group
-      = f.label :comment, t('views.admin.claims.form.comment'), class: "control-label"\
+      = f.label :comment, "Detail", class: "control-label"
       .input-group
         .input-group-addon
           %i.glyphicon.glyphicon-pencil

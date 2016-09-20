@@ -44,6 +44,6 @@ class Admin::CompaniesController < Admin::BaseController
   end
   
   def company_params
-    params.require(:company).permit(:name, :contact, :email, :phone, :abn)
+    params.require(:company).permit(:name, :email, :phone, :abn)
   end
 end

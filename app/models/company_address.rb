@@ -4,6 +4,8 @@ class CompanyAddress < ActiveRecord::Base
   
   accepts_nested_attributes_for :address
   
+  scope :active, -> { where(is_active: true) }
+  
   def owners
     company ? company.owners : []
   end
