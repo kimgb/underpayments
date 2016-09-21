@@ -99,11 +99,11 @@ class ApplicationController < ActionController::Base
   end
   
   def checkpoint
-    session[:checkpoint] ||= URI(request.referrer).path
+    session[:checkpoint] ||= URI(request.referrer || root_path).path
   end
   
   def set_checkpoint
-    session[:checkpoint] = URI(request.referrer).path
+    session[:checkpoint] = URI(request.referrer || root_path).path
   end
   
   def clear_checkpoint
