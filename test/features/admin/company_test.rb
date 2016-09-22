@@ -17,6 +17,7 @@ class Admin::CompanyTest < Capybara::Rails::TestCase
     click_link "Create new company", match: :first
     
     fill_in "Name", with: "Acme Co. Ltd"
+    fill_in "Contact", with: "Elmer Fudd"
     fill_in "Phone", with: "055555555"
     fill_in "Email", with: "efudd@acme.com"
     fill_in "ABN", with: "55555555550"
@@ -40,6 +41,7 @@ class Admin::CompanyTest < Capybara::Rails::TestCase
     click_link "Create new company", match: :first
     
     fill_in "Name", with: "Acme Co. Ltd"
+    fill_in "Contact", with: "Elmer Fudd"
     fill_in "Phone", with: "055555555"
     fill_in "Email", with: "efudd@acme.com"
     fill_in "ABN", with: "55555555555"

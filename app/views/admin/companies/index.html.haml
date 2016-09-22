@@ -5,17 +5,17 @@
         %button.btn.btn-default.btn-sm.dropdown-toggle{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } }
           %span.glyphicon.glyphicon-tasks
         %ul.dropdown-menu.dropdown-menu-right
-          %li= link_to "Create new company", new_admin_company_path
           %li= link_to "Merge companies", "#", disabled: true
+          %li= link_to "Create new company", new_admin_company_path
 
   .btn-group.hidden-xs
-    = link_to "Create new company", new_admin_company_path, class: "btn btn-default btn-sm"
     = link_to "Merge companies", "#", class: "btn btn-default btn-sm", id: "merge_selected", disabled: true
+    = link_to "Create new company", new_admin_company_path, class: "btn btn-default btn-sm"
     
 %h1 
   Companies
   
-#random_box
+-# #random_box
 
 %table.table
   %thead
@@ -40,9 +40,13 @@
         %td= mdash_or_value(co.contact)
         -# %td{ class: "hidden-xs" }= mdash_or_value(co.email)
         -# %td{ class: "hidden-xs" }= mdash_or_value(co.phone)
-        %td= link_to "Edit", edit_admin_company_path(co), class: "btn btn-default btn-sm"
+        %td= link_to "", edit_admin_company_path(co), class: "btn btn-default btn-sm glyphicon glyphicon-pencil", title: "Edit"
+        
+%hr
+.actions.align-right
+  = link_to "Create new company", new_admin_company_path, class: "btn btn-default"
 
-  :javascript
+  -# :javascript
     var checked_companies;
     
     $(".check-company").on("click", function(e){
