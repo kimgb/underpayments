@@ -12,7 +12,7 @@ class Admin::LettersController < Admin::BaseController
     @letter = Letter.new(letter_params)
     @letter.address = (
       Company.find_by_name(@letter.addressee).try(:address) || 
-      CompanyContact.find_by_name(@letter.addressee).company.try(:address)
+      Company.find_by_contact(@letter.addressee).try(:address)
     )
     
     # If the admin wants to file a letter... (this approach renders an HTML string)
