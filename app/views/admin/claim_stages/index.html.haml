@@ -1,10 +1,20 @@
 %hgroup
   :markdown
-    # Claim stages
+    ## Claim stages
     #### Viewing in locale: `#{I18n.locale}`
-%hr
 
-= render @claim_stages
+%table.table.table-sm
+  %thead
+    %tr
+      %th System name
+      %th Display name
+      %th Notification template
+      %th
+      %th
+
+  %tbody= render @claim_stages
+  
+%hr
 
 .actions.align-right
   = link_to "Create new stage", new_admin_claim_stage_path, class: "btn btn-default"

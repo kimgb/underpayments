@@ -78,7 +78,7 @@ class Admin::ClaimsController < Admin::BaseController
     params.require(:claim).permit(:user_id, :point_person_id, :award_id, 
       :time_period, :hours_per_period, :pay_period, :pay_per_period, 
       :payslips_received, :employment_began_on, :employment_ended_on, 
-      :employment_type, :regular_hours, :exemplary_week, :claim_status_id, 
+      :employment_type, :regular_hours, :exemplary_week, :claim_stage_id, 
       :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
   end
 end

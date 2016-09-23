@@ -8,7 +8,6 @@ Rails.application.routes.draw do
     namespace :admin do
       root "claims#index"
 
-      resources :claim_stages, except: [:show]
       resources :claims, only: [:index, :show, :edit, :update, :create] do
         resources :letters, only: [:new, :create, :show]
         resources :messages, only: [:index, :new, :create]
@@ -18,11 +17,12 @@ Rails.application.routes.draw do
       resources :profiles, only: [:edit, :update] do
         resource :address, only: [:new, :create]
       end
-      resources :companies
       resources :addresses, only: [:edit, :update, :destroy]
       resources :documents, only: [:show, :edit, :update, :destroy]
 
-      resources :supergroups, :groups, :awards
+      resources :companies, :awards, :claim_stages
+      resources :supergroups, path: "organisations"
+      resources :groups, path: "campaigns"
 
       get "/preview", to: "previews#show"
     end
