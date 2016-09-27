@@ -1,4 +1,4 @@
-- @user.claim.set_ready_to_submit
+- @user.claim.present? && @user.claim.set_ready_to_submit
 - unless @user.ready_to_submit?
   %p= t('.introduction')
   %ul
