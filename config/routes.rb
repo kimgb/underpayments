@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       root "claims#index"
 
       resources :claims, only: [:index, :show, :edit, :update, :create] do
-        resources :letters, only: [:new, :create, :show]
+        resources :letters, shallow: true
         resources :messages, only: [:index, :new, :create]
         resources :documents, only: [:new, :create]
         resources :notes, only: [:index]

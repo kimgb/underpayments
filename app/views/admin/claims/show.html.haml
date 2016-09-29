@@ -5,18 +5,31 @@
         %button.btn.btn-default.btn-sm.dropdown-toggle{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } }
           %span.glyphicon.glyphicon-tasks
         %ul.dropdown-menu.dropdown-menu-right
-          %li= link_to "Send a message", new_admin_claim_message_path(@claim)
-          %li= link_to "Letter of demand", new_admin_claim_letter_path(@claim)
           %li= render partial: "admin/claims/toggle_lock", locals: { link_class: "" }
-          %li= link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim)
-          %li= link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim)
+          %li
+            = link_to admin_claim_letters_path(@claim) do
+              = "Letters of demand"
+              %span.badge= @claim.letters.count
+          %li
+            = link_to admin_claim_messages_path(@claim) do
+              = "Messages"
+              %span.badge= @claim.messages.size
+          %li
+            = link_to admin_claim_notes_path(@claim) do
+              = "Notes"
+              %span.badge= @claim.notes.size
 
   .btn-group.hidden-xs
-    = link_to "Send a message", new_admin_claim_message_path(@claim), class: "btn btn-default btn-sm"
-    = link_to "Letter of demand", new_admin_claim_letter_path(@claim), class: "btn btn-default btn-sm"
-    = render partial: "admin/claims/toggle_lock", locals: { link_class: "btn btn-default btn-sm" }
-    = link_to "#{pluralize(@claim.messages.size, 'message')}", admin_claim_messages_path(@claim), class: "btn btn-default btn-sm"
-    = link_to pluralize(@claim.notes.size, 'note'), admin_claim_notes_path(@claim), class: "btn btn-default btn-sm"
+    = render partial: "admin/claims/toggle_lock", locals: { link_class: "btn btn-default" }
+    = link_to admin_claim_letters_path(@claim), class: "btn btn-default" do
+      = "Letters of demand"
+      %span.badge= @claim.letters.count
+    = link_to admin_claim_messages_path(@claim), class: "btn btn-default" do
+      = "Messages"
+      %span.badge= @claim.messages.size
+    = link_to admin_claim_notes_path(@claim), class: "btn btn-default" do
+      = "Notes"
+      %span.badge= @claim.notes.size
 
 = render "update_stage"
 = render "assign_point_person"

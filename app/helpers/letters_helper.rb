@@ -7,6 +7,18 @@ module LettersHelper
     end
   end
   
+  def address_list(claim)
+    emp, wkp = claim.employer, claim.workplace
+    if emp && wkp
+      [
+        ["#{emp.name} (#{emp.address.town.upcase}, #{emp.address.province})", emp.address.id], 
+        ["#{wkp.name} (#{wkp.address.town.upcase}, #{wkp.address.province})", wkp.address.id]
+      ].uniq
+    else
+      []
+    end
+  end
+  
   # Currently using Markdown for formatting - two spaces + newline formats as <br>
   def signature_list
     [

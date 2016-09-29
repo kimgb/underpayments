@@ -7,6 +7,7 @@ class Claim < ActiveRecord::Base
   has_one :user
   has_many :documents
   has_many :messages
+  has_many :letters
   has_many :claim_companies, -> { active }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable

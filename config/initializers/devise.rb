@@ -192,9 +192,9 @@ Devise.setup do |config|
   # Range for password length.
   config.password_length = 8..72
 
-  # Email regex used to validate email formats. It simply asserts that
-  # one (and only one) @ exists in the given string. This is mainly
-  # to give user feedback and not to assert the e-mail validity.
+  # Email regex used to validate email formats.
+  # I've altered this to be very liberal with the localpart, but a bit more
+  # detailed (though still liberal) with the domain. -kbuckley
   config.email_regexp = /\A.+@[[:alnum:]]+((-+|\.)[[:alnum:]]+)*\z/
 
   # ==> Configuration for :timeoutable

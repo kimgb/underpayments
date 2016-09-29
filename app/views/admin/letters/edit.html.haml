@@ -1,0 +1,26 @@
+%h3 Edit letter of demand
+
+= form_for [:admin, @letter], html: { multipart: true, class: "form" } do |f|
+  .form-group
+    = f.label :addressee, "Addressee", class: "control-label"
+    = f.select :addressee, options_for_select(addressee_list(@letter.claim), @letter.addressee), {}, { class: "form-control" }
+    
+    .form-group
+      = f.label :address_id, "Address", class: "control-label"
+      = f.select :address_id, options_for_select(address_list(@letter.claim), @letter.address_id), {}, { class: "form-control" }
+
+  .form-group
+    = f.label :body, "Body", class: "control-label"
+    = f.text_area :body, rows: 24, class: "form-control"
+    
+  .form-group
+    = f.label :contact_inbox, "Contact inbox", class: "control-label"
+    = f.text_field :contact_inbox, class: "form-control"
+
+  .form-group
+    = f.label :signature, "Signature", class: "control-label"
+    = f.select :signature, options_for_select(signature_list, @letter.signature), {}, { class: "form-control" }
+
+  .actions.align-right
+    = button_tag "", type: "submit", class: "btn btn-default glyphicon glyphicon-save"
+  %p &nbsp;

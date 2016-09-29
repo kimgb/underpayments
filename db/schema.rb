@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902043547) do
+ActiveRecord::Schema.define(version: 20160929034712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -168,6 +168,21 @@ ActiveRecord::Schema.define(version: 20160902043547) do
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree
   add_index "groups", ["supergroup_id"], name: "index_groups_on_supergroup_id", using: :btree
 
+  create_table "letters", force: :cascade do |t|
+    t.integer  "claim_id"
+    t.date     "sent_on"
+    t.string   "addressee"
+    t.integer  "address_id"
+    t.text     "body"
+    t.string   "contact_inbox"
+    t.text     "signature"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "letters", ["address_id"], name: "index_letters_on_address_id", using: :btree
+  add_index "letters", ["claim_id"], name: "index_letters_on_claim_id", using: :btree
+
   create_table "messages", force: :cascade do |t|
     t.integer  "parent_message_id"
     t.integer  "claim_id"
@@ -270,6 +285,8 @@ ActiveRecord::Schema.define(version: 20160902043547) do
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "documents", "claims"
   add_foreign_key "groups", "supergroups"
+  add_foreign_key "letters", "addresses"
+  add_foreign_key "letters", "claims"
   add_foreign_key "messages", "claims"
   add_foreign_key "notes", "users", column: "author_id"
   add_foreign_key "profiles", "addresses"

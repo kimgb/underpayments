@@ -1,0 +1,6 @@
+%h3 Previous letters of demand
+= render(@letters) || content_tag(:p, "None generated")
+%hr
+.actions.align-right
+  = link_to "", [:admin, @claim], class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to claim"
+  = link_to "", new_admin_claim_letter_path(@claim), class: "btn btn-default glyphicon glyphicon-envelope", title: "Generate a letter of demand"
