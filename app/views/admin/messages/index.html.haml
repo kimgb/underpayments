@@ -1,1 +1,6 @@
-= render @messages
+%h3 Messages
+= render(@messages) || content_tag(:p, "None sent")
+%hr
+.actions.align-right
+  = link_to "", [:admin, @claim], class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to claim"
+  = link_to "", new_admin_claim_message_path(@claim), class: "btn btn-default glyphicon glyphicon-send", title: "Send a new message"

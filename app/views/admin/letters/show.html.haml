@@ -1,4 +1,6 @@
-%p= @letter.sent_on.strftime("%e %B %Y")
+%p
+  %em= @letter.sent_on.strftime("%e %B %Y")
+  
 %address
   :markdown
     #{ markdown_postal_format(@letter.addressee, @letter.address) }
@@ -14,7 +16,7 @@
   <br>#{ @letter.signature }
 
 .actions.align-right
-  = link_to "", [:admin, @letter.claim], class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to claim"
+  = link_to "", admin_claim_letters_path(@letter.claim), class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to letter listing"
   = link_to "", edit_admin_letter_path(@letter), class: "btn btn-default glyphicon glyphicon-pencil", title: "Edit this letter"
-  = link_to "", admin_letter_path(@letter), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default glyphicon glyphicon-trash", title: "Delete this letter"
   = link_to "", admin_letter_path(@letter, { print: "1" }), class: "btn btn-default glyphicon glyphicon-print", title: "Print this letter"
+  = link_to "", admin_letter_path(@letter), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default glyphicon glyphicon-trash", title: "Delete this letter"

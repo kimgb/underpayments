@@ -6,6 +6,7 @@ class Letter < ActiveRecord::Base
   
   delegate :user, to: :claim, prefix: false, allow_nil: false
   
+  validates_presence_of :contact_inbox, :addressee, :address, :signature
   validate :forbid_changing_sent_date, on: :update
   
   def write_body!
