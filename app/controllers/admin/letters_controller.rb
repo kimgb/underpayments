@@ -1,6 +1,6 @@
 class Admin::LettersController < Admin::BaseController
   before_action :set_claim, only: [:index, :new, :create]
-  before_action :set_letter, only: [:show, :edit, :update, :destroy]
+  before_action :set_letter, except: [:index, :new, :create]
   
   # GET /admin/claims/1/letters
   def index
@@ -48,6 +48,20 @@ class Admin::LettersController < Admin::BaseController
       else
         format.html { render :edit }
         format.json { render json: @letter.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  # POST /admin/letters/1/file
+  def file
+    if @letter.sent?
+      redirect_to [:admin, @letter], notice: "This letter has already been filed and marked sent."
+    else
+      if @letter.update(sent: true)
+        UserMailer.file_letter(current_user.email, @letter).deliver_later
+        redirect_to [:admin, @letter], notice: "Letter has been filed."
+      else
+        redirect_to [:admin, @letter], notice: "There was an error filing the letter."
       end
     end
   end

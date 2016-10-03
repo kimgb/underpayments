@@ -19,4 +19,6 @@
   = link_to "", admin_claim_letters_path(@letter.claim), class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to letter listing"
   = link_to "", edit_admin_letter_path(@letter), class: "btn btn-default glyphicon glyphicon-pencil", title: "Edit this letter"
   = link_to "", admin_letter_path(@letter, { print: "1" }), class: "btn btn-default glyphicon glyphicon-print", title: "Print this letter"
+  - unless @letter.sent?
+    = link_to "", admin_file_letter_path(@letter), method: :post, data: { confirm: "Really file this letter and mark as sent?" }, class: "btn btn-default glyphicon glyphicon-folder-close", title: "Mark sent and file to Assist"
   = link_to "", admin_letter_path(@letter), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-default glyphicon glyphicon-trash", title: "Delete this letter"

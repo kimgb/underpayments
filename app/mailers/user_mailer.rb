@@ -1,5 +1,16 @@
 class UserMailer < ActionMailer::Base
+  helper AddressesHelper
   default from: 'no-reply@mg.nuw.org.au'
+  
+  def file_letter(sender, letter)
+    @letter = letter
+    user = letter.claim.user
+    member_id = NUW::Person.get(email: user.email).try(:external_id)
+    
+    mail  to:         "feed@nuw.org.au",
+          subject:    "done: letter_of_demand Letter of demand on behalf of #{member_id} #{user.proper_full_name}",
+          from:       sender
+  end
   
   # Email delivered to claimant from template at certain milestones.
   # TODO: send with token.

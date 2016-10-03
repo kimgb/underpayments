@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   scope "(:skin)", constraints: { format: 'html' } do
     namespace :admin do
       root "claims#index"
-
+      
+      post "/letters/:id/file", to: "letters#file", as: :file_letter
       resources :claim_companies, only: [:destroy]
       resources :claims, only: [:index, :show, :edit, :update, :create] do
         resources :letters, shallow: true

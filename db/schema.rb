@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929034712) do
+ActiveRecord::Schema.define(version: 20161003063326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -178,6 +178,7 @@ ActiveRecord::Schema.define(version: 20160929034712) do
     t.text     "signature"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "sent"
   end
 
   add_index "letters", ["address_id"], name: "index_letters_on_address_id", using: :btree

@@ -1,0 +1,14 @@
+%p= @letter.sent_on.strftime("%e %B %Y")
+%address
+  :markdown
+    #{ markdown_postal_format(@letter.addressee, @letter.address) }
+
+:markdown
+  Dear #{ @letter.addressee },
+
+  #{ @letter.body }
+  
+  To discuss this letter further, please email the NUW at #{ @letter.contact_inbox }.
+
+  <br>Kind regards
+  <br>#{ @letter.signature }
