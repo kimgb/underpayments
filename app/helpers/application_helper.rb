@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def badgify(text, count)
+    [text, content_tag(:span, count, class: "badge")].join(" ").html_safe
+  end
+  
   def page_title
     content_for(:title) || "Underpaid"
   end

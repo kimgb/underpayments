@@ -1,13 +1,16 @@
-%h3
-  = t('companies.company.heading')
+%h4
   = home_title(company, claim)
-  %small= link_to("(edit)", edit_admin_company_path(company))
+  %small
+    = surround "(", ")" do
+      = link_to("edit", edit_admin_company_path(company))
+      = "/"
+      = link_to("remove", admin_claim_company_path(claim_company), data: { confirm: "Are you sure?" }, method: :delete)
 :markdown
   #{markdown_model(company)}
 
 - if company.address
   %h4
-    = t('companies.company.address.heading')
+    Address
     %small= link_to("(edit)", edit_admin_address_path(company.address))
 
   :markdown

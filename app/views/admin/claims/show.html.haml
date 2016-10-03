@@ -6,33 +6,20 @@
           %span.glyphicon.glyphicon-tasks
         %ul.dropdown-menu.dropdown-menu-right
           %li= render partial: "admin/claims/toggle_lock", locals: { link_class: "" }
-          %li
-            = link_to admin_claim_letters_path(@claim) do
-              = "Letters of demand"
-              %span.badge= @claim.letters.count
-          %li
-            = link_to admin_claim_messages_path(@claim) do
-              = "Messages"
-              %span.badge= @claim.messages.size
-          %li
-            = link_to admin_claim_notes_path(@claim) do
-              = "Notes"
-              %span.badge= @claim.notes.size
+          %li= link_to badgify("Letters of demand", @claim.letters.size), admin_claim_letters_path(@claim)
+          %li= link_to badgify("Messages", @claim.messages.size), admin_claim_messages_path(@claim)
+          %li= link_to badgify("Notes", @claim.notes.size), admin_claim_notes_path(@claim)
 
   .btn-group.hidden-xs
     = render partial: "admin/claims/toggle_lock", locals: { link_class: "btn btn-default" }
-    = link_to admin_claim_letters_path(@claim), class: "btn btn-default" do
-      = "Letters of demand"
-      %span.badge= @claim.letters.count
-    = link_to admin_claim_messages_path(@claim), class: "btn btn-default" do
-      = "Messages"
-      %span.badge= @claim.messages.size
-    = link_to admin_claim_notes_path(@claim), class: "btn btn-default" do
-      = "Notes"
-      %span.badge= @claim.notes.size
+    = link_to badgify("Letters of demand", @claim.letters.size), admin_claim_letters_path(@claim), class: "btn btn-default"
+    = link_to badgify("Messages", @claim.messages.size), admin_claim_messages_path(@claim), class: "btn btn-default"
+    = link_to badgify("Notes", @claim.notes.size), admin_claim_notes_path(@claim), class: "btn btn-default"
 
 = render "update_stage"
 = render "assign_point_person"
+
+%hr
 
 %h3
   User details
@@ -48,6 +35,8 @@
   - else
     = "No address."
     = link_to "Add one?", new_admin_profile_address_path(profile_id: @claim.user.profile)
+
+%hr
 
 -# Claim
 - if @claim.valid?
@@ -70,16 +59,36 @@
     %ul
       - @claim.coverage_overlaps(:time_evidence).each do |overlap|
         %li= "#{overlap.first.to_s(:rfc822)} to #{overlap.last.to_s(:rfc822)}"
+        
+  %hr
 
   = render partial: "admin/documents/documents", locals: { documents: @claim.documents }
   = link_to "Add new document", new_admin_claim_document_path(@claim), class: "btn btn-sm btn-default"
+  
+  %hr
+  
   - if @claim.coverage_complete? && @claim.coverage_complete?(:time_evidence)
     = render "summary"
 
+  %hr
+
+  %h3 Companies
   -# Claim companies
   - if @claim.presentable_companies.any?
     - @claim.presentable_companies.each do |cc|
       = render partial: "admin/companies/company", locals: { claim_company: cc, company: cc.company, claim: cc.claim }
+  - else
+    %p= "None attached"
+  
+  -# if employer or workplace is lacking, allow additional company
+  .actions.align-right
+    - if [@claim.employer, @claim.workplace].all?(&:nil?)
+      = link_to "Add company", new_admin_claim_claim_company_path(@claim), class: "btn btn-sm btn-default"
+    - elsif @claim.employer.nil?
+      = link_to "Add employer", new_admin_claim_claim_company_path(@claim, claim_company: { is_employer: true }), class: "btn btn-sm btn-default"
+    - elsif @claim.workplace.nil?
+      = link_to "Add workplace", new_admin_claim_claim_company_path(@claim, claim_company: { is_workplace: true }), class: "btn btn-sm btn-default"
+        
 
 - else
   %h3 Claim

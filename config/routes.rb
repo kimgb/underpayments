@@ -8,11 +8,13 @@ Rails.application.routes.draw do
     namespace :admin do
       root "claims#index"
 
+      resources :claim_companies, only: [:destroy]
       resources :claims, only: [:index, :show, :edit, :update, :create] do
         resources :letters, shallow: true
         resources :messages, only: [:index, :new, :create]
         resources :documents, only: [:new, :create]
         resources :notes, only: [:index]
+        resources :claim_companies, only: [:new, :create]
       end
       resources :profiles, only: [:edit, :update] do
         resource :address, only: [:new, :create]
