@@ -1,4 +1,4 @@
-<%= @letter.sent_on.strftime("%e %B %Y") %>
+<%= @letter.display_date.strftime("%e %B %Y") %>
 
 <%= markdown_postal_format(@letter.addressee, @letter.address) %>
 

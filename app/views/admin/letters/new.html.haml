@@ -4,9 +4,9 @@
   = render partial: "layouts/errors", locals: { resource: @letter }
   
   .form-group.form-inline
-    = f.label :sent_on, "Date sent", class: "control-label"
+    = f.label :display_date, "Date to be displayed", class: "control-label"
     %br
-    = f.date_select :sent_on, { order: [:day, :month, :year], start_year: Date.today.year - 5, end_year: Date.today.year }, { class: "form-control" }
+    = f.date_select :display_date, { order: [:day, :month, :year], start_year: Date.today.year - 5, end_year: Date.today.year }, { class: "form-control" }
   
   .form-group
     = f.label :addressee, "Addressee", class: "control-label"

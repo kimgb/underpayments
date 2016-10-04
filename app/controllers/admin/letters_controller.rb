@@ -88,6 +88,6 @@ class Admin::LettersController < Admin::BaseController
   end
 
   def letter_params
-    params.require(:letter).permit(:claim_id, :sent_on, :addressee, :address_id, :body, :contact_inbox, :signature)
+    params.require(:letter).permit(:claim_id, :display_date, :addressee, :address_id, :body, :contact_inbox, :signature)
   end
 end

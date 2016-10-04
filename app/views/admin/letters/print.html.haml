@@ -9,7 +9,7 @@
     font-size: 12pt;
   }
 
-%p= @letter.sent_on.strftime("%e %B %Y")
+%p= @letter.display_date.strftime("%e %B %Y")
 %address
   :markdown
     #{ markdown_postal_format(@letter.addressee, @letter.address) }

@@ -1,6 +1,7 @@
 require "test_helper"
 
 class CanAddClaimTest < Capybara::Rails::TestCase
+  include DateSelectHelper
   # def teardown
   #   Capybara.default_max_wait_time = 2
   # end
@@ -58,11 +59,5 @@ class CanAddClaimTest < Capybara::Rails::TestCase
   
   def employment_ended_on(date)
     fill_date("claim_employment_ended_on", date)
-  end
-  
-  def fill_date(attr_selector, date)
-    page.find("#" + attr_selector + "_3i").set date.day
-    page.find("#" + attr_selector + "_2i").set Date::MONTHNAMES[date.month]
-    page.find("#" + attr_selector + "_1i").set date.year
   end
 end

@@ -6,7 +6,7 @@ class Letter < ActiveRecord::Base
   
   delegate :user, to: :claim, prefix: false, allow_nil: false
   
-  validates_presence_of :sent_on, :contact_inbox, :addressee, :address, :signature
+  validates_presence_of :display_date, :contact_inbox, :addressee, :address, :signature
   validate :forbid_changing_sent_date, on: :update
   
   # before_destroy :prevent_destroy_if_readonly
@@ -32,7 +32,7 @@ class Letter < ActiveRecord::Base
   
   private
   def forbid_changing_sent_date
-    errors.add(:sent_on, "can not be changed!") if self.sent_on_changed?
+    errors.add(:display_date, "can not be changed!") if self.display_date_changed?
   end
   
   # def prevent_destroy_if_readonly
