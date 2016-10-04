@@ -22,7 +22,6 @@ class Admin::LettersController < Admin::BaseController
   # POST /admin/claims/1/letters
   def create
     @letter = @claim.letters.build(letter_params)
-    @letter.write_body!
     
     respond_to do |format|
       if @letter.save
@@ -68,10 +67,14 @@ class Admin::LettersController < Admin::BaseController
   
   # DELETE /admin/letters/1
   def destroy
-    @letter.destroy
     respond_to do |format|
-      format.html { redirect_to admin_claim_letters_path(@letter.claim), notice: "Letter removed." }
-      format.json { head :no_content }
+      if @letter.destroy
+        format.html { redirect_to admin_claim_letters_path(@letter.claim), notice: "Letter removed." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to [:admin, @letter], notice: "This letter has been filed! It cannot be deleted!" }
+        format.json { render json: @letter.errors, status: :unprocessable_entity }
+      end
     end
   end
 
