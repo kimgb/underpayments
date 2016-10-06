@@ -64,17 +64,24 @@ class Claim < ActiveRecord::Base
     # For each year:
     # Confirm the bookends are <= 7 days, and all other docs are == 7 days.
     years.map do |y, docs|
-      days_per_doc = docs.rotate.map(&:days).map(&:size)
-      
       msg = "Can only calculate overtime with documents of 7 days length"
-      raise IncalculableOvertimeError, msg unless 
-        days_per_doc[0..-3].all?(&7.method(:==)) &&
-        days_per_doc[-2..-1].all?(&7.method(:>=))
+      raise IncalculableOvertimeError, msg unless docs_conform_to_overtime_format?(docs)
       
       hours_per_doc = docs.map(&:hours)
       
       [y, max_overtime(hours_per_doc)]
     end.to_h
+  end
+  
+  def docs_conform_to_overtime_format?(docs)
+    if docs.size <= 2
+      docs.map(&:days).map(&:size).all?(&7.method(:>=))
+    else
+      days_per_doc = docs.rotate.map(&:days).map(&:size)
+      
+      days_per_doc[0..-3].all?(&7.method(:==)) &&
+      days_per_doc[-2..-1].all?(&7.method(:>=))
+    end
   end
   
   def overtime_value_by_year
