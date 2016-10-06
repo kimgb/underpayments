@@ -1,5 +1,4 @@
 %h3 Notes
-= render(@notes) || content_tag(:p, "None to display")
-%hr
+= render(@notes) || content_tag(:p, "None to display") + content_tag(:hr)
 .actions.align-right
   = link_to "", [:admin, @annotatable], class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to #{@annotatable.class.to_s.downcase}"

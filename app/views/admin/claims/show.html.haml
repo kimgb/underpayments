@@ -70,8 +70,6 @@
   - if @claim.coverage_complete? && @claim.coverage_complete?(:time_evidence)
     = render "summary"
 
-  %hr
-
   %h3 Companies
   -# Claim companies
   - if @claim.presentable_companies.any?

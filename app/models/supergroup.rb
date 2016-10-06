@@ -11,4 +11,8 @@ class Supergroup < ActiveRecord::Base
         dictionary: "english"
       } 
     }
+    
+  def point_people_for_select
+    users.admin.map { |u| [(u.full_name || u.email), u.id] }
+  end
 end

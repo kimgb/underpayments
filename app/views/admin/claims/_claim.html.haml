@@ -1,6 +1,9 @@
 - if claim.user
-  %p
-    = claim.user.full_name
-    = surround '<', '>' do
-      = claim.user.email
-    = link_to '', admin_claim_path(claim), class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"
+  %tr
+    %td= claim.status || "None"
+    %td= claim.user.full_name
+    %td{ class: "hidden-xs" }= claim.employer_name || "&mdash;".html_safe
+    %td{ class: "hidden-xs" }= number_to_currency(claim.hourly_pay)
+    %td{ class: "hidden-xs" }= claim.hours_worked && claim.hours_worked.round
+    %td{ class: "hidden-xs" }= number_to_currency(claim.lost_wages)
+    %td= link_to '', [:admin, claim], class: "btn btn-sm btn-default glyphicon glyphicon-eye-open pull-right"

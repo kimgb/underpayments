@@ -5,16 +5,56 @@
     %option{ value: "submitted" } Submitted claims
     %option{ value: "completed" } Completed claims
     %option{ value: "incomplete" } Incomplete claims
+-#= form_for(@claim_filter, url: filter_path, method: :get, class: "form form-horizontal") do |f|
+  = render partial: "layouts/errors", locals: { resource: @claim_filter }
+  
+  %legend.h2 Browse claims
+  %fieldset
+    .form-group
+      = label_tag :point_person_select, "Claims assigned to:", class: "col-sm-4 control-label"
+      .col-sm-8
+        = select_tag :point_person_select, options_for_select(current_user.point_people_for_select, current_user.id), include_blank: true, class: "form-control"
+
+    .form-group
+      = label_tag :stage_category_select, "Claims that are:", class: "col-sm-4 control-label"
+      .col-sm-8
+        = select_tag :stage_category_select, options_for_select(["active", "succeeded", "abandoned", "failed", "junk"]), include_blank: true, class: "form-control"
+      
+    .form-group
+      = label_tag :stage_select, "Claims at stage:", class: "col-sm-4 control-label"
+      .col-sm-8
+        = select_tag :stage_select, options_for_select(ClaimStage.all.map { |cs| [cs.display_name, cs.id] }), include_blank: true, class: "form-control"
+    
+    .checkbox{ style: "margin-bottom: 1.5rem" }
+      = label_tag(:not_submitted, style: "width: 100%") do
+        = check_box_tag :not_submitted
+        = "Include incomplete claims?"
+      
+    .checkbox{ style: "margin-bottom: 1.5rem" }
+      = label_tag(:review_date, style: "width: 100%") do
+        = check_box_tag :review_date
+        = "Include snoozed claims?"
+        
+    .actions.align-right
+      = button_tag "Update list", type: :submit, class: "btn btn-default"
 
 = link_to "Your claims", url_for(params.merge(scope: "point_person")), class: "collapse", id: "point_person"
 = link_to "Submitted", url_for(params.merge(scope: "submitted")), class: "collapse", id: "submitted"
 = link_to "Completed", url_for(params.merge(scope: "completed")), class: "collapse", id: "completed"
 = link_to "Incomplete", url_for(params.merge(scope: "incomplete")), class: "collapse", id: "incomplete"
 
-= render "review_table"#, locals: { users: @users, view_context: @view_context }
+= render "review_table", claims: @claims#, locals: { users: @users, view_context: @view_context }
 
 :coffeescript
   $(document).ready ->
     $("#user-selector").val("#{(params[:scope] || 'point_person')}")
   $("#user-selector").on "change", (e) ->
     $("#" + $(e.target).val())[0].click();
+    
+  #sendFilterForm = ->
+  #  $.get($("#filter_form").attr('action'), $("#filter_form").serialize(), 'script')
+    
+  #sendFilterStage = ->
+  #  $.get("")
+
+  #$("#stage_select").html("<%= j options_from_collection_for_select(@) %>")

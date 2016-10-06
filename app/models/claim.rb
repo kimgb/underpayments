@@ -1,4 +1,7 @@
 class Claim < ActiveRecord::Base
+  class IncalculableOvertimeError < StandardError
+  end
+  
   include Markdownable
 
   belongs_to :award
@@ -14,11 +17,14 @@ class Claim < ActiveRecord::Base
 
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
+  scope :snoozed, -> { where("review_date > ?", Date.today) }
+  scope :unsnoozed, -> { where("review_date <= ? OR review_date IS NULL", Date.today) }
 
   delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
   delegate :email, to: :point_person, prefix: true, allow_nil: true
   delegate :name, to: :employer, prefix: true, allow_nil: true
   delegate :name, to: :workplace, prefix: true, allow_nil: true
+  delegate :point_people_for_select, to: :user, prefix: false, allow_nil: false
 
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
@@ -47,6 +53,68 @@ class Claim < ActiveRecord::Base
   end
 
   ### INSTANCE METHODS
+  def unassigned?
+    point_person.nil?
+  end
+  
+  def overtime_hours_by_year
+    # Group into years.
+    years = documents.hours.group_by(&:fy)
+    
+    # For each year:
+    # Confirm the bookends are <= 7 days, and all other docs are == 7 days.
+    years.map do |y, docs|
+      days_per_doc = docs.rotate.map(&:days).map(&:size)
+      
+      msg = "Can only calculate overtime with documents of 7 days length"
+      raise IncalculableOvertimeError, msg unless 
+        days_per_doc[0..-3].all?(&7.method(:==)) &&
+        days_per_doc[-2..-1].all?(&7.method(:>=))
+      
+      hours_per_doc = docs.map(&:hours)
+      
+      [y, max_overtime(hours_per_doc)]
+    end.to_h
+  end
+  
+  def overtime_value_by_year
+    overtime_hours_by_year.map do |y, ot|
+      [y, ot * award.minimum(employment_type, y) * 0.5]
+    end.to_h
+  end
+  
+  def overtime_value
+    overtime_value_by_year.values.sum
+  end
+  
+  def display_overtime
+    <<-MSG
+      The total value of overtime worked by #{user.full_name} is 
+      #{ActionController::Base.helpers.number_to_currency(overtime_value)}.
+    MSG
+  rescue IncalculableOvertimeError => e
+    <<-MSG
+      I can't calculate overtime for this claim yet - to support overtime 
+      currently, all documents must cover 7 days only. The first and last
+      documents for the claim, and each financial year therein, can tolerate
+      a span of 7 days or less.
+    MSG
+  end
+  
+  def overtime_by_contiguous_slice(weeks)
+    weeks.each_slice(4).map(&:sum).select(&152.method(:<)).map(&-152.method(:+)).sum
+  end
+  
+  def max_overtime(weeks)
+    return 0 if weeks.nil?
+    (0..3).map {|i| overtime(weeks[i..(i+3)]) + max_overtime(weeks[i+4..weeks.length])}.max
+  end
+  
+  def overtime(weeks)
+    return 0 if weeks.nil?
+    [0, weeks.sum - 152].max
+  end
+  
   def status
     stage.try(:display_name) || legacy_status
   end
@@ -61,10 +129,6 @@ class Claim < ActiveRecord::Base
 
   def proper_award
     award_name
-  end
-
-  def point_people_for_select
-    user.supergroup.users.admin.map { |u| [(u.full_name || u.email), u.id] }
   end
 
   #############################################################################
