@@ -57,12 +57,12 @@ class Claim < ActiveRecord::Base
     point_person.nil?
   end
   
+  # Returns a hash with the financial year as the key and a BigDecimal of hours
+  # worked as the value.
   def overtime_hours_by_year
     # Group into years.
-    years = documents.hours.group_by(&:fy)
-    
-    # For each year:
-    # Confirm the bookends are <= 7 days, and all other docs are == 7 days.
+    years = documents.hours.sort_by(&:coverage_start_date).group_by(&:fy)
+
     years.map do |y, docs|
       msg = "Can only calculate overtime with documents of 7 days length"
       raise IncalculableOvertimeError, msg unless docs_conform_to_overtime_format?(docs)
@@ -73,6 +73,9 @@ class Claim < ActiveRecord::Base
     end.to_h
   end
   
+  # Expects an array of Documents
+  # Returns true if the first and last items in the array have coverage of 7
+  # days or less, and all other items have coverage of exactly 7 days.
   def docs_conform_to_overtime_format?(docs)
     if docs.size <= 2
       docs.map(&:days).map(&:size).all?(&7.method(:>=))
@@ -84,16 +87,25 @@ class Claim < ActiveRecord::Base
     end
   end
   
+  # This is based on the Food manufacturing award - some details of overtime 
+  # implementation may need to be passed up to the Award model.
+  # TODO look at shifting O/T details into Awards.
+  # Builds on #overtime_hours_by_year and transforms that hash into one with
+  # FYs as the keys and the *dollar value* of overtime worked as the values.
   def overtime_value_by_year
     overtime_hours_by_year.map do |y, ot|
       [y, ot * award.minimum(employment_type, y) * 0.5]
     end.to_h
   end
   
+  # Builds on #overtime_value_by_year and simply sums the resulting values.
   def overtime_value
     overtime_value_by_year.values.sum
   end
   
+  # Prevents the entire application from breaking when we attempt to calculate
+  # overtime for a Claim with non-conforming documents.
+  # TODO it's in the wrong place.
   def display_overtime
     <<-MSG
       The total value of overtime worked by #{user.full_name} is 
@@ -108,18 +120,35 @@ class Claim < ActiveRecord::Base
     MSG
   end
   
-  def overtime_by_contiguous_slice(weeks)
+  # My original method, simple to explain and runs reliably. Currently unused.
+  # Takes an array of numbers that represent hours worked in a week, and returns
+  # the total overtime worked by looking at contiguous, non-overlapping 28-day
+  # blocks.
+  def _overtime_by_contiguous_slice(weeks)
     weeks.each_slice(4).map(&:sum).select(&152.method(:<)).map(&-152.method(:+)).sum
   end
   
+  # Luke's competing method. Harder to explain, and quickly becomes cumbersome.
+  # Guesswork suggests an array of 72 weeks would take over 700 seconds to 
+  # calculate. We top out at 52 (each year done separately), but that can take a
+  # few seconds. Brute force calculates all possible 28-day blocks, but it's
+  # happy to  maximise calculated O/T by leaving gaps and bookends between the
+  # blocks.
   def max_overtime(weeks)
     return 0 if weeks.nil?
-    (0..3).map {|i| overtime(weeks[i..(i+3)]) + max_overtime(weeks[i+4..weeks.length])}.max
+    
+    possibilities = (0..3).map do |i|
+      overtime(weeks[i..(i+3)]) + max_overtime(weeks[i+4..weeks.length]) 
+    end
+    
+    possibilities.max
   end
   
-  def overtime(weeks)
-    return 0 if weeks.nil?
-    [0, weeks.sum - 152].max
+  # Calculates the overtime for a provided array of hours. This one will happily
+  # work with 7-, 14-, or 28-day blocks. Enforces a lower bound of 0.
+  def overtime(periods)
+    return 0 if periods.nil?
+    [0, periods.sum - 152].max
   end
   
   def status
@@ -361,13 +390,11 @@ class Claim < ActiveRecord::Base
   #-- Ownership methods necessary for all models.
   #############################################################################
   def workplace
-    @workplace ||= claim_companies.workplace.first &&
-      claim_companies.workplace.first.company
+    @workplace ||= claim_companies.workplace.first.try(:company)
   end
 
   def employer
-    @employer ||= claim_companies.employer.first &&
-      claim_companies.employer.first.company
+    @employer ||= claim_companies.employer.first.try(:company)
   end
 
   def owner
@@ -421,8 +448,13 @@ class Claim < ActiveRecord::Base
   
   # For before_save callback
   def set_ready_to_submit
-    assign_attributes(ready_to_submit: (required_resources.all?(&:present?) && required_resources.all?(&:valid?) &&
-      coverage_complete? && coverage_complete?(:time_evidence)))
+    assign_attributes(
+      ready_to_submit: (
+        required_resources.all?(&:present?) && 
+        required_resources.all?(&:valid?) &&
+        coverage_complete? && coverage_complete?(:time_evidence)
+      )
+    )
   end
 
   private
@@ -434,10 +466,6 @@ class Claim < ActiveRecord::Base
       end
     end
   end
-
-  def set_total_hours_by_year
-  end
-
 
   #############################################################################
   #-- EVIDENCE METHODS
@@ -458,20 +486,23 @@ class Claim < ActiveRecord::Base
   # PITFALL: the Document#fy method will return the financial year in which it
   # mostly falls.
   def hours_from_evidence_by_year
-    documents.where(time_evidence: true).group_by(&:fy)
-      .map { |yr, docs| [yr, docs.map(&:hours).compact.sum] }.to_h
+    Hash[documents.hours.group_by(&:fy).map do |yr, docs| 
+      [yr, docs.map(&:hours).compact.sum] 
+    end]
   end
 
-  def award_pay_from_evidence_by_year
-    documents.where(time_evidence: true).group_by(&:fy).map do |yr, docs|
+  # Unused! - previous implementation
+  def _award_pay_from_evidence_by_year
+    Hash[documents.hours.group_by(&:fy).map do |yr, docs|
       [yr, docs.map(&:hours).compact.sum * award.minimum(employment_type, yr)]
-    end.to_h
+    end]
   end
 
+  # Used to expose calculations in admin/claims/summary partial
   def award_pay_from_evidence_by_year
-    hours_from_evidence_by_year.map do |year, hours|
+    Hash[hours_from_evidence_by_year.map do |year, hours|
       [year, [ hours, hours * award.minimum(employment_type, year)]]
-    end.to_h
+    end]
   end
 
   # Claim#wages_from_evidence()
@@ -489,39 +520,6 @@ class Claim < ActiveRecord::Base
     end
   end
   public :hours_from_evidence_by_year, :award_pay_from_evidence_by_year, :min_award_pay_from_evidence
-
-  def income_after_deductions(amount)
-    amount - medicare_levy_on_income(amount) - tax_on_income(amount)
-  end
-
-  # This valid for 2015-2016 only. Find historical thresholds and rates at:
-  # https://atotaxrates.info/individual-tax-rates-resident/medicare-levy/
-  def medicare_levy_on_income(amount)
-    if amount <= 21335
-      0
-    elsif amount >= 26668
-      amount * 0.02
-    else
-      (amount - 21335) * 0.1
-    end
-  end
-
-  # These brackets and rates correct from 1 July 2012 through, as of writing,
-  # the 2016-2017 financial year.
-  def tax_on_income(amount)
-    if amount <= 18200
-    # if amount <= ATO.tax_free_threshold(2014)
-      0
-    elsif amount <= 37000 # between 18,200 and 37,000
-      (amount - 18200) * 0.19
-    elsif amount <= 80000
-      3572 + (amount - 37000) * 0.325
-    elsif amount <= 180000
-      17547 + (amount - 80000) * 0.37
-    elsif amount > 180000
-      54547 + (amount - 180000) * 0.45
-    end
-  end
 
   # Claim#estimated_wages_from_time_evidence()
   # Part estimate, part evidence. Multiplies user supplied hourly pay by the
@@ -596,12 +594,6 @@ class Claim < ActiveRecord::Base
   end
 
   def total_hours_per(period)
-    case period
-    when "hour" then 1.0
-    when "day" then 24.0
-    when "week" then 168.0
-    when "fortnight" then 336.0
-    when "month" then 728.0
-    end
+    (1.send(period) / 1.hour).to_f
   end
 end
