@@ -1,19 +1,14 @@
 %nav.navbar.navbar-default
   .container-fluid
     .navbar-header
-      %button.navbar-toggle.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
+      = link_to image_tag("fair-pay-logo_90px_rgb.png"), admin_root_path, title: "Home", class: "navbar-left", style: "max-height: 80px; padding: 0.7rem;"
+      %button.navbar-toggle.glyphicon.glyphicon-tasks.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
         %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      %p.navbar-text
-        = t('layouts.authentication.signed_in')
-        = link_to (current_user.full_name || current_user.email), current_user, class: "navbar-link"
     
     .collapse.navbar-collapse#nav-items
       %ul.nav.navbar-nav.navbar-right
         %li.dropdown
-          = link_to admin_claims_path, class: "dropdown-toggle", role: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } do
+          = link_to admin_claims_path, class: "dropdown-toggle navbar-link", role: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } do
             = t('layouts.authentication.administrate')
             %span.caret
           %ul.dropdown-menu
@@ -25,4 +20,4 @@
             %li.divider{ role: "separator" }
             %li= link_to "Send invite", new_user_invitation_path
         
-        %li= link_to t('layouts.authentication.sign_out'), destroy_user_session_path, method: :delete
+        %li= link_to t('layouts.authentication.sign_out'), destroy_user_session_path, method: :delete, class: "navbar-link"

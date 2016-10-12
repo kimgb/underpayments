@@ -19,8 +19,9 @@
   %p= t('documents.show.statement')
   %blockquote= html_escape(@document.statement).gsub("\r\n", "<br/>").html_safe
 
-%p
-  = link_to "Delete", admin_document_path(@document), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-default"
-  = link_to "Edit", edit_admin_document_path(@document), class: "btn btn-default"
-  = link_to "Back", admin_claim_path(@document.claim), class: "btn btn-default"
+.actions.align-right
+  .btn-group
+    = link_to "", [:admin, @document.claim], class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to claim"
+    = link_to "", edit_admin_document_path(@document), class: "btn btn-default glyphicon glyphicon-pencil", title: "Edit"
+    = link_to "", admin_document_path(@document), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-default glyphicon glyphicon-trash", title: "Delete"
   

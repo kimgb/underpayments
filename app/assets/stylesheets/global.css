@@ -1,7 +1,7 @@
 html {
   font-size: 62.5%;
   x-overflow: hidden;
-  background-color: #e0e0e0;
+  background-color: #FFF;
   background-image:url(gplay.svg);
 }
 html, body {
@@ -24,18 +24,18 @@ nav, .flex { padding: 0 2rem; }
 
 fieldset > legend {
   font-weight: bold;
-  color: #0B8842;
+  /*color: #0B8842;*/
 }
 
 label { font-weight: normal; }
 input { color: black; }
-output {
+/*output {
   font-size: 18px;
   font-size: 1.8rem;
   color: #0B8842;
 
   padding: 0.5rem;
-}
+}*/
 
 .byline { font-weight: normal; }
 
@@ -57,7 +57,7 @@ main, #banner {
   max-width: 1024px;
   margin: 0 auto;
   padding: 1rem 0;
-  background-color: #161616;
+  background-color: #EAEAEA;
   min-height: 100%;
 }
 @media screen and (min-width: 640px) {
@@ -116,14 +116,16 @@ footer.fixed-bottom p {
 .flex-row { flex-direction: row; }
 .flex-row-reverse { flex-direction: row-reverse; }
 .flex-justify { justify-content: space-between; }
+.flex.between { justify-content: space-between; }
+.flex.align-bottom { align-items: flex-end; }
 .flex-center { align-items: center; }
 .flex-order-1 { order: 1; }
 .flex-order-2 { order: 2; }
 .flex-order-3 { order: 3; }
 
 .checkbox {
-  border-radius: 12px;
-  background-color: #444;
+  /*border-radius: 12px;*/
+  background-color: #777;
   padding: 0.5rem 1.5rem;
 }
 .checkbox input[type="checkbox"] {
@@ -131,6 +133,9 @@ footer.fixed-bottom p {
 }
 .checkbox + .checkbox {
   margin-top: 1rem;
+}
+.checkbox > label {
+  width: 100%;
 }
 
 .letter {

@@ -1,11 +1,9 @@
 %nav.navbar.navbar-default
   .container-fluid
     .navbar-header
-      %button.navbar-toggle.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
+      -# = link_to image_tag("logo_90px_rgb_text-high.png"), admin_root_path, title: "Home", class: "navbar-left", style: "max-height: 80px; padding: 0.7rem;"
+      -# %button.navbar-toggle.glyphicon.glyphicon-tasks.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
+      -#   %span.sr-only Toggle navigation
       - if user_signed_in?
         %p.navbar-text
           = t('.signed_in')
@@ -15,8 +13,8 @@
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           - if current_user.admin?
-            %li= link_to t('.administrate'), admin_claims_path
-          %li= link_to t('.sign_out'), destroy_user_session_path, method: :delete
+            %li= link_to t('.administrate'), admin_claims_path, class: "navbar-link"
+          %li= link_to t('.sign_out'), destroy_user_session_path, method: :delete, class: "navbar-link"
         - else
           %p.navbar-text 
             Returning user?
