@@ -17,7 +17,11 @@ class Admin::DocumentsController < Admin::BaseController
 
     respond_to do |format|
       if @claim.save
-        format.html { redirect_to [:admin, @claim], notice: 'Document was successfully uploaded.' }
+        format.html do 
+          if params[:repeat]
+            redirect_to new_admin_claim_document_path(coverage_start_date: @document.coverage_end_date + 1.day, coverage_end_date: @document.coverage_end_date + 7.days)
+          else redirect_to [:admin, @claim], notice: 'Document was successfully uploaded.' end
+        end
         format.json { render :show, status: :created, location: @claim.user }
       else
         format.html { render :new }
