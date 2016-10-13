@@ -99,6 +99,7 @@ footer.fixed-bottom {
   height: 55px;
   /*line-height: 43px;*/
   padding: 0.6rem;
+  margin-top: 2rem;
   z-index: 10;
   background-color: black;
   max-width: 1024px;

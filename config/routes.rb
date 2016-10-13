@@ -24,7 +24,7 @@ Rails.application.routes.draw do
       resources :documents, only: [:show, :edit, :update, :destroy]
 
       resources :companies, :awards, :claim_stages
-      resources :supergroups, path: "organisations"
+      resources :supergroups, path: "organisations", format: /html|json/
       resources :groups, path: "campaigns"
 
       get "/preview", to: "previews#show"

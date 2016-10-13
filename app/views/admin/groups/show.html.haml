@@ -38,7 +38,7 @@
         %li= "#{award_slug}: #{desc}"
 %p
   %strong Logo
-%p= image_tag(@group.logo)
+%p= @group.logo? ? image_tag(@group.logo) : "None provided"
 %p
   %strong Skin:
   %ul

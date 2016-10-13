@@ -14,6 +14,8 @@ class Group < ActiveRecord::Base
   
   delegate :name, to: :supergroup, prefix: "owner", allow_nil: true
   
+  validates_presence_of :name, :supergroup
+  
   def pay_question_label(period)
     if self.pay_question?
       "#{pay_question} #{period}?"

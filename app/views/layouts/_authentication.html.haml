@@ -1,10 +1,9 @@
 %nav.navbar.navbar-default
   .container-fluid
     .navbar-header
-      -# = link_to image_tag("logo_90px_rgb_text-high.png"), admin_root_path, title: "Home", class: "navbar-left", style: "max-height: 80px; padding: 0.7rem;"
-      -# %button.navbar-toggle.glyphicon.glyphicon-tasks.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
-      -#   %span.sr-only Toggle navigation
-      - if user_signed_in?
+      - if @skin.logo?
+        = link_to image_tag(@skin.logo.url), root_path(skin: @skin.slug), title: "Home", class: "navbar-left", style: "max-height: 80px; padding: 0.7rem;"
+      - elsif user_signed_in?
         %p.navbar-text
           = t('.signed_in')
           = link_to (current_user.full_name || current_user.email), current_user, class: "navbar-link"

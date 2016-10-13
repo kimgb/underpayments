@@ -26,6 +26,7 @@ class Admin::GroupsController < Admin::BaseController
   # POST /admin/groups
   # POST /admin/groups.json
   def create
+    @awards = Award.all
     @group = Group.new(group_params)
 
     respond_to do |format|
