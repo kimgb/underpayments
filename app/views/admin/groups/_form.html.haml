@@ -56,6 +56,10 @@
   %fieldset
     %legend.h3= "Custom appearance"
     .form-group
+      = f.label :logo, "Upload a logo", class: "control-label"
+      = f.file_field :logo, style: "color: #BBB", class: "btn btn-default"
+      %small.text-right= "The logo will appear in the top left, in the header bar, with 7 pixels of padding to the top and left. The header bar is normally 80 pixels high but may expand to fit your image on smaller devices."
+    .form-group
       = f.label :intro, "Introduction text"
       = f.text_area :intro, class: "form-control", rows: 4
     = f.fields_for :skin, OpenStruct.new(f.object.skin) do |s|

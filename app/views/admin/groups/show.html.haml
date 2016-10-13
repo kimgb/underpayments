@@ -37,6 +37,9 @@
       - @group.awards.each do |award_slug, desc|
         %li= "#{award_slug}: #{desc}"
 %p
+  %strong Logo
+%p= image_tag(@group.logo)
+%p
   %strong Skin:
   %ul
     %li= "Primary colour: #{@group.link_color}"
@@ -51,7 +54,9 @@
   %strong Intro text:
   %blockquote
     :markdown
-      #{ @group.intro }
+      #{ @group.intro.blank? ? "None set, will fall back to default" : @group.intro }
 
-= link_to 'Edit', edit_admin_group_path(@group), class: "btn btn-default btn-sm"
-= link_to 'Back', admin_groups_path, class: "btn btn-default btn-sm"
+.actions.align-right
+  .btn-group
+    = link_to "", admin_groups_path, class: "btn btn-default glyphicon glyphicon-arrow-left", title: "Back to campaign index"
+    = link_to "", edit_admin_group_path(@group), class: "btn btn-default glyphicon glyphicon-pencil", title: "Edit this campaign"

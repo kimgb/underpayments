@@ -1,5 +1,8 @@
 class Group < ActiveRecord::Base
   extend FriendlyId
+  
+  mount_uploader :logo, CampaignLogoUploader
+  
   friendly_id :name, use: :slugged
   
   store_accessor :skin, 

@@ -5,6 +5,7 @@ class Admin::ClaimsController < Admin::BaseController
   def index
     @claims = case params[:scope]
       when "point_person" then current_user.point_person_on.includes(:documents, :user)
+      # when "unassigned" then Claim.includes(:documents, :user).select(&:unassigned?)
       when "submitted" then Claim.includes(:documents, :user).select(&:submitted?)
       when "completed" then Claim.includes(:documents, :user).select(&:ready_to_submit?).reject(&:submitted?)
       when "incomplete" then Claim.includes(:documents, :user).select(&:not_submitted?).reject(&:ready_to_submit?)
@@ -79,6 +80,7 @@ class Admin::ClaimsController < Admin::BaseController
       :time_period, :hours_per_period, :pay_period, :pay_per_period, 
       :payslips_received, :employment_began_on, :employment_ended_on, 
       :employment_type, :regular_hours, :exemplary_week, :claim_stage_id, 
-      :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+      :comment, :review_date, :submitted_for_review, :hours_self_witnessed, 
+      :pieceworker)
   end
 end

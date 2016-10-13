@@ -58,6 +58,6 @@ class Admin::ClaimStagesController < Admin::BaseController
   end
   
   def claim_stage_params
-    params.require(:claim_stage).permit(:system_name, :display_name, :notification_text)
+    params.require(:claim_stage).permit(:category, :system_name, :display_name, :notification_text)
   end
 end

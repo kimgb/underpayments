@@ -2,7 +2,7 @@ html {
   font-size: 62.5%;
   x-overflow: hidden;
   background-color: #FFF;
-  background-image:url(gplay.svg);
+  /*background-image:url(gplay.svg);*/
 }
 html, body {
   height: 100%;

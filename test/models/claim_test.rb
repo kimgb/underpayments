@@ -87,4 +87,15 @@ class ClaimTest < ActiveSupport::TestCase
 
     assert_equal year_1_hours, b_under.send(:estimated_hours_worked_by_year).values[0]
   end
+  
+  test "workplace and employer" do
+    comp_claim = claims(:underpaid_w_multi_docs)
+    incomp_claim = claims(:underpaid)
+    
+    assert_equal "Acme Ltd", comp_claim.workplace_name
+    assert_equal "Acme Ltd", comp_claim.employer_name
+    
+    assert_nil incomp_claim.workplace_name
+    assert_nil incomp_claim.employer_name
+  end
 end

@@ -1,15 +1,10 @@
-# encoding: utf-8
-
-class DocumentUploader < CarrierWave::Uploader::Base
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
+class CampaignLogoUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   include CarrierWave::MimeTypes
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
-  
+  # storage :file
+  storage :fog
   process :set_content_type
 
   # Override the directory where uploaded files will be stored.
@@ -18,21 +13,10 @@ class DocumentUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 
-  # Create different versions of your uploaded files:
-  version :thumb, if: :image? do
-    process :resize_to_fit => [75, 75]
-  end
-  version :standard, if: :image? do
-    process :resize_to_fit => [480, 480]
-  end
-
   # Add a white list of extensions which are allowed to be uploaded.
+  # Not sure about SVG - does it work with Rails' image_tag helper?
   def extension_white_list
-    %w(jpg jpeg tif tiff gif png pdf txt doc docx rtf xls xlsx eml msg)
-  end
-  
-  def is_image?
-    %w(jpg jpeg tif tiff gif png).include? file.extension.downcase
+    %w(jpg jpeg tif tiff gif png svg)
   end
   
   protected

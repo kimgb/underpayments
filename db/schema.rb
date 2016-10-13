@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161004023659) do
+ActiveRecord::Schema.define(version: 20161013005530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,9 +66,10 @@ ActiveRecord::Schema.define(version: 20161004023659) do
   add_index "claim_stage_translations", ["locale"], name: "index_claim_stage_translations_on_locale", using: :btree
 
   create_table "claim_stages", force: :cascade do |t|
-    t.string   "system_name", null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "system_name",             null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "category",    default: 0
   end
 
   create_table "claims", force: :cascade do |t|
@@ -163,6 +164,7 @@ ActiveRecord::Schema.define(version: 20161004023659) do
     t.text     "pay_periods",   default: [],              array: true
     t.text     "time_periods",  default: [],              array: true
     t.string   "pay_question"
+    t.string   "logo"
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree
