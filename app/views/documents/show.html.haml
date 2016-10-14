@@ -21,5 +21,5 @@
   - unless @document.locked?
     = link_to t('views.documents.show.delete'), document_path(@document), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-default"
     = link_to t('views.documents.show.edit'), edit_document_path(@document), class: "btn btn-default"
-  = link_to t('views.documents.show.back'), user_path(current_user), class: "btn btn-default"
+  = link_to t('views.documents.show.back'), @document.claim, class: "btn btn-default"
   
