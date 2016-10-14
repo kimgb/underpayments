@@ -1,4 +1,4 @@
-server 'robbed.nuw.org.au', port: 22, roles: [:web, :app, :db], primary: true
+server 'fairpay.org.au', port: 22, roles: [:web, :app, :db], primary: true
 
 set :repo_url,    'git@github.com:kimgb/underpayments.git'
 set :branch,      'master'
@@ -136,7 +136,7 @@ namespace :db do
   task :mirror do
     on roles(:app) do
       # deploy user needs corresponding psql user with .pgpass based access
-      run_locally { execute "ssh robbed.nuw.org.au \"pg_dump underpaid\" >> 'underpaid-db-'$(date '+%Y%m%d%H%M%S')" }
+      run_locally { execute "ssh fairpay.org.au \"pg_dump underpaid\" >> 'underpaid-db-'$(date '+%Y%m%d%H%M%S')" }
     end
   end
 end
