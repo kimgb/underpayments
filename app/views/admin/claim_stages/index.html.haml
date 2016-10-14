@@ -9,10 +9,8 @@
       %th Category
       %th System name
       %th Display name
-      %th
-      %th
-
-  %tbody= render @claim_stages
+      %th Actions
+  %tbody= render(@claim_stages) || content_tag(:tr, "None to display")
   
 %hr
 

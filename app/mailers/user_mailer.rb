@@ -1,6 +1,6 @@
 class UserMailer < ActionMailer::Base
   helper AddressesHelper
-  default from: 'no-reply@mg.nuw.org.au'
+  default from: 'no-reply@fairpay.org.au'
   
   def file_letter(sender, letter)
     @letter = letter
@@ -19,7 +19,7 @@ class UserMailer < ActionMailer::Base
     
     mail  to:         @claim.user.email,
           subject:    "An update on your backpay claim",
-          from:       @claim.point_person_email || "no-reply@mg.nuw.org.au",
+          from:       @claim.point_person_email || "no-reply@fairpay.org.au",
           body:       "See an explanation of where we're at: #{@claim.stage.notification_text}"
   end
 

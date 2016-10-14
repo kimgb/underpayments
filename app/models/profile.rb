@@ -13,7 +13,7 @@ class Profile < ActiveRecord::Base
 
   def self.presentable_attributes
     super.reject do |attr|
-      ["gender", "visa", "nationality"].include? attr 
+      ["gender", "visa", "nationality", "media_volunteer"].include? attr 
     end
   end
 

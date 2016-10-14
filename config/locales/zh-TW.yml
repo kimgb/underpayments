@@ -57,7 +57,7 @@ zh-TW:
       title: 被欠薪?
       byline: 超時工作
       footer: |
-        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-09-20">2016年9月20日</time>.
+        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-10-14">2016年10月14日</time>.
     authentication:
       signed_in: 登入中
       sign_out: 登出

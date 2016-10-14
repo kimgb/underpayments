@@ -27,7 +27,7 @@
       = f.telephone_field :phone, class: "form-control"
       
     .form-group
-      = f.label :nationality
+      = f.label :nationality, class: "control-label"
       = f.select :nationality, options_for_select(full_country_list, (@profile.nationality || "AU")), {}, { class: "form-control" }
 
     .form-group
@@ -39,8 +39,13 @@
       = f.select :visa, options_for_select(visas_list, (@profile.visa || "unknown")), {}, { class: "form-control" }
     
     .form-group
-      = f.label :gender
+      = f.label :gender, class: "control-label"
       = f.select :gender, options_for_select(gender_list, (@profile.gender || "U")), {}, { class: "form-control" }
+    
+    .checkbox
+      = f.label :media_volunteer, class: "control-label" do
+        = f.check_box :media_volunteer
+        = "I'm happy to volunteer as a contact for the media"
       
     - if include_address
       = render partial: "profiles/address_fields", locals: { f: f, address: @profile.address }
