@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
     end
   ensure #always runs
-    @skin ||= Group.first
+    @skin ||= Group.friendly.find("anti-poverty") rescue Group.first
   end
 
   # locale precedence: params -> user prefs -> browser -> default
