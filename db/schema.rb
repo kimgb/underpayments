@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161014035558) do
+ActiveRecord::Schema.define(version: 20161019064957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,6 +152,17 @@ ActiveRecord::Schema.define(version: 20161014035558) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "group_awards", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "award_id"
+    t.string   "display_text"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "group_awards", ["award_id"], name: "index_group_awards_on_award_id", using: :btree
+  add_index "group_awards", ["group_id"], name: "index_group_awards_on_group_id", using: :btree
+
   create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.string   "slug"
@@ -160,7 +171,6 @@ ActiveRecord::Schema.define(version: 20161014035558) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.text     "intro"
-    t.hstore   "awards",        default: {}, null: false
     t.text     "pay_periods",   default: [],              array: true
     t.text     "time_periods",  default: [],              array: true
     t.string   "pay_question"
@@ -288,6 +298,8 @@ ActiveRecord::Schema.define(version: 20161014035558) do
   add_foreign_key "company_addresses", "addresses"
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "documents", "claims"
+  add_foreign_key "group_awards", "awards"
+  add_foreign_key "group_awards", "groups"
   add_foreign_key "groups", "supergroups"
   add_foreign_key "letters", "addresses"
   add_foreign_key "letters", "claims"

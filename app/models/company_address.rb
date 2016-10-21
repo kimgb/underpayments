@@ -6,6 +6,8 @@ class CompanyAddress < ActiveRecord::Base
   
   scope :active, -> { where(is_active: true) }
   
+  default_scope { includes(:company, :address) }
+  
   def owners
     company ? company.owners : []
   end

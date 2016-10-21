@@ -1,0 +1,24 @@
+fair_food_nes:
+  award: no_award
+  group: fair_food
+  display_text: My industry isn't listed
+  
+fair_food_poultry:
+  award: poultry
+  group: fair_food
+  display_text: Poultry processing
+  
+fair_food_meat:
+  award: meat
+  group: fair_food
+  display_text: Meat industry
+  
+fair_food_horticulture:
+  award: horticulture
+  group: fair_food
+  display_text: Farms, e.g. fruit picking
+  
+fair_food_storage:
+  award: storage
+  group: fair_food
+  display_text: Storage, e.g. fruit packing

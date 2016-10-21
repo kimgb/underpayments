@@ -2,7 +2,8 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/rails/capybara"
-Dir[Rails.root.join("test/support/**/*")].each { |f| require f }
+# Dir[Rails.root.join("test/support/**/*")].each { |f| require f }
+Dir[Rails.root.join("test/support/**/*")].each(&method(:require))
 # require "mocha/mini_test"
 
 # Improved Minitest output (colour and progress bar)

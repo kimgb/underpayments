@@ -68,16 +68,19 @@ class Admin::GroupsController < Admin::BaseController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_group
-      @group = Group.friendly.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_group
+    @group = Group.friendly.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def group_params
-      params.require(:group).permit(:supergroup_id, :name, :slug, :logo, :intro, :pay_question, time_periods: [], pay_periods: []).tap do |whitelisted|
-        whitelisted[:skin] = params[:group][:skin]
-        whitelisted[:awards] = params[:group][:awards].reject { |k,v| v.blank? }
-      end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def group_params
+    params.require(:group).permit(:supergroup_id, :name, :slug, :logo, :intro, 
+      :pay_question, time_periods: [], pay_periods: [], 
+      group_awards_attributes: [:id, :award_id, :display_text, :_destroy]
+    ).tap do |whitelisted|
+      whitelisted[:skin] = params[:group][:skin]
+      # whitelisted[:awards] = params[:group][:awards].reject { |k,v| v.blank? }
     end
+  end
 end

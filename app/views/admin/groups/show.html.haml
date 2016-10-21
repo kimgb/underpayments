@@ -29,13 +29,13 @@
 %p
   %strong Awards:
   %ul
-    - if @group.awards.blank?
+    - if @group.awards.any?
+      - @group.group_awards.each do |ga|
+        %li= "#{ga.award.name}: #{ga.display_text}"
+    - else
       None set! Please
       = link_to "edit this campaign", edit_admin_group_path(@group)
       to add at least one award.
-    - else
-      - @group.awards.each do |award_slug, desc|
-        %li= "#{award_slug}: #{desc}"
 %p
   %strong Logo
 %p= @group.logo? ? image_tag(@group.logo) : "None provided"

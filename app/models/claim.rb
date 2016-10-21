@@ -28,7 +28,8 @@ class Claim < ActiveRecord::Base
 
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
-  validates_numericality_of :pay_per_period, :hours_per_period, greater_than: 0, less_than: 100000000
+  validates_numericality_of :pay_per_period, :hours_per_period, 
+    greater_than: 0, less_than: 100000000
   validate :employment_begins_before_employment_ends
 
   before_save :set_ready_to_submit

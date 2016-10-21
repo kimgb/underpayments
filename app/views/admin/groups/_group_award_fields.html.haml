@@ -1,0 +1,12 @@
+.form-group
+  = f.label :award_id, "Select an award"
+  = f.select :award_id, awards_for_select, {}, class: "form-control"
+  
+.form-group
+  = f.label :display_text, "Enter description for award"
+  = f.text_field :display_text, class: "form-control"
+  
+.checkbox
+  = f.label :_destroy do
+    = f.check_box :_destroy
+    = "Remove this award from the campaign?"

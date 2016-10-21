@@ -14,17 +14,11 @@
     = f.text_field :name, class: "form-control"
 
   %fieldset
-    %legend.h3= "Awards"
-    = f.fields_for :awards, OpenStruct.new(f.object.awards) do |a|
-      %p= "Select each award you want to be available for your campaign, and then enter the text you want to be shown for users for that award."
-      - @awards.each do |award|
-        .checkbox
-          = label_tag award.slug + "-check" do
-            = check_box_tag award.slug + "-check", "", false, { class: "award-checkbox", checked: (@group.awards || {})[award.slug].present?, data: { target: "##{award.slug}-text"} }
-            = award.name
-        .form-group.collapse{ id: "#{award.slug}-text" }
-          = a.label award.slug.to_sym, "What text should users see when selecting this award?"
-          = a.text_field award.slug.to_sym, class: "form-control"
+    %legend.h3= "Campaign awards"
+    - @group.group_awards.each do |ga|
+      = f.fields_for(:group_awards, ga) do |builder|
+        = render "group_award_fields", f: builder
+    = link_to_add_fields "Add award", f, :group_awards, class: "btn btn-default"
 
   %fieldset
     %legend.h3= "Time periods"
@@ -115,10 +109,6 @@
     = f.submit 'Save', class: "btn btn-default"
 
 :coffeescript
-  $(document).ready ->
-    $(".award-checkbox").each (index, element) ->
-      checkAwardCheckbox(element)
-
   $("#group_supergroup_id").select2
     theme: "bootstrap"
     minimumInputLength: 3
@@ -135,16 +125,6 @@
       processResults: (data, params) ->
         results: $.map data, (item) ->
           text: item.name + " (" + item.short_name + ")", id: item.id
-
-  checkAwardCheckbox = (el) ->
-    tg = $(el).data('target')
-
-    if el.checked
-      $(tg).show()
-    else
-      $(tg).hide()
-
-  $(".award-checkbox").on "click", (e) -> checkAwardCheckbox(e.target)
 
   $("#generate-preview").on "click", (e) ->
     e.preventDefault();

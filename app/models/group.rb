@@ -11,10 +11,19 @@ class Group < ActiveRecord::Base
   
   belongs_to :supergroup
   has_many :users
+  has_many :group_awards, inverse_of: :group, dependent: :destroy
+  has_many :awards, through: :group_awards
+  
+  accepts_nested_attributes_for :group_awards, allow_destroy: true
   
   delegate :name, to: :supergroup, prefix: "owner", allow_nil: true
   
   validates_presence_of :name, :supergroup
+  
+  # To repeat awards - reverse the keys and values. A description is MORE unique
+  # and suited for use as a key than an award for our purposes.
+  # Then we can have "I don't see my industry here" => "no_award", "Face to face
+  # fundraising" => "no_award"
   
   def pay_question_label(period)
     if self.pay_question?
@@ -25,7 +34,7 @@ class Group < ActiveRecord::Base
   end
   
   def awards_for_select
-    awards.to_a.map(&:reverse).map { |str, k| [str, Award.friendly.find(k).id] }
+    group_awards.map(&:display_text).zip(group_awards.map(&:award_id))
   end
 
   def pay_periods_for_select
@@ -48,12 +57,10 @@ class Group < ActiveRecord::Base
 
   [:awards, :pay_periods, :time_periods].each do |attr|
     define_method("#{attr}_blank_or_singleton?") { blank_or_singleton?(attr) }
-    #define_method("singleton_#{attr}") { singleton_attr(attr) }
   end
-
+  
   def singleton_award
-    awards? ? Award.friendly.find(awards.keys.first) : Award.friendly.find("no_award")
-    # singleton_attr(:awards, Award.friendly.find("no_award"))
+    awards.any? ? awards.first : Award.friendly.find("no_award")
   end
 
   def singleton_pay_period

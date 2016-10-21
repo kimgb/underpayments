@@ -3,6 +3,8 @@ class Award < ActiveRecord::Base
   friendly_id :short_name, use: :slugged
 
   has_many :claims
+  has_many :group_awards, inverse_of: :award
+  has_many :groups, through: :group_awards
 
   validates_presence_of :name, :short_name, :min_casual_rates, :min_permanent_rates
   validates_uniqueness_of :name, :short_name
