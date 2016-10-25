@@ -1,6 +1,7 @@
 require "test_helper"
 
 class CanUploadDocumentsTest < Capybara::Rails::TestCase
+  include DateSelectHelper
   include Warden::Test::Helpers
   Warden.test_mode!
 
@@ -18,12 +19,8 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
     check "This document is evidence of hours I have worked"
     fill_in "How much does this document indicate you were paid?", with: "2916"
     fill_in "How many hours does this document indicate that you worked?", with: "173"
-    page.find("#document_coverage_start_date_3i").set "1"
-    page.find("#document_coverage_start_date_2i").set "April"
-    page.find("#document_coverage_start_date_1i").set "2015"
-    page.find("#document_coverage_start_date_3i").set "30"
-    page.find("#document_coverage_start_date_2i").set "April"
-    page.find("#document_coverage_start_date_1i").set "2015"
+    fill_date("document_coverage_start_date", Date.new(2015, 4, 1))
+    fill_date("document_coverage_end_date", Date.new(2015, 4, 30))
   end
 
   test "upload a .pdf" do
