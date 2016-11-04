@@ -56,7 +56,7 @@ main, #banner {
   display: block; 
   max-width: 1024px;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding: 1rem;
   background-color: #EAEAEA;
   min-height: 100%;
 }
@@ -71,7 +71,7 @@ main, #banner {
   }
 }
 main {
-  padding-bottom: 55px;
+  padding-bottom: 70px;
 }
 
 .bold {
