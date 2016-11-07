@@ -31,13 +31,14 @@ class UserMailer < ActionMailer::Base
           subject:    "An underpayment claim has been submitted by #{@claim.user.email}"
   end
 
-  # On new claim creation. Unused. Would be very spammy.
-  # def new_claim(claim, recipients)
-  #   @claim = claim
-  # 
-  #   mail  to:         recipients,
-  #         subject:    "A new underpayment claim!"
-  # end
+  # On new claim creation. Used to fire off an email to tgunstone and tsayers
+  # when new users are created in the charity fundraising campaign.
+  def new_claim(claim, recipients)
+    @claim = claim
+  
+    mail  to:         recipients,
+          subject:    "A new underpayment claim!"
+  end
 
   # Point person is notified whenever a claim is updated.
   def notify_point_person(claim, changes)
@@ -64,7 +65,11 @@ class UserMailer < ActionMailer::Base
   # end
 
   # Blank slate emails, used when an admin sends email to a claimant from the app.
-  def generic_email_with_token(recipient, sender, subject, body)
+  def generic_email_with_token(recipient, sender, subject, body, atts = [])
+    # atts.each do |att|
+    #   attachments[att[:filename]] = File.read(att[:tempfile])
+    # end
+    # 
     mail  to:         recipient,
           from:       sender,
           subject:    subject,
