@@ -2,7 +2,7 @@ class Claim < ActiveRecord::Base
   class IncalculableOvertimeError < StandardError
   end
   
-  include PgSearch
+  # include PgSearch
   include Markdownable
 
   belongs_to :award
@@ -17,9 +17,9 @@ class Claim < ActiveRecord::Base
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
   
-  multisearchable against: %i(user_email user_full_name user_proper_full_name
-    point_person_email employer_name workplace_name award_name 
-    stage_system_name stage_category)
+  # multisearchable against: %i(user_email user_full_name user_proper_full_name
+  #   point_person_email employer_name workplace_name award_name 
+  #   stage_system_name stage_category)
 
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
