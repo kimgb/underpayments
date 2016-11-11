@@ -2,11 +2,13 @@ class Claim < ActiveRecord::Base
   class IncalculableOvertimeError < StandardError
   end
   
+  include PgSearch
   include Markdownable
 
   belongs_to :award
   belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
   belongs_to :stage, class_name: "ClaimStage", foreign_key: "claim_stage_id"
+  
   has_one :user
   has_many :documents
   has_many :messages
@@ -14,16 +16,26 @@ class Claim < ActiveRecord::Base
   has_many :claim_companies, -> { active }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
+  
+  multisearchable against: %i(user_email user_full_name user_proper_full_name
+    point_person_email employer_name workplace_name award_name 
+    stage_system_name stage_category)
 
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
   scope :snoozed, -> { where("review_date > ?", Date.today) }
   scope :unsnoozed, -> { where("review_date <= ? OR review_date IS NULL", Date.today) }
+  scope :searching, -> { includes({ user: :profile }, :award, :companies, :stage, :point_person) }
+  
+  default_scope { order(created_at: :desc) }
 
   delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
   delegate :email, to: :point_person, prefix: true, allow_nil: true
+  delegate :email, :full_name, :proper_full_name, to: :user, prefix: true, allow_nil: true
   delegate :name, to: :employer, prefix: true, allow_nil: true
   delegate :name, to: :workplace, prefix: true, allow_nil: true
+  delegate :name, to: :award, prefix: true, allow_nil: true
+  delegate :system_name, :category, to: :stage, prefix: true, allow_nil: true
   delegate :point_people_for_select, to: :user, prefix: false, allow_nil: false
 
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
@@ -79,12 +91,16 @@ class Claim < ActiveRecord::Base
   # Returns true if the first and last items in the array have coverage of 7
   # days or less, and all other items have coverage of exactly 7 days.
   def docs_conform_to_overtime_format?(docs)
-    if docs.size <= 2
+    if docs.size <= 2 # all docs (if any) are 'bookends'
       docs.map(&:days).map(&:size).all?(&7.method(:>=))
-    else
-      days_per_doc = docs.rotate.map(&:days).map(&:size)
+    else # there are some 'books'
+      # Rotate shifts all indexes by -1 (first becomes last)
+      days_per_doc = docs.sort_by(&:coverage_start_date).rotate.map(&:days).map(&:size)
       
+      # Since we rotated, our last two items are the 'bookends'.
+      # Look at all docs except the bookends, and make sure they're 7 days.
       days_per_doc[0..-3].all?(&7.method(:==)) &&
+      # Bookends are 7 days, or less.
       days_per_doc[-2..-1].all?(&7.method(:>=))
     end
   end
@@ -131,11 +147,13 @@ class Claim < ActiveRecord::Base
   end
   
   # Luke's competing method. Harder to explain, and quickly becomes cumbersome.
-  # Guesswork suggests an array of 72 weeks would take over 700 seconds to 
+  # Regression suggests an array of 72 weeks would take over 700 seconds to
   # calculate. We top out at 52 (each year done separately), but that can take a
-  # few seconds. Brute force calculates all possible 28-day blocks, but it's
-  # happy to  maximise calculated O/T by leaving gaps and bookends between the
-  # blocks.
+  # few seconds. 
+  # Calculates all possible sequences of non-overlapping 28-day blocks
+  # (contiguous or not).
+  # Will return the maximum overtime worked - sometimes it's the same outcome as
+  # my original method, but often it's not.
   def max_overtime(weeks)
     return 0 if weeks.nil?
     
@@ -357,7 +375,9 @@ class Claim < ActiveRecord::Base
   # end
 
   # Claim#coverage_overlaps?()
-  # Returns true if there are any overlapping dates for a given evidence type.
+  # Returns true if there are any overlapping dates for a given evidence type, 
+  # or nil otherwise.
+  # Doesn't calculate all overlaps - short circuits out if it finds any.
   def coverage_overlaps?(evidence = :wage_evidence)
     dd = documents_days(evidence)
 
@@ -370,17 +390,22 @@ class Claim < ActiveRecord::Base
   # Claim#coverage_overlaps()
   # Reports an array of overlaps in document coverage for a given evidence type.
   def coverage_overlaps(evidence = :wage_evidence)
-    check_sets_for_overlaps(documents_days(evidence))
+    intersections_in_set_array(documents_days(evidence))
   end
 
-  def check_sets_for_overlaps(sets, overlaps = [])
+  def intersections_in_set_array(sets, overlaps = [])
+    # Shift the first set in the array to be our 'comparison set'.
     comp_set = sets.shift
+    # Terminating condition if we've no sets left after the shift.
     return overlaps if sets.empty?
 
+    # Get the intersection of each remaining set with our comparison set,
+    # throw away empty intersections, convert our sets to arrays and sort.
     overlaps += sets.map(&comp_set.method(:intersection)).reject(&:empty?)
       .map(&:to_a).map(&:sort)
 
-    check_sets_for_overlaps(sets, overlaps)
+    # Rinse and repeat with remaining sets.
+    intersections_in_set_array(sets, overlaps)
   end
 
   #############################################################################
@@ -556,7 +581,6 @@ class Claim < ActiveRecord::Base
   # year is from 1 July to 30 June. By (my) convention, Date#fy returns the year
   # that the financial year started in.
   # see `lib/financial_years.rb`: loaded in `config/initializers/extensions.rb`.
-  # FIXME: seems to be dropping a day for each fy
   def estimated_hours_worked_by_year
     Hash[*(employment_began_on.fy..employment_ended_on.fy).map do |year|
       if employment_began_on.fy == employment_ended_on.fy
