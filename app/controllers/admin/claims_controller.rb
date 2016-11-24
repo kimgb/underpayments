@@ -3,18 +3,13 @@ class Admin::ClaimsController < Admin::BaseController
   
   # GET /admin/claims
   def index
-    @claims = case params[:scope]
-      when "point_person" then current_user.point_person_on.includes(:documents, :user)
-      # when "unassigned" then Claim.includes(:documents, :user).select(&:unassigned?)
-      when "submitted" then Claim.includes(:documents, :user).select(&:submitted?)
-      when "completed" then Claim.includes(:documents, :user).select(&:ready_to_submit?).reject(&:submitted?)
-      when "incomplete" then Claim.includes(:documents, :user).select(&:not_submitted?).reject(&:ready_to_submit?)
-      else current_user.point_person_on.includes(:documents, :user)
-    end
+    @claim_search = ClaimSearch.new(claim_search_params)
+
+    @claims = @claim_search.claims
   end
   
   # GET /admin/claims/1
-  def show    
+  def show
   end
   
   # POST /admin/claims
@@ -45,6 +40,7 @@ class Admin::ClaimsController < Admin::BaseController
         create_note if new_note?
         
         format.html { redirect_to [:admin, @claim], notice: "Updated." }
+        format.json { render :show, status: :ok, location: [:admin, @claim] }
       else
         format.html { render "admin/claims/show" } #test this?
         format.json { render json: @claim.errors, status: :unprocessable_entity }
@@ -73,6 +69,14 @@ class Admin::ClaimsController < Admin::BaseController
   
   def set_submission_date
     @claim.update_attribute(:submitted_on, DateTime.now)
+  end
+  
+  def claim_search_params
+    ActionController::Parameters.new(
+      { user: current_user }.merge(params.fetch(:claim_search, {}).permit(
+        :keywords, :point_person, :include_members, :include_non_members)
+      )
+    )
   end
 
   def claim_params

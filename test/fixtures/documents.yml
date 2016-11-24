@@ -1,7 +1,12 @@
-statement:
-  claim: underpaid
+DEFAULTS: &DEFAULTS
   wage_evidence: true
   time_evidence: true
+  coverage_start_date: 2015-06-01
+  coverage_end_date: 2015-07-30
+
+statement:
+  <<: *DEFAULTS
+  claim: underpaid
   coverage_start_date: 2015-05-16
   coverage_end_date: 2015-08-14
   hours: 2000.00
@@ -9,31 +14,50 @@ statement:
   statement: "I Jane Doe"
 
 even_fy_split:
-  coverage_start_date: 2015-06-01
-  coverage_end_date: 2015-07-30
+  <<: *DEFAULTS
 
 wages_without_wage_evidence:
+  <<: *DEFAULTS
   claim: underpaid_w_multi_docs
   wage_evidence: false
   wages: 4000.00
-  coverage_start_date: 2015-06-01
-  coverage_end_date: 2015-07-30
   
 multi_doc_evidence_1:
+  <<: *DEFAULTS
   claim: underpaid_w_multi_docs
-  wage_evidence: true
-  time_evidence: true
   wages: 1500
   hours: 150
   coverage_start_date: 2015-06-01
   coverage_end_date: 2015-06-30
   
 multi_doc_evidence_2:
+  <<: *DEFAULTS
   claim: underpaid_w_multi_docs
-  wage_evidence: true
-  time_evidence: true
   wages: 1500
   hours: 150
   coverage_start_date: 2015-07-01
   coverage_end_date: 2015-07-30
-    
+  
+underpaid_w_time_1:
+  claim: underpaid_w_time_docs
+  wage_evidence: false
+  time_evidence: true
+  hours: 1664
+  coverage_start_date: 2015-07-01
+  coverage_end_date: 2016-06-30
+  
+overlapping_docs_1:
+  <<: *DEFAULTS
+  claim: overlapping_docs
+  coverage_start_date: 2015-07-01
+  coverage_end_date: 2016-06-30
+  hours: 1664
+  wages: 26624
+  
+overlapping_docs_2:
+  <<: *DEFAULTS
+  claim: overlapping_docs
+  coverage_start_date: 2015-07-01
+  coverage_end_date: 2015-07-31
+  hours: 139
+  wages: 2220

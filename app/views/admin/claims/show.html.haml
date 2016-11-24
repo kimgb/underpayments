@@ -44,6 +44,8 @@
     Claim
     %small= link_to("(edit)", edit_admin_claim_path(@claim))
   :markdown
+    **Member ID:** #{ @claim.external_id || "None" }
+  
     #{ markdown_model(@claim) }
 
   -# Claim documents

@@ -15,7 +15,7 @@ class DocumentsControllerTest < ActionController::TestCase
     end
 
     test "get new with signed in user" do
-      get :new, claim_id: claims(:basic_underpaid).id
+      get :new, claim_id: claims(:underpaid).id
       assert_response :success
       assert_not_nil assigns(:document)
     end
@@ -46,7 +46,7 @@ class DocumentsControllerTest < ActionController::TestCase
 
   class GuestUser < DocumentsControllerTest
     test "get new with guest user" do
-      get :new, claim_id: claims(:basic_underpaid).id
+      get :new, claim_id: claims(:underpaid).id
       assert_response :redirect
     end
 

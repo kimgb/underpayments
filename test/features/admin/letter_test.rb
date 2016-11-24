@@ -51,6 +51,9 @@ class Admin::LetterTest < Capybara::Rails::TestCase
     letter = letters(:standard)
     visit admin_letter_path(letter, skin: "fair-food")
     
+    #UserMailer.any_instance.expects(:file_letter).returns(nil)
+    NUW::Person.expects(:get).returns( {external_id: 'NV391215'} )
+
     perform_enqueued_jobs do
       find(".glyphicon-folder-open").click
       

@@ -38,9 +38,15 @@ class Admin::ClaimStageTest < Capybara::Rails::TestCase
   end
   
   test "delete an existing claim stage" do
-    find(".glyphicon-trash", match: :first).click
+    find("tr", text: "duplicate").find(".glyphicon-trash").click
     
     assert_content "Stage was successfully destroyed."
+  end
+  
+  test "delete an active claim stage" do
+    find("tr", text: "Resolved - successful").find(".glyphicon-trash").click
+    
+    assert_content "Unable to delete stage"
   end
   
   private

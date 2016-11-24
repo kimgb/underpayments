@@ -4,3 +4,15 @@ success:
   notification_text: |
     It looks like your backpay claim has been paid! Let us know if you haven't received the money within a few days.
   globalized_model: success
+abandoned:
+  locale: en 
+  display_name: Won't Join
+  globalized_model: abandoned
+  notification_text: |
+   This is something I don't understand
+junk:
+  locale: en
+  display_name: Junk - duplicate
+  globalized_model: duplicate
+  notification_text: |
+    Duplicate of another claim

@@ -1,6 +1,13 @@
-basic_w_multi_doc_claim:
+DEFAULTS: &DEFAULTS
   is_active: true
   is_employer: true
   is_workplace: true
-  claim: underpaid_w_multi_docs
   company: acme
+
+basic_w_multi_doc_claim:
+  <<: *DEFAULTS
+  claim: underpaid_w_multi_docs
+
+no_payslips_claim_company:
+  <<: *DEFAULTS
+  claim: no_payslips

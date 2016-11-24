@@ -70,6 +70,7 @@ group :test do
   gem 'minitest-rails-capybara'
   gem 'connection_pool'
   gem 'poltergeist'
+  gem 'mocha'
 end
 
 group :development, :test do

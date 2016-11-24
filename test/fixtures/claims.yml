@@ -1,31 +1,68 @@
-boilerplate: &boilerplate
+DEFAULTS: &DEFAULTS
+  pay_period: hour
+  pay_per_period: 16.00
+  time_period: week
   hours_per_period: 32.00
   payslips_received: true
   pieceworker: false
   award: no_award
   employment_type: casual
+  employment_began_on: 2015-07-01
+  employment_ended_on: 2016-06-30
+  
+proper: &proper
+  <<: *DEFAULTS
+  pay_per_period: 24.00
   employment_began_on: 2015-05-16
   employment_ended_on: 2015-08-14
   
-underpaid: &underpaid
-  <<: *boilerplate
-  pay_per_period: 16.00
-  
-proper: &proper
-  <<: *boilerplate
-  pay_per_period: 24.00
-  
-basic_underpaid:
-  <<: *underpaid
-  
-basic_proper:
-  <<: *proper
+underpaid:
+  <<: *DEFAULTS
+  employment_began_on: 2015-05-16
+  employment_ended_on: 2015-08-14
   
 poultry_underpaid: 
-  <<: *underpaid
+  <<: *DEFAULTS
   award: poultry
   
 underpaid_w_multi_docs:
-  <<: *underpaid
+  <<: *DEFAULTS
   employment_began_on: 2015-06-01
   employment_ended_on: 2016-07-30
+
+search_result_member_claim:
+  <<: *DEFAULTS
+  employment_began_on: 2015-06-01
+  employment_ended_on: 2016-07-30
+  # external_id: NA012345
+  point_person: admin
+
+search_result_non_member_claim:
+  <<: *DEFAULTS
+  employment_began_on: 2015-06-01
+  employment_ended_on: 2016-07-30
+  # external_id: nil
+  point_person: other_admin
+
+search_result_abandoned_claim:
+  <<: *DEFAULTS
+  employment_began_on: 2015-06-01
+  employment_ended_on: 2016-07-30
+  stage: abandoned
+
+search_result_succeeded_claim:
+  <<: *DEFAULTS
+  employment_began_on: 2015-06-01
+  employment_ended_on: 2016-07-30
+  stage: success
+  
+no_payslips:
+  <<: *DEFAULTS
+  payslips_received: false
+
+underpaid_w_time_docs:
+  <<: *DEFAULTS
+  
+overlapping_docs:
+  <<: *DEFAULTS
+  

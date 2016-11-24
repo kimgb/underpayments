@@ -2,7 +2,7 @@ class Claim < ActiveRecord::Base
   class IncalculableOvertimeError < StandardError
   end
   
-  # include PgSearch
+  include PgSearch
   include Markdownable
 
   belongs_to :award
@@ -17,9 +17,9 @@ class Claim < ActiveRecord::Base
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
   
-  # multisearchable against: %i(user_email user_full_name user_proper_full_name
-  #   point_person_email employer_name workplace_name award_name 
-  #   stage_system_name stage_category)
+  multisearchable against: %i(user_email user_full_name user_proper_full_name
+    point_person_email employer_name workplace_name award_name 
+    stage_system_name stage_display_name stage_category)
 
   scope :submitted?, -> { where(submitted_for_review: true) }
   scope :not_submitted?, -> { where(submitted_for_review: false) }
@@ -36,6 +36,7 @@ class Claim < ActiveRecord::Base
   delegate :name, to: :workplace, prefix: true, allow_nil: true
   delegate :name, to: :award, prefix: true, allow_nil: true
   delegate :system_name, :category, to: :stage, prefix: true, allow_nil: true
+  delegate :display_name, :category, to: :stage, prefix: true, allow_nil: true
   delegate :point_people_for_select, to: :user, prefix: false, allow_nil: false
 
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
@@ -51,7 +52,7 @@ class Claim < ActiveRecord::Base
     ["award_short_name", "lost_wages", "status"].concat(super) -
       ["submitted_for_review", "submitted_on", "hours_self_witnessed", 
       "payslips_received", "award_legacy", "legacy_status", "ready_to_submit",
-      "pay_period", "time_period"]
+      "pay_period", "time_period", "external_id"]
   end
 
   def self.attr_transform
@@ -68,7 +69,15 @@ class Claim < ActiveRecord::Base
 
   ### INSTANCE METHODS
   def unassigned?
-    point_person.nil?
+    point_person_id.nil?
+  end
+  
+  def external_id
+    Rails.cache.fetch("#{cache_key}/external_id") do
+      return nil unless user.present?
+      
+      NUW::Person.get(email: user_email).try(:external_id)
+    end
   end
   
   # Returns a hash with the financial year as the key and a BigDecimal of hours
@@ -107,7 +116,7 @@ class Claim < ActiveRecord::Base
   
   # This is based on the Food manufacturing award - some details of overtime 
   # implementation may need to be passed up to the Award model.
-  # TODO look at shifting O/T details into Awards.
+  # TODO look at shifting O/T details into Awards - see 0.5 magic number...
   # Builds on #overtime_hours_by_year and transforms that hash into one with
   # FYs as the keys and the *dollar value* of overtime worked as the values.
   def overtime_value_by_year

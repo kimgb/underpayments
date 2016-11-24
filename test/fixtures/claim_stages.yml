@@ -2,3 +2,7 @@ success:
   system_name: success
   # display_name: Resolved - paid
   # notification_text: Your claim's been paid!
+abandoned:
+  system_name: abandoned
+duplicate:
+  system_name: duplicate

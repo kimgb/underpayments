@@ -9,7 +9,7 @@ html, body {
 }
 
 #top-header {
-  max-width: 1024px;
+  max-width: 1024px; /*1280px;*/
   margin: 0 auto;
 }
 nav, .flex { padding: 0 2rem; }
@@ -53,8 +53,8 @@ a.manipulator {
 }
 
 main, #banner { 
-  display: block; 
-  max-width: 1024px;
+  display: block;
+  max-width: 1024px;  /* 1280px; */
   margin: 0 auto;
   padding: 1rem;
   background-color: #EAEAEA;
@@ -62,12 +62,12 @@ main, #banner {
 }
 @media screen and (min-width: 640px) {
   main, #banner {
-    padding: 2rem 10rem;
+    padding: 2rem 5rem;
   }
 }
 @media screen and (min-width: 1024px) {
   main, #banner {
-    padding: 2rem 15rem;
+    padding: 2rem 5rem;
   }
 }
 main {
@@ -102,12 +102,13 @@ footer.fixed-bottom {
   margin-top: 2rem;
   z-index: 10;
   background-color: black;
-  max-width: 1024px;
+  max-width: 1024px; /* 1280px; */
   left: 0;
 }
 @media screen and (min-width: 1024px) {
   footer.fixed-bottom {
     left: calc((100% - 1024px) / 2);
+    /*left: calc((100% - 1280px) / 2);*/
   }
 }
 footer.fixed-bottom p {

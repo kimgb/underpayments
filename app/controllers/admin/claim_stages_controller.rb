@@ -50,6 +50,11 @@ class Admin::ClaimStagesController < Admin::BaseController
       format.html { redirect_to admin_claim_stages_path, notice: 'Stage was successfully destroyed.' }
       format.json { head :no_content }
     end
+  rescue ActiveRecord::InvalidForeignKey => e
+    respond_to do |format|
+      format.html { redirect_to admin_claim_stages_path, notice: 'Unable to delete stage as it has claims assigned.' }
+      format.json 
+    end
   end
   
   private

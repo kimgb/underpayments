@@ -1,23 +1,59 @@
-basic:
-  family_name: Doe
-  given_name: Jane
-  preferred_name: Jane
+DEFAULTS: &DEFAULTS
   date_of_birth: 1990-01-01
   nationality: AU
   visa: v417
   phone: "0423456789"
   preferred_language: :"en-AU"
   gender: N
+
+basic:
+  <<: *DEFAULTS
+  family_name: Doe
+  given_name: Jane
+  preferred_name: Jane
+
+admin:
+  <<: *DEFAULTS
+  user: admin
+  family_name: User
+  given_name: Admin
+  preferred_name: Admin
+  
+other_admin:
+  <<: *DEFAULTS
+  user: other_admin
+  family_name: User
+  given_name: Other Admin
+  preferred_name: Other Admin
   
 claimant:
+  <<: *DEFAULTS
   user: claimant
   address: nuw
   family_name: Doe
   given_name: Jane
-  preferred_name: Jane
-  date_of_birth: 1990-01-01
-  nationality: AU
-  visa: v417
-  phone: "0423456789"
-  preferred_language: :"en-AU"
-  gender: N
+  preferred_name: Janie-poo
+
+search_result_member_profile:
+  <<: *DEFAULTS
+  user: search_result_member_user
+  address: nuw
+  family_name: Member
+  given_name: Search Result
+  preferred_name: Search Result
+
+search_result_non_member_profile:
+  <<: *DEFAULTS
+  user: search_result_non_member_user
+  address: nuw
+  family_name: Non Member
+  given_name: Search Result
+  preferred_name: Search Result
+  
+no_payslips_profile:
+  <<: *DEFAULTS
+  user: no_payslips_user
+  address: nuw
+  family_name: Payslips
+  given_name: No
+  preferred_name: Zilch

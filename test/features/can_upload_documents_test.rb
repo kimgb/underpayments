@@ -7,7 +7,7 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
 
   def setup
     user = users(:owner)
-    claim = claims(:basic_underpaid)
+    claim = claims(:underpaid)
     profile = profiles(:basic)
     user.claim = claim
     user.profile = profile
@@ -17,7 +17,7 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
 
     check "This document is evidence of wages paid to me"
     check "This document is evidence of hours I have worked"
-    fill_in "How much does this document indicate you were paid?", with: "2916"
+    fill_in "How much does this document indicate you were paid, before tax?", with: "2916"
     fill_in "How many hours does this document indicate that you worked?", with: "173"
     fill_date("document_coverage_start_date", Date.new(2015, 4, 1))
     fill_date("document_coverage_end_date", Date.new(2015, 4, 30))

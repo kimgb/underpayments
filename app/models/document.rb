@@ -21,9 +21,9 @@ class Document < ActiveRecord::Base
   end
 
   def coverage_midpoint
-    diff_bisect = (coverage_end_date - coverage_start_date).to_i / 2
+    days_to_midpoint = (coverage_end_date - coverage_start_date).to_i / 2
 
-    coverage_start_date + diff_bisect
+    coverage_start_date + days_to_midpoint
   end
 
   # Document#fy
@@ -31,10 +31,7 @@ class Document < ActiveRecord::Base
   # earlier year if equal.
   # Alternative behaviour: pro rated hours when split over two fy's.
   def fy
-    return coverage_start_date.fy if coverage_start_date.fy == coverage_end_date.fy
-
-    # if we got past the above line, find the dominant financial year
-    dominant_fy
+    coverage_start_date.fy == coverage_end_date.fy ? coverage_start_date.fy : dominant_fy
   end
 
   def span_multiple_fys?
