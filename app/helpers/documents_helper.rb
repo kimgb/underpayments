@@ -9,7 +9,7 @@ module DocumentsHelper
 
   def basename(doc)
     if doc.evidence.present?
-      Pathname(doc.evidence.url).basename
+      Pathname(doc.evidence.path).basename
     else
       "Statement"
     end

@@ -7,8 +7,8 @@ class DocumentUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  # storage :file
+  storage :fog
   
   process :set_content_type
 

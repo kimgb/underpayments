@@ -8,6 +8,7 @@ CarrierWave.configure do |config|
     region:                ENV['AWS_REGION']
   }
   config.storage          = :fog
+  config.fog_public       = false
 
   # For testing, upload files to local `tmp` folder.
   if Rails.env.test?
