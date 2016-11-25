@@ -1,5 +1,4 @@
 %h3= basename(@document)
-
 %p= t('.duration', beginning: date_to_time_tag(@document.coverage_start_date), end: date_to_time_tag(@document.coverage_end_date)).html_safe
 
 %p 
@@ -11,7 +10,10 @@
 
 - if @document.evidence.present?
   %p= t('.evidence')
-  %p= link_to image_tag(@document.evidence.standard.url), @document.evidence.url, target: "_blank"
+  - if @document.evidence.is_image?
+    %p= link_to image_tag(@document.evidence.standard.url), @document.evidence.url, target: "_blank"
+  - else
+    %p= link_to basename(@document), @document.evidence.url, target: "_blank"
   
 - if @document.statement.present?
   %p= t('.statement')
