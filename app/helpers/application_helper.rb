@@ -78,6 +78,10 @@ module ApplicationHelper
     )
   end
   
+  def all_awards_for_select
+    Award.all.map { |award| [award.short_name, award.id] }
+  end
+  
   private
   def locale_list_for_select_options(locale_string)
     I18n.t(locale_string).stringify_keys.to_a.map(&:reverse)
