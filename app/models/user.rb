@@ -6,10 +6,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :recoverable, :rememberable,
          :trackable, :validatable, :invitable
 
-  belongs_to :claim
   belongs_to :group
   has_one :profile, dependent: :destroy
   has_one :address, through: :profile
+  has_many :claims
   has_many :notes, foreign_key: "author_id"
   has_many :point_person_on, class_name: "Claim", foreign_key: "point_person_id"
   
@@ -17,9 +17,9 @@ class User < ActiveRecord::Base
 
   delegate :full_name, :proper_full_name, :preferred_language, :phone,
     to: :profile, prefix: false, allow_nil: true  
-  delegate :ready_to_submit?, :submitted?, :not_submitted?, :employer, :workplace, :locked?, 
-    to: :claim, prefix: false, allow_nil: true
-  delegate :persisted?, to: :claim, prefix: true, allow_nil: true
+  # delegate :ready_to_submit?, :submitted?, :not_submitted?, :employer, :workplace, :locked?, 
+  #   to: :claim, prefix: false, allow_nil: true
+  # delegate :persisted?, to: :claim, prefix: true, allow_nil: true
   delegate :supergroup, to: :group, prefix: false, allow_nil: true
   delegate :point_people_for_select, to: :supergroup, prefix: false, allow_nil: true
 

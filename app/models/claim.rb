@@ -5,11 +5,13 @@ class Claim < ActiveRecord::Base
   include PgSearch
   include Markdownable
 
+  belongs_to :user
   belongs_to :award
   belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
   belongs_to :stage, class_name: "ClaimStage", foreign_key: "claim_stage_id"
   
-  has_one :user
+  has_one :profile, through: :user
+  has_one :address, through: :profile
   has_many :documents
   has_many :messages
   has_many :letters
@@ -34,7 +36,6 @@ class Claim < ActiveRecord::Base
   delegate :email, :full_name, :proper_full_name, to: :user, prefix: true, allow_nil: true
   delegate :name, to: :employer, prefix: true, allow_nil: true
   delegate :name, to: :workplace, prefix: true, allow_nil: true
-  delegate :name, to: :award, prefix: true, allow_nil: true
   delegate :system_name, :category, to: :stage, prefix: true, allow_nil: true
   delegate :display_name, :category, to: :stage, prefix: true, allow_nil: true
   delegate :point_people_for_select, to: :user, prefix: false, allow_nil: false
@@ -72,6 +73,7 @@ class Claim < ActiveRecord::Base
     point_person_id.nil?
   end
   
+  # FIXME Doesn't handle database locking.
   def external_id
     Rails.cache.fetch("#{cache_key}/external_id") do
       return nil unless user.present?

@@ -9,7 +9,7 @@ class CanUploadDocumentsTest < Capybara::Rails::TestCase
     user = users(:owner)
     claim = claims(:underpaid)
     profile = profiles(:basic)
-    user.claim = claim
+    claim.user = user
     user.profile = profile
 
     login_as user, scope: :user

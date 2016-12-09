@@ -7,7 +7,7 @@ class ClaimCompaniesController < ApplicationController
 
   # GET /claim_companies/1
   def show
-    redirect_to current_user
+    redirect_to @claim_company.claim
   end
 
   # GET /claims/1/claim_companies/new
@@ -36,7 +36,7 @@ class ClaimCompaniesController < ApplicationController
     
     respond_to do |format|
       if @claim.save && @claim_company.save
-        format.html { redirect_to @claim.user, notice: 'Company was successfully created.' }
+        format.html { redirect_to @claim, notice: 'Company was successfully created.' }
         format.json { render :show, status: :created, location: @claim_company }
       else
         format.html { render :new }
@@ -52,7 +52,7 @@ class ClaimCompaniesController < ApplicationController
       if @claim_company.update(claim_company_params) && @company.update(company_params)
         @claim_company.claim.save
         
-        format.html { redirect_to current_user, notice: 'Company was successfully updated.' }
+        format.html { redirect_to @claim_company.claim, notice: 'Company was successfully updated.' }
         format.json { render :show, status: :ok, location: @claim_company.claim.user }
       else
         format.html { render :edit }
@@ -68,10 +68,10 @@ class ClaimCompaniesController < ApplicationController
       if @claim_company.update(is_active: false)
         @claim_company.claim.save
         
-        format.html { redirect_to current_user, notice: 'Company was successfully removed.' }
+        format.html { redirect_to @claim_company.claim, notice: 'Company was successfully removed.' }
         format.json { head :no_content }
       else
-        format.html { redirect_to current_user, notice: 'Company could not be removed.' }
+        format.html { redirect_to @claim_company.claim, notice: 'Company could not be removed.' }
         format.json { render json: @claim_company.errors, status: :unprocessable_entity }
       end
     end

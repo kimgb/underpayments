@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(user)
-    user.admin? ? admin_claims_url(skin: user.group) : user_url(user, skin: user.group)
+    # user.admin? ? admin_claims_url(skin: user.group) : user_url(user, skin: user.group)
+    user.admin? ? admin_claims_url(skin: user.group) : claims_url(skin: user.group)
   end
 
   def forbidden!
@@ -98,6 +99,7 @@ class ApplicationController < ActionController::Base
     root_path.gsub(/en$|en-AU$|vi$|zh$|zh-TW$/, "")
   end
   
+  # cp = checkpoint
   def checkpoint
     cp = URI(request.referrer || root_path)
     session[:checkpoint] ||= cp.path + (cp.query ? "?#{cp.query}" : "")

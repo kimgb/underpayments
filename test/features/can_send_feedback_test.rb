@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CanAddProfileTest < Capybara::Rails::TestCase
+class CanSendFeedbackTest < Capybara::Rails::TestCase
   include ActiveJob::TestHelper
   include Warden::Test::Helpers
   Warden.test_mode!
@@ -40,7 +40,7 @@ class CanAddProfileTest < Capybara::Rails::TestCase
       assert_includes delivered_email.to, "kbuckley@nuw.org.au"
     end
     
-    assert_includes Capybara.current_path, "/users/#{users(:claimant).id}"
+    assert_includes Capybara.current_path, "/"
     assert_content "Feedback is on its way!"
   end
   

@@ -1,0 +1,32 @@
+- @claim.set_ready_to_submit
+- unless @claim.ready_to_submit?
+  %p= t('.introduction')
+  %ul
+    - t('.requirements').each do |key, req| # requirements keys are: profile, address, claim, workplace, employer
+      %li
+        = req
+        - if @claim.send(key).present? && @claim.send(key).done?
+          %span{ style: "color: green" }= t('.requirement_done')
+  %p= t('.add')
+
+- if @claim.ready_to_submit? && !@claim.submitted?
+  = render partial: "claims/submit_for_review", locals: { claim: @claim, user: @claim.user }
+  
+- if @claim.locked?
+  %p.bold= t('.locked')
+
+- if @claim.user.profile
+  = render partial: "profiles/profile", locals: { profile: @claim.user.profile }
+- else
+  %h3= t('.profile.heading')
+  %p
+    = t('.profile.missing')
+    = link_to t('.profile.complete'), new_profile_path, class: "btn btn-sm btn-default"
+
+- if @claim.valid?
+  = render partial: "claims/claim", locals: { claim: @claim }
+- else
+  %h3= t('.claim.heading')
+  %p
+    = t('.claim.missing')
+    = link_to t('.claim.complete'), edit_claim_path(@claim), class: "btn btn-sm btn-default"

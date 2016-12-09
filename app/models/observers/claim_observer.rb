@@ -1,4 +1,5 @@
 class ClaimObserver < ActiveRecord::Observer
+  # Notify point person on changes
   def after_save(claim)
     # Special handling for claim_status_id, etc...
     changes = claim.changes.map do |attr, (old_val, new_val)|

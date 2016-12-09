@@ -46,7 +46,7 @@ class Document < ActiveRecord::Base
   end
 
   def locked?
-    claim && claim.locked?
+    claim.try(:locked?)
   end
 
   private

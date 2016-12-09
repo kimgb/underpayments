@@ -32,7 +32,7 @@ class DocumentsController < ApplicationController
 
     respond_to do |format|
       if @claim.save
-        format.html { redirect_to @claim.user, notice: 'Document was successfully uploaded.' }
+        format.html { redirect_to @claim, notice: 'Document was successfully uploaded.' }
         format.json { render :show, status: :created, location: @claim.user }
       else
         format.html { render :new }
@@ -67,7 +67,7 @@ class DocumentsController < ApplicationController
       if @document.destroy
         @document.claim.save
         
-        format.html { redirect_to @document.claim.user, notice: 'Document was successfully removed.' }
+        format.html { redirect_to @document.claim, notice: 'Document was successfully removed.' }
         format.json { head :no_content }
       else
         format.html { render :show }
@@ -96,6 +96,6 @@ class DocumentsController < ApplicationController
   def confirm_unlocked!
     claim = @document.claim
     
-    forbidden! if (claim && claim.locked?) && !(current_user && current_user.admin?)
+    forbidden! if claim.try(:locked?) && !current_user.try(:admin?)
   end
 end

@@ -1,6 +1,6 @@
 %h3 
   = t('.title')
-  %small= link_if_unlocked(profile, "(#{t('.edit')})", edit_profile_path)
+  %small= link_to("(#{t('.edit')})", edit_profile_path)
 
 :markdown
   #{markdown_model(profile)}
@@ -8,7 +8,7 @@
 - if profile.address
   %h4
     = t('users.show.address.heading')
-    %small= link_if_unlocked(profile, "(#{t('profiles.profile.address.remove')})", profile_path(profile: { address_id: nil }), method: :put, data: { confirm: "Are you sure?" })
+    %small= link_to("(#{t('profiles.profile.address.remove')})", profile_path(profile: { address_id: nil }), method: :put, data: { confirm: "Are you sure?" })
 
   :markdown
     #{ markdown_model(profile.address) }

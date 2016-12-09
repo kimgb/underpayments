@@ -29,7 +29,7 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       if @profile.save
-        format.html { redirect_to current_user, notice: 'Profile created.' }
+        format.html { redirect_to claims_path, notice: 'Profile created.' }
         format.json { render :show, status: :created, location: current_user }
       else
         format.html { render :new }
@@ -47,7 +47,7 @@ class ProfilesController < ApplicationController
   def update
     respond_to do |format|
       if @profile.update_attributes(profile_params)
-        format.html { redirect_to current_user, notice: 'Details successfully updated.' }
+        format.html { redirect_to claims_path, notice: 'Details successfully updated.' }
         format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class ProfilesController < ApplicationController
   def destroy
     respond_to do |format|
       if @profile.update(address: nil)
-        format.html { redirect_to current_user, notice: 'Address removed.' }
+        format.html { redirect_to claims_path, notice: 'Address removed.' }
         format.json { render :show, status: :ok, location: current_user }
       else
         format.html { render :edit }

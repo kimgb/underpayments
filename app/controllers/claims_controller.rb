@@ -1,18 +1,23 @@
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
-  before_action :authorise_admin!, only: [:index, :destroy]
+  before_action :authorise_admin!, only: [:destroy]
   before_action :authorise_owner!, only: [:show, :edit, :update]
   before_action :confirm_unlocked!, only: [:edit, :update, :destroy]
   skip_before_action :authenticate_user!, only: [:new, :create]
 
+  # GET /claims
+  def index
+    @claims = current_user.claims
+  end
+
   # GET /claims/1
   def show
-    redirect_to @claim.user
+    # redirect_to @claim.user
   end
 
   # GET /claims/new
   def new
-    redirect_to current_user if current_user && current_user.claim.present?
+    # redirect_to current_user if current_user && current_user.claim.present?
 
     @claim = Claim.new
     @skin.blank_or_singleton?(:awards, :time_periods, :pay_periods).each do |c|
@@ -55,10 +60,10 @@ class ClaimsController < ApplicationController
           set_submission_date
           UserMailer.submission_email(@claim).deliver_later
 
-          format.html { redirect_to @claim.user, notice: 'Your claim has been submitted for review and is now locked for editing.' }
+          format.html { redirect_to @claim, notice: 'Your claim has been submitted for review and is now locked for editing.' }
           format.json { render :show, status: :ok, location: @claim.user }
         else
-          format.html { redirect_to @claim.user, notice: 'Claim was successfully updated.' }
+          format.html { redirect_to @claim, notice: 'Claim was successfully updated.' }
           format.json { render :show, status: :ok, location: @claim.user }
         end
       else

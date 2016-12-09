@@ -27,8 +27,8 @@ module ApplicationHelper
     val.blank? ? "&mdash;".html_safe : val
   end
   
-  def link_if_unlocked(resource, link_text, path, *args)
-    link_to(link_text, path, *args) if current_user.owns?(resource) && !current_user.locked?
+  def link_if_claim_unlocked(claim, link_text, path, *args)
+    link_to(link_text, path, *args) if current_user.owns?(claim) && !claim.locked?
   end
   
   def paying?

@@ -18,6 +18,7 @@ proper: &proper
   
 underpaid:
   <<: *DEFAULTS
+  user: owner
   employment_began_on: 2015-05-16
   employment_ended_on: 2015-08-14
   
@@ -27,6 +28,7 @@ poultry_underpaid:
   
 underpaid_w_multi_docs:
   <<: *DEFAULTS
+  user: claimant
   employment_began_on: 2015-06-01
   employment_ended_on: 2016-07-30
 
@@ -36,6 +38,7 @@ search_result_member_claim:
   employment_ended_on: 2016-07-30
   # external_id: NA012345
   point_person: admin
+  user: search_result_member_user
 
 search_result_non_member_claim:
   <<: *DEFAULTS
@@ -43,6 +46,7 @@ search_result_non_member_claim:
   employment_ended_on: 2016-07-30
   # external_id: nil
   point_person: other_admin
+  user: search_result_non_member_user
 
 search_result_abandoned_claim:
   <<: *DEFAULTS
@@ -58,10 +62,12 @@ search_result_succeeded_claim:
   
 no_payslips:
   <<: *DEFAULTS
+  user: no_payslips_user
   payslips_received: false
 
 underpaid_w_time_docs:
   <<: *DEFAULTS
+  user: underpaid_w_time_docs_user
   
 overlapping_docs:
   <<: *DEFAULTS

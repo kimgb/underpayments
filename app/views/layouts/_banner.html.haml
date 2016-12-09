@@ -1,9 +1,9 @@
-- if current_user && current_user.claim_persisted? && !current_user.admin?
+- if current_user && current_user.claims.first.try(:persisted?) && !current_user.admin?
   %header
     #banner.text-center
       %h1{ style: "color: #F5003D; margin: 1rem 0;" }
         :markdown
-          #{t('.owed')}  _#{number_to_currency(current_user.claim.lost_wages)}_
+          #{t('.owed')}  _#{number_to_currency(current_user.claims.first.lost_wages)}_
 - else
   %header.align-right
     %hgroup
