@@ -50,8 +50,8 @@ class Admin::ClaimsController < Admin::BaseController
 
   private
   def new_note?
-    @new_note ||= (claim_params[:claim_status_id].present? && 
-      claim_params[:claim_status_id] != @claim.claim_status_id) ||
+    @new_note ||= (claim_params[:claim_stage_id].present? && 
+      claim_params[:claim_stage_id] != @claim.claim_stage_id) ||
       (claim_params[:comment].present? && claim_params[:comment] != @claim.comment)
   end
   
