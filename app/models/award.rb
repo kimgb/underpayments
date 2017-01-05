@@ -10,8 +10,8 @@ class Award < ActiveRecord::Base
   validates_uniqueness_of :name, :short_name
 
   def minimum(emp_type, year)
-    year = [[year, 2010].max.to_s, [2016, year].min.to_s]
-    # year = [2016, year].min.to_s # somebody tried entering Aug 2017 job start
+    year = [year, 2010].max
+    year = [2016, year].min.to_s # somebody tried entering Aug 2017 job start
 
     if emp_type == "permanent"
       BigDecimal(min_permanent_rates.dig(year))
