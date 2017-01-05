@@ -1,4 +1,24 @@
 module ApplicationHelper
+  def link_to_remove_fields(name, f)
+    f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
+  end
+
+  def link_to_add_fields(name, f, association, opts = {})
+    new_object = f.object.class.reflect_on_association(association).klass.new
+    id = new_object.object_id
+    
+    fields = f.fields_for(association, new_object, :child_index => id) do |builder|
+      render(association.to_s.singularize + "_fields", :f => builder)
+    end
+    
+    link_to(name, "#", class: "add_fields btn btn-default", data: { id: id, fields: fields.gsub("\n", "") })
+    # link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")")
+  end
+  
+  def badgify(text, count)
+    [text, content_tag(:span, count, class: "badge")].join(" ").html_safe
+  end
+  
   def page_title
     content_for(:title) || "Underpaid"
   end
@@ -56,6 +76,10 @@ module ApplicationHelper
         "**#{I18n.t(l10n_key)}:** #{value}" unless value.blank?
       end.compact.join("  \n")
     )
+  end
+  
+  def all_awards_for_select
+    Award.all.map { |award| [award.short_name, award.id] }
   end
   
   private

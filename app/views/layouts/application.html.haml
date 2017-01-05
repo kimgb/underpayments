@@ -24,14 +24,15 @@
             %p.alert.text-danger= alert
 
         = render partial: 'layouts/banner'
-
         = yield
 
       %footer.fixed-bottom.flex.flex-row.flex-justify.flex-center
-        .flex-order-1
+        .flex-order-1.hidden-xs
           :markdown
-            #{ t('.footer') } #{ link_to "Send feedback?", new_feedback_path }
-        .dropup.flex-order-2
+            #{ t('.footer') }
+        .flex-order-2{ style: "margin-left: auto; margin-right: 1rem;"}
+          = link_to "Send feedback?", new_feedback_path, class: "btn btn-default"
+        .dropup.flex-order-3
           %button.btn.btn-default.dropdown-toggle#languagePickerDropup{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: true } }
             %span.glyphicon.glyphicon-globe
             %span.caret
@@ -39,51 +40,7 @@
             - t('helpers.profiles.languages_list').except(session[:locale]).each do |key, locale|
               %li= link_to locale, params.merge(locale: key)
 
-    - if @skin
-      :scss
-        @mixin bg-border($color) {
-          background-color: $color;
-          border-color: $color;
-        }
-        @mixin button-colors($bg, $text, $active) {
-          color: $text;
-          @include bg-border($bg);
-          &:hover, &:active:hover,
-          &:active, &:active:focus { @include bg-border($active); }
-        }
-        @mixin text-hover($passive, $active) {
-          color: $passive;
-          &:hover { color: $active; }
-        }
-        @mixin nav($bg, $text, $active) {
-          @include bg-border($bg);
-          .navbar-text { color: $text; }
-          .navbar-link { color: $text; }
-          .navbar-link:hover { color: $active; }
-        }
-
-        $brand-primary: #{ @skin.link_color };
-        $active-primary: darken($brand-primary, 15%);
-        $btn-bg-color: #{ @skin.btn_bg_color };
-        $btn-active: darken($btn-bg-color, 10%);
-        $btn-text-color: #{ @skin.btn_text_color };
-        $nav-bg: #{ @skin.nav_bg_color };
-        $nav-text: #{ @skin.nav_text_color };
-        $headings-color: #{ @skin.headings_color };
-        $background-color: #{ @skin.body_bg_color };
-        $text-color: #{ @skin.body_text_color };
-        $text-color-inverse: invert($text-color);
-        $active-nav: darken($nav-text, 15%);
-
-        body { color: $text-color; }
-        main { background-color: $background-color; }
-        h1, .h1, h2, .h2, h3, .h3,
-        h4, .h4, h5, .h5, h6, .h6, fieldset > legend { color: $headings-color; }
-        nav.navbar.navbar-default { @include nav($nav-bg, $nav-text, $active-nav); }
-        a { @include text-hover($brand-primary, $active-primary); }
-        .btn-default { @include button-colors($btn-bg-color, $btn-text-color, $btn-active) }
-        .checkbox label { color: $text-color-inverse };
-
+    = render partial: "layouts/skin" if @skin.present?
     :javascript
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

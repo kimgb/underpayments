@@ -6,7 +6,7 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
 
   def setup
     user = users(:owner)
-    claim = claims(:basic_underpaid)
+    claim = claims(:underpaid)
     profile = profiles(:basic)
     user.claim = claim
     user.profile = profile
@@ -29,7 +29,7 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
       check "This company is my workplace"
       click_button "Save company details"
 
-      assert_content "Company (Workplace)"
+      assert_content "Workplace"
       assert_content "Name: Acme Corp"
       refute_content "errors"
     end
@@ -38,17 +38,29 @@ class CanAddCompanyTest < Capybara::Rails::TestCase
       check "This company is my employer"
       click_button "Save company details"
 
-      assert_content "Company (Employer)"
+      assert_content "Employer"
       assert_content "Name: Acme Corp"
       refute_content "errors"
     end
+    
+    # test "add workplace than add same company as employer" do
+    #   check "This company is my workplace"
+    #   click_button "Save company details"
+    #   
+    #   click_link "Employer details"
+    #   
+    #   select2 companies(:acme).id, "#claim_claim_company_id"
+    #   click_button "Save company details"
+    #   
+    #   assert_content "Company (Workplace & Employer)"
+    # end
 
     test "check both" do
       check "This company is my workplace"
       check "This company is my employer"
       click_button "Save company details"
 
-      assert_content "Company (Workplace & Employer)"
+      assert_content "Workplace & Employer"
       assert_content "Name: Acme Corp"
       refute_content "errors"
     end

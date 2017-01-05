@@ -1,23 +1,21 @@
 %nav.navbar.navbar-default
   .container-fluid
     .navbar-header
-      %button.navbar-toggle.collapsed{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
-        %span.sr-only Toggle navigation
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
-      - if user_signed_in?
-        %p.navbar-text
+      - if @skin.logo?
+        = link_to image_tag(@skin.logo.url), root_path(skin: @skin.slug), title: "Home", class: "navbar-brand", style: "max-height: 80px; padding: 0.7rem; margin-left: 0px;"
+      - elsif user_signed_in?
+        %p.navbar-text{ style: "display: inline-block" }
           = t('.signed_in')
           = link_to (current_user.full_name || current_user.email), current_user, class: "navbar-link"
+      %button.navbar-toggle.glyphicon.glyphicon-tasks{ type: "button", data: { toggle: "collapse", target: "#nav-items" }, aria: { expanded: false } }
+        %span.sr-only Toggle navigation
     
     .collapse.navbar-collapse#nav-items
       %ul.nav.navbar-nav.navbar-right
         - if user_signed_in?
           - if current_user.admin?
-            %li= link_to t('.administrate'), admin_claims_path
-          %li= link_to t('.sign_out'), destroy_user_session_path, method: :delete
+            %li= link_to t('.administrate'), admin_claims_path, class: "navbar-link"
+          %li= link_to t('.sign_out'), destroy_user_session_path, method: :delete, class: "navbar-link"
         - else
-          %p.navbar-text 
-            Returning user?
-            = link_to t('.sign_in'), new_user_session_path, class: "navbar-link"
+          %li
+            = link_to "Returning user? #{t('.sign_in')}", new_user_session_path, class: "navbar-link"

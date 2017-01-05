@@ -57,7 +57,7 @@ zh-TW:
       title: 被欠薪?
       byline: 超時工作
       footer: |
-        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-07-08">2016年7月8日</time>.
+        本系統由NUW工會開發 [全國工人工會](https://www.nuw.org.au/), 上次更新 <time datetime="2016-10-14">2016年10月14日</time>.
     authentication:
       signed_in: 登入中
       sign_out: 登出
@@ -221,7 +221,7 @@ zh-TW:
       coverage_end_date: "至日期:"
       wage_evidence: 這份文件為我的薪資證明
       time_evidence: 這份資料為我的總工作時數
-      wages: "你所領取的總薪資?"
+      wages: "你所領取的總薪資(稅前)?"
       hours: "此份文件所指的你工作總時數是?"
       commit: 新增文件
     edit:
@@ -231,7 +231,7 @@ zh-TW:
       coverage_end_date: "至日期:"
       wage_evidence: 這份文件為我的薪資證明
       time_evidence: 這份資料為我的總工作時數
-      wages: "你所領取的總薪資?"
+      wages: "你所領取的總薪資(稅前)?"
       hours: "此份文件所指的你工作總時數是?"
       commit: Update document
 

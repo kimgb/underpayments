@@ -1,3 +1,4 @@
+- @user.claim.present? && @user.claim.set_ready_to_submit
 - unless @user.ready_to_submit?
   %p= t('.introduction')
   %ul
@@ -7,7 +8,7 @@
         - if @user.send(key).present? && @user.send(key).done?
           %span{ style: "color: green" }= t('.requirement_done')
   %p= t('.add')
-  
+
 - if @user.ready_to_submit? && !@user.submitted?
   = render partial: "claims/submit_for_review", locals: { claim: @user.claim, user: @user }
   

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160707074459) do
+ActiveRecord::Schema.define(version: 20161108145401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,27 @@ ActiveRecord::Schema.define(version: 20160707074459) do
   add_index "claim_companies", ["claim_id"], name: "index_claim_companies_on_claim_id", using: :btree
   add_index "claim_companies", ["company_id"], name: "index_claim_companies_on_company_id", using: :btree
 
+  create_table "claim_stage_translations", force: :cascade do |t|
+    t.integer  "claim_stage_id",    null: false
+    t.string   "locale",            null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "display_name"
+    t.text     "notification_text"
+  end
+
+  add_index "claim_stage_translations", ["claim_stage_id"], name: "index_claim_stage_translations_on_claim_stage_id", using: :btree
+  add_index "claim_stage_translations", ["locale"], name: "index_claim_stage_translations_on_locale", using: :btree
+
+  create_table "claim_stages", force: :cascade do |t|
+    t.string   "system_name",             null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.integer  "category",    default: 0
+  end
+
   create_table "claims", force: :cascade do |t|
-    t.string   "status"
+    t.string   "legacy_status"
     t.string   "comment"
     t.string   "award_legacy"
     t.decimal  "hours_per_period",     precision: 10, scale: 2
@@ -76,9 +95,11 @@ ActiveRecord::Schema.define(version: 20160707074459) do
     t.boolean  "ready_to_submit"
     t.string   "pay_period",                                    default: "hour"
     t.string   "time_period",                                   default: "week"
+    t.integer  "claim_stage_id"
   end
 
   add_index "claims", ["award_id"], name: "index_claims_on_award_id", using: :btree
+  add_index "claims", ["claim_stage_id"], name: "index_claims_on_claim_stage_id", using: :btree
   add_index "claims", ["point_person_id"], name: "index_claims_on_point_person_id", using: :btree
 
   create_table "companies", force: :cascade do |t|
@@ -131,6 +152,17 @@ ActiveRecord::Schema.define(version: 20160707074459) do
   add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
   add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
 
+  create_table "group_awards", force: :cascade do |t|
+    t.integer  "group_id"
+    t.integer  "award_id"
+    t.string   "display_text"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "group_awards", ["award_id"], name: "index_group_awards_on_award_id", using: :btree
+  add_index "group_awards", ["group_id"], name: "index_group_awards_on_group_id", using: :btree
+
   create_table "groups", force: :cascade do |t|
     t.string   "name"
     t.string   "slug"
@@ -139,14 +171,30 @@ ActiveRecord::Schema.define(version: 20160707074459) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.text     "intro"
-    t.hstore   "awards",        default: {}, null: false
     t.text     "pay_periods",   default: [],              array: true
     t.text     "time_periods",  default: [],              array: true
     t.string   "pay_question"
+    t.string   "logo"
   end
 
   add_index "groups", ["slug"], name: "index_groups_on_slug", unique: true, using: :btree
   add_index "groups", ["supergroup_id"], name: "index_groups_on_supergroup_id", using: :btree
+
+  create_table "letters", force: :cascade do |t|
+    t.integer  "claim_id"
+    t.date     "display_date"
+    t.string   "addressee"
+    t.integer  "address_id"
+    t.text     "body"
+    t.string   "contact_inbox"
+    t.text     "signature"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "sent"
+  end
+
+  add_index "letters", ["address_id"], name: "index_letters_on_address_id", using: :btree
+  add_index "letters", ["claim_id"], name: "index_letters_on_claim_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "parent_message_id"
@@ -181,6 +229,16 @@ ActiveRecord::Schema.define(version: 20160707074459) do
   add_index "notes", ["annotatable_id", "annotatable_type"], name: "index_notes_on_annotatable_id_and_annotatable_type", using: :btree
   add_index "notes", ["author_id"], name: "index_notes_on_author_id", using: :btree
 
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "searchable_id"
+    t.string   "searchable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
   create_table "profiles", force: :cascade do |t|
     t.string   "family_name"
     t.string   "given_name"
@@ -188,13 +246,14 @@ ActiveRecord::Schema.define(version: 20160707074459) do
     t.string   "phone"
     t.string   "preferred_language"
     t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "preferred_name"
     t.string   "gender"
     t.string   "visa"
     t.string   "nationality"
     t.integer  "address_id"
+    t.boolean  "media_volunteer",    default: false
   end
 
   add_index "profiles", ["address_id"], name: "index_profiles_on_address_id", using: :btree
@@ -244,11 +303,16 @@ ActiveRecord::Schema.define(version: 20160707074459) do
   add_foreign_key "claim_companies", "claims"
   add_foreign_key "claim_companies", "companies"
   add_foreign_key "claims", "awards"
+  add_foreign_key "claims", "claim_stages"
   add_foreign_key "claims", "users", column: "point_person_id"
   add_foreign_key "company_addresses", "addresses"
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "documents", "claims"
+  add_foreign_key "group_awards", "awards"
+  add_foreign_key "group_awards", "groups"
   add_foreign_key "groups", "supergroups"
+  add_foreign_key "letters", "addresses"
+  add_foreign_key "letters", "claims"
   add_foreign_key "messages", "claims"
   add_foreign_key "notes", "users", column: "author_id"
   add_foreign_key "profiles", "addresses"

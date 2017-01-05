@@ -1,0 +1,10 @@
+%tr
+  %td
+    %tt= claim_stage.category
+  %td
+    %code= claim_stage.system_name
+  %td= claim_stage.display_name
+  %td
+    .btn-group
+      = link_to "", edit_admin_claim_stage_path(claim_stage), class: "glyphicon glyphicon-pencil btn btn-sm btn-default", title: "Edit"
+      = link_to "", admin_claim_stage_path(claim_stage), data: { confirm: "Are you sure?" }, method: :delete, class: "glyphicon glyphicon-trash btn btn-sm btn-default", title: "Delete"

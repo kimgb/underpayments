@@ -27,7 +27,7 @@ class Admin::ProfilesController < Admin::BaseController
   def profile_params
     params.require(:profile).permit(:date_of_birth, :family_name, :given_name, 
       :preferred_name, :phone, :preferred_language, :nationality, :visa, 
-      :gender, :address_id, address_attributes: [:street_address, 
-      :town, :province, :postal_code, :country])
+      :gender, :address_id, :media_volunteer, address_attributes: 
+      [:street_address, :town, :province, :postal_code, :country])
   end
 end

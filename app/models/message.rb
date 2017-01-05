@@ -33,7 +33,8 @@ class Message < ActiveRecord::Base
   
   private
   def email_has_token?(email)
-    email.end_with?("@mg.nuw.org.au") && email =~ /\+/ && email =~ /[=]/
+    (email.end_with?("@mg.nuw.org.au") || email.end_with?("@fairpay.org.au")) && 
+      email =~ /\+/ && email =~ /[=]/
   end
   
   def tokenize(email)
@@ -44,7 +45,7 @@ class Message < ActiveRecord::Base
   end
   
   def route_to_mailgun(email)
-    email.gsub("@", "=") + "@mg.nuw.org.au"
+    email.gsub("@", "=") + "@fairpay.org.au"
   end
   
   def detokenize(tokenized_email)

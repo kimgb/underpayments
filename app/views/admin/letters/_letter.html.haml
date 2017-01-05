@@ -1,0 +1,3 @@
+%p
+  = letter.sent? ? "SENT:" : "DRAFT:"
+  = link_to "Letter dated #{letter.display_date.strftime("%e %B %Y")} to #{letter.addressee}", [:admin, letter]

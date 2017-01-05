@@ -252,6 +252,9 @@ GEM
       activerecord (>= 4.0.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    globalize (5.0.1)
+      activemodel (>= 4.2.0, < 4.3)
+      activerecord (>= 4.2.0, < 4.3)
     guard (2.14.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -304,6 +307,7 @@ GEM
       actionmailer (>= 3.2.13)
       json (>= 1.7.7)
       rest-client (>= 1.6.7)
+    metaclass (0.0.4)
     method_source (0.8.2)
     mime-types (2.99.2)
     mimemagic (0.3.1)
@@ -329,6 +333,8 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
     multi_json (1.12.1)
     nenv (0.3.0)
     net-scp (1.2.1)
@@ -492,6 +498,7 @@ DEPENDENCIES
   figaro
   fog
   friendly_id (~> 5.1)
+  globalize (~> 5.0.0)
   guard
   guard-minitest
   haml-rails (~> 0.9)
@@ -504,6 +511,7 @@ DEPENDENCIES
   minitest-rails
   minitest-rails-capybara
   minitest-reporters
+  mocha
   nuw-api (~> 0.1)!
   pg
   pg_search
@@ -531,4 +539,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.12.5
+   1.13.1

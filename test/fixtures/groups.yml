@@ -11,9 +11,3 @@ fair_food:
     nav_text_color: "#ddd"
     body_text_color: "#ddd"
   supergroup: nuw
-  awards:
-    meat: "Meat industry"
-    poultry: "Poultry processing"
-    storage: "Storage, e.g. fruit packing"
-    no_award: "Not listed / I don't know"
-    horticulture: "Horticulture, e.g. fruit picking"

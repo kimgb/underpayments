@@ -1,20 +1,73 @@
 %h1 Claims for review
-.align-right
-  %select.form-control#user-selector
-    %option{ value: "point_person" } Your claims
-    %option{ value: "submitted" } Submitted claims
-    %option{ value: "completed" } Completed claims
-    %option{ value: "incomplete" } Incomplete claims
+= form_for @claim_search, url: admin_claims_path, method: :get, html: { class: "form" } do |f|
+  .form-group
+    = f.label :keywords, "Keywords", class: "control-label"
+    .input-group
+      .input-group-addon
+        %span.glyphicon.glyphicon-search
+      = f.search_field :keywords, class: "form-control"
+      
+  .form-group
+    = f.label :point_person, "Point person", class: "control-label"
+    = f.select :point_person, @claim_search.point_people_for_select, {}, { class: "form-control" }
+    
+  .checkbox
+    = f.label :include_members do
+      = f.check_box :include_members
+      = "Members"
+      
+  .checkbox
+    = f.label :include_non_members do
+      = f.check_box :include_non_members
+      = "Non members"
+      
+  .actions.text-right= f.submit "Search", class: "btn btn-default"
 
-= link_to "Your claims", url_for(params.merge(scope: "point_person")), class: "collapse", id: "point_person"
-= link_to "Submitted", url_for(params.merge(scope: "submitted")), class: "collapse", id: "submitted"
-= link_to "Completed", url_for(params.merge(scope: "completed")), class: "collapse", id: "completed"
-= link_to "Incomplete", url_for(params.merge(scope: "incomplete")), class: "collapse", id: "incomplete"
+-# .form-group
+-#   %label{for: "claim_search_keywords"} Search claims
+-#   .input-group
+-#     .input-group-addon
+-#       %span.glyphicon.glyphicon-search
+-#     %input.form-control#claim_search_keywords{ type: "search" }
+-# 
+-# .form_group
+-#   %label{for: "claim_search_point_person"} Point Person
+-#   %select.form-control#claim_search_point_person
+-#     -@point_people.each do |u|
+-#       %option{value: u.id, selected: (current_user.id == u.id)}=u.full_name
+-# 
+-# .form_group
+-#   %label{for: "claim_search_members_on"} Members
+-#   %input#claim_search_members{type: "checkbox", value: "members_on", checked: "checked"}
+-# 
+-# .form_group
+-#   %label{for: "claim_search_non_members_on"} Non Members
+-#   %input#claim_search_non_members{type: "checkbox", value: "members_off", checked: "checked"}
 
-= render "review_table"#, locals: { users: @users, view_context: @view_context }
+-# .align-right
+-#   %select.form-control#user-selector
+-#     %option{ value: "point_person" } Your claims
+-#     %option{ value: "submitted" } Submitted claims
+-#     %option{ value: "completed" } Completed claims
+-#     %option{ value: "incomplete" } Incomplete claims
+-# 
+-# = link_to "Your claims", url_for(params.merge(scope: "point_person")), class: "collapse", id: "point_person"
+-# = link_to "Submitted", url_for(params.merge(scope: "submitted")), class: "collapse", id: "submitted"
+-# = link_to "Completed", url_for(params.merge(scope: "completed")), class: "collapse", id: "completed"
+-# = link_to "Incomplete", url_for(params.merge(scope: "incomplete")), class: "collapse", id: "incomplete"
+
+= render "review_table", claims: @claims#, locals: { users: @users, view_context: @view_context }
 
 :coffeescript
   $(document).ready ->
     $("#user-selector").val("#{(params[:scope] || 'point_person')}")
   $("#user-selector").on "change", (e) ->
     $("#" + $(e.target).val())[0].click();
+    
+  #sendFilterForm = ->
+  #  $.get($("#filter_form").attr('action'), $("#filter_form").serialize(), 'script')
+    
+  #sendFilterStage = ->
+  #  $.get("")
+
+  #$("#stage_select").html("<%= j options_from_collection_for_select(@) %>")

@@ -1,7 +1,11 @@
-= form_for :feedback, url: feedback_path, method: "post", class: "form" do |f|
+= form_for @feedback, url: feedback_path, method: "post", class: "form" do |f|
+  = render partial: "layouts/errors", locals: { resource: @feedback }
+
   .form-group
-    - if current_user
-      = f.hidden_field :sender, current_user.email
+    - if @feedback.sender.present?
+      :markdown
+        Signed in as __#{@feedback.sender}__ - any replies will be directed to this address
+      = f.hidden_field :sender
     - else
       = f.label :sender, "Your email address", class: "control-label"
       = f.email_field :sender, class: "form-control"
@@ -11,4 +15,4 @@
     = f.text_area :body, class: "form-control"
 
   .form-group.actions.align-right
-    = f.submit "Send feedback", class: "btn btn-sm btn-default"
+    = button_tag "", type: "submit", class: "btn btn-default glyphicon glyphicon-send", title: "Send feedback"

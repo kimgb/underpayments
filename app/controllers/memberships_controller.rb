@@ -6,8 +6,11 @@ class MembershipsController < ApplicationController
   def show
     @user = User.find_by_email(membership_params[:email])
     @person = NUW::Person.get(membership_params)
-    
-    render :show, layout: false
+
+    respond_to do |format|
+      format.html { render :show, layout: false }
+      format.json { render json: @person }
+    end
   end
   
   private

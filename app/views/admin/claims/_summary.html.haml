@@ -1,7 +1,7 @@
-%h4 Summary of calculations
-- if @claim.documents.any?(&:span_multiple_fys?)
+%h3 Summary of calculations
+- if @claim.evidence_documents.any?(&:span_multiple_fys?)
   %p
-    %em Proceed with caution, as some documents relating to this claim span over multiple financial years.
+    %em Proceed with caution, as some evidence relating to this claim spans over multiple financial years.
 %p
   %strong= "#{@claim.user.full_name} worked #{@claim.employment_type == "unknown" ? "in an unknown employment relation (the system will assume casual)" : "as a " + @claim.employment_type} under the #{@claim.award.name}."
 - @claim.award_pay_from_evidence_by_year.each do |year, (hours, pay)|
@@ -11,3 +11,11 @@
 :markdown
   **In total**, #{@claim.user.full_name} should have been paid a bare minimum, before tax, of **#{number_to_currency(@claim.min_award_pay_from_evidence)}**. Per available evidence, #{@claim.user.full_name} was paid a total of **#{number_to_currency(@claim.send(:wages_from_evidence))}**.  
   If tax was not deducted: #{number_to_currency(@claim.min_award_pay_from_evidence)} - #{number_to_currency(@claim.send(:wages_from_evidence))} gives **#{number_to_currency(@claim.stolen_wages)} in stolen wages**.
+
+%h4 
+  Overtime
+  %tt [beta]
+  
+%p= @claim.display_overtime
+
+%hr

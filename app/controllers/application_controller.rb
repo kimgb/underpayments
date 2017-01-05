@@ -47,7 +47,7 @@ class ApplicationController < ActionController::Base
       flash[:notice] = "Couldn't find a campaign with name '#{params[:skin]}', reverting to default."
     end
   ensure #always runs
-    @skin ||= Group.first
+    @skin ||= Group.friendly.find("anti-poverty") rescue Group.first
   end
 
   # locale precedence: params -> user prefs -> browser -> default
@@ -96,6 +96,20 @@ class ApplicationController < ActionController::Base
 
   def root_path_without_locale
     root_path.gsub(/en$|en-AU$|vi$|zh$|zh-TW$/, "")
+  end
+  
+  def checkpoint
+    cp = URI(request.referrer || root_path)
+    session[:checkpoint] ||= cp.path + (cp.query ? "?#{cp.query}" : "")
+  end
+  
+  def set_checkpoint
+    cp = URI(request.referrer || root_path)
+    session[:checkpoint] = cp.path + (cp.query ? "?#{cp.query}" : "")
+  end
+  
+  def clear_checkpoint
+    session.delete :checkpoint
   end
 
   def authorise_admin!

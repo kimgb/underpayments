@@ -1,19 +1,14 @@
-%table.table.review-table
+%table.table.table-sm
   %thead
     %tr
       %th Status
       %th Name
       %th{ class: "hidden-xs" } Employer
+      %th{ class: "hidden-xs" } Award
       %th{ class: "hidden-xs" } Hourly rate
       %th{ class: "hidden-xs" } Hours claimed
       %th{ class: "hidden-xs" } Lost wages
       %th
 
   %tbody#user-list
-    - if @claims.any?
-      - @claims.each do |claim|
-        = render partial: "admin/claims/review_row", locals: { claim: claim }
-    - else
-      %tr
-        %td{ colspan: 7 }
-          No claims to display
+    = render(claims) || content_tag(:tr, content_tag(:td, "No claims to display", colspan: 7))

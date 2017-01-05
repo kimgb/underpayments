@@ -1,0 +1,18 @@
+%hgroup
+  :markdown
+    ## Claim stages
+    #### Viewing in locale: `#{I18n.locale}`
+
+%table.table.table-sm
+  %thead
+    %tr
+      %th Category
+      %th System name
+      %th Display name
+      %th Actions
+  %tbody= render(@claim_stages) || content_tag(:tr, "None to display")
+  
+%hr
+
+.actions.align-right
+  = link_to "Create new stage", new_admin_claim_stage_path, class: "btn btn-default"

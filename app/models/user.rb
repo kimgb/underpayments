@@ -21,13 +21,14 @@ class User < ActiveRecord::Base
     to: :claim, prefix: false, allow_nil: true
   delegate :persisted?, to: :claim, prefix: true, allow_nil: true
   delegate :supergroup, to: :group, prefix: false, allow_nil: true
+  delegate :point_people_for_select, to: :supergroup, prefix: false, allow_nil: true
 
   validates_presence_of :email, :encrypted_password
 
   def self.presentable_attributes
     ["email"]
   end
-
+  
   def admin?
     admin
   end

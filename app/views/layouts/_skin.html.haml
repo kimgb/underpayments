@@ -1,0 +1,54 @@
+:scss
+  @mixin bg-border($color) {
+    background-color: $color;
+    border-color: $color;
+  }
+  @mixin button-colors($bg, $text, $active) {
+    color: $text;
+    @include bg-border($bg);
+    &:hover, &:active:hover,
+    &:active, &:active:focus { @include bg-border($active); color: $text; }
+  }
+  @mixin text-hover($passive, $active) {
+    color: $passive;
+    &:hover { color: $active; }
+  }
+  @mixin nav($bg, $text, $active) {
+    @include bg-border($bg);
+    .navbar-text { color: $text; }
+    .navbar-link { color: $text; }
+    .navbar-link:hover { color: $active; }
+  }
+  @mixin footer($bg, $text) {
+    @include bg-border($bg);
+    color: $text;
+    a { color: $text; }
+    .dropdown-menu > li > a { color: #1C1C1C; }
+    a:hover { color: darken($text, 15%); }
+  }
+
+  $brand-primary: #{ @skin.link_color };
+  $active-primary: darken($brand-primary, 15%);
+  $btn-bg-color: #{ @skin.btn_bg_color };
+  $btn-active: darken($btn-bg-color, 10%);
+  $btn-text-color: #{ @skin.btn_text_color };
+  $nav-bg: #{ @skin.nav_bg_color };
+  $nav-text: #{ @skin.nav_text_color };
+  $headings-color: #{ @skin.headings_color };
+  $background-color: #{ @skin.body_bg_color };
+  $text-color: #{ @skin.body_text_color };
+  $text-color-inverse: invert($text-color);
+  $active-nav: lighten($nav-text, 15%);
+
+  body { color: $text-color; }
+  main { background-color: $background-color; }
+  h1, .h1, h2, .h2, h3, .h3,
+  h4, .h4, h5, .h5, h6, .h6, fieldset > legend { color: $headings-color; }
+  nav.navbar.navbar-default, footer.fixed-bottom { @include nav($nav-bg, $nav-text, $active-nav); }
+  footer.fixed-bottom { 
+    @include footer($nav-bg, $nav-text); 
+    .btn-default { @include button-colors($btn-text-color, $btn-bg-color, darken($btn-text-color, 10%)); }
+  }
+  a { @include text-hover($brand-primary, $active-primary); }
+  .btn-default { @include button-colors($btn-bg-color, $btn-text-color, $btn-active) }
+  .checkbox label { color: $text-color-inverse };

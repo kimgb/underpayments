@@ -1,11 +1,19 @@
 module LettersHelper
   def addressee_list(claim)
     if claim.employer && claim.workplace
-      if claim.employer == claim.workplace
-        [claim.employer.contact, claim.employer.name]
-      else
-        [claim.employer.contact, claim.employer.name, claim.workplace.contact, claim.workplace.name]
-      end
+      [claim.employer.contact, claim.employer.name, claim.workplace.contact, claim.workplace.name].uniq
+    else
+      []
+    end
+  end
+  
+  def address_list(claim)
+    emp, wkp = claim.employer, claim.workplace
+    if emp && wkp
+      [
+        ["#{emp.name} (#{emp.address.town.upcase}, #{emp.address.province})", emp.address.id], 
+        ["#{wkp.name} (#{wkp.address.town.upcase}, #{wkp.address.province})", wkp.address.id]
+      ].uniq
     else
       []
     end

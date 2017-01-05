@@ -8,6 +8,6 @@ module CompaniesHelper
       if claim_companies.any?(&:is_employer) then t('companies.company.employer') else nil end
     ].compact.join(" & ")
 
-    result.blank? ? result : "(#{result})"
+    result.blank? ? result : "#{result}"
   end
 end

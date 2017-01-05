@@ -10,11 +10,12 @@ class ClaimTest < ActiveSupport::TestCase
     # turn on when fixtures complete.
     # assert claims(:underpaid).display_affidavit?
     refute claims(:proper).display_affidavit?
+    assert claims(:no_payslips).display_affidavit?
   end
 
   test "#enable_affidavit?" do
     # depends on full suite of associated fixtures for at least one claim
-    skip "insufficient fixture coverage"
+    assert claims(:no_payslips).enable_affidavit?
   end
 
   # three test cases:
@@ -22,7 +23,9 @@ class ClaimTest < ActiveSupport::TestCase
   #   complete time evidence w/o complete wage evidence;
   #   incomplete wage and time evidence.
   test "#actual_pay" do
-    skip "insufficient fixture coverage"
+    assert claims(:underpaid_w_multi_docs).actual_pay > 0
+    assert claims(:underpaid_w_time_docs).actual_pay > 0
+    assert claims(:no_payslips).actual_pay > 0
   end
 
   test "ownership" do
@@ -61,9 +64,6 @@ class ClaimTest < ActiveSupport::TestCase
     # TODO test a claim beginning 1 Jan 2010
   end
 
-  test "#document_coverage should be a set" do
-  end
-
   test "coverage gaps" do
     under, proper = claims(:underpaid), claims(:proper)
     employment_days_arr = [Array(under.employment_began_on..under.employment_ended_on)]
@@ -76,7 +76,7 @@ class ClaimTest < ActiveSupport::TestCase
   end
 
   test "coverage overlaps" do
-    skip "not implemented yet"
+    assert claims(:overlapping_docs).coverage_overlaps?
   end
 
   test "time estimation" do
@@ -86,5 +86,16 @@ class ClaimTest < ActiveSupport::TestCase
     year_1_hours = year_1_weeks * b_under.weekly_hours
 
     assert_equal year_1_hours, b_under.send(:estimated_hours_worked_by_year).values[0]
+  end
+  
+  test "workplace and employer" do
+    comp_claim = claims(:underpaid_w_multi_docs)
+    incomp_claim = claims(:underpaid)
+    
+    assert_equal "Acme Ltd", comp_claim.workplace_name
+    assert_equal "Acme Ltd", comp_claim.employer_name
+    
+    assert_nil incomp_claim.workplace_name
+    assert_nil incomp_claim.employer_name
   end
 end

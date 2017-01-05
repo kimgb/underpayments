@@ -1,0 +1,12 @@
+<%= @letter.display_date.strftime("%e %B %Y") %>
+
+<%= markdown_postal_format(@letter.addressee, @letter.address) %>
+
+Dear <%= @letter.addressee %>,
+
+<%= @letter.body %>
+  
+To discuss this letter further, please email the NUW at <%= @letter.contact_inbox %>.
+
+Kind regards
+<%= @letter.signature %>

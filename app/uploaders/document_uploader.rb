@@ -7,8 +7,8 @@ class DocumentUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
 
   # Choose what kind of storage to use for this uploader:
-  storage :file
-  # storage :fog
+  # storage :file
+  storage :fog
   
   process :set_content_type
 
@@ -32,7 +32,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
   
   def is_image?
-    %w(jpg jpeg tif tiff gif png).include? file.extension
+    %w(jpg jpeg tif tiff gif png).include? file.extension.downcase
   end
   
   protected

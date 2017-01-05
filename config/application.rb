@@ -46,6 +46,8 @@ module Underpaid
     config.secret_key_base = Figaro.env.secret_key_base
     
     config.autoload_paths += Dir[Rails.root.join('app', 'models', '{*/}')]
+    # Uncomment to autoload presenter classes.
+    # config.autoload_paths += Dir[Rails.root.join('app', 'presenters', '*')]
     config.eager_load_paths += ["#{Rails.root}/lib"]
     
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }

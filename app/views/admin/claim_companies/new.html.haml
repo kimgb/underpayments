@@ -1,0 +1,93 @@
+= form_for([:admin, @claim, @claim_company], html: { class: "form", multipart: true }) do |f|
+  = render partial: "layouts/errors", locals: { resource: @claim_company }
+
+  %fieldset
+    %legend= t('companies.form.title')
+
+    .checkbox
+      = f.label :is_workplace do
+        = f.check_box :is_workplace
+        = t('companies.form.is_workplace')
+    .checkbox
+      = f.label :is_employer do
+        = f.check_box :is_employer
+        = t('companies.form.is_employer')
+
+  %fieldset#search_company
+    %legend.h4= t('companies.form.search')
+    .form-group
+      -# = f.label :company_id, t('companies.form.search'), class: "control-label"
+      = f.select :company_id, options_for_select([[t('companies.form.search_placeholder'), ""]]), {}, { class: "form-control" }
+      %small.text-right
+        = t('companies.form.search_desc')
+        %a.manipulator{ href: "#", data: { show: "#manual_entry", hide: "#search_company" } }= t('companies.form.search_desc2')
+
+  %fieldset.collapse#manual_entry
+    %legend.h4= t('companies.form.manual')
+    = f.fields_for(:company) do |fc|
+      .form-group
+        = fc.label :name, t('companies.form.name'), class: "control-label"
+        %br/
+        -# = fc.select :name, options_for_select([@claim_company.company.name]), {}, { class: "form-control" }
+        = fc.text_field :name, class: "form-control"
+        %small.text-right
+          %a.manipulator{ href: "#", data: { show: "#search_company", hide: "#manual_entry" } }= t('companies.form.search_desc3')
+
+      .form-group
+        = fc.label :contact, t('companies.form.contact'), class: "control-label"
+        %br/
+        = fc.text_field :contact, class: "form-control"
+        .text-right
+          %small= t('companies.form.contact_desc')
+
+      .form-group
+        = fc.label :abn, t('companies.form.abn'), class: "control-label"
+        %br/
+        = fc.text_field :abn, class: "form-control"
+        .text-right
+          %small
+            = t('companies.form.abn_desc')
+            %a{ href: "http://abr.business.gov.au/", target: "_blank" }= t('companies.form.abn_desc2')
+
+      .form-group
+        = fc.label :phone, t('companies.form.phone'), class: "control-label"
+        %br/
+        .input-group
+          .input-group-addon
+            %i.glyphicon.glyphicon-earphone
+          = fc.telephone_field :phone, class: "form-control"
+
+      .form-group
+        = fc.label :email, t('companies.form.email'), class: "control-label"
+        %br/
+        .input-group
+          .input-group-addon @
+          = fc.email_field :email, class: "form-control"
+
+  .actions.text-right= f.submit t('companies.form.commit'), class: "btn btn-default"
+
+:coffeescript
+  $("#claim_company_company_id").select2
+    theme: "bootstrap"
+    ajax:
+      url: "#{companies_path}.json"
+      dataType: "json"
+      type: "GET"
+      quietMillis: 50
+      delay: 250
+      data: (params) ->
+        term: params.term
+      processResults: (data, params)->
+        results: $.map data, (item)->
+          addr = if item.address
+            item.address.town + ", " + item.address.province + " " + item.address.postal_code;
+          else
+            "no address";
+          text: item.name + " (" + addr + ")", id: item.id
+      cache: true
+    escapeMarkup: (markup)-> markup
+    minimumInputLength: 3
+
+  $("a.manipulator").on "click", (e) ->
+    $(e.target.dataset.hide).slideUp(800)
+    $(e.target.dataset.show).delay(800).slideDown(800)

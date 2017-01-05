@@ -57,7 +57,7 @@ en:
       title: UNDERPAID?
       byline: (...or just overworked?)
       footer: |
-        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-07-08">8 July, 2016</time>.
+        Tool developed by the [National Union of Workers](https://www.nuw.org.au/), last updated <time datetime="2016-10-14">14 October, 2016</time>.
     authentication:
       signed_in: Signed in as
       sign_out: Sign out
@@ -222,7 +222,7 @@ en:
       coverage_end_date: "To:"
       wage_evidence: This document is evidence of wages paid to me
       time_evidence: This document is evidence of hours I have worked
-      wages: "How much does this document indicate you were paid?"
+      wages: "How much does this document indicate you were paid, before tax?"
       hours: "How many hours does this document indicate that you worked?"
       commit: Add document
     edit:
@@ -232,7 +232,7 @@ en:
       coverage_end_date: "To:"
       wage_evidence: This document is evidence of wages paid to me
       time_evidence: This document is evidence of hours I have worked
-      wages: "How much does this document indicate you were paid?"
+      wages: "How much does this document indicate you were paid, before tax?"
       hours: "How many hours does this document indicate that you worked?"
       commit: Update document
 
@@ -289,11 +289,11 @@ en:
 
   pages:
     estimate:
-      explanation: By the numbers, you may have been paid as little as %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
+      explanation: By the numbers you gave, you should have been paid around %{actual_pay}. The legal bare minimum pay for the hours you worked is %{award_pay}.
       underpaid: This means you were underpaid as much as 
       recover: Want to get it back?
       action: Let's fix this!
-      not_underpaid: You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member, <a href="https://www.nuw.org.au">contact us</a> and we may be able to look into your case.
+      not_underpaid: You may still have conditions or responsibilities of employment that place you at a higher wage. If you're an NUW member, and believe you've been underpaid, <a href="https://www.nuw.org.au">contact us</a> and we may be able to look into your case.
 
   admin:
     claims:

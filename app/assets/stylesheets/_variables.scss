@@ -1,11 +1,13 @@
 // brand colours
-$brand-primary: #F5003D;
+$brand-primary: #FC3234;
 
 //== Grid gutter width - WILL make columns look shit if I ever use them!!!
-$grid-gutter-width: 0px;
+// This gets me full bleed at small screen sizes.
+// $grid-gutter-width: 0px;
 
-$text-color: #EEEEEE;
-$headings-color: #0B8842;
+$text-color: #1C1C1C;
+$headings-color: #FD6466;
+$legend-color: #FD6466;
 
 $font-family-sans-serif: "Open Sans", sans-serif;
 $font-family-serif: serif;
@@ -25,23 +27,28 @@ $headings-line-height: 1;
 $headings-font-weight: 700;
 
 // default button
-$btn-default-color: #EEEEEE;
-$btn-default-bg: #A50029;
-$btn-default-border: #880022;
+$btn-default-color: #EAEAEA;
+$btn-default-bg: #FC3234;
+$btn-default-border: lighten($btn-default-bg, 5%);
 
 // body background colour
-$body-bg: none;
+$body-bg: #FFF;
 //$body-bg: #161616;
 
 //== Navbar
 // Basics
+$navbar-height: 80px; // default is 50px !default
 $navbar-border-radius: 0px;
 $navbar-margin-bottom: 0px;
 $navbar-padding-horizontal: 10px;
-$navbar-default-color: #BBB;
-$navbar-default-bg: darken($brand-primary, 25%);
-$navbar-default-border: darken($navbar-default-bg, 5%);
+$navbar-default-color: #1C1C1C;
+$navbar-default-bg: $headings-color;
+$navbar-default-border: lighten($navbar-default-bg, 5%);
 
 $navbar-default-link-color: $navbar-default-color;
 $navbar-default-link-hover-color: darken($navbar-default-link-color, 15%);
 $navbar-default-link-active-color: darken($navbar-default-link-color, 7.5%);
+
+$navbar-default-toggle-hover-bg: darken($brand-primary, 8%);
+// $navbar-default-toggle-icon-bar-bg: #888 !default;
+$navbar-default-toggle-border-color: $headings-color;

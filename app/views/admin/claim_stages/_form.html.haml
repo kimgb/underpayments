@@ -1,0 +1,19 @@
+= form_for [:admin, @claim_stage], html: { class: "form" } do |f|
+  .form-group
+    = f.label :category, "A claim in this stage is:", class: "control-label"
+    = f.select :category, ClaimStage.categories.keys, {}, { class: "form-control" }
+  
+  .form-group
+    = f.label :system_name, "Name used by system - one word", class: "control-label"
+    = f.text_field :system_name, class: "form-control"
+    
+  .form-group
+    = f.label :display_name, "Name displayed to user in <code>#{I18n.locale}</code>".html_safe, class: "control-label"
+    = f.text_field :display_name, class: "form-control"
+    
+  .form-group
+    = f.label :notification_text, "Template response for users advanced to this stage, in <code>#{I18n.locale}</code>".html_safe, class: "control-label"
+    = f.text_area :notification_text, class: "form-control"
+    
+  .actions.text-right
+    = f.submit "Submit", class: "btn btn-default"

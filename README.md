@@ -1,3 +1,4 @@
+
 ## UNDERPAID
 
 This Rails application, bespoke for the purposes of calculating Australian underpayments claims, was developed with Ruby 2.2.3, Rails 4.2.4, and rbenv 0.4.0. It's since been upgraded to Ruby 2.3.1, Rails 4.2.7. It uses a PostgreSQL database (9.3 and later 9.5 during development). You will be able to specify the Postgres user and password using Figaro and the `config/application.yml` file, but as this application uses Postgres' `hstore` feature that user will need superuser in addition to the usual createdb powers.
@@ -17,13 +18,25 @@ RVM users, as of writing, you're on your own.
 
 A `bundle install` should get you up and running, probably followed by an `rbenv rehash`: I've tried to keep the Gemfile quite explicit.
 
+The `nuw-api` gem is currently stored on a private Gemfury repository. You'll need
+to supply the key to this repo in your bundler config.
+`bundle config gem.fury.io yoURsEcRETkeY`
+
+#### PHANTOMJS
+
+Go to http://phantomjs.org/download.html - download the package for your OS.
+Extract it and make sure the phantomjs executable is somewhere in your PATH.
+E.g. copy or link it to /usr/bin.
+
+
 #### ENV VARS
 
 I'm using the Figaro gem to set environment variables in `config/application.yml`. There is a committed example file, `config/application.example.yml` to show you what env vars the application will expect to be set.
 
 #### DATABASE
 
-As shipped, it's using a PostgreSQL database with hstore enabled. During development, I found my db user required superuser in order to enable the hstore extension. CreateDB alone didn't cut it. Once your db user is set up (see also: env vars, above), a simple `rake db:setup` should get you going. Check out `db/seeds.rb` to find your initial admin account credentials.
+As shipped, it's using a PostgreSQL database with hstore enabled. During development, I found my db user required superuser in order to enable the hstore extension. CreateDB alone didn't cut it. Once your db user is set up (see also: env vars, above), run `rake db:migrate:setup` should get you going. Check out `db/seeds.rb` to find/change your initial admin account credentials.
+
 
 #### EMAIL
 

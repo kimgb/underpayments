@@ -1,18 +1,51 @@
+DEFAULTS: &DEFAULTS
+  group: fair_food
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'cl41m4nt') %>
+
 owner:
+  <<: *DEFAULTS
   claim: underpaid
-  email: kbuckley@nuw.org.au
+  email: sysadmin@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'ch3ng4M1chANGEmePrEtTYplz') %>
 
 admin:
+  <<: *DEFAULTS
   email: admin@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'bossAdmin') %>
   admin: true
-  
+
+other_admin:
+  <<: *DEFAULTS
+  email: other_admin@nuw.org.au
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'bossAdmin') %>
+  admin: true
+
 non_owner:
+  <<: *DEFAULTS
   email: lrohde@nuw.org.au
   encrypted_password: <%= Devise::Encryptor.digest(User, 'rudewords') %>
   
 claimant:
-  email: claimaint@nuw.org.au
-  encrypted_password: <%= Devise::Encryptor.digest(User, 'cl41m4nt') %>
+  <<: *DEFAULTS
+  email: kbuckley@nuw.org.au
   claim: underpaid_w_multi_docs
+
+search_result_member_user:
+  <<: *DEFAULTS
+  email: search_result_member_user@nuw.org.au
+  claim: search_result_member_claim
+
+search_result_non_member_user:
+  <<: *DEFAULTS
+  email: search_result_non_member_user@nuw.org.au
+  claim: search_result_non_member_claim
+  
+no_payslips_user:
+  <<: *DEFAULTS
+  claim: no_payslips
+  email: no_payslips@nuw.org.au
+  
+underpaid_w_time_docs_user:
+  <<: *DEFAULTS
+  claim: underpaid_w_time_docs
+  email: time_docs@nuw.org.au

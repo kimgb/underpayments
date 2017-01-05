@@ -14,7 +14,7 @@ class Admin::CompanyTest < Capybara::Rails::TestCase
   end
   
   test "create a company" do
-    click_link "Create new company"
+    click_link "Create new company", match: :first
     
     fill_in "Name", with: "Acme Co. Ltd"
     fill_in "Contact", with: "Elmer Fudd"
@@ -28,7 +28,7 @@ class Admin::CompanyTest < Capybara::Rails::TestCase
   end
   
   test "edit a company" do
-    click_link "Edit"
+    click_link "Edit", match: :first
     
     fill_in "Name", with: "Acme Pty Ltd"
     
@@ -38,7 +38,7 @@ class Admin::CompanyTest < Capybara::Rails::TestCase
   end
   
   test "enter a bad ABN" do
-    click_link "Create new company"
+    click_link "Create new company", match: :first
     
     fill_in "Name", with: "Acme Co. Ltd"
     fill_in "Contact", with: "Elmer Fudd"

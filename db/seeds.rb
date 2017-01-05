@@ -22,7 +22,16 @@ grp = Group.create(
     "nav_text_color" => "#DDD"
   },
   supergroup: sg,
-  awards: { "nes" => "I'm not sure", "horticulture" => "Horticulture, e.g. fruit picking", "meat" => "Meat industry", "poultry" => "Poultry processing", "storage" => "Packing, storage etc." }
+)
+
+GroupAward.create(
+  [
+    { display_text: "I don't know / not sure", award: Award.friendly.find("nes"), group: grp },
+    { display_text: "Horticulture, e.g. fruit picking", award: Award.friendly.find("horticulture"), group: grp },
+    { display_text: "Poultry processing", award: Award.friendly.find("poultry"), group: grp },
+    { display_text: "Meat industry", award: Award.friendly.find("meat"), group: grp },
+    { display_text: "Storage services, e.g. packing", award: Award.friendly.find("storage"), group: grp }
+  ]
 )
 
 user = User.new(
@@ -94,13 +103,3 @@ profile = Profile.create(
 # min_casual_rates: { "2016" => 23.64, "2015" => 23.09, "2014" => 22.52, "2013" => 21.87, "2012" => 21.32, "2011" => 20.71, "2010" => 20.03 },
 # min_permanent_rates: { "2016" => 18.91, "2015" => 18.47, "2014" => 18.02, "2013" => 17.49, "2012" => 17.05, "2011" => 16.57, "2010" => 16.03 }
 # )
-
-claim = Claim.new(
-  award: Award.first,
-  weekly_hours: 35,
-  hourly_pay: 11.23,
-  employment_type: "casual",
-  employment_began_on: Date.new(2015, 02, 01),
-  employment_ended_on: Date.new(2015, 10, 01),
-  user: user
-)

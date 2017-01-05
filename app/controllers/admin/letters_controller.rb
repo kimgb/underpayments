@@ -1,29 +1,93 @@
 class Admin::LettersController < Admin::BaseController
-  before_action :set_claim
-
-  # GET /admin/users/1/letters/new
-  def new
-    @letter = Letter.new
+  before_action :set_claim, only: [:index, :new, :create]
+  before_action :set_letter, except: [:index, :new, :create]
+  
+  # GET /admin/claims/1/letters
+  def index
+    @letters = @claim.letters
   end
 
-  # POST /admin/users/1/letters
-  def create
-    @letter = Letter.new(letter_params)
-    @address = (Company.find_by_name(@letter.addressee) || Company.find_by_contact(@letter.addressee))
+  # GET /admin/letters/1
+  def show
+    @print = params[:print] == "1"
     
-    render :show, layout: false
+    render @print ? :print : :show, layout: !@print
   end
   
-  def show
+  # GET /admin/claims/1/letters/new
+  def new
+    @letter = @claim.letters.build
+  end
+
+  # POST /admin/claims/1/letters
+  def create
+    @letter = @claim.letters.build(letter_params)
+    
+    respond_to do |format|
+      if @letter.save
+        format.html { redirect_to [:admin, @letter], notice: "Letter created." }
+        format.json { render :show, status: :created, location: @letter }
+      else
+        format.html { render :new }
+        format.json { render json: @letter.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  # GET /admin/letters/1/edit
+  def edit
+  end
+  
+  # PATCH/PUT /admin/letters/1
+  def update
+    respond_to do |format|
+      if @letter.update(letter_params)
+        format.html { redirect_to [:admin, @letter], notice: "Letter updated." }
+        format.json { render :show, status: :updated, location: @letter }
+      else
+        format.html { render :edit }
+        format.json { render json: @letter.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+  
+  # POST /admin/letters/1/file
+  def file
+    if @letter.sent?
+      redirect_to [:admin, @letter], notice: "This letter has already been filed and marked sent."
+    else
+      if @letter.update(sent: true)
+        UserMailer.file_letter(current_user.email, @letter).deliver_later
+        redirect_to [:admin, @letter], notice: "Letter has been filed."
+      else
+        redirect_to [:admin, @letter], notice: "There was an error filing the letter."
+      end
+    end
+  end
+  
+  # DELETE /admin/letters/1
+  def destroy
+    respond_to do |format|
+      if @letter.destroy
+        format.html { redirect_to admin_claim_letters_path(@letter.claim), notice: "Letter removed." }
+        format.json { head :no_content }
+      else
+        format.html { redirect_to [:admin, @letter], notice: "This letter has been filed! It cannot be deleted!" }
+        format.json { render json: @letter.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
+  def set_letter
+    @letter = Letter.find(params[:id])
+  end
+  
   def set_claim
     @claim = Claim.find(params[:claim_id])
-    @user = @claim.user
   end
 
   def letter_params
-    params.require(:letter).permit(:addressee, :contact_inbox, :signature)
+    params.require(:letter).permit(:claim_id, :display_date, :addressee, :address_id, :body, :contact_inbox, :signature)
   end
 end

@@ -3,17 +3,13 @@ class Admin::ClaimsController < Admin::BaseController
   
   # GET /admin/claims
   def index
-    @claims = case params[:scope]
-      when "point_person" then current_user.point_person_on.includes(:documents, :user)
-      when "submitted" then Claim.includes(:documents, :user).select(&:submitted?)
-      when "completed" then Claim.includes(:documents, :user).select(&:ready_to_submit?).reject(&:submitted?)
-      when "incomplete" then Claim.includes(:documents, :user).select(&:not_submitted?).reject(&:ready_to_submit?)
-      else current_user.point_person_on.includes(:documents, :user)
-    end
+    @claim_search = ClaimSearch.new(claim_search_params)
+
+    @claims = @claim_search.claims
   end
   
   # GET /admin/claims/1
-  def show    
+  def show
   end
   
   # POST /admin/claims
@@ -33,6 +29,7 @@ class Admin::ClaimsController < Admin::BaseController
   # PATCH/PUT /admin/claims/1
   def update
     new_note?
+    
     @claim.assign_attributes(claim_params)
     @user = @claim.user
     locking?
@@ -43,6 +40,7 @@ class Admin::ClaimsController < Admin::BaseController
         create_note if new_note?
         
         format.html { redirect_to [:admin, @claim], notice: "Updated." }
+        format.json { render :show, status: :ok, location: [:admin, @claim] }
       else
         format.html { render "admin/claims/show" } #test this?
         format.json { render json: @claim.errors, status: :unprocessable_entity }
@@ -52,7 +50,8 @@ class Admin::ClaimsController < Admin::BaseController
 
   private
   def new_note?
-    @new_note ||= (claim_params[:status].present? && claim_params[:status] != @claim.status) ||
+    @new_note ||= (claim_params[:claim_stage_id].present? && 
+      claim_params[:claim_stage_id] != @claim.claim_stage_id) ||
       (claim_params[:comment].present? && claim_params[:comment] != @claim.comment)
   end
   
@@ -71,8 +70,21 @@ class Admin::ClaimsController < Admin::BaseController
   def set_submission_date
     @claim.update_attribute(:submitted_on, DateTime.now)
   end
+  
+  def claim_search_params
+    ActionController::Parameters.new(
+      { user: current_user }.merge(params.fetch(:claim_search, {}).permit(
+        :keywords, :point_person, :include_members, :include_non_members)
+      )
+    )
+  end
 
   def claim_params
-    params.require(:claim).permit(:user_id, :point_person_id, :award_id, :time_period, :hours_per_period, :pay_period, :pay_per_period, :payslips_received, :employment_began_on, :employment_ended_on, :employment_type, :regular_hours, :exemplary_week, :status, :comment, :submitted_for_review, :hours_self_witnessed, :pieceworker)
+    params.require(:claim).permit(:user_id, :point_person_id, :award_id, 
+      :time_period, :hours_per_period, :pay_period, :pay_per_period, 
+      :payslips_received, :employment_began_on, :employment_ended_on, 
+      :employment_type, :regular_hours, :exemplary_week, :claim_stage_id, 
+      :comment, :review_date, :submitted_for_review, :hours_self_witnessed, 
+      :pieceworker)
   end
 end

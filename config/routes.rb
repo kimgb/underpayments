@@ -7,21 +7,25 @@ Rails.application.routes.draw do
   scope "(:skin)", constraints: { format: 'html' } do
     namespace :admin do
       root "claims#index"
-
+      
+      post "/letters/:id/file", to: "letters#file", as: :file_letter
+      resources :claim_companies, only: [:destroy]
       resources :claims, only: [:index, :show, :edit, :update, :create] do
-        resources :letters, only: [:new, :create, :show]
+        resources :letters, shallow: true
         resources :messages, only: [:index, :new, :create]
         resources :documents, only: [:new, :create]
         resources :notes, only: [:index]
+        resources :claim_companies, only: [:new, :create]
       end
       resources :profiles, only: [:edit, :update] do
         resource :address, only: [:new, :create]
       end
-      resources :companies
       resources :addresses, only: [:edit, :update, :destroy]
       resources :documents, only: [:show, :edit, :update, :destroy]
 
-      resources :supergroups, :groups, :awards
+      resources :companies, :awards, :claim_stages
+      resources :supergroups, path: "organisations", format: /html|json/
+      resources :groups, path: "campaigns"
 
       get "/preview", to: "previews#show"
     end
@@ -47,6 +51,8 @@ Rails.application.routes.draw do
       resources :company_addresses, shallow: true
       resources :claim_companies, shallow: true
     end
+    
+    resource   :feedback, only: [:new, :create], controller: 'feedback'
 
     resource   :feedback, only: [:new, :create], controller: 'feedback'
 

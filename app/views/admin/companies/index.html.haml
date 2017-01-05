@@ -1,16 +1,31 @@
-%h1 
-  Companies
-  = link_to "Create new company", new_admin_company_path, class: "btn btn-default pull-right"
+.flex.flex-row-reverse.flex-center.flex-justify
+  .flex-order-1
+    .visible-xs
+      .btn-group
+        %button.btn.btn-default.btn-sm.dropdown-toggle{ type: "button", data: { toggle: "dropdown" }, aria: { haspopup: true, expanded: false } }
+          %span.glyphicon.glyphicon-tasks
+        %ul.dropdown-menu.dropdown-menu-right
+          %li= link_to "Merge companies", "#", disabled: true
+          %li= link_to "Create new company", new_admin_company_path
 
-%table.table
+  .btn-group.hidden-xs
+    = link_to "Merge companies", "#", class: "btn btn-default btn-sm", id: "merge_selected", disabled: true
+    = link_to "Create new company", new_admin_company_path, class: "btn btn-default btn-sm"
+    
+%h2 Companies
+  
+-# #random_box
+
+%table.table.table-sm
   %thead
     %tr
+      %th
       %th Name
       %th{ class: "hidden-xs" } ABN
       %th Contact
       -# %th{ class: "hidden-xs" } Email
       -# %th{ class: "hidden-xs" } Phone
-      %th
+      %th Actions
 
   %tbody
     -# TODO make a partial here. It's already worth it but the pattern may see
@@ -18,9 +33,30 @@
     
     - @companies.each do |co|
       %tr
+        %td= check_box_tag "co_#{co.id}", "selected", false, class: "check-company", disabled: true
         %td= link_to co.name, admin_company_path(co)
         %td{ class: "hidden-xs" }= mdash_or_value(co.abn)
         %td= mdash_or_value(co.contact)
         -# %td{ class: "hidden-xs" }= mdash_or_value(co.email)
         -# %td{ class: "hidden-xs" }= mdash_or_value(co.phone)
-        %td= link_to "Edit", edit_admin_company_path(co), class: "btn btn-default btn-sm"
+        %td= link_to "", edit_admin_company_path(co), class: "btn btn-default btn-sm glyphicon glyphicon-pencil", title: "Edit"
+        
+%hr
+.actions.align-right
+  = link_to "Create new company", new_admin_company_path, class: "btn btn-default"
+
+  -# :javascript
+    var checked_companies;
+    
+    $(".check-company").on("click", function(e){
+      // if (e.target.checked) {
+        checked_companies = $(".check-company:checked").size();
+        $("#random_box").text(checked_companies + " selected");
+        
+        if (checked_companies > 1) {
+          $("#merge_selected").attr("disabled", false)
+        } else {
+          $("#merge_selected").attr("disabled", true)
+        }
+      //}
+    })
