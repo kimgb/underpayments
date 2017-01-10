@@ -15,6 +15,6 @@ class MembershipsController < ApplicationController
   
   private
   def membership_params
-    params.permit(:external_id, :email, :mobile, :skin)
+    params.permit(:external_id, :email, :mobile, :first_name, :last_name, :skin)
   end
 end
