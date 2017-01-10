@@ -1,5 +1,8 @@
 .text-center
-  %p{ data: { load: "#{memberships_path(email: user.email)}" }}
+  %p{ data: { load: memberships_path(email:      user.email,
+                                     first_name: user.profile.given_name,
+                                     last_name:  user.profile.family_name,
+                                     claim_id:   claim.id) }}
     = t('.asking')
     %br
     %br
