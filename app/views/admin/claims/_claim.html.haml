@@ -2,7 +2,9 @@
   %tr
     %td= claim.status || "None"
     %td= claim.user.full_name
+    %td{ class: "hidden-xs" }= claim.created_at.strftime("%F")
     %td{ class: "hidden-xs" }= claim.employer_name || "&mdash;".html_safe
+    %td{ class: "hidden-xs" }= claim.workplace_name || "&mdash;".html_safe
     %td{ class: "hidden-xs" }= claim.award_name
     %td{ class: "hidden-xs" }= number_to_currency(claim.hourly_pay)
     %td{ class: "hidden-xs" }= claim.hours_worked && claim.hours_worked.round
