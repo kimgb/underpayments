@@ -1,14 +1,14 @@
 class Claim < ActiveRecord::Base
   class IncalculableOvertimeError < StandardError
   end
-  
+
   include PgSearch
   include Markdownable
 
   belongs_to :award
   belongs_to :point_person, class_name: "User", foreign_key: "point_person_id"
   belongs_to :stage, class_name: "ClaimStage", foreign_key: "claim_stage_id"
-  
+
   has_one :user
   has_many :documents
   has_many :messages
@@ -16,9 +16,9 @@ class Claim < ActiveRecord::Base
   has_many :claim_companies, -> { active }, inverse_of: :claim
   has_many :companies, through: :claim_companies
   has_many :notes, as: :annotatable
-  
+
   multisearchable against: %i(user_email user_full_name user_proper_full_name
-    point_person_email employer_name workplace_name award_name 
+    point_person_email employer_name workplace_name award_name
     stage_system_name stage_display_name stage_category)
 
   scope :submitted?, -> { where(submitted_for_review: true) }
@@ -26,7 +26,7 @@ class Claim < ActiveRecord::Base
   scope :snoozed, -> { where("review_date > ?", Date.today) }
   scope :unsnoozed, -> { where("review_date <= ? OR review_date IS NULL", Date.today) }
   scope :searching, -> { includes({ user: :profile }, :award, :companies, :stage, :point_person) }
-  
+
   default_scope { order(created_at: :desc) }
 
   delegate :short_name, :name, to: :award, prefix: true, allow_nil: true
@@ -41,7 +41,7 @@ class Claim < ActiveRecord::Base
 
   validates_presence_of :pay_per_period, :hours_per_period, :employment_type,
     :employment_began_on, :employment_ended_on#, :award
-  validates_numericality_of :pay_per_period, :hours_per_period, 
+  validates_numericality_of :pay_per_period, :hours_per_period,
     greater_than: 0, less_than: 100000000
   validate :employment_begins_before_employment_ends
 
@@ -50,7 +50,7 @@ class Claim < ActiveRecord::Base
   ### MARKDOWNABLE CONFIG - class methods
   def self.presentable_attributes
     ["award_short_name", "lost_wages", "status"].concat(super) -
-      ["submitted_for_review", "submitted_on", "hours_self_witnessed", 
+      ["submitted_for_review", "submitted_on", "hours_self_witnessed",
       "payslips_received", "award_legacy", "legacy_status", "ready_to_submit",
       "pay_period", "time_period", "external_id"]
   end
@@ -71,15 +71,15 @@ class Claim < ActiveRecord::Base
   def unassigned?
     point_person_id.nil?
   end
-  
+
   def external_id
     Rails.cache.fetch("#{cache_key}/external_id") do
       return nil unless user.present?
-      
-      NUW::Person.get(email: user_email).try(:external_id)
+
+      NUW::Person.get(email: user_email, last_name: user.profile.try(:family_name)).try(:external_id)
     end
   end
-  
+
   # Returns a hash with the financial year as the key and a BigDecimal of hours
   # worked as the value.
   def overtime_hours_by_year
@@ -89,13 +89,13 @@ class Claim < ActiveRecord::Base
     years.map do |y, docs|
       msg = "Can only calculate overtime with documents of 7 days length"
       raise IncalculableOvertimeError, msg unless docs_conform_to_overtime_format?(docs)
-      
+
       hours_per_doc = docs.map(&:hours)
-      
+
       [y, max_overtime(hours_per_doc)]
     end.to_h
   end
-  
+
   # Expects an array of Documents
   # Returns true if the first and last items in the array have coverage of 7
   # days or less, and all other items have coverage of exactly 7 days.
@@ -105,7 +105,7 @@ class Claim < ActiveRecord::Base
     else # there are some 'books'
       # Rotate shifts all indexes by -1 (first becomes last)
       days_per_doc = docs.sort_by(&:coverage_start_date).rotate.map(&:days).map(&:size)
-      
+
       # Since we rotated, our last two items are the 'bookends'.
       # Look at all docs except the bookends, and make sure they're 7 days.
       days_per_doc[0..-3].all?(&7.method(:==)) &&
@@ -113,8 +113,8 @@ class Claim < ActiveRecord::Base
       days_per_doc[-2..-1].all?(&7.method(:>=))
     end
   end
-  
-  # This is based on the Food manufacturing award - some details of overtime 
+
+  # This is based on the Food manufacturing award - some details of overtime
   # implementation may need to be passed up to the Award model.
   # TODO look at shifting O/T details into Awards - see 0.5 magic number...
   # Builds on #overtime_hours_by_year and transforms that hash into one with
@@ -124,29 +124,29 @@ class Claim < ActiveRecord::Base
       [y, ot * award.minimum(employment_type, y) * 0.5]
     end.to_h
   end
-  
+
   # Builds on #overtime_value_by_year and simply sums the resulting values.
   def overtime_value
     overtime_value_by_year.values.sum
   end
-  
+
   # Prevents the entire application from breaking when we attempt to calculate
   # overtime for a Claim with non-conforming documents.
   # TODO it's in the wrong place.
   def display_overtime
     <<-MSG
-      The total value of overtime worked by #{user.full_name} is 
+      The total value of overtime worked by #{user.full_name} is
       #{ActionController::Base.helpers.number_to_currency(overtime_value)}.
     MSG
   rescue IncalculableOvertimeError => e
     <<-MSG
-      I can't calculate overtime for this claim yet - to support overtime 
+      I can't calculate overtime for this claim yet - to support overtime
       currently, all documents must cover 7 days only. The first and last
       documents for the claim, and each financial year therein, can tolerate
       a span of 7 days or less.
     MSG
   end
-  
+
   # My original method, simple to explain and runs reliably. Currently unused.
   # Takes an array of numbers that represent hours worked in a week, and returns
   # the total overtime worked by looking at contiguous, non-overlapping 28-day
@@ -154,40 +154,40 @@ class Claim < ActiveRecord::Base
   def _overtime_by_contiguous_slice(weeks)
     weeks.each_slice(4).map(&:sum).select(&152.method(:<)).map(&-152.method(:+)).sum
   end
-  
+
   # Luke's competing method. Harder to explain, and quickly becomes cumbersome.
   # Regression suggests an array of 72 weeks would take over 700 seconds to
   # calculate. We top out at 52 (each year done separately), but that can take a
-  # few seconds. 
+  # few seconds.
   # Calculates all possible sequences of non-overlapping 28-day blocks
   # (contiguous or not).
   # Will return the maximum overtime worked - sometimes it's the same outcome as
   # my original method, but often it's not.
   def max_overtime(weeks)
     return 0 if weeks.nil?
-    
+
     possibilities = (0..3).map do |i|
-      overtime(weeks[i..(i+3)]) + max_overtime(weeks[i+4..weeks.length]) 
+      overtime(weeks[i..(i+3)]) + max_overtime(weeks[i+4..weeks.length])
     end
-    
+
     possibilities.max
   end
-  
+
   # Calculates the overtime for a provided array of hours. This one will happily
   # work with 7-, 14-, or 28-day blocks. Enforces a lower bound of 0.
   def overtime(periods)
     return 0 if periods.nil?
     [0, periods.sum - 152].max
   end
-  
+
   def status
     stage.try(:display_name) || legacy_status
   end
-  
+
   def evidence_documents
     documents.wages | documents.hours
   end
-  
+
   def duration_of_employment_in_days
     "#{(employment_ended_on - employment_began_on).to_i} days"
   end
@@ -384,7 +384,7 @@ class Claim < ActiveRecord::Base
   # end
 
   # Claim#coverage_overlaps?()
-  # Returns true if there are any overlapping dates for a given evidence type, 
+  # Returns true if there are any overlapping dates for a given evidence type,
   # or nil otherwise.
   # Doesn't calculate all overlaps - short circuits out if it finds any.
   def coverage_overlaps?(evidence = :wage_evidence)
@@ -481,12 +481,12 @@ class Claim < ActiveRecord::Base
   def not_submitted?
     !submitted_for_review
   end
-  
+
   # For before_save callback
   def set_ready_to_submit
     assign_attributes(
       ready_to_submit: (
-        required_resources.all?(&:present?) && 
+        required_resources.all?(&:present?) &&
         required_resources.all?(&:valid?) &&
         coverage_complete? && coverage_complete?(:time_evidence)
       )
@@ -522,8 +522,8 @@ class Claim < ActiveRecord::Base
   # PITFALL: the Document#fy method will return the financial year in which it
   # mostly falls.
   def hours_from_evidence_by_year
-    Hash[documents.hours.group_by(&:fy).map do |yr, docs| 
-      [yr, docs.map(&:hours).compact.sum] 
+    Hash[documents.hours.group_by(&:fy).map do |yr, docs|
+      [yr, docs.map(&:hours).compact.sum]
     end]
   end
 
